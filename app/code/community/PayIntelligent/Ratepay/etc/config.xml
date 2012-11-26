@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category PayIntelligent
+ * @package PayIntelligent_RatePAY
+ * @copyright Copyright (c) 2011 PayIntelligent GmbH (http://www.payintelligent.de)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+
+-->
+<config>
+
+    <modules>
+        <PayIntelligent_Ratepay>
+            <version>2.0.4</version>
+        </PayIntelligent_Ratepay>
+    </modules>
+
+    <global>
+
+        <blocks>
+            <ratepay>
+                <class>PayIntelligent_Ratepay_Block</class>
+            </ratepay>
+        </blocks>
+
+        <template>
+            <email>
+
+                <ratepay_rechnung_invoice_template module="ratepay">
+                    <label>RatePAY Rechnung Email Invoice</label>
+                    <file>ratepay_rechnung_invoice_template.html</file>
+                    <type>html</type>
+                </ratepay_rechnung_invoice_template>
+
+                <ratepay_rate_invoice_template module="ratepay">
+                    <label>RatePAY Rate Email Invoice</label>
+                    <file>ratepay_rate_invoice_template.html</file>
+                    <type>html</type>
+                </ratepay_rate_invoice_template>
+
+                <ratepay_directdebit_invoice_template module="ratepay">
+                    <label>RatePAY Lastschrift Email Invoice</label>
+                    <file>ratepay_directdebit_invoice_template.html</file>
+                    <type>html</type>
+                </ratepay_directdebit_invoice_template>
+
+                <ratepay_rechnung_creditmemo_template module="ratepay">
+                    <label>RatePAY Rechnung Email Creditmemo</label>
+                    <file>ratepay_rechnung_creditmemo_template.html</file>
+                    <type>html</type>
+                </ratepay_rechnung_creditmemo_template>
+
+                <ratepay_rate_creditmemo_template module="ratepay">
+                    <label>RatePAY Rate Email Creditmemo</label>
+                    <file>ratepay_rate_creditmemo_template.html</file>
+                    <type>html</type>
+                </ratepay_rate_creditmemo_template>
+
+                <ratepay_directdebit_creditmemo_template module="ratepay">
+                    <label>RatePAY Lastschrift Email Creditmemo</label>
+                    <file>ratepay_directdebit_creditmemo_template.html</file>
+                    <type>html</type>
+                </ratepay_directdebit_creditmemo_template>
+
+            </email>
+        </template>
+
+        <models>
+
+            <ratepay>
+                <class>PayIntelligent_Ratepay_Model</class>
+                <resourceModel>ratepay_mysql4</resourceModel>
+            </ratepay>
+
+            <ratepay_mysql4>
+                <class>PayIntelligent_Ratepay_Model_Mysql4</class>
+                <entities>
+
+                    <logging>
+                        <table>pi_ratepay_log</table>
+                    </logging>
+
+                    <debitdetails>
+                        <table>pi_ratepay_debitdetails</table>
+                    </debitdetails>
+
+                </entities>
+            </ratepay_mysql4>
+
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Invoice</order_pdf_invoice>
+                    <order_pdf_abstract>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Abstract</order_pdf_abstract>
+                    <order_pdf_shipment>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Shipment</order_pdf_shipment>
+                </rewrite>
+            </sales>
+
+        </models>
+
+        <helpers>
+            <ratepay>
+                <class>PayIntelligent_Ratepay_Helper</class>
+            </ratepay>
+        </helpers>
+
+        <resources>
+            <ratepay_setup>
+                <setup>
+                    <module>PayIntelligent_Ratepay</module>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ratepay_setup>
+
+            <ratepay_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ratepay_write>
+
+            <ratepay_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ratepay_read>
+        </resources>
+    </global>
+
+    <default>
+        <payment>
+
+            <ratepay_rechnung>
+                <active>0</active>
+                <model>ratepay/method_rechnung</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <title>RatePAY Rechnung</title>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcountry>DE</specificcountry>
+                <specificcurrency>EUR</specificcurrency>
+                <min_order_total>20</min_order_total>
+                <max_order_total>1500</max_order_total>
+            </ratepay_rechnung>
+
+            <ratepay_rate>
+                <active>0</active>
+                <model>ratepay/method_rate</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <title>RatePAY Rate</title>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <bankdata_saving>0</bankdata_saving>
+                <specificcountry>DE</specificcountry>
+                <specificcurrency>EUR</specificcurrency>
+                <min_order_total>200</min_order_total>
+                <max_order_total>2000</max_order_total>
+                <dynamic_due>1</dynamic_due>
+            </ratepay_rate>
+
+            <ratepay_directdebit>
+                <active>0</active>
+                <model>ratepay/method_directdebit</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <title>RatePAY Lastschrift</title>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <bankdata_saving>0</bankdata_saving>
+                <due_days>14</due_days>
+                <specificcountry>DE</specificcountry>
+                <specificcurrency>EUR</specificcurrency>
+                <min_order_total>20</min_order_total>
+                <max_order_total>1500</max_order_total>
+            </ratepay_directdebit>
+
+            <ratepay>
+                <version>2.0.0</version>
+            </ratepay>
+
+            <sales_pdf>
+                <ratepay_rate>
+                    <invoice_field>Bei Fragen zur Rechnung wenden Sie sich bitte an:{{pdf_row_separator}}Tel 012/34567 ● Fax 012/345678 ● testshop@ratepay.de</invoice_field>
+                </ratepay_rate>
+            </sales_pdf>
+
+        </payment>
+
+    </default>
+
+    <frontend>
+        <layout>
+            <updates>
+                <ratepay>
+                    <file>ratepay.xml</file>
+                </ratepay>
+            </updates>
+        </layout>
+
+        <events>
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <payintelligent_ratepay_model_observer>
+                        <type>model</type>
+                        <class>PayIntelligent_Ratepay_Model_Observer</class>
+                        <method>handlePaymentFee</method>
+                    </payintelligent_ratepay_model_observer>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <sendRatepayConfirmCall>
+                        <class>ratepay/observer</class>
+                        <method>sendRatepayConfirmCall</method>
+                    </sendRatepayConfirmCall>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
+
+        <translate>
+            <modules>
+                <PayIntelligent_Ratepay>
+                    <files>
+                        <default>PayIntelligent_Ratepay.csv</default>
+                    </files>
+                </PayIntelligent_Ratepay>
+            </modules>
+        </translate>
+
+    </frontend>
+
+    <adminhtml>
+
+        <translate>
+            <modules>
+                <PayIntelligent_Ratepay>
+                    <files>
+                        <default>PayIntelligent_Ratepay.csv</default>
+                    </files>
+                </PayIntelligent_Ratepay>
+            </modules>
+        </translate>
+
+        <layout>
+            <updates>
+                <ratepay>
+                    <file>ratepay.xml</file>
+                </ratepay>
+            </updates>
+        </layout>
+
+        <events>
+
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <payintelligent_ratepay_model_observer>
+                        <type>model</type>
+                        <class>PayIntelligent_Ratepay_Model_Observer</class>
+                        <method>handlePaymentFee</method>
+                    </payintelligent_ratepay_model_observer>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <sales_order_invoice_register>
+                <observers>
+                    <sendRatepayDeliverCall>
+                        <class>ratepay/observer</class>
+                        <method>sendRatepayDeliverCall</method>
+                    </sendRatepayDeliverCall>
+                </observers>
+            </sales_order_invoice_register>
+
+            <sales_order_shipment_save_before>
+                <observers>
+                    <isInvoiceCreated>
+                        <class>ratepay/observer</class>
+                        <method>isInvoiceCreated</method>
+                    </isInvoiceCreated>
+                </observers>
+            </sales_order_shipment_save_before>
+
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <sendRatepayCreditmemoCall>
+                        <class>ratepay/observer</class>
+                        <method>sendRatepayCreditmemoCall</method>
+                    </sendRatepayCreditmemoCall>
+                </observers>
+            </sales_order_creditmemo_refund>
+
+            <order_cancel_after>
+                <observers>
+                    <sendRatepayCancelCall>
+                        <class>ratepay/observer</class>
+                        <method>sendRatepayCancelCall</method>
+                    </sendRatepayCancelCall>
+                </observers>
+            </order_cancel_after>
+
+            <controller_action_postdispatch_adminhtml_sales_order_invoice_save>
+                <observers>
+                    <sendRatepayInvoiceEmail>
+                        <class>ratepay/observer</class>
+                        <method>sendRatepayInvoiceEmail</method>
+                    </sendRatepayInvoiceEmail>
+                </observers>
+            </controller_action_postdispatch_adminhtml_sales_order_invoice_save>
+
+        </events>
+
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <ratepay>
+                <use>admin</use>
+                <args>
+                    <module>PayIntelligent_Ratepay</module>
+                    <frontName>ratepay</frontName>
+                </args>
+            </ratepay>
+        </routers>
+    </admin>
+
+    <frontend>
+        <routers>
+            <ratepay>
+                <use>standard</use>
+                <args>
+                    <module>PayIntelligent_Ratepay</module>
+                    <frontName>ratepay</frontName>
+                </args>
+            </ratepay>
+        </routers>
+    </frontend>
+
+</config>

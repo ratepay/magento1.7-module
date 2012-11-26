@@ -1,0 +1,129 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category PayIntelligent
+ * @package PayIntelligent_RatePAY
+ * @copyright Copyright (c) 2011 PayIntelligent GmbH (http://www.payintelligent.de)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+?>
+
+<?php $_code = $this->getMethodCode() ?>
+<!-- @todo warum rate style im rechnung template??? -->
+<style>
+    .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
+    .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
+    .sp-methods select.ratepayyear {width: 154px ;}
+    .sp-methods input.ratepayphone {width: 147px;}
+    .sp-methods div.ratepaybirthdate {width: 476px;}
+    .sp-methods .form-list .ratepayagreement {width: auto;float: none;}
+</style>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
+        <div id='<?php echo $_code ?>description' style="display:none;">
+            <div>
+                <div style="font-weight:bold;">
+                    <span style="color:#FF0000;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
+                    <?php echo sprintf($this->__('Pi ratepay_info_block_1'), $this->getDueDays()) ?><br/>
+                </div>
+                <br/>
+                <div>
+                    <?php echo $this->__('Pi ratepay_info_block_2') ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_info_block_3') ?><?php echo $this->getMinAmount(); ?> &euro;</span>
+                    <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_info_block_5') ?>
+                </div>
+                <br/>
+                <div>
+                    <?php echo $this->__('Pi ratepay_info_block_6') ?>
+                </div>
+            </div>
+            <hr/>
+        </div>
+        <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
+    </li>
+    <?php if ($this->isAdditionalFieldsNeeded()): ?>
+    <li>
+        <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
+    </li>
+    <?php endif; ?>
+
+    <?php if ($this->isCompanyNeeded()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_company" class="required"><em>*</em><?php echo $this->__('Pi Company'); ?></label>
+            <div class="input-box">
+                <input value="" type="text" name="payment[<?php echo $_code ?>_company]" id="<?php echo $_code ?>_company" name="payment[<?php echo $_code ?>_company]" class="input-text required-entry"/>
+            </div>
+        </li>
+    <?php endif; ?>
+    <?php if ($this->isTaxvatNeeded()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>
+            <div class="input-box">
+                <input value="" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+            </div>
+        </li>
+    <?php endif; ?>
+
+    <?php if (!$this->isPhoneSet()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Pi Phone'); ?></label>
+            <div class="input-box">
+                <input value="" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+            </div>
+        </li>
+    <?php endif; ?>
+    <?php if (!$this->isDobSet()): ?>
+        <li>
+            <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
+            <div class="input-box customer-dob ratepayrechnungdob" id="">
+                <div class="dob-day">
+                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Day') ?>" value="" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
+                    <label for="<?php echo $_code ?>_day">DD</label>
+                </div>
+                <div class="dob-month">
+                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Month') ?>" value="" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
+                    <label for="<?php echo $_code ?>_month">MM</label>
+                </div>
+                <div class="dob-year">
+                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Year') ?>" value="" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year" autocomplete="off">
+                    <label for="<?php echo $_code ?>_year">YYYY</label>
+                </div>
+                <div style="display:none;" class="dob-full">
+                    <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
+                </div>
+
+                <div style="display:none;" class="validation-advice"></div>
+            </div>
+            <script type="text/javascript">
+                //&lt;![CDATA[
+                var customer_dob = new Varien.RatepayDOB('.ratepayrechnungdob', true, '%d.%m.%y');
+                //]]&gt;
+            </script>
+        </li>
+    <?php endif; ?>
+        <li>
+            <table>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                    </td>
+                    <td>
+                          <label for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
+                          <?php echo $this->__('Pi ratepay_terms_block_1');?> <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_rechnung/privacy_policy",$this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
+                            <?php echo $this->__('Pi ratepay_terms_block_2');?></label>
+                    </td>
+                </tr>
+            </table>
+        </li>
+</ul>
