@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -17,9 +18,9 @@
  * @copyright Copyright (c) 2011 PayIntelligent GmbH (http://www.payintelligent.de)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-
 class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
 {
+
     /**
      * Article preparations for PAYMENT_REQUEST, PAYMENT_CHANGE, CONFIRMATION_DELIVER
      *
@@ -30,26 +31,28 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     {
         $articles = array();
         $articleDiscountAmount = 0;
-        if ($object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
-            $objectItems = $object->getAllItems();
-        } else {
-            $objectItems = $object->getAllItems();
-        }
+        $objectItems = $object->getAllItems();
 
         foreach ($objectItems as $item) {
-            $rowTotal = $item->getRowTotal();
-            //if ($rowTotal > 0 || $rowTotal < 0) {
+            
+            if ($item instanceof Mage_Sales_Model_Order_Item) {
+                $orderItem = $item;
+            } else {
+                $orderItem = Mage::getModel('sales/order_item')->load($item->getOrderItemId());
+            }
+            
+            if ($orderItem->getProductType() !== 'bundle') {
                 $article = array();
                 $article['articleNumber'] = $item->getSku();
-                $article['articleName']   = $item->getName();
-                $article['totalPrice']    = $rowTotal; // gesamt netto
-                $article['tax']           = $item->getTaxAmount(); // gesamt steuer
-                $article['taxPercent']    = $item->getTaxPercent(); // gesamt steuer
+                $article['articleName'] = $item->getName();
+                $article['totalPrice'] = $item->getRowTotal(); // gesamt netto
+                $article['tax'] = $item->getTaxAmount(); // gesamt steuer
+                $article['taxPercent'] = $item->getTaxPercent(); // gesamt steuer
 
                 if ($object instanceof Mage_Sales_Model_Order) {
-                    $article['quantity']  = $item->getQtyOrdered();
+                    $article['quantity'] = $item->getQtyOrdered();
                 } else {
-                    $article['quantity']  = $item->getQty();
+                    $article['quantity'] = $item->getQty();
                 }
 
                 if ($object instanceof Mage_Sales_Model_Quote) {
@@ -68,16 +71,16 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $discount['tax'] = -1 * ($article['tax'] - $item->getTaxAmount());
                     $tax = 0;
                     $taxConfig = Mage::getSingleton('tax/config');
-                    if($taxConfig->priceIncludesTax($object->getStoreId())) {
-                            $tax = $discount['tax'];
+                    if ($taxConfig->priceIncludesTax($object->getStoreId())) {
+                        $tax = $discount['tax'];
                     }
                     $discount['unitPrice'] = ((-1 * $item->getDiscountAmount()) - $tax) / $article['quantity'];
                     $discount['totalPrice'] = (-1 * $item->getDiscountAmount()) - $tax;
 
-                    if(round($discount['tax'],2) < 0) {
-                        $discount['taxPercent']    = $article['taxPercent'];
+                    if (round($discount['tax'], 2) < 0) {
+                        $discount['taxPercent'] = $article['taxPercent'];
                     }
-                    $discount['discountId']    = $item->getSku();
+                    $discount['discountId'] = $item->getSku();
 
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
                 }
@@ -86,10 +89,10 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
                 if ($item->getDiscountAmount() > 0) { // only for sort reason
                     $articles[] = $discount;
                 }
-            //}
+            }
         }
 
-        if ($object instanceof Mage_Sales_Model_Order || $object instanceof Mage_Sales_Model_Order_Invoice  || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
+        if ($object instanceof Mage_Sales_Model_Order || $object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
             $shippingObject = $object;
             if ($object instanceof Mage_Sales_Model_Order_Creditmemo) {
                 $articles = $this->addAdjustments($object, $articles);
@@ -116,8 +119,8 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['totalPrice'] = $shippingObject->getShippingAmount();
             $article['tax'] = $shippingObject->getShippingTaxAmount();
             $shippingTaxPercent = 0;
-            if(($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) > 0){
-                $shippingTaxPercent = (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) /  $shippingObject->getShippingAmount();
+            if (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) > 0) {
+                $shippingTaxPercent = (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) / $shippingObject->getShippingAmount();
             }
             $article['taxPercent'] = $shippingTaxPercent;
             $article['discountId'] = '';
@@ -127,20 +130,19 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $discount['articleNumber'] = 'SHIPPINGDISCOUNT';
                 $discount['articleName'] = 'Shipping - Discount';
                 $discount['quantity'] = 1;
-                $discount['unitPrice'] = -1 * $order->getShippingDiscountAmount();
-                $discount['totalPrice'] = -1 * $order->getShippingDiscountAmount();
-                $article['tax'] = $order->getShippingInclTax() - $order->getShippingAmount();
-                $discount['tax'] = -1 * ($article['tax'] - $order->getShippingTaxAmount());
+                $discount['unitPrice'] = -1 * $shippingObject->getShippingDiscountAmount();
+                $discount['totalPrice'] = -1 * $shippingObject->getShippingDiscountAmount();
+                $article['tax'] = $shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount();
+                $discount['tax'] = -1 * ($article['tax'] - $shippingObject->getShippingTaxAmount());
                 $tax = 0;
-                $taxConfig = Mage::getSingleton('tax/config');
-                if($taxConfig->shippingPriceIncludesTax($object->getStoreId())) {
-                        $tax = $discount['tax'];
+                if (Mage::getSingleton('tax/config')->shippingPriceIncludesTax($object->getStoreId())) {
+                    $tax = $discount['tax'];
                 }
-                $discount['unitPrice'] = (-1 * $order->getShippingDiscountAmount())- $tax;
-                $discount['totalPrice'] = (-1 * $order->getShippingDiscountAmount()) - $tax;
+                $discount['unitPrice'] = (-1 * $shippingObject->getShippingDiscountAmount()) - $tax;
+                $discount['totalPrice'] = (-1 * $shippingObject->getShippingDiscountAmount()) - $tax;
                 $discount['taxPercent'] = 0;
-                if(round($discount['tax'],2) < 0) {
-                    $discount['taxPercent']    = $article['taxPercent'];
+                if (round($discount['tax'], 2) < 0) {
+                    $discount['taxPercent'] = $article['taxPercent'];
                 }
                 $discount['discountId'] = 'SHIPPING';
             }
@@ -152,7 +154,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         }
         return $articles;
     }
-    
+
     /**
      * Add adjustment items to the article list
      * 
@@ -162,15 +164,15 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     private function addAdjustments($creditmemo, $articles)
     {
         if ($creditmemo->getAdjustmentPositive() != 0) {
-            array_push($articles, $this->addAdjustment($articles, (float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Positive', 'adj-pos'));  
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Positive', 'adj-pos'));
         }
         if ($creditmemo->getAdjustmentNegative() != 0) {
-            array_push($articles, $this->addAdjustment($articles, (float) $creditmemo->getAdjustmentNegative(), 'Adjustment Negative', 'adj-neg'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Negative', 'adj-neg'));
         }
-        
+
         return $articles;
     }
-    
+
     /**
      * Add merchant credit to artcile list
      * 
@@ -178,7 +180,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
      * @param float $amount
      * @return array
      */
-    public function addAdjustment(array $articles, $amount, $name, $articleNumber)
+    public function addAdjustment($amount, $name, $articleNumber)
     {
         $tempVoucherItem = array();
         $tempVoucherItem['articleName'] = $name;
@@ -188,7 +190,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $tempVoucherItem['totalPrice'] = $amount;
         $tempVoucherItem['tax'] = 0;
         $tempVoucherItem['discountId'] = 0;
-        
+
         return $tempVoucherItem;
     }
 
@@ -202,18 +204,18 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     public function getLoggingInfo($quoteOrOrder, $methodCode = '')
     {
         $loggingInfo = array();
-        if($methodCode == '') {
+        if ($methodCode == '') {
             $methodCode = $quoteOrOrder->getPayment()->getMethod();
         }
         $loggingInfo['logging'] = Mage::getStoreConfig('payment/' . $methodCode . '/logging', $quoteOrOrder->getStoreId());
         $loggingInfo['sandbox'] = Mage::getStoreConfig('payment/' . $methodCode . '/sandbox', $quoteOrOrder->getStoreId());
-        if($quoteOrOrder instanceof Mage_Sales_Model_Order) {
+        if ($quoteOrOrder instanceof Mage_Sales_Model_Order) {
             $loggingInfo['orderId'] = $quoteOrOrder->getRealOrderId();
         } else {
             $loggingInfo['orderId'] = $quoteOrOrder->getReservedOrderId();
         }
         $loggingInfo['transactionId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId');
-        switch($methodCode) {
+        switch ($methodCode) {
             case 'ratepay_rechnung':
                 $loggingInfo['paymentMethod'] = 'INVOICE';
                 break;
@@ -237,10 +239,10 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
      * @param string $methodCode
      * @return array
      */
-    public function getRequestHead($quoteOrOrder,$subtype = '',$methodCode = '')
+    public function getRequestHead($quoteOrOrder, $subtype = '', $methodCode = '')
     {
         $head = array();
-        if($methodCode == '') {
+        if ($methodCode == '') {
             $head['profileId'] = Mage::getStoreConfig('payment/' . $quoteOrOrder->getPayment()->getMethod() . '/profile_id', $quoteOrOrder->getStoreId());
             $head['securityCode'] = Mage::getStoreConfig('payment/' . $quoteOrOrder->getPayment()->getMethod() . '/security_code', $quoteOrOrder->getStoreId());
             $head['transactionId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId');
@@ -251,7 +253,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
             $head['transactionId'] = '';
             $head['transactionShortId'] = '';
         }
-        if($quoteOrOrder instanceof Mage_Sales_Model_Order) {
+        if ($quoteOrOrder instanceof Mage_Sales_Model_Order) {
             $head['orderId'] = $quoteOrOrder->getRealOrderId();
         } else {
             $head['orderId'] = $quoteOrOrder->getReservedOrderId();
@@ -273,7 +275,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $billing = array();
         $shipping = array();
 
-        $dob = new Zend_Date($quoteOrOrder->getCustomerDob());//, Zend_Date::ISO_8601);
+        $dob = new Zend_Date($quoteOrOrder->getCustomerDob()); //, Zend_Date::ISO_8601);
         $customer['dob'] = $dob->toString("yyyy-MM-dd");
         $customer['gender'] = Mage::helper("ratepay")->getGenderCode($quoteOrOrder);
         $customer['firstName'] = $quoteOrOrder->getBillingAddress()->getFirstname();
@@ -318,24 +320,24 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     {
         $basket = array();
 
-        if(is_numeric($amount)) {
-          $basket['amount'] = $amount;
+        if (is_numeric($amount)) {
+            $basket['amount'] = $amount;
         } else {
-          $basket['amount'] = $object->getGrandTotal();
+            $basket['amount'] = $object->getGrandTotal();
         }
 
-        if($object instanceof Mage_Sales_Model_Order) {
+        if ($object instanceof Mage_Sales_Model_Order) {
             $basket['currency'] = $object->getOrderCurrencyCode();
-        } else if($object instanceof Mage_Sales_Model_Quote){
+        } else if ($object instanceof Mage_Sales_Model_Quote) {
             $basket['currency'] = $object->getQuoteCurrencyCode();
         } else {
             $basket['currency'] = $object->getOrder()->getOrderCurrencyCode();
         }
 
-        if($articleList != '') {
-          $basket['items'] = $articleList;
+        if ($articleList != '') {
+            $basket['items'] = $articleList;
         } else {
-          $basket['items'] = $this->getArticles($object);
+            $basket['items'] = $this->getArticles($object);
         }
 
         return $basket;
@@ -352,12 +354,12 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     public function getRequestPayment($object, $amount = '', $request = '')
     {
         $payment = array();
-        switch($object->getPayment()->getMethod()) {
+        switch ($object->getPayment()->getMethod()) {
             case 'ratepay_rechnung':
                 $payment['method'] = 'INVOICE';
                 break;
             case 'ratepay_rate':
-                if($request == 'PAYMENT_REQUEST') {
+                if ($request == 'PAYMENT_REQUEST') {
                     $payment['installmentNumber'] = Mage::getSingleton('checkout/session')->getRatepayRateNumberOfRatesFull();
                     $payment['installmentAmount'] = Mage::getSingleton('checkout/session')->getRatepayRateRate();
                     $payment['lastInstallmentAmount'] = Mage::getSingleton('checkout/session')->getRatepayRateLastRate();
@@ -374,26 +376,26 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
                 } else {
                     $payment['debitType'] = 'BANK-TRANSFER';
                 }
-                
+
                 break;
             case 'ratepay_directdebit':
                 $payment['method'] = 'ELV';
                 break;
         }
-        if($object instanceof Mage_Sales_Model_Order) {
+        if ($object instanceof Mage_Sales_Model_Order) {
             $payment['currency'] = $object->getOrderCurrencyCode();
         } else {
             $payment['currency'] = $object->getQuoteCurrencyCode();
         }
-        if(is_numeric($amount)) {
-           $payment['amount'] = $amount;
+        if (is_numeric($amount)) {
+            $payment['amount'] = $amount;
         } else {
-           $payment['amount'] = $object->getGrandTotal();
+            $payment['amount'] = $object->getGrandTotal();
         }
 
         return $payment;
     }
-    
+
     /**
      * Is due dynamic
      * 
@@ -404,8 +406,8 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         if (Mage::getStoreConfig('payment/ratepay_rate/dynamic_due', Mage::helper('ratepay')->getQuote()->getStoreId())) {
             return true;
         }
-        
-        return false; 
+
+        return false;
     }
-    
+
 }

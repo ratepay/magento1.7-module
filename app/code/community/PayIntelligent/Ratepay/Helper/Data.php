@@ -266,8 +266,8 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
                 'bankcode' => $data[$code . '_bank_code_number'],
                 'bankname' => $data[$code . '_bank_name']
             );
-            $userId = $quote->getCustomer()->getId();
-            if (!empty($userId)) {
+            
+            if (Mage::helper('customer')->isLoggedIn()) {
                 Mage::getSingleton('core/session')->setBankdataAfter(false);
                 $piEncryption->saveBankdata($quote->getCustomer()->getId(), $bankdata);
             } else {
@@ -296,7 +296,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         (!$quote->getCustomerIsGuest()) ? $customerId = $quote->getCustomer()->getId() : $customerId = '';
         $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
-        if ($piEncryption->isBankdataSetForUser($customerId)) {
+        if (!$quote->getCustomerIsGuest() && $piEncryption->isBankdataSetForUser($customerId)) {
             $bankdata = $piEncryption->loadBankdata($customerId);
         } else {
             $bankdata = array (
