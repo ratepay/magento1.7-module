@@ -1,4 +1,10 @@
 ***********************************************************
+**********| Version 2.1.0 - Released 2013-11-21 |**********
+***********************************************************
+ * allow differing billing and shipping addresses
+ * send customer name and company (if necessary) within shipping address
+
+***********************************************************
 **********| Version 2.0.9 - Released 2013-11-20 |**********
 ***********************************************************
  * remove bundle article from requests and send only the bundled items

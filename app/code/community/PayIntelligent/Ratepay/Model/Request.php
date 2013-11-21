@@ -448,10 +448,15 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
 
         $shippingAddress = $addresses->addChild('address');
         $shippingAddress->addAttribute('type', 'DELIVERY');
+        $shippingAddress->addCDataChild('first-name', $customerInfo['shipping']['firstName']);
+        $shippingAddress->addCDataChild('last-name', $customerInfo['shipping']['lastName']);
         $shippingAddress->addCDataChild('street', $customerInfo['shipping']['street']);
         $shippingAddress->addChild('zip-code', $customerInfo['shipping']['zipCode']);
         $shippingAddress->addCDataChild('city', $customerInfo['shipping']['city']);
         $shippingAddress->addChild('country-code', $customerInfo['shipping']['countryId']);
+        if($customerInfo['shipping']['company']) {
+            $shippingAddress->addCDataChild('company', $customerInfo['shipping']['company']);
+        }
         
         if (Mage::getSingleton('core/session')->getDirectDebitFlag()) {
             $data = Mage::helper('ratepay')->getBankData();

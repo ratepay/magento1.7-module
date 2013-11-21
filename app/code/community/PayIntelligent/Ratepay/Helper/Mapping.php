@@ -297,10 +297,15 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $billing['city'] = $quoteOrOrder->getBillingAddress()->getCity();
         $billing['countryId'] = $quoteOrOrder->getBillingAddress()->getCountryId();
 
+        $shipping['firstName'] = $quoteOrOrder->getShippingAddress()->getFirstname();
+        $shipping['lastName'] = $quoteOrOrder->getShippingAddress()->getLastname();
         $shipping['street'] = $quoteOrOrder->getShippingAddress()->getStreetFull();
         $shipping['zipCode'] = $quoteOrOrder->getShippingAddress()->getPostcode();
         $shipping['city'] = $quoteOrOrder->getShippingAddress()->getCity();
         $shipping['countryId'] = $quoteOrOrder->getShippingAddress()->getCountryId();
+        if($quoteOrOrder->getShippingAddress()->getCompany()) {
+            $shipping['company'] = $quoteOrOrder->getShippingAddress()->getCompany();
+        }
 
         $customer['contacts'] = $contacts;
         $customer['billing'] = $billing;
