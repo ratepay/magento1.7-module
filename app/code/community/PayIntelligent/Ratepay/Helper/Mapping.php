@@ -34,14 +34,15 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $objectItems = $object->getAllItems();
 
         foreach ($objectItems as $item) {
-            
             if ($item instanceof Mage_Sales_Model_Order_Item) {
                 $orderItem = $item;
             } else {
                 $orderItem = Mage::getModel('sales/order_item')->load($item->getOrderItemId());
             }
             
-            if ($orderItem->getProductType() !== 'bundle') {
+            $shopProduct = Mage::getModel('catalog/product')->load($item->getProductId());
+
+            if ((($orderItem->getProductType() !== 'bundle') || ($orderItem->getProductType() === 'bundle' && $shopProduct->getPrice() > 0)) && $orderItem->getRowTotal() > 0) {
                 $article = array();
                 $article['articleNumber'] = $item->getSku();
                 $article['articleName'] = $item->getName();
@@ -303,7 +304,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $shipping['zipCode'] = $quoteOrOrder->getShippingAddress()->getPostcode();
         $shipping['city'] = $quoteOrOrder->getShippingAddress()->getCity();
         $shipping['countryId'] = $quoteOrOrder->getShippingAddress()->getCountryId();
-        if($quoteOrOrder->getShippingAddress()->getCompany()) {
+        if ($quoteOrOrder->getShippingAddress()->getCompany()) {
             $shipping['company'] = $quoteOrOrder->getShippingAddress()->getCompany();
         }
 
