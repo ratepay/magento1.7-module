@@ -247,3 +247,4 @@
 "Pi Invoice", "berechnen"
 "Pi Creditmemo", "retournieren"
 "Pi Please invoice the articles you want to ship.","Bitte stellen Sie die Artikel in Rechnung die Sie versenden wollen"
+"Pi Only full return of shipping is possible.", "Der Versand muss voll oder garnicht retourniert werden."

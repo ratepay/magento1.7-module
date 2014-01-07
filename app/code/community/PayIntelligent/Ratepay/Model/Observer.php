@@ -21,6 +21,8 @@
 class PayIntelligent_Ratepay_Model_Observer
 {
 
+    private $_errorMessage;
+    
     /**
      * Add payment fee if payment fee is set for RatePAY and removes it again if another payment method was choosen
      *
@@ -213,7 +215,7 @@ class PayIntelligent_Ratepay_Model_Observer
         $order = $creditmemo->getOrder();
         if (Mage::helper('ratepay/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
             if (!$this->isCreditmemoAllowed($creditmemo)) {
-                Mage::throwException(Mage::helper('ratepay')->__('Please create product returns and positive adjustments separately.'));
+                Mage::throwException(Mage::helper('ratepay')->__($this->_errorMessage));
             }
 
             $data = array(
@@ -317,9 +319,16 @@ class PayIntelligent_Ratepay_Model_Observer
      */
     private function isCreditmemoAllowed(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-        if ($creditmemo->getAdjustmentPositive() > 0 && $this->_getItemCount($creditmemo) > 0) {
+        if ($creditmemo->getShippingAmount() < $creditmemo->getOrder()->getShippingAmount() && $creditmemo->getShippingAmount() > 0) {
+            $this->_errorMessage = 'Pi Only full return of shipping is possible.';
             return false;
         }
+        
+        if ($creditmemo->getAdjustmentPositive() > 0 && $this->_getItemCount($creditmemo) > 0) {
+            $this->_errorMessage = 'Pi Please create product returns and positive adjustments separately.';
+            return false;
+        }
+        
         return true;
     }
 
