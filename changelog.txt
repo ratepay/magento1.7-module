@@ -1,4 +1,11 @@
 ***********************************************************
+**********| Version 2.2.0 - Released 2014-01-29 |**********
+***********************************************************
+
+* Added SEPA functionality - includes IBAN and BIC fields and new text blocks
+* Deactivated saving of user bank account data
+
+***********************************************************
 **********| Version 2.1.1 - Released 2014-01-07 |**********
 ***********************************************************
  * better bundle handling
