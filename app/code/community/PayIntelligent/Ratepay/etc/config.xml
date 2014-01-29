@@ -24,7 +24,7 @@
 
     <modules>
         <PayIntelligent_Ratepay>
-            <version>2.1.1</version>
+            <version>2.2.0</version>
         </PayIntelligent_Ratepay>
     </modules>
 
@@ -182,7 +182,7 @@
                 <model>ratepay/method_directdebit</model>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
-                <title>RatePAY Lastschrift</title>
+                <title>RatePAY SEPA-Lastschrift</title>
                 <allowspecific>0</allowspecific>
                 <logging>1</logging>
                 <sandbox>1</sandbox>

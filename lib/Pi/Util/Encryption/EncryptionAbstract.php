@@ -91,7 +91,15 @@ abstract class Pi_Util_Encryption_EncryptionAbstract
     private function _createBankdataSelectSql($userId)
     {
         $key = $this->_privateKey;
-        $selectSql = "SELECT userid, AES_DECRYPT(owner, '$key') as decrypt_owner, AES_DECRYPT(accountnumber, '$key') as decrypt_accountnumber, AES_DECRYPT(bankcode, '$key') as decrypt_bankcode, AES_DECRYPT(bankname, '$key') as decrypt_bankname from " . $this->_tableName . " where userid = '$userId'";
+        $selectSql = "SELECT
+                        userid,
+                        AES_DECRYPT(owner, '$key') AS decrypt_owner,
+                        AES_DECRYPT(accountnumber, '$key') AS decrypt_accountnumber,
+                        AES_DECRYPT(iban, '$key') AS decrypt_iban,
+                        AES_DECRYPT(bankcode, '$key') AS decrypt_bankcode,
+                        AES_DECRYPT(bic, '$key') AS decrypt_bic,
+                        AES_DECRYPT(bankname, '$key') AS decrypt_bankname
+                      FROM " . $this->_tableName . " WHERE userid = '$userId'";
         return $selectSql;
     }
     

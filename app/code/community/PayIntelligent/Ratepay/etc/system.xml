@@ -34,7 +34,7 @@
                     <fields>
 
                         <version translate="label">
-                            <label>v2.1.1</label>
+                            <label>v2.2.0</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -207,7 +207,7 @@
                     <comment><![CDATA[<a href="http://www.ratepay.com/nutzungsbedingungen/" target="_blank">Nutzungsbedingungen</a>]]></comment>
                     <fields>
                         <version translate="label">
-                            <label>v2.1.1</label>
+                            <label>v2.2.0</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -392,7 +392,7 @@
                     </fields>
                 </ratepay_rate>
                 <ratepay_directdebit module="ratepay">
-                    <label>RatePAY Lastschrift</label>
+                    <label>RatePAY SEPA-Lastschrift</label>
                     <sort_order>700</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -400,7 +400,7 @@
                     <comment><![CDATA[<a href="http://www.ratepay.com/nutzungsbedingungen/" target="_blank">Nutzungsbedingungen</a>]]></comment>
                     <fields>
                         <version translate="label">
-                            <label>v2.1.1</label>
+                            <label>v2.2.0</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -561,7 +561,7 @@
                             <show_in_store>1</show_in_store>
                         </privacy_policy>
 
-                        <bankdata_saving>
+                        <!--<bankdata_saving>
                             <label>Pi Save bank data</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -569,7 +569,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </bankdata_saving>
+                        </bankdata_saving>-->
                     </fields>
                 </ratepay_directdebit>
             </groups>

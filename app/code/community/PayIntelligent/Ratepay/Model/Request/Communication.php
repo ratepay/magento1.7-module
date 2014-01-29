@@ -34,7 +34,7 @@ class PayIntelligent_Ratepay_Model_Request_Communication extends Zend_Http_Clien
      * @var string
      */
     private $testServer = 'https://webservices-int.eos-payment.com/custom/ratepay/xml/1_0';
-    
+
     /**
      * Test mode
      * 

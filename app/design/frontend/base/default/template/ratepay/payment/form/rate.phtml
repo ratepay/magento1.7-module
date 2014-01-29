@@ -622,10 +622,10 @@
                     <input type="checkbox" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                 </td>
                 <td>
-                    <label for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
+                    <span for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
                         <?php echo $this->__('Pi ratepay_terms_block_1'); ?> <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/" . $_code . "/privacy_policy", $this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy'); ?></a>
                         <?php echo $this->__('Pi ratepay_terms_block_2'); ?>
-                    </label>
+                    </span>
                 </td>
             </tr>
         </table>
@@ -661,7 +661,7 @@
                             <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black; width: 390px;"><?php echo $this->__('pi_lang_payment_text_wishrate'); ?></div>
                         </label>
                         <div id="piRpContentTerm" class="piRpContent" style="display: none;">
-                            <?php if ($this->isDynamicDue()) { ?>
+                            <!--<?php if ($this->isDynamicDue()) { ?>
                                 <div id="piRpDueDate" class="piRpDueDate">
                                     <div class="piRpDueText"><?php echo $this->__('pi_lang_due_date'); ?></div>
                                     <select name="piRpDueDateSelect" id="debitSelect" size="3">
@@ -670,7 +670,7 @@
                                         <option value="28" selected="selected"><?php echo $this->__('Pi At 28th of month'); ?></option>
                                     </select>
                                 </div>
-                            <?php } ?>
+                            <?php } ?>-->
                             <br class="piRpClearFix" />
                             <div class="piRpMarginTop">
                                 <span class="piRpVertAlignMiddle"><?php echo $this->__('pi_lang_please') . " " . $this->__('pi_lang_insert_wishrate'); ?>:</span>
@@ -687,7 +687,7 @@
                             <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black;"><?php echo $this->__('pi_lang_payment_text_runtime'); ?></div>
                         </label>
                         <div id="piRpContentRuntime" class="piRpContent" style="display: none;">
-                            <?php if ($this->isDynamicDue()) { ?>
+                            <!--<?php if ($this->isDynamicDue()) { ?>
                                 <div id="piRpDueDate" class="piRpDueDate">
                                     <div class="piRpDueText"><?php echo $this->__('pi_lang_due_date'); ?></div>
                                     <span style="float: right;">
@@ -698,7 +698,7 @@
                                         </select>
                                     </span>
                                 </div>
-                            <?php } ?>
+                            <?php } ?>-->
                             <br class="piRpClearFix" />
                             <div class="piRpMarginTop">
                                 <span class="piRpVertAlignMiddle" style="float: left;"><?php echo $this->__('pi_lang_please') . " " . $this->__('pi_lang_insert_runtime'); ?>:</span>

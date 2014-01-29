@@ -255,18 +255,25 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     public function setBankData($data, Mage_Sales_Model_Quote $quote, $code)
     {
         Mage::getSingleton('core/session')->setDirectDebitFlag(true);
-        if (!Mage::getStoreConfig('payment/' . $code . '/bankdata_saving', $quote->getStoreId())|| $quote->getCustomerIsGuest()) {
+        if (!Mage::getStoreConfig('payment/' . $code . '/bankdata_saving', $quote->getStoreId()) || $quote->getCustomerIsGuest()) {
             $this->_setBankDataSession($data, $code);
             Mage::getSingleton('core/session')->setBankdataAfter(false);
         } else {
             $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
             $bankdata = array (
                 'owner' => $data[$code . '_account_holder'],
-                'accountnumber' => $data[$code . '_account_number'],
-                'bankcode' => $data[$code . '_bank_code_number'],
                 'bankname' => $data[$code . '_bank_name']
             );
-            
+            if(!empty($data[$code . '_iban'])) {
+                $bankdata['iban'] = $data[$code . '_iban'];
+                if(!empty($data[$code . '_bic'])) {
+                    $bankdata['bic'] = $data[$code . '_bic'];
+                }
+            } else {
+                $bankdata['accountnumber'] = $data[$code . '_account_number'];
+                $bankdata['bankcode'] = $data[$code . '_bank_code_number'];
+            }
+
             if (Mage::helper('customer')->isLoggedIn()) {
                 Mage::getSingleton('core/session')->setBankdataAfter(false);
                 $piEncryption->saveBankdata($quote->getCustomer()->getId(), $bankdata);
@@ -279,9 +286,16 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     
     private function _setBankDataSession($data, $code)
     {
+        if($data[$code . '_iban']) {
+            Mage::getSingleton('core/session')->setIban($data[$code . '_iban']);
+            if($data[$code . '_bic']) {
+                Mage::getSingleton('core/session')->setBic($data[$code . '_bic']);
+            }
+        } else {
+            Mage::getSingleton('core/session')->setAccountNumber($data[$code . '_account_number']);
+            Mage::getSingleton('core/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
+        }
         Mage::getSingleton('core/session')->setAccountHolder($data[$code . '_account_holder']);
-        Mage::getSingleton('core/session')->setAccountNumber($data[$code . '_account_number']);
-        Mage::getSingleton('core/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         Mage::getSingleton('core/session')->setBankName($data[$code . '_bank_name']);
     }
     
@@ -301,10 +315,18 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             $bankdata = array (
                 'owner' => Mage::getSingleton('core/session')->getAccountHolder(),
-                'accountnumber' => Mage::getSingleton('core/session')->getAccountNumber(),
-                'bankcode' => Mage::getSingleton('core/session')->getBankCodeNumber(),
                 'bankname' => Mage::getSingleton('core/session')->getBankName()
             );
+
+            if(Mage::getSingleton('core/session')->getIban()) {
+                $bankdata['iban'] = Mage::getSingleton('core/session')->getIban();
+                if(Mage::getSingleton('core/session')->getBic()) {
+                    $bankdata['bic'] = Mage::getSingleton('core/session')->getBic();
+                }
+            } else {
+                $bankdata['accountnumber'] = Mage::getSingleton('core/session')->getAccountNumber();
+                $bankdata['bankcode'] = Mage::getSingleton('core/session')->getBankCodeNumber();
+            }
         }
         return $bankdata;
     }

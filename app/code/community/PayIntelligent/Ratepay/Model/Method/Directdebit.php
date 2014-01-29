@@ -103,14 +103,22 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
                 $this->getHelper()->setTaxvat($quote, $taxvat);
             }
         }
-        
+
+        // Only german national account/iban
+        if(!empty($params[$this->_code . '_iban']) &&
+           (strtoupper($params[$this->_code . '_iban'][0].$params[$this->_code . '_iban'][1]) != "DE")) {
+            Mage::throwException($this->_getHelper()->__('Pi IBAN Error'));
+        }
+
         // Bank details
         Mage::getSingleton('core/session')->setDirectDebitFlag(false);
-        if (!empty($params[$this->_code . '_bank_code_number']) && !empty($params[$this->_code . '_account_holder']) && !empty($params[$this->_code . '_account_number'])) {
+        if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban'])) &&
+            !empty($params[$this->_code . '_account_holder']) &&
+            !empty($params[$this->_code . '_bank_name'])) {
             $this->getHelper()->setBankData($params, $quote, $this->_code);
         }
         
-        if(!isset($params[$this->_code . '_agreement'])) {
+        if (!isset($params[$this->_code . '_agreement'])) {
             Mage::throwException($this->_getHelper()->__('Pi AGB Error'));
         }
         return $this;
@@ -147,6 +155,7 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         } else {
             Mage::throwException($this->_getHelper()->__('Pi Date Error'));
         }
+
         return $this;
     }
     

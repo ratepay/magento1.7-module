@@ -462,9 +462,17 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
             $data = Mage::helper('ratepay')->getBankData();
             $bankData = $customer->addChild('bank-account');
             $bankData->addChild('owner', $data['owner']);
-            $bankData->addChild('bank-account-number', $data['accountnumber']);
-            $bankData->addChild('bank-code', $data['bankcode']);
             $bankData->addChild('bank-name', $data['bankname']);
+            if(!empty($data['accountnumber']) && empty($data['iban'])) {
+                $bankData->addChild('bank-account-number', $data['accountnumber']);
+                $bankData->addChild('bank-code', $data['bankcode']);
+            }
+            if(!empty($data['iban'])) {
+                $bankData->addChild('iban', $data['iban']);
+                if(!empty($data['bic'])) {
+                    $bankData->addChild('bic-swift', $data['bic']);
+                }
+            }
         }
         
         $customer->addChild('nationality', $customerInfo['nationality']);

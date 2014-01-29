@@ -119,9 +119,9 @@
                         <input type="checkbox" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                     </td>
                     <td>
-                          <label for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
+                          <span for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
                           <?php echo $this->__('Pi ratepay_terms_block_1');?> <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_rechnung/privacy_policy",$this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
-                            <?php echo $this->__('Pi ratepay_terms_block_2');?></label>
+                            <?php echo $this->__('Pi ratepay_terms_block_2');?></span>
                     </td>
                 </tr>
             </table>

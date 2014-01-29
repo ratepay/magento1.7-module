@@ -36,7 +36,9 @@ class Pi_Util_Encryption_MagentoEncryption extends Pi_Util_Encryption_Encryption
             'userid' => $this->_convertHexToBinary($sqlResult['userid']),
             'owner' => $this->_convertHexToBinary($sqlResult['decrypt_owner']),
             'accountnumber' => $this->_convertHexToBinary($sqlResult['decrypt_accountnumber']),
+            'iban' => $this->_convertHexToBinary($sqlResult['decrypt_iban']),
             'bankcode' => $this->_convertHexToBinary($sqlResult['decrypt_bankcode']),
+            'bic' => $this->_convertHexToBinary($sqlResult['decrypt_bic']),
             'bankname' => $this->_convertHexToBinary($sqlResult['decrypt_bankname'])
         );
 

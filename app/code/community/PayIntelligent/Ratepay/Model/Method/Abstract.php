@@ -275,11 +275,11 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
 
             } else {
-                $this->_hidePaymentMethod();
+                //$this->_hidePaymentMethod();
                 Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
             }
         } else {
-            $this->_hidePaymentMethod();
+            //$this->_hidePaymentMethod();
             Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
         }
         $this->_cleanSession();
@@ -290,6 +290,8 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     {
         Mage::getSingleton('core/session')->setDirectDebitFlag(null);
         Mage::getSingleton('core/session')->setAccountHolder(null);
+        Mage::getSingleton('core/session')->setIban(null);
+        Mage::getSingleton('core/session')->setBic(null);
         Mage::getSingleton('core/session')->setAccountNumber(null);
         Mage::getSingleton('core/session')->setBankCodeNumber(null);
         Mage::getSingleton('core/session')->setBankName(null);

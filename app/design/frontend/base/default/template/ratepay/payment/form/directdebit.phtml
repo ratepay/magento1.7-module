@@ -20,6 +20,7 @@
 ?>
 
 <?php $_code = $this->getMethodCode() ?>
+<?php $bankData = $this->getBankData(); ?>
 <style>
     .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
     .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
@@ -28,56 +29,58 @@
     .sp-methods div.ratepaybirthdate {width: 476px;}
     .sp-methods .form-list .ratepayagreement {width: auto;float: none;}
 </style>
+
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <li>
         <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
         <div id='<?php echo $_code ?>description' style="display:none;">
             <div>
-                <div style="font-weight:bold;">
+                <p style="font-weight:bold;">
                     <span style="color:#FF0000;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
                     <?php echo sprintf($this->__('Pi ratepay_directdebit_info_block_1'), $this->getDueDays()) ?><br/>
-                </div>
-                <br/>
-                <div>
+                </p>
+                <p>
                     <?php echo $this->__('Pi ratepay_directdebit_info_block_2') ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_3') ?><?php echo $this->getMinAmount(); ?> &euro;</span>
                     <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_directdebit_info_block_5') ?>
-                </div>
-                <br/>
-                <div>
-                    <?php echo $this->__('Pi ratepay_directdebit_info_block_6') ?>
-                </div>
+                </p
             </div>
             <hr/>
         </div>
         <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
     </li>
+    <br/>
+    <li style="border: 1px solid #BDBDBD; padding-left: 4px;">
+        <label><?php echo $this->__('Pi Ratepay address') ?></label><br/>
+        <label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label><br/>
+        <label><?php echo $this->__('Pi Mandate') ?>: <?php echo $this->__('Pi Mandate Ref') ?></label>
+    </li>
+    <br/>
     <ul>
         <li>
             <label>
                 <?php echo $this->__('Pi insert bank data'); ?>
-                <?php $bankData = $this->getBankData(); ?>
             </label>
         </li>
         <li>
-            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Pi account holder'); ?></label>
+            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Pi Account holder'); ?></label>
             <div class="input-box">
                 <input value="<?php echo $bankData['owner'] ?>" type="text" name="payment[<?php echo $_code ?>_account_holder]" id="<?php echo $_code ?>_account_holder" class="input-text required-entry"/>
             </div>
         </li>
         <li>
-            <label for="<?php echo $_code ?>_account_number" class="required"><em>*</em><?php echo $this->__('Pi account number'); ?></label>
+            <label for="<?php echo $_code; echo (!empty($bankData['iban'])) ? "_iban" : "_account_number" ?>" class="required"><em>*</em><?php echo $this->__('Pi IBAN') . " / " . $this->__('Pi Account number'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code ?>_account_number]" id="<?php echo $_code ?>_account_number" class="input-text required-entry"/>
+                <input value="<?php echo (!empty($bankData['iban'])) ? $bankData['iban'] : $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code; echo (!empty($bankData['iban'])) ? "_iban" : "_account_number" ?>]" id="<?php echo $_code; echo (!empty($bankData['iban'])) ? "_iban" : "_account_number" ?>" class="input-text required-entry" onkeyup="switchAccountType(this)" />
             </div>
         </li>
-        <li>
-            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('Pi bank code number'); ?></label>
+        <li id="li_<?php echo $_code ?>_bank_code_number" style="display: <?php echo (!empty($bankData['iban'])) ? "none" : "inline-block" ?>;">
+            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('Pi Bank code number'); ?></label>
             <div class="input-box">
                 <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="input-text required-entry"/>
             </div>
         </li>
         <li>
-            <label for="<?php echo $_code ?>_bank_name" class="required"><em>*</em><?php echo $this->__('Pi bank name'); ?></label>
+            <label for="<?php echo $_code ?>_bank_name" class="required"><em>*</em><?php echo $this->__('Pi Bank name'); ?></label>
             <div class="input-box">
                 <input value="<?php echo $bankData['bankname'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_name]" id="<?php echo $_code ?>_bank_name" class="input-text required-entry"/>
             </div>
@@ -146,9 +149,23 @@
                         <input type="checkbox" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                     </td>
                     <td>
-                          <label for="<?php echo $_code ?>_agreement" class="required ratepayagreement">
-                          <?php echo $this->__('Pi ratepay_terms_block_1');?> <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_directdebit/privacy_policy",$this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
-                            <?php echo $this->__('Pi ratepay_terms_block_2');?></label>
+                        <span class="required ratepayagreement">
+                            <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_1');?>
+                            <?php echo $this->__('Pi Ratepay address');?>
+                            <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_2');?>
+                            <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_directdebit/privacy_policy",$this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
+                            <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_3');?>
+                        </span>
+                    </td>
+                </tr><tr>
+                    <td></td>
+                    <td>
+                        <br/>
+                        <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_sepa_notice_block_1');?></span>
+                        <br/>
+                        <?php echo $this->__('Pi ratepay_directdebit_sepa_notice_block_2');?>
+                        <br/>
+                        <?php echo $this->__('Pi ratepay_directdebit_sepa_notice_block_3');?>
                     </td>
                 </tr>
             </table>
