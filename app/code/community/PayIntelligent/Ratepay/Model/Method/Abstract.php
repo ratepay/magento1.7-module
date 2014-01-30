@@ -275,13 +275,18 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
 
             } else {
-                //$this->_hidePaymentMethod();
+                if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
+                    $this->_hidePaymentMethod();
+                }
                 Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
             }
         } else {
-            //$this->_hidePaymentMethod();
+            if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
+                $this->_hidePaymentMethod();
+            }
             Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
         }
+
         $this->_cleanSession();
         return $this;
     }

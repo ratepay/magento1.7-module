@@ -105,9 +105,13 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         }
 
         // Only german national account/iban
-        if(!empty($params[$this->_code . '_iban']) &&
-           (strtoupper($params[$this->_code . '_iban'][0].$params[$this->_code . '_iban'][1]) != "DE")) {
-            Mage::throwException($this->_getHelper()->__('Pi IBAN Error'));
+        if(!empty($params[$this->_code . '_iban'])) {
+            $iban = $this->_clearIban($params[$this->_code . '_iban']);
+            if($iban[0].$iban[1] != "DE") {
+                Mage::throwException($this->_getHelper()->__('Pi IBAN country Error'));
+            } elseif (strlen($iban)<20 || strlen($iban)>22) {
+                Mage::throwException($this->_getHelper()->__('Pi IBAN invalid Error'));
+            }
         }
 
         // Bank details
@@ -157,6 +161,15 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         }
 
         return $this;
+    }
+
+    public function _clearIban($iban)
+    {
+        $iban = ltrim(strtoupper($iban));
+        $iban = preg_replace('/^IBAN/','',$iban);
+        $iban = preg_replace('/[^a-zA-Z0-9]/','',$iban);
+        $iban = strtoupper($iban);
+        return $iban;
     }
     
 }

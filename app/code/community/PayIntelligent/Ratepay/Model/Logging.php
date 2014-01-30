@@ -45,12 +45,14 @@ class PayIntelligent_Ratepay_Model_Logging extends Mage_Core_Model_Abstract
         $reasonText = '';
         
         if (isset($request->content->customer->{'bank-account'})) {
-            $request->content->customer->{'bank-account'}->owner = 'XXX';
-            $request->content->customer->{'bank-account'}->{'bank-account-number'} = 'XXX';
-            $request->content->customer->{'bank-account'}->{'bank-code'} = 'XXX';
-            $request->content->customer->{'bank-account'}->{'bank-name'} = 'XXX';
+            $request->content->customer->{'bank-account'}->owner = '(hidden)';
+            $request->content->customer->{'bank-account'}->{'bank-account-number'} = '(hidden)';
+            $request->content->customer->{'bank-account'}->{'bank-code'} = '(hidden)';
+            $request->content->customer->{'bank-account'}->{'iban'} = '(hidden)';
+            $request->content->customer->{'bank-account'}->{'bic'} = '(hidden)';
+            $request->content->customer->{'bank-account'}->{'bank-name'} = '(hidden)';
         }
-        
+
         if ($response != null && isset($response) && $response->asXML() != '') {
             $result = (string) $response->head->processing->result;
             $resultCode = (string) $response->head->processing->result->attributes()->code;
