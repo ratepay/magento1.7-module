@@ -105,12 +105,23 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         }
 
         // Only german national account/iban
-        if(!empty($params[$this->_code . '_iban'])) {
-            $iban = $this->_clearIban($params[$this->_code . '_iban']);
-            if($iban[0].$iban[1] != "DE") {
-                Mage::throwException($this->_getHelper()->__('Pi IBAN country Error'));
-            } elseif (strlen($iban)<20 || strlen($iban)>22) {
-                Mage::throwException($this->_getHelper()->__('Pi IBAN invalid Error'));
+        if (!empty($params[$this->_code . '_account_number'])) {
+            $ibanAccno = $params[$this->_code . '_account_number'];
+            if (!is_numeric($ibanAccno)) {
+                $ibanAccno = $this->_clearIban($ibanAccno);
+                if($ibanAccno[0].$ibanAccno[1] != "DE") {
+                    Mage::throwException($this->_getHelper()->__('Pi IBAN country Error'));
+                } elseif (strlen($ibanAccno)<20 || strlen($ibanAccno)>22) {
+                    Mage::throwException($this->_getHelper()->__('Pi IBAN invalid Error'));
+                }
+                unset($params[$this->_code . '_account_number']);
+                unset($params[$this->_code . '_bank_code_number']);
+                unset($params[$this->_code . '_bic']);
+                $params[$this->_code . '_iban'] = $ibanAccno;
+
+            } elseif (!is_numeric($params[$this->_code . '_bank_code_number']) ||
+                      strlen($params[$this->_code . '_bank_code_number']) <> 8) {
+                Mage::throwException($this->_getHelper()->__('Pi insert bank code'));
             }
         }
 
