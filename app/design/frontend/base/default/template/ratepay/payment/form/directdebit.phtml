@@ -49,11 +49,11 @@
         <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
     </li>
     <br/>
-    <li style="border: 1px solid #BDBDBD; padding-left: 4px;">
-        <label><?php echo $this->__('Pi Ratepay address') ?></label><br/>
-        <label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label><br/>
-        <label><?php echo $this->__('Pi Mandate') ?>: <?php echo $this->__('Pi Mandate Ref') ?></label>
-    </li>
+    <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+        <li><label><?php echo $this->__('Pi Ratepay address') ?></label></li>
+        <li><label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label></li>
+        <li><label><?php echo $this->__('Pi Mandate') ?>: <?php echo $this->__('Pi Mandate Ref') ?></label></li>
+    </ul>
     <br/>
     <ul>
         <li>
