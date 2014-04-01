@@ -1,8 +1,16 @@
 ***********************************************************
-**********| Version 2.2.2 - Released 2014-02-13 |**********
+**********| Version 2.3.0 - Released 2014-04-01 |**********
 ***********************************************************
 
-* Minor changes in the checkout layout
+* inplementation of Device Ident within main footer
+* added separat upgrade file for each release version - solves troubles in case of modul updates
+* added Whitelabel mode
+
+***********************************************************
+**********| Version 2.2.3 - Released 2014-02-13 |**********
+***********************************************************
+
+* minor changes in the checkout layout
 
 ***********************************************************
 **********| Version 2.2.2 - Released 2014-02-06 |**********
@@ -14,15 +22,15 @@
 **********| Version 2.2.1 - Released 2014-01-30 |**********
 ***********************************************************
 
-* Improved IBAN validation
-* Changes in sandbox mode - no decline of rp payment methods after negative response while sandbox mode
+* improved IBAN validation
+* changed sandbox mode - no decline of rp payment methods after negative response while sandbox mode
 
 ***********************************************************
 **********| Version 2.2.0 - Released 2014-01-29 |**********
 ***********************************************************
 
-* Added SEPA functionality - includes IBAN and BIC fields and new text blocks
-* Deactivated saving of user bank account data
+* added SEPA functionality - includes IBAN and BIC fields and new text blocks
+* deactivated saving of user bank account data
 
 ***********************************************************
 **********| Version 2.1.1 - Released 2014-01-07 |**********

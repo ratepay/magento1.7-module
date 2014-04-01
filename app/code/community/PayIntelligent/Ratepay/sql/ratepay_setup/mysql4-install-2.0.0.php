@@ -27,9 +27,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('pi_ratepay_debitdetails')}` (
   `userid` varchar(256) NOT NULL,
   `owner` blob NOT NULL,
   `accountnumber` blob NOT NULL,
-  `iban` blob NOT NULL,
   `bankcode` blob NOT NULL,
-  `bic` blob NOT NULL,
   `bankname` blob NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;

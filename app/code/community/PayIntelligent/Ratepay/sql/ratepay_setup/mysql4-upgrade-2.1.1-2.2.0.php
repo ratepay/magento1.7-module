@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -17,10 +18,12 @@
  * @copyright Copyright (c) 2011 PayIntelligent GmbH (http://www.payintelligent.de)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+$installer = $this;
+$installer->startSetup();
 
-$methodCode = $this->getMethod()->getCode();
-$storeId = Mage::app()->getStore()->getStoreId();
-$whitelabel = (bool) Mage::getStoreConfig("payment/" . $methodCode . "/whitelabel", $storeId);
+$installer->run("
+ALTER TABLE `{$this->getTable('pi_ratepay_debitdetails')}` ADD `iban` BLOB NOT NULL AFTER `accountnumber`;
+ALTER TABLE `{$this->getTable('pi_ratepay_debitdetails')}` ADD `bic` BLOB NOT NULL AFTER `bankcode`;
+");
 
-$info = $this->htmlEscape($this->getMethod()->getTitle());
-echo ($whitelabel) ? $info : "<img src=" . $this->getSkinUrl('images/ratepay/' . $methodCode . '.png', array('_secure' => true)) . " alt=" . $info . " />";
+$installer->endSetup();

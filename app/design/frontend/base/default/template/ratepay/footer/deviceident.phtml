@@ -1,0 +1,40 @@
+<?php
+
+$deviceIdentActive = false;
+$storeId = Mage::app()->getStore()->getStoreId();
+$rpPaymentMethods = array("ratepay_directdebit", "ratepay_rate", "ratepay_rechnung");
+
+// needs at least one valid device ident config within an payment method
+foreach($rpPaymentMethods as $method) {
+    if ((bool) Mage::getStoreConfig("payment/" . $method . "/device_ident", $storeId)) {
+        $deviceIdentActive = true;
+    }
+    if (!$deviceIdentId && Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId)) {
+        $deviceIdentId = Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId);
+    }
+}
+
+if (!Mage::getSingleton('ratepay/session')->getDeviceIdentToken() &&
+    $deviceIdentActive &&
+    $deviceIdentId &&
+    Mage::helper('checkout/cart')->getItemsCount() > 0) {
+
+    $timestamp = microtime();
+    $customerId = Mage::getSingleton('customer/session')->getId();
+    $token = md5($customerId . "_" . $timestamp);
+
+    Mage::getSingleton('ratepay/session')->setDeviceIdentToken($token);
+
+    ?>
+    <script language="JavaScript">
+        var di = {t:'<?php echo $token ?>',v:'<?php echo $deviceIdentId ?>',l:'Checkout'};
+    </script>
+    <script type="text/javascript" src="//d.ratepay.com/<?php echo $deviceIdentId ?>/di.js"></script>
+    <noscript><link rel="stylesheet" type="text/css" href="//d.ratepay.com/di.css?t=<?php echo $token ?>&v=<?php echo $deviceIdentId ?>&l=Checkout"></noscript>
+    <object type="application/x-shockwave-flash" data="//d.ratepay.com/<?php echo $deviceIdentId ?>/c.swf" width="0" height="0">
+        <param name="movie" value="//d.ratepay.com/<?php echo $deviceIdentId ?>/c.swf" />
+        <param name="flashvars" value="t=<?php echo $token ?>&v=<?php echo $deviceIdentId ?>"/>
+    </object>
+    <?php
+}
+?>

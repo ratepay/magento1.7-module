@@ -33,5 +33,9 @@
                 <script>ratepay/elv.js</script>
             </action>
         </reference>
+        <reference name="footer">
+            <action method="setCacheLifetime"><s>null</s></action>
+            <block type="core/template" name="ratepay_deviceident" template="ratepay/footer/deviceident.phtml"/>
+        </reference>
     </default>
 </layout>
