@@ -80,6 +80,17 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
                     return false;
                 }
                 break;
+            case 'PAYMENT_QUERY':
+                if($statusCode == "OK" && $resultCode == "402") {
+                    $result = array();
+                    $result['products'] = (array) $this->response->content->products;
+                    $this->error = '';
+                    return $result;
+                } else {
+                    $this->error = 'FAIL';
+                    return false;
+                }
+                break;
             case 'PAYMENT_REQUEST':
                 if($statusCode == "OK" && $resultCode == "402") {
                     $result = array();
@@ -197,6 +208,27 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
         return $this->validateResponse('PAYMENT_INIT');
+    }
+
+    /**
+     * Calls the PAYMENT_QUERY
+     *
+     * @param array $headInfo
+     * @param string $subType
+     * @param array $customerInfo
+     * @param array $itemInfo
+     * @param array $loggingInfo
+     * @return boolean|array
+     */
+    public function callPaymentQuery($headInfo, $subType, $customerInfo, $itemInfo, $loggingInfo)
+    {
+        $this->constructXml();
+        $this->setRequestHead('PAYMENT_QUERY',$headInfo);
+        $this->setRequestContent($customerInfo,$itemInfo, false,'PAYMENT_QUERY');
+        $loggingInfo['requestType'] = 'PAYMENT_QUERY';
+        $loggingInfo['requestSubType'] = $subType;
+        $this->sendXmlRequest($loggingInfo);
+        return $this->validateResponse('PAYMENT_QUERY');
     }
 
     /**
@@ -392,7 +424,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $storeId = Mage::app()->getStore()->getStoreId();
         $rpPaymentMethods = array("ratepay_directdebit", "ratepay_rate", "ratepay_rechnung");
         foreach($rpPaymentMethods as $method) {
-            if (!$DeviceIdentSite && Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId)) {
+            if (empty($DeviceIdentSite) && Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId)) {
                 $DeviceIdentSite = Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId);
             }
         }
@@ -412,7 +444,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
      * @param array $paymentInfo
      * @param string $requestInfo
      */
-    private function setRequestContent($customerInfo, $itemInfo, $paymentInfo, $requestInfo = '')
+    private function setRequestContent($customerInfo, $itemInfo, $paymentInfo = '', $requestInfo = '')
     {
         $content = $this->request->addChild('content');
         if($requestInfo != 'CONFIRMATION_DELIVER') {
@@ -428,7 +460,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
 
         $this->setRatepayContentBasket($content, $itemInfo);
         
-        if($requestInfo != 'CONFIRMATION_DELIVER') {
+        if($requestInfo != 'CONFIRMATION_DELIVER' && $requestInfo != 'PAYMENT_QUERY') {
             $this->setRatepayContentPayment($content,$paymentInfo);
         }
     }
@@ -497,7 +529,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $shippingAddress->addChild('zip-code', $customerInfo['shipping']['zipCode']);
         $shippingAddress->addCDataChild('city', $customerInfo['shipping']['city']);
         $shippingAddress->addChild('country-code', $customerInfo['shipping']['countryId']);
-        if($customerInfo['shipping']['company']) {
+        if(!empty($customerInfo['shipping']['company'])) {
             $shippingAddress->addCDataChild('company', $customerInfo['shipping']['company']);
         }
         

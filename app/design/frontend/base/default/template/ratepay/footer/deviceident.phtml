@@ -9,7 +9,7 @@ foreach($rpPaymentMethods as $method) {
     if ((bool) Mage::getStoreConfig("payment/" . $method . "/device_ident", $storeId)) {
         $deviceIdentActive = true;
     }
-    if (!$deviceIdentId && Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId)) {
+    if (empty($deviceIdentId) && Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId)) {
         $deviceIdentId = Mage::getStoreConfig("payment/" . $method . "/device_ident_id", $storeId);
     }
 }

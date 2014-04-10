@@ -194,6 +194,18 @@
                 <max_order_total>1500</max_order_total>
             </ratepay_directdebit>
 
+            <ratepay_paymentquery>
+                <active>0</active>
+                <model>ratepay/method_paymentquery</model>
+                <payment_action>authorize</payment_action>
+                <title>RatePAY Integrierte Bezahlsteuerung (IBS)</title>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcountry>DE</specificcountry>
+                <specificcurrency>EUR</specificcurrency>
+            </ratepay_paymentquery>
+
             <sales_pdf>
                 <ratepay_rate>
                     <invoice_field>Bei Fragen zur Rechnung wenden Sie sich bitte an:{{pdf_row_separator}}Tel 012/34567 ● Fax 012/345678 ● testshop@ratepay.de</invoice_field>
@@ -232,6 +244,16 @@
                     </sendRatepayConfirmCall>
                 </observers>
             </checkout_onepage_controller_success_action>
+
+            <payment_form_block_to_html_before>
+                <observers>
+                    <payintelligent_ratepay_model_observer>
+                        <type>model</type>
+                        <class>PayIntelligent_Ratepay_Model_Observer</class>
+                        <method>paymentQuery</method>
+                    </payintelligent_ratepay_model_observer>
+                </observers>
+            </payment_form_block_to_html_before>
         </events>
 
         <translate>

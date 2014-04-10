@@ -265,12 +265,10 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             $payment->setAdditionalInformation('transactionId', $result['transactionId']);
             $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
             $result = $client->callPaymentRequest($helper->getRequestHead($this->getQuoteOrOrder()),
-                                                    $helper->getRequestCustomer($this->getQuoteOrOrder()),
-                                                    $helper->getRequestBasket($this->getQuoteOrOrder()),
-                                                    $helper->getRequestPayment($this->getQuoteOrOrder()),
-                                                        $helper->getLoggingInfo($this->getQuoteOrOrder()
-                                                    )
-                        );
+                                                  $helper->getRequestCustomer($this->getQuoteOrOrder()),
+                                                  $helper->getRequestBasket($this->getQuoteOrOrder()),
+                                                  $helper->getRequestPayment($this->getQuoteOrOrder()),
+                                                  $helper->getLoggingInfo($this->getQuoteOrOrder()));
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
 

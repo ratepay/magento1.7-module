@@ -22,7 +22,62 @@ class PayIntelligent_Ratepay_Model_Observer
 {
 
     private $_errorMessage;
-    
+
+    /**
+     * Starts the PAYMENT QUERY if activated and saves the allowed payment methods in the RatePAY session
+     *
+     * @param Varien_Event_Observer $observer
+     */
+
+    public function paymentQuery(Varien_Event_Observer $observer)
+    {
+        $paymentMethod = 'ratepay_paymentquery';
+
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $payment = $quote->getPayment();
+        $payment->setMethod($paymentMethod);
+        $payment->save();
+
+        $helper_query = Mage::helper('ratepay/query');
+
+        if ($helper_query->isPaymentQueryActive($quote)) {
+
+            $querySubType = $helper_query->getQuerySubType($quote);
+
+            $client = Mage::getSingleton('ratepay/request');
+            $helper_mapping = Mage::helper('ratepay/mapping');
+            $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote), $helper_mapping->getLoggingInfo($quote));
+
+            if (is_array($result) || $result == true) {
+                //$payment = $quote->getPayment();
+                $payment->setAdditionalInformation('transactionId', $result['transactionId']);
+                $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
+                $payment->save();
+                $result = $client->callPaymentQuery($helper_mapping->getRequestHead($quote, $querySubType),
+                                                    $querySubType,
+                                                    $helper_mapping->getRequestCustomer($quote),
+                                                    $helper_mapping->getRequestBasket($quote),
+                                                    $helper_mapping->getLoggingInfo($quote));
+
+                if ((is_array($result) || $result == true)) {
+                    // SESSION AllowedProducts
+                    $allowedProducts = $helper_query->getProducts($result['products']['product']);
+                    $a = 2;
+                }
+            } else {
+                if (!Mage::getStoreConfig('payment/' . $paymentMethod . '/sandbox', $quote->getStoreId())) {
+                    $this->_hidePaymentMethod();
+                }
+                // SESSION NoRatePAY
+            }
+
+        } else {
+            // SESSION NoQuery
+        }
+        $a = 2;
+
+    }
+
     /**
      * Add payment fee if payment fee is set for RatePAY and removes it again if another payment method was choosen
      *
