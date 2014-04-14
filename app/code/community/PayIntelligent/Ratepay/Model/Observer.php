@@ -40,8 +40,7 @@ class PayIntelligent_Ratepay_Model_Observer
 
         $helper_query = Mage::helper('ratepay/query');
 
-        if ($helper_query->isPaymentQueryActive($quote)) {
-
+        if ($helper_query->isPaymentQueryActive($quote) && $helper_query->isCustomerComplete($quote)) {
             $querySubType = $helper_query->getQuerySubType($quote);
 
             $client = Mage::getSingleton('ratepay/request');
@@ -49,7 +48,10 @@ class PayIntelligent_Ratepay_Model_Observer
             $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote), $helper_mapping->getLoggingInfo($quote));
 
             if (is_array($result) || $result == true) {
-                //$payment = $quote->getPayment();
+                $transactionId = $result['transactionId'];
+                $transactionShortId = $result['transactionShortId'];
+
+                $payment = $quote->getPayment();
                 $payment->setAdditionalInformation('transactionId', $result['transactionId']);
                 $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
                 $payment->save();
@@ -59,20 +61,26 @@ class PayIntelligent_Ratepay_Model_Observer
                                                     $helper_mapping->getRequestBasket($quote),
                                                     $helper_mapping->getLoggingInfo($quote));
 
-                if ((is_array($result) || $result == true)) {
-                    // SESSION AllowedProducts
-                    $allowedProducts = $helper_query->getProducts($result['products']['product']);
-                    $a = 2;
-                }
+                //if ((is_array($result) || $result == true)) {
+                    $allowedProducts = array("INVOICE", "ELV", "PREPAYMENT"); // $helper_query->getProducts($result['products']['product']);
+
+                    Mage::getSingleton('ratepay/session')->setQueryActive(true);
+                    Mage::getSingleton('ratepay/session')->setTransactionId($transactionId);
+                    Mage::getSingleton('ratepay/session')->setTransactionShortId($transactionShortId);
+                    Mage::getSingleton('ratepay/session')->setAllowedProducts($allowedProducts);
+                //}
             } else {
                 if (!Mage::getStoreConfig('payment/' . $paymentMethod . '/sandbox', $quote->getStoreId())) {
                     $this->_hidePaymentMethod();
                 }
-                // SESSION NoRatePAY
             }
 
+        } elseif (!$helper_query->isCustomerComplete($quote)) {
+            Mage::getSingleton('ratepay/session')->setQueryActive(true);
+            Mage::getSingleton('ratepay/session')->setAllowedProducts(false);
+
         } else {
-            // SESSION NoQuery
+            Mage::getSingleton('ratepay/session')->setQueryActive(false);
         }
         $a = 2;
 

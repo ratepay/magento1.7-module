@@ -38,16 +38,49 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
      * @param array $result_products
      * @return array/boolean
      */
+    public function isCustomerComplete($quote)
+    {
+        if (!$quote->getCustomer()->getDob()) {
+            return false;
+        }
+
+        if (!$quote->getBillingAddress()->getTelephone()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Extracts allowed products from the response xml (associative) and returns an simple array
+     *
+     * @param array $result_products
+     * @return array/boolean
+     */
     public function getQuerySubType($quote)
     {
-        // Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2c', $quote->getStoreId());
-        // Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2b', $quote->getStoreId());
-        // Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2c', $quote->getStoreId());
-        // Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2b', $quote->getStoreId());
+        $subType = false;
 
-        // $quote->getCustomerXYZ()
+        $b2c = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2c', $quote->getStoreId());
+        $b2b = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2b', $quote->getStoreId());
+        $b2c_delivery = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2c', $quote->getStoreId());
+        $b2b_delivery = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2b', $quote->getStoreId());
 
-        return 'full';
+        if ($quote->getBillingAddress()->getCompany()) {
+            if ($this->_differentAddresses($quote->getBillingAddress(), $quote->getShippingAddress())) {
+                $subType = $b2b_delivery;
+            } else {
+                $subType = $b2b;
+            }
+        } else {
+            if ($this->_differentAddresses($quote->getBillingAddress(), $quote->getShippingAddress())) {
+                $subType = $b2c_delivery;
+            } else {
+                $subType = $b2c;
+            }
+        }
+
+        return $subType;
     }
 
     /**
@@ -70,6 +103,32 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
         }
 
         return $products;
+    }
+
+    /**
+     * Extracts allowed products from the response xml (associative) and returns an simple array
+     *
+     * @param array $result_products
+     * @return array/boolean
+     */
+    private function _differentAddresses($BillingAddress, $ShippingAddress) {
+        if ($BillingAddress->getFirstname() != $ShippingAddress->getFirstname()) {
+            return true;
+        }
+        if ($BillingAddress->getLastname() != $ShippingAddress->getLastname()) {
+            return true;
+        }
+        if ($BillingAddress->getStreetFull() != $ShippingAddress->getStreetFull()) {
+            return true;
+        }
+        if ($BillingAddress->getPostcode() != $ShippingAddress->getPostcode()) {
+            return true;
+        }
+        if ($BillingAddress->getCity() != $ShippingAddress->getCity()) {
+            return true;
+        }
+
+        return false;
     }
 
 }
