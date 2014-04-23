@@ -245,7 +245,7 @@
                 </observers>
             </checkout_onepage_controller_success_action>
 
-            <payment_form_block_to_html_before>
+            <checkout_controller_onepage_save_shipping_method>
                 <observers>
                     <payintelligent_ratepay_model_observer>
                         <type>model</type>
@@ -253,7 +253,7 @@
                         <method>paymentQuery</method>
                     </payintelligent_ratepay_model_observer>
                 </observers>
-            </payment_form_block_to_html_before>
+            </checkout_controller_onepage_save_shipping_method>
         </events>
 
         <translate>

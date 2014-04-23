@@ -29,7 +29,7 @@ abstract class PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Abstract extends
      * @param string $putOrderId
      */
     protected function insertOrder(&$page, $obj, $putOrderId = true) {
-        parent::insertOrder(&$page, $obj, $putOrderId = true);
+        parent::insertOrder($page, $obj, $putOrderId = true);
         if ($obj instanceof Mage_Sales_Model_Order) {
             $shipment = null;
             $order = $obj;
@@ -43,7 +43,7 @@ abstract class PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Abstract extends
             $page->setFillColor(new Zend_Pdf_Color_Rgb(255, 255, 255));
             $page->drawText(Mage::helper('sales')->__('RatePAY - Order: ') . $descriptor, 470, 781, 'UTF-8');
         } else {
-            parent::insertOrder(&$page, $obj, $putOrderId = true);
+            parent::insertOrder($page, $obj, $putOrderId = true);
         }
     }
 

@@ -168,6 +168,12 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
+        $queryActive = Mage::getSingleton('ratepay/session')->getQueryActive();
+        $allowedProducts = Mage::getSingleton('ratepay/session')->getAllowedProducts();
+        if ($queryActive && (!$allowedProducts || !in_array($this->_code, $allowedProducts))) {
+            return false;
+        }
+
         if (!$this->getConfigData('active', $storeId)) {
             return false;
         }
@@ -188,7 +194,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
         $minAmount = $this->getConfigData('min_order_total', $storeId);
         $maxAmount = $this->getConfigData('max_order_total', $storeId);
 
-        if ($totalAmount <= $minAmount || $totalAmount >= $maxAmount) {
+        if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
         }
 
@@ -259,8 +265,14 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     public function authorize(Varien_Object $payment, $amount)
     {
         $client = Mage::getSingleton('ratepay/request');
+
         $helper = Mage::helper('ratepay/mapping');
-        $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+        if (Mage::getSingleton('ratepay/session')->getQueryActive()) {
+            $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
+            $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
+        } else {
+            $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+        }
         if (is_array($result) || $result == true) {
             $payment->setAdditionalInformation('transactionId', $result['transactionId']);
             $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
@@ -276,12 +288,14 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                 if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
                     $this->_hidePaymentMethod();
                 }
+                $this->_cleanSession();
                 Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
             }
         } else {
             if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
                 $this->_hidePaymentMethod();
             }
+            $this->_cleanSession();
             Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
         }
 
@@ -298,6 +312,12 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('core/session')->setAccountNumber(null);
         Mage::getSingleton('core/session')->setBankCodeNumber(null);
         Mage::getSingleton('core/session')->setBankName(null);
+
+        Mage::getSingleton('ratepay/session')->setQueryActive(false);
+        Mage::getSingleton('ratepay/session')->setTransactionId(null);
+        Mage::getSingleton('ratepay/session')->setTransactionShortId(null);
+        Mage::getSingleton('ratepay/session')->setAllowedProducts(false);
+        Mage::getSingleton('ratepay/session')->setPreviousQuote(null);
     }
 
     /**

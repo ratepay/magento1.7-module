@@ -100,7 +100,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isCompanyNeeded()
     {
-        return (bool)($this->getQuote()->getCustomerTaxvat() && !$this->getQuote()->getBillingAddress()->getCompany());
+        return (bool) ($this->getQuote()->getCustomerTaxvat() && !$this->getQuote()->getBillingAddress()->getCompany());
     }
 
     /**
