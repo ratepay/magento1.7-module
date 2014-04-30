@@ -489,31 +489,34 @@
     }
 </style>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <li>
-        <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
-        <div id='<?php echo $_code ?>description' style="display:none;">
-            <div>
-                <div style="font-weight:bold;">
-                    <?php echo $this->__('Pi ratepay_rate_info_block_1') ?><br/>
-                </div>
-                <br/>
+    <?php if (!$this->isWhitelabel()): ?>
+        <li>
+            <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
+            <div id='<?php echo $_code ?>description' style="display:none;">
                 <div>
-                    <?php echo $this->__('Pi ratepay_rate_info_block_2'); ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_rate_info_block_3'); ?>&nbsp;<?php echo $this->getMinAmount(); ?> &euro;</span>
-                    <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_rate_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_rate_info_block_5') ?>
+                    <div style="font-weight:bold;">
+                        <?php echo $this->__('Pi ratepay_rate_info_block_1') ?><br/>
+                    </div>
+                    <br/>
+                    <div>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_2'); ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_rate_info_block_3'); ?>&nbsp;<?php echo $this->getMinAmount(); ?> &euro;</span>
+                        <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_rate_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_rate_info_block_5') ?>
+                    </div>
+                    <br/>
+                    <div>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_6'); ?>
+                    </div>
+                    <br/>
+                    <div>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_7') ?>
+                    </div>
                 </div>
-                <br/>
-                <div>
-                    <?php echo $this->__('Pi ratepay_rate_info_block_6'); ?>
-                </div>
-                <br/>
-                <div>
-                    <?php echo $this->__('Pi ratepay_rate_info_block_7') ?>
-                </div>
+                <hr/>
             </div>
-            <hr/>
-        </div>
-        <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
-    </li>
+            <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
+        </li>
+    <?php endif; ?>
+
     <?php if ($this->isElvEnabled()): ?>
     <li style="width: 100px;">
         <input style="float: left;" type="radio" name="payment[<?php echo $_code ?>_type]" id="<?php echo $_code ?>_bank_transfer" value="bank_transfer" class="radio" onclick="hideElvFields('ratepay_rate_direct_debit_cont')" checked="checked"/>
@@ -562,14 +565,6 @@
         </li>
     <?php endif; ?>
 
-    <?php if ($this->isCompanyNeeded()): ?>
-        <li>
-            <label for="<?php echo $_code ?>_company" class="required"><em>*</em><?php echo $this->__('Pi Company'); ?></label>
-            <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_company]" id="<?php echo $_code ?>_company" name="payment[<?php echo $_code ?>_company]" class="input-text required-entry"/>
-            </div>
-        </li>
-    <?php endif; ?>
     <?php if ($this->isTaxvatNeeded()): ?>
         <li>
             <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>

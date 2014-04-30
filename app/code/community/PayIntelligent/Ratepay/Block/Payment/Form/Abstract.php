@@ -35,7 +35,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getMinAmount()
     {
-        return $this->getMethod()->getConfigData("min_order_total",$this->getQuote()->getStoreId());
+        return $this->getMethod()->getConfigData("min_order_total", $this->getQuote()->getStoreId());
     }
 
     /**
@@ -45,12 +45,12 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getMaxAmount()
     {
-        return $this->getMethod()->getConfigData("max_order_total",$this->getQuote()->getStoreId());
+        return $this->getMethod()->getConfigData("max_order_total", $this->getQuote()->getStoreId());
     }
     
     public function getDueDays()
     {
-        return $this->getMethod()->getConfigData("due_days",$this->getQuote()->getStoreId());
+        return $this->getMethod()->getConfigData("due_days", $this->getQuote()->getStoreId());
     }
 
     /**
@@ -60,7 +60,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isAdditionalFieldsNeeded()
     {
-        return !($this->isPhoneSet() && $this->isDobSet() && !$this->isTaxvatNeeded() && !$this->isCompanyNeeded());
+        return !($this->isPhoneSet() && $this->isDobSet() && !$this->isTaxvatNeeded());
     }
 
     /**
@@ -70,7 +70,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isPhoneSet()
     {
-        return (bool)$this->getQuote()->getBillingAddress()->getTelephone();
+        return (bool) $this->getQuote()->getBillingAddress()->getTelephone();
     }
 
     /**
@@ -80,7 +80,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isDobSet()
     {
-        return (bool)$this->getQuote()->getCustomerDob();
+        return (bool) $this->getQuote()->getCustomerDob();
     }
 
     /**
@@ -101,6 +101,16 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     public function isCompanyNeeded()
     {
         return (bool) ($this->getQuote()->getCustomerTaxvat() && !$this->getQuote()->getBillingAddress()->getCompany());
+    }
+
+    /**
+     * Checks if method is set on Whitelabel mode
+     *
+     * @return boolean
+     */
+    public function isWhitelabel()
+    {
+        return true; //$this->getMethod()->getConfigData("whitelabel", $this->getQuote()->getStoreId());
     }
 
     /**

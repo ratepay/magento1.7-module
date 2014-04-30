@@ -106,7 +106,7 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
             return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

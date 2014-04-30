@@ -102,9 +102,6 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
             }
         }
 
-        if(!isset($params[$this->_code . '_agreement'])) {
-            Mage::throwException($this->_getHelper()->__('Pi AGB Error'));
-        }
         return $this;
     }
 

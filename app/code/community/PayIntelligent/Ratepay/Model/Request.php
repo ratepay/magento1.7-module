@@ -408,19 +408,6 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
      */
     private function setRatepayHeadCustomerDevice($head)
     {
-        $customerDevice = $head->addChild('customer-device');
-
-        $httpHeaderList = $customerDevice->addChild('http-header-list');
-
-        $httpHeaderListAttr = $httpHeaderList->addChild('header', 'text/xml');
-        $httpHeaderListAttr->addAttribute('name', 'Accept');
-
-        $httpHeaderListAttr = $httpHeaderList->addChild('header', 'utf-8');
-        $httpHeaderListAttr->addAttribute('name', 'Accept-Charset');
-
-        $httpHeaderListAttr = $httpHeaderList->addChild('header', 'x86');
-        $httpHeaderListAttr->addAttribute('name', 'UA-CPU');
-
         $storeId = Mage::app()->getStore()->getStoreId();
         $rpPaymentMethods = array("ratepay_directdebit", "ratepay_rate", "ratepay_rechnung");
         foreach($rpPaymentMethods as $method) {
@@ -431,6 +418,8 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $DeviceIdentToken = Mage::getSingleton('ratepay/session')->getDeviceIdentToken();
 
         if (!empty($DeviceIdentToken) && $DeviceIdentSite) {
+            $customerDevice = $head->addChild('customer-device');
+
             $customerDevice->addChild('device-site', $DeviceIdentSite);
             $customerDevice->addChild('device-token', $DeviceIdentToken);
         }
@@ -498,7 +487,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $customer->addChild('date-of-birth', $customerInfo['dob']);
         $customer->addChild('ip-address', $customerInfo['ip']);
         if($customerInfo['company'] != '') {
-            $customer->addCDataChild('company', $customerInfo['company']);
+            $customer->addCDataChild('company-name', $customerInfo['company']);
             $customer->addChild('vat-id', $customerInfo['vatId']);
         }
 

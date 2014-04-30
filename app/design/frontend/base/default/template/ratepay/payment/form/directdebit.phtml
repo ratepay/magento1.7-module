@@ -31,24 +31,27 @@
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <li>
-        <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
-        <div id='<?php echo $_code ?>description' style="display:none;">
-            <div>
-                <p style="font-weight:bold;">
-                    <span style="color:#FF0000;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
-                    <?php echo sprintf($this->__('Pi ratepay_directdebit_info_block_1'), $this->getDueDays()) ?><br/>
-                </p>
-                <p>
-                    <?php echo $this->__('Pi ratepay_directdebit_info_block_2') ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_3') ?><?php echo $this->getMinAmount(); ?> &euro;</span>
-                    <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_directdebit_info_block_5') ?>
-                </p
+    <?php if (!$this->isWhitelabel()): ?>
+        <li>
+            <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
+            <div id='<?php echo $_code ?>description' style="display:none;">
+                <div>
+                    <p style="font-weight:bold;">
+                        <span style="color:#FF0000;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
+                        <?php echo sprintf($this->__('Pi ratepay_directdebit_info_block_1'), $this->getDueDays()) ?><br/>
+                    </p>
+                    <p>
+                        <?php echo $this->__('Pi ratepay_directdebit_info_block_2') ?><span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_3') ?><?php echo $this->getMinAmount(); ?> &euro;</span>
+                        <?php echo $this->__('Pi and') ?> <span style="font-weight:bold;"><?php echo $this->__('Pi ratepay_directdebit_info_block_4') ?><?php echo $this->getMaxAmount(); ?> &euro;</span><?php echo $this->__('Pi ratepay_directdebit_info_block_5') ?>
+                    </p
+                </div>
+                <hr/>
             </div>
-            <hr/>
-        </div>
-        <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
-    </li>
-    <br/>
+            <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
+        </li>
+        <br/>
+    <?php endif; ?>
+
     <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
         <li><label><?php echo $this->__('Pi Ratepay address') ?></label></li>
         <li><label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label></li>
@@ -87,19 +90,11 @@
         </li>
     </ul>
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
-    <li>
-        <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
-    </li>
-    <?php endif; ?>
-
-    <?php if ($this->isCompanyNeeded()): ?>
         <li>
-            <label for="<?php echo $_code ?>_company" class="required"><em>*</em><?php echo $this->__('Pi Company'); ?></label>
-            <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_company]" id="<?php echo $_code ?>_company" name="payment[<?php echo $_code ?>_company]" class="input-text required-entry"/>
-            </div>
+            <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
         </li>
     <?php endif; ?>
+
     <?php if ($this->isTaxvatNeeded()): ?>
         <li>
             <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>

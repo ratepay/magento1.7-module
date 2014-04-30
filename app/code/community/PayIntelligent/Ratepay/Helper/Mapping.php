@@ -34,7 +34,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $objectItems = $object->getAllItems();
 
         foreach ($objectItems as $item) {
-            if ($item instanceof Mage_Sales_Model_Order_Item) {
+            if ($item instanceof Mage_Sales_Model_Order_Item || $item instanceof Mage_Sales_Model_Quote_Item) {
                 $orderItem = $item;
             } else {
                 $orderItem = Mage::getModel('sales/order_item')->load($item->getOrderItemId());

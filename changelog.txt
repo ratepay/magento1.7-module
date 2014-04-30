@@ -1,4 +1,14 @@
 ***********************************************************
+**********| Version 2.4.0 - Released 2014-04-30 |**********
+***********************************************************
+
+* added Payment Query
+* extended Whitelabel mode
+* fixed company-name xml tag in customer block
+* removed deprecated http-header-list block in xml head
+* removed agreement box (invoice/installment); not needed anymore
+
+***********************************************************
 **********| Version 2.3.0 - Released 2014-04-01 |**********
 ***********************************************************
 
