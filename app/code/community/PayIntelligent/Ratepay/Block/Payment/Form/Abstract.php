@@ -110,7 +110,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isWhitelabel()
     {
-        return true; //$this->getMethod()->getConfigData("whitelabel", $this->getQuote()->getStoreId());
+        return $this->getMethod()->getConfigData("whitelabel", $this->getQuote()->getStoreId());
     }
 
     /**

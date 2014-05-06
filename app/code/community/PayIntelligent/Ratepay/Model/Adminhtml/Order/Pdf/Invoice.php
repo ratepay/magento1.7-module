@@ -54,9 +54,11 @@ class PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Invoice extends Mage_Sale
         }
 
         if ($isRatepayPayment) {
-//            var_dump($this->y);
-//            exit();
-            if($this->y < 200) $this->newPage();
+            if ($this->y < 200) {
+                $this->newPage();
+                $this->y = 800;
+            }
+
             switch($order->getPayment()->getMethod()) {
                 case 'ratepay_rechnung':
                     $this->setRatepayRechnungDetails($pdf, $storeId, $order);
@@ -141,6 +143,7 @@ class PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Invoice extends Mage_Sale
 
         $x = 35;
         $helper = Mage::helper('ratepay');
+        $this->y -= 30;
 
         $page->setFillColor(new Zend_Pdf_Color_Rgb(255, 255, 255));
         $descriptor = $order->getPayment()->getAdditionalInformation('descriptor');
