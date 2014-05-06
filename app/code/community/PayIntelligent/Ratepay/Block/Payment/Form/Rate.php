@@ -78,7 +78,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Rate extends PayIntelligent_Rate
     }
 
     /**
-     * Calls the CONFIGURATION_REQUEST to check which Months are allowed and returns them
+     * Calls the CONFIGURATION_REQUEST to return data
      *
      * @return boolean|array
      */
@@ -101,18 +101,8 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Rate extends PayIntelligent_Rate
 
                 $client = Mage::getSingleton('ratepay/request');
                 $helper = Mage::helper('ratepay/mapping');
-                return = $client->callConfigurationRequest($helper->getRequestHead($this->getQuote(),'', $this->getMethodCode()),$helper->getLoggingInfo($this->getQuote(),$this->getMethodCode()));
+                return $client->callConfigurationRequest($helper->getRequestHead($this->getQuote(),'', $this->getMethodCode()),$helper->getLoggingInfo($this->getQuote(),$this->getMethodCode()));
 
-                if (is_array($result) || $result == true) {
-                    $return['monthsAllowed'] =  explode(',', $result['monthAllowed']);
-                } else {
-                    $return['monthsAllowed'] = array();
-                }
-                $return['monthNumberMin'] = $result['monthNumberMin'];
-                $return['monthNumberMax'] = $result['monthNumberMax'];
-                $return['rateMinNormal'] = $result['rateMinNormal'];
-
-                return $return;
             } catch(Exception $e) {
                 return false;
             }

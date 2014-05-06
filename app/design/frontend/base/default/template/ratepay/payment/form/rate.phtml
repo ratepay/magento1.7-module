@@ -488,27 +488,30 @@
         margin-bottom: 5px;
     }
 </style>
+<?php $ratePreInfo = $this->getRatePreInfo() ?>
+
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <?php if (!$this->isWhitelabel()): ?>
         <li>
             <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read more') ?></span></span></button>
             <div id='<?php echo $_code ?>description' style="display:none;">
-                <div>
-                    <div style="font-weight:bold;">
-                        <?php echo $this->__('Pi ratepay_rate_info_block_1') ?><br/>
-                    </div>
-                    <br/>
-                    <div>
-                        <?php echo $this->__('Pi ratepay_rate_info_block_2'); ?>
-                        <span style="font-weight:bold;"><?php echo $this->getMinAmount(); ?> &euro;</span>
-                        <?php echo $this->__('Pi up to') ?>
-                        <span style="font-weight:bold;"><?php echo $this->getMaxAmount(); ?> &euro;</span>
-                        <!--<?php echo $this->__('Pi ratepay_rate_info_block_3') ?>-->
-                        <?php echo $this->__('Pi ratepay_rate_info_block_4') ?>
-                    </div>
+                <div style="font-weight:bold;">
+                    <?php echo $this->__('Pi ratepay_rate_info_block_1') ?><br/>
                 </div>
-                <hr/>
+                <br/>
+                <div>
+                    <?php if (is_array($ratePreInfo) || $ratePreInfo == true) { ?>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_2'); ?>
+                        <span style="font-weight:bold;"><?php echo $ratePreInfo['monthNumberMin'] ?></span>
+                        <?php echo $this->__('Pi up to') ?>
+                        <span style="font-weight:bold;"><?php echo $ratePreInfo['monthNumberMax'] ?></span>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_3') ?>
+                        <span style="font-weight:bold;"><?php echo $ratePreInfo['rateMinNormal'] ?> &euro;</span>
+                        <?php echo $this->__('Pi ratepay_rate_info_block_4') ?>
+                    <?php } ?>
+                </div>
             </div>
+            <br />
             <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
         </li>
     <?php endif; ?>
@@ -622,7 +625,7 @@
         </table>
     </li>
     <?php
-    $piMonths = $this->getMonthAllowed();
+    $piMonths = (is_array($ratePreInfo) || $ratePreInfo == true) ? explode(',', $ratePreInfo['monthAllowed']) : false;
     if ($piMonths == false) {
         echo '<div class="pirperror">' . $this->__('pi_lang_server_off') . '</div>';
     } else if ($piMonths == array()) {
