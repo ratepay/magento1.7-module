@@ -138,11 +138,11 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function setDob($quote, $dob)
     {
-        /*if ($quote->getCustomerId()) {
+        if ($quote->getCustomerId()) {
             $quote->getCustomer()
                 ->setDob($dob->toString("yyyy-MM-dd HH:mm:ss"))
                 ->save();
-        }*/
+        }
         $quote->setCustomerDob($dob->toString("yyyy-MM-dd HH:mm:ss"))->save();
     }
 
