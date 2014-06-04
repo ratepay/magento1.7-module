@@ -168,7 +168,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
-        $queryActive = Mage::getSingleton('ratepay/session')->getQueryActive();
+        $queryActive = Mage::helper('ratepay/query')->isPaymentQueryActive($quote);
         $allowedProducts = Mage::getSingleton('ratepay/session')->getAllowedProducts();
         if ($queryActive && (!$allowedProducts || !in_array($this->_code, $allowedProducts))) {
             return false;

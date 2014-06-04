@@ -39,7 +39,7 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
      */
     public function isPaymentQueryActive($quote)
     {
-        return Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/active', $quote->getStoreId());
+        return Mage::getStoreConfig('payment/ratepay_paymentquery/active', $quote->getStoreId()) && $this->getQuerySubType($quote);
     }
 
     /**
@@ -77,7 +77,8 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
      * @param array $result_products
      * @return array/boolean
      */
-    public function relevantOrderChanges($currentQuote, $previousQuote) {
+    public function relevantOrderChanges($currentQuote, $previousQuote)
+    {
         if ($currentQuote['basket']['amount'] > $previousQuote['basket']['amount']) {
             if ($previousQuote['Result'] == true) {
                 return true;
@@ -119,10 +120,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     {
         $subType = false;
 
-        $b2c = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2c', $quote->getStoreId());
-        $b2b = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/b2b', $quote->getStoreId());
-        $b2c_delivery = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2c', $quote->getStoreId());
-        $b2b_delivery = Mage::getStoreConfig('payment/' . $quote->getPayment()->getMethod() . '/delivery_address_b2b', $quote->getStoreId());
+        $b2c = Mage::getStoreConfig('payment/ratepay_paymentquery/b2c', $quote->getStoreId());
+        $b2b = Mage::getStoreConfig('payment/ratepay_paymentquery/b2b', $quote->getStoreId());
+        $b2c_delivery = Mage::getStoreConfig('payment/ratepay_paymentquery/delivery_address_b2c', $quote->getStoreId());
+        $b2b_delivery = Mage::getStoreConfig('payment/ratepay_paymentquery/delivery_address_b2b', $quote->getStoreId());
 
         if ($quote->getBillingAddress()->getCompany()) {
             if ($this->_differentAddresses($quote->getBillingAddress(), $quote->getShippingAddress())) {
