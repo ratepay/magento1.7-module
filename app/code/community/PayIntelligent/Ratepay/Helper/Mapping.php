@@ -276,7 +276,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         $billing = array();
         $shipping = array();
 
-        $dob = new Zend_Date($quoteOrOrder->getCustomerDob()); //, Zend_Date::ISO_8601);
+        $dob = new Zend_Date($quoteOrOrder->getCustomerDob());
         $customer['dob'] = $dob->toString("yyyy-MM-dd");
         $customer['gender'] = Mage::helper("ratepay")->getGenderCode($quoteOrOrder);
         $customer['firstName'] = $quoteOrOrder->getBillingAddress()->getFirstname();

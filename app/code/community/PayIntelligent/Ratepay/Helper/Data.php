@@ -96,7 +96,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
         $minDob = clone $currentDate;
         $minDob->subYear(18);
         $maxDob = clone $currentDate;
-        $maxDob->subYear(100);
+        $maxDob->subYear(125);
 
         if(!$customerDob->isEarlier($minDob)) {
             return 'young';

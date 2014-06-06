@@ -34,7 +34,7 @@
                     <fields>
 
                         <version translate="label">
-                            <label>v2.4.1</label>
+                            <label>v2.4.2</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -236,7 +236,7 @@
                     <comment><![CDATA[<a href="http://www.ratepay.com/nutzungsbedingungen/" target="_blank">Nutzungsbedingungen</a>]]></comment>
                     <fields>
                         <version translate="label">
-                            <label>v2.4.1</label>
+                            <label>v2.4.2</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -458,7 +458,7 @@
                     <comment><![CDATA[<a href="http://www.ratepay.com/nutzungsbedingungen/" target="_blank">Nutzungsbedingungen</a>]]></comment>
                     <fields>
                         <version translate="label">
-                            <label>v2.4.1</label>
+                            <label>v2.4.2</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>
@@ -669,7 +669,7 @@
                     <fields>
 
                         <version translate="label">
-                            <label>v2.4.1</label>
+                            <label>v2.4.2</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>-1</sort_order>

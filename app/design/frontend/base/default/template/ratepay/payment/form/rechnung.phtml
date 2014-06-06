@@ -19,7 +19,11 @@
  */
 ?>
 
-<?php $_code = $this->getMethodCode() ?>
+<?php
+    $_code = $this->getMethodCode();
+    $dob = $this->getDob();
+    $a=2;
+?>
 <!-- @todo warum rate style im rechnung template??? -->
 <style>
     .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
@@ -67,33 +71,39 @@
             </div>
         </li>
     <?php endif; ?>
-    <?php if (!$this->isDobSet()): ?>
-        <li>
-            <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
-            <div class="input-box customer-dob ratepayrechnungdob" id="">
-                <div class="dob-day">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Day') ?>" value="" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
-                    <label for="<?php echo $_code ?>_day">DD</label>
-                </div>
-                <div class="dob-month">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Month') ?>" value="" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
-                    <label for="<?php echo $_code ?>_month">MM</label>
-                </div>
-                <div class="dob-year">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Year') ?>" value="" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year" autocomplete="off">
-                    <label for="<?php echo $_code ?>_year">YYYY</label>
-                </div>
-                <div style="display:none;" class="dob-full">
-                    <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
-                </div>
-
-                <div style="display:none;" class="validation-advice"></div>
+    <li id="dobForm" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
+        <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
+        <div class="input-box customer-dob ratepayrechnungdob" id="">
+            <div class="dob-day">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Day') ?>" value="<?php //echo ($dob) ? $dob['Day'] ?>" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
+                <label for="<?php echo $_code ?>_day">DD</label>
             </div>
-            <script type="text/javascript">
-                //&lt;![CDATA[
-                var customer_dob = new Varien.RatepayDOB('.ratepayrechnungdob', true, '%d.%m.%y');
-                //]]&gt;
-            </script>
-        </li>
-    <?php endif; ?>
+            <div class="dob-month">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Month') ?>" value="<?php //echo ($dob) ? $dob['Month'] ?>" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
+                <label for="<?php echo $_code ?>_month">MM</label>
+            </div>
+            <div class="dob-year">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Year') ?>" value="<?php //echo ($dob) ? $dob['Year'] ?>" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year" autocomplete="off">
+                <label for="<?php echo $_code ?>_year">YYYY</label>
+            </div>
+            <div style="display:none;" class="dob-full">
+                <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
+            </div>
+
+            <div style="display:none;" class="validation-advice"></div>
+        </div>
+        <script type="text/javascript">
+            //&lt;![CDATA[
+            var customer_dob = new Varien.RatepayDOB('.ratepayrechnungdob', true, '%d.%m.%y');
+            //]]&gt;
+        </script>
+    </li>
+    <li style="display: <?php echo ($this->isDobSet()) ? "inline-block" : "none"; ?>">
+        <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
+        <div class="input-box customer-dob ratepayrechnungdob" id="">
+            <div class="dob-day">
+                <label><?php echo $dob['Day'] . " " . $dob['Month'] . " " . $dob['Year'] ?></label>
+            </div>
+        </div>
+    </li>
 </ul>

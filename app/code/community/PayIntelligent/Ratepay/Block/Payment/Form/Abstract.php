@@ -84,6 +84,16 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
+     * Return day of birth
+     *
+     * @return array
+     */
+    public function getDob()
+    {
+        return ($this->isDobSet()) ? $this->getQuote()->getCustomerDob() : false;
+    }
+
+    /**
      * Check if customer is a company, and if customer is a company if vat id is set
      *
      * @return boolean

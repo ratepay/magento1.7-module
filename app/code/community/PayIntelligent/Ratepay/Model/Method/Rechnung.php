@@ -70,11 +70,14 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
             $validAge = $this->getHelper()->isValidAge($date);
             switch($validAge) {
                 case 'old':
-                    $this->getHelper()->setDob($quote, $date);
+                    //$this->getHelper()->setDob($quote, $date);
+                    break;
                 case 'young':
-                    $this->getHelper()->setDob($quote, $date);
+                    //$this->getHelper()->setDob($quote, $date);
+                    break;
                 case 'success':
                     $this->getHelper()->setDob($quote, $date);
+                    break;
             }
         }
 
@@ -113,7 +116,7 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
     public function validate()
     {
         parent::validate();
-        
+
         $quoteOrOrder = $this->getQuoteOrOrder();
 
         if (!$this->getHelper()->isPhoneSet($quoteOrOrder)) {
@@ -127,7 +130,7 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
                 case 'young':
-                    Mage::throwException($this->_getHelper()->__('Pi Age Error'));
+                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
                 case 'wrongdate':
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
