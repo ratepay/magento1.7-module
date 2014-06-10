@@ -147,6 +147,21 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Deletes the Day of Birth of the customer
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
+     */
+    public function unsetDob($quote)
+    {
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $table = Mage::getSingleton('core/resource')->getTableName('customer_entity_datetime');
+        $condition = 'entity_id = ' . $quote->getCustomerId();
+        $query = 'DELETE FROM ' . $table . ' WHERE ' . $condition;
+        $connection->query($query);
+    }
+
+
+    /**
      * This method returns the customer gender code
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote

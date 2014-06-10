@@ -67,18 +67,7 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
                 'second' => 0);
             $date = new Zend_Date($datearray);
 
-            $validAge = $this->getHelper()->isValidAge($date);
-            switch($validAge) {
-                case 'old':
-                    //$this->getHelper()->setDob($quote, $date);
-                    break;
-                case 'young':
-                    //$this->getHelper()->setDob($quote, $date);
-                    break;
-                case 'success':
-                    $this->getHelper()->setDob($quote, $date);
-                    break;
-            }
+            $this->getHelper()->setDob($quote, $date);
         }
 
         // phone
@@ -127,12 +116,15 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
             $validAge = $this->getHelper()->isValidAge($quoteOrOrder->getCustomerDob());
             switch($validAge) {
                 case 'old':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
                 case 'young':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
                 case 'wrongdate':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
             }

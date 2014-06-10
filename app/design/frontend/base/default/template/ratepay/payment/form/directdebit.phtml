@@ -19,8 +19,12 @@
  */
 ?>
 
-<?php $_code = $this->getMethodCode() ?>
-<?php $bankData = $this->getBankData(); ?>
+<?php
+$_code = $this->getMethodCode();
+$dob = $this->getDob();
+$bankData = $this->getBankData();
+?>
+
 <style>
     .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
     .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
@@ -43,8 +47,63 @@
             <br />
             <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Pi Read less') ?></span></span></button>
         </li>
-        <br/>
     <?php endif; ?>
+
+    <?php if ($this->isAdditionalFieldsNeeded()): ?>
+        <li>
+            <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
+        </li>
+    <?php endif; ?>
+
+    <?php if ($this->isTaxvatNeeded()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>
+            <div class="input-box">
+                <input value="" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+            </div>
+        </li>
+    <?php endif; ?>
+
+    <?php if (!$this->isPhoneSet()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Pi Phone'); ?></label>
+            <div class="input-box">
+                <input value="" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+            </div>
+        </li>
+    <?php endif; ?>
+    <li id="dobForm_directdebit" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
+        <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
+        <div class="input-box customer-dob ratepaydirectdebitdob" id="ratepay_directdebit_dob">
+            <div class="dob-day">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Day') ?>" value="<?php if ($dob) echo substr($dob, 8, 2) ?>" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
+                <label for="<?php echo $_code ?>_day">DD</label>
+            </div><div class="dob-month">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Month') ?>" value="<?php if ($dob) echo substr($dob, 5, 2) ?>" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
+                <label for="<?php echo $_code ?>_month">MM</label>
+            </div><div class="dob-year">
+                <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Year') ?>" value="<?php if ($dob) echo substr($dob, 0, 4) ?>" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year">
+                <label for="<?php echo $_code ?>_year">YYYY</label>
+            </div>    <div style="display:none;" class="dob-full">
+                <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
+            </div>
+
+            <div style="display:none;" class="validation-advice"></div>
+        </div>
+        <script type="text/javascript">
+            //&lt;![CDATA[
+            var customer_dob = new Varien.RatepayDOB('.ratepaydirectdebitdob', true, '%d.%m.%y');
+            //]]&gt;
+        </script>
+    </li>
+    <li id="dobLabel_directdebit" style="display: <?php echo ($this->isDobSet()) ? "inline-block" : "none"; ?>">
+        <label><?php echo $this->__('Pi Date of Birth') ?></label>
+        <div class="dob-day">
+            <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?> <a onclick="alterDob('directdebit')"><?php echo $this->__('Pi Alter') ?></a></label>
+        </div>
+    </li>
+
+    <br/>
 
     <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
         <li><label><?php echo $this->__('Pi Ratepay address') ?></label></li>
@@ -106,31 +165,7 @@
             </div>
         </li>
     <?php endif; ?>
-    <?php if (!$this->isDobSet()): ?>
-        <li><label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
-            <div class="input-box customer-dob ratepaydirectdebitdob" id="ratepay_directdebit_dob">
-                <div class="dob-day">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Day') ?>" value="" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
-                    <label for="<?php echo $_code ?>_day">DD</label>
-                </div><div class="dob-month">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Month') ?>" value="" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
-                    <label for="<?php echo $_code ?>_month">MM</label>
-                </div><div class="dob-year">
-                    <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Pi Year') ?>" value="" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year" autocomplete="off">
-                    <label for="<?php echo $_code ?>_year">YYYY</label>
-                </div>    <div style="display:none;" class="dob-full">
-                    <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
-                </div>
 
-                <div style="display:none;" class="validation-advice"></div>
-            </div>
-            <script type="text/javascript">
-                //&lt;![CDATA[
-                var customer_dob = new Varien.RatepayDOB('.ratepaydirectdebitdob', true, '%d.%m.%y');
-                //]]&gt;
-            </script>
-        </li>
-    <?php endif; ?>
         <li>
             <table>
                 <tr>

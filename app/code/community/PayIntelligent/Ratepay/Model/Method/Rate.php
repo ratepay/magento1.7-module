@@ -53,31 +53,6 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();
 
-        // dob
-        if (isset($params[$this->_code . '_day'])) {
-            $day   = $data->getData($this->_code . '_day');
-            $month = $data->getData($this->_code . '_month');
-            $year  = $data->getData($this->_code . '_year');
-
-            $datearray = array('year' => $year,
-                'month' => $month,
-                'day' => $day,
-                'hour' => 0,
-                'minute' => 0,
-                'second' => 0);
-            $date = new Zend_Date($datearray);
-
-            $validAge = $this->getHelper()->isValidAge($date);
-            switch($validAge) { // @todo sinn?
-                case 'old':
-                    $this->getHelper()->setDob($quote, $date);
-                case 'young':
-                    $this->getHelper()->setDob($quote, $date);
-                case 'success':
-                    $this->getHelper()->setDob($quote, $date);
-            }
-        }
-
         // phone
         if (isset($params[$this->_code . '_phone'])) {
             $phone = $data->getData($this->_code . '_phone');
@@ -109,11 +84,24 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
                 $this->getHelper()->setBankData($params, $quote, $this->_code);
             }
         }
-        
-        if(!isset($params[$this->_code . '_agreement'])) {
-            Mage::throwException($this->_getHelper()->__('Pi AGB Error'));
+
+        // dob
+        if (isset($params[$this->_code . '_day'])) {
+            $day   = $data->getData($this->_code . '_day');
+            $month = $data->getData($this->_code . '_month');
+            $year  = $data->getData($this->_code . '_year');
+
+            $datearray = array('year' => $year,
+                'month' => $month,
+                'day' => $day,
+                'hour' => 0,
+                'minute' => 0,
+                'second' => 0);
+            $date = new Zend_Date($datearray);
+
+            $this->getHelper()->setDob($quote, $date);
         }
-        
+
         return $this;
     }
 
@@ -136,12 +124,15 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
             $validAge = $this->getHelper()->isValidAge($quoteOrOrder->getCustomerDob());
             switch($validAge) {
                 case 'old':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
                 case 'young':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Age Error'));
                     break;
                 case 'wrongdate':
+                    $this->getHelper()->unsetDob($quoteOrOrder);
                     Mage::throwException($this->_getHelper()->__('Pi Date Error'));
                     break;
             }

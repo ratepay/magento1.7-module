@@ -132,3 +132,9 @@ Varien.RatepayDateElement.prototype = {
         this.fullDate = date;
     }
 };
+
+function alterDob(method)
+{
+    document.getElementById('dobLabel_' + method).style.display = 'none';
+    document.getElementById('dobForm_' + method).style.display = 'inline-block';
+}
