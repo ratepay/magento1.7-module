@@ -53,20 +53,27 @@
         </li>
     <?php endif; ?>
 
-    <?php if ($this->isTaxvatNeeded()): ?>
-        <li>
-            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>
+    <?php if ($this->isB2b()): ?>
+        <li id="vatIdForm_rechnung" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
+            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
             <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
             </div>
         </li>
+        <li id="vatIdLabel_rechnung" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
+            <label><?php echo $this->__('Pi Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
+            <div class="dob-day">
+                <label><?php echo $this->getVatId() ?>&nbsp;<a onclick="alterVatId('rechnung')"><?php echo $this->__('Pi Alter') ?></a></label>
+            </div>
+        </li>
+        <br/>
     <?php endif; ?>
 
-    <?php if (!$this->isPhoneSet()): ?>
+    <?php if (!$this->isValidPhone()): ?>
         <li>
             <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Pi Phone'); ?></label>
             <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
@@ -100,7 +107,7 @@
     <li id="dobLabel_rechnung" style="display: <?php echo ($this->isDobSet()) ? "inline-block" : "none"; ?>">
         <label><?php echo $this->__('Pi Date of Birth') ?></label>
         <div class="dob-day">
-            <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?> <a onclick="alterDob('rechnung')"><?php echo $this->__('Pi Alter') ?></a></label>
+            <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?>&nbsp;<a onclick="alterDob('rechnung')"><?php echo $this->__('Pi Alter') ?></a></label>
         </div>
     </li>
 </ul>

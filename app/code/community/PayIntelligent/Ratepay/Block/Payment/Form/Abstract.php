@@ -60,7 +60,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isAdditionalFieldsNeeded()
     {
-        return !($this->isPhoneSet() && $this->isDobSet() && !$this->isTaxvatNeeded());
+        return !($this->isPhoneSet() && $this->isValidPhone() && $this->isDobSet() && !$this->isTaxvatNeeded());
     }
 
     /**
@@ -71,6 +71,34 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     public function isPhoneSet()
     {
         return (bool) $this->getQuote()->getBillingAddress()->getTelephone();
+    }
+
+    /**
+     * Return phone number
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return ($this->isPhoneSet()) ? $this->getQuote()->getBillingAddress()->getTelephone() : false;
+    }
+
+    /**
+     * Check if phone number complies conditions
+     *
+     * @param string $phone
+     * @return bool
+     */
+    public function isValidPhone() {
+        if (!$this->isPhoneSet()) {
+            return false;
+        }
+        $phone = $this->getPhone();
+        $valid = "<^((\\+|00)[1-9]\\d{0,3}|0 ?[1-9]|\\(00? ?[1-9][\\d ]*\\))[\\d\\-/ ]*$>";
+        if (strlen(trim($phone)) >= 6 && preg_match($valid, trim($phone))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -94,13 +122,33 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
+     * Check if customer is a company
+     *
+     * @return boolean
+     */
+    public function isB2b()
+    {
+        return (bool) ($this->getQuote()->getBillingAddress()->getCompany());
+    }
+
+    /**
      * Check if customer is a company, and if customer is a company if vat id is set
      *
      * @return boolean
      */
     public function isTaxvatNeeded()
     {
-        return (bool)($this->getQuote()->getBillingAddress()->getCompany() && !$this->getQuote()->getCustomerTaxvat());
+        return (bool) ($this->getQuote()->getBillingAddress()->getCompany() && !$this->getQuote()->getCustomerTaxvat());
+    }
+
+    /**
+     * Returns the entered vat id
+     *
+     * @return boolean
+     */
+    public function getVatId()
+    {
+        return $this->getQuote()->getCustomerTaxvat();
     }
 
     /**
@@ -111,6 +159,16 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     public function isCompanyNeeded()
     {
         return (bool) ($this->getQuote()->getCustomerTaxvat() && !$this->getQuote()->getBillingAddress()->getCompany());
+    }
+
+    /**
+     * Returns the entered company name
+     *
+     * @return boolean
+     */
+    public function getCompany()
+    {
+        return $this->getQuote()->getBillingAddress()->getCompany();
     }
 
     /**

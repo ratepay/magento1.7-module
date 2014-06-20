@@ -206,10 +206,10 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
-        $company = $quote->getBillingAddress()->getCompany();
-        $vatId = $quote->getCustomerTaxvat();
-        if (!$this->getConfigData('b2b', $storeId) && (!empty($vatId) || !empty($company))) {
+        $taxvat = $quote->getCustomerTaxvat();
 
+        $company = $quote->getBillingAddress()->getCompany();
+        if (!$this->getConfigData('b2b', $storeId) && !empty($company)) {
             return false;
         }
 

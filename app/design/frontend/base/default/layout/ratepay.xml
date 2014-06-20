@@ -24,6 +24,9 @@
     <default>
         <reference name="head">
             <action method="addJs">
+                <script>ratepay/rppayment.js</script>
+            </action>
+            <action method="addJs">
                 <script>ratepay/ratenrechner.js</script>
             </action>
             <action method="addJs">

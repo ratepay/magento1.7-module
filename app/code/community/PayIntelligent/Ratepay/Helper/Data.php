@@ -22,6 +22,20 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
     /**
+     * Check if phone number complies conditions
+     *
+     * @param string $phone
+     * @return bool
+     */
+    public function isValidPhone($phone) {
+        $valid = "<^((\\+|00)[1-9]\\d{0,3}|0 ?[1-9]|\\(00? ?[1-9][\\d ]*\\))[\\d\\-/ ]*$>";
+        if (strlen(trim($phone)) >= 6 && preg_match($valid, trim($phone))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if a phonenumber is set to the customer
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
@@ -81,7 +95,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check if customer is 18 years old or older and less then 100 years
+     * Check if customer is 18 years old or older and less then 125 years
      *
      * @param string $dob
      * @return string
@@ -147,21 +161,6 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Deletes the Day of Birth of the customer
-     *
-     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
-     */
-    public function unsetDob($quote)
-    {
-        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $table = Mage::getSingleton('core/resource')->getTableName('customer_entity_datetime');
-        $condition = 'entity_id = ' . $quote->getCustomerId();
-        $query = 'DELETE FROM ' . $table . ' WHERE ' . $condition;
-        $connection->query($query);
-    }
-
-
-    /**
      * This method returns the customer gender code
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
@@ -210,6 +209,35 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
                 ->save();
         }
         $quote->setCustomerTaxvat($taxvat)->save();
+    }
+
+    /**
+     * Sets the vat id into the customer if not guest and always into the Quote/Order
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
+     * @param string $taxvat
+     */
+    public function getTaxvat($quote)
+    {
+        if ($quote->getCustomerId()) {
+            return $quote->getCustomer()->getTaxvat();
+        }
+        return $quote->getCustomerTaxvat();
+    }
+
+    /**
+     * Check if the vat id is valid
+     *
+     * @param string
+     * @param bool
+     */
+    public function isValidTaxvat($taxvat)
+    {
+        $valid = "^((DE)?[0-9]{9})$"; // in case of AT: "^((DE)?[0-9]{9}|(AT)?U[0-9]{8})$"
+        if (preg_match($valid, trim($taxvat))) {
+            return true;
+        }
+        return false;
     }
 
     /**
