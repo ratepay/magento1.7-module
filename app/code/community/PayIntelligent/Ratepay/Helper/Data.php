@@ -212,20 +212,6 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Sets the vat id into the customer if not guest and always into the Quote/Order
-     *
-     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
-     * @param string $taxvat
-     */
-    public function getTaxvat($quote)
-    {
-        if ($quote->getCustomerId()) {
-            return $quote->getCustomer()->getTaxvat();
-        }
-        return $quote->getCustomerTaxvat();
-    }
-
-    /**
      * Check if the vat id is valid
      *
      * @param string
@@ -233,7 +219,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isValidTaxvat($taxvat)
     {
-        $valid = "^((DE)?[0-9]{9})$"; // in case of AT: "^((DE)?[0-9]{9}|(AT)?U[0-9]{8})$"
+        $valid = "<^((DE)?[0-9]{9})$>"; // in case of AT: "^((DE)?[0-9]{9}|(AT)?U[0-9]{8})$"
         if (preg_match($valid, trim($taxvat))) {
             return true;
         }

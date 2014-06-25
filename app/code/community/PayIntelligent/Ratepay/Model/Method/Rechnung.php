@@ -58,7 +58,7 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
         $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
 
         if(!$this->getHelper()->isDobSet($quote) ||
-           $quote->getCustomerDob() != $dob) {
+            $quote->getCustomerDob() != $dob) {
             if ($dob) {
                 $validAge = $this->getHelper()->isValidAge($dob);
                 switch($validAge) {
@@ -106,19 +106,12 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
             }
         }
 
-        // company
-        if (isset($params[$this->_code . '_company'])) {
-            $company = $data->getData($this->_code . '_company');
-            if ($company) {
-                $this->getHelper()->setCompany($quote, $company);
-            }
-        }
-
         // taxvat
         if (isset($params[$this->_code . '_taxvat'])) {
-            $taxvat = $data->getData($this->_code . '_taxvat');
-            if ($taxvat) {
-                $this->getHelper()->setTaxvat($quote, $taxvat);
+            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+                $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi VatId Error'));
             }
         }
 

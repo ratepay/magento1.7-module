@@ -519,71 +519,37 @@ $dob = $this->getDob();
         </li>
     <?php endif; ?>
 
-    <?php if ($this->isElvEnabled()): ?>
-    <li style="width: 100px;">
-        <input style="float: left;" type="radio" name="payment[<?php echo $_code ?>_type]" id="<?php echo $_code ?>_bank_transfer" value="bank_transfer" class="radio" onclick="hideElvFields('ratepay_rate_direct_debit_cont')" checked="checked"/>
-        <label for="<?php echo $_code ?>_bank_transfer" style="float: none;"><?php echo $this->__('Pi bank transfer'); ?></label>
-    </li>
-    <li style="width: 100px;">
-        <input style="float: left;" type="radio" name="payment[<?php echo $_code ?>_type]" id="<?php echo $_code ?>_direct_debit" value="direct_debit" class="radio" onclick="showElvFields('ratepay_rate_direct_debit_cont')"/>
-        <label for="<?php echo $_code ?>_direct_debit" style="float: none;"><?php echo $this->__('Pi direct debit'); ?></label>
-    </li>
-    <ul id="ratepay_rate_direct_debit_cont" style="display:none;">
-        <li>
-            <label>
-                <?php echo $this->__('Pi insert bank data'); ?>
-                <?php $bankData = $this->getBankData(); ?>
-            </label>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Pi account holder'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['owner'] ?>" type="text" name="payment[<?php echo $_code ?>_account_holder]" id="<?php echo $_code ?>_account_holder" class="input-text required-entry"/>
-            </div>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_account_number" class="required"><em>*</em><?php echo $this->__('Pi account number'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code ?>_account_number]" id="<?php echo $_code ?>_account_number" class="input-text required-entry"/>
-            </div>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('Pi bank code number'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="input-text required-entry"/>
-            </div>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_bank_name" class="required"><em>*</em><?php echo $this->__('Pi bank name'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['bankname'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_name]" id="<?php echo $_code ?>_bank_name" class="input-text required-entry"/>
-            </div>
-        </li>
-    </ul>
-    <?php endif; ?>
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
         <li>
             <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
         </li>
     <?php endif; ?>
 
-    <?php if ($this->isTaxvatNeeded()): ?>
-        <li>
-            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number'); ?></label>
+    <?php if ($this->isB2b()): ?>
+        <li id="vatIdForm_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
+            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Pi Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
             <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+            </div>
+        </li>
+        <li id="vatIdLabel_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
+            <label><?php echo $this->__('Pi Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
+            <div class="dob-day">
+                <label><?php echo $this->getVatId() ?>&nbsp;<a onclick="alterVatId('rate')"><?php echo $this->__('Pi Alter') ?></a></label>
+            </div>
+        </li>
+        <br/>
+    <?php endif; ?>
+
+    <?php if (!$this->isValidPhone()): ?>
+        <li>
+            <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Pi Phone'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
 
-    <?php if (!$this->isPhoneSet()): ?>
-        <li>
-            <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Pi Phone'); ?></label>
-            <div class="input-box">
-                <input value="" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
-            </div>
-        </li>
-    <?php endif; ?>
     <li id="dobForm_rate" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
         <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
         <div class="input-box customer-dob ratepayratedob" id="">

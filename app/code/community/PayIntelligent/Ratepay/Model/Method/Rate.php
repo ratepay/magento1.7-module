@@ -53,55 +53,67 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();
 
-        // phone
-        if (isset($params[$this->_code . '_phone'])) {
-            $phone = $data->getData($this->_code . '_phone');
-            if ($phone) {
-                $this->getHelper()->setPhone($quote, $phone);
+        // dob
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
+
+        if(!$this->getHelper()->isDobSet($quote) ||
+            $quote->getCustomerDob() != $dob) {
+            if ($dob) {
+                $validAge = $this->getHelper()->isValidAge($dob);
+                switch($validAge) {
+                    case 'old':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'young':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'wrongdate':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'success':
+                        $this->getHelper()->setDob($quote, $dob);
+                        break;
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi Date Error'));
             }
         }
 
-        // company
-        if (isset($params[$this->_code . '_company'])) {
-            $company = $data->getData($this->_code . '_company');
-            if ($company) {
-                $this->getHelper()->setCompany($quote, $company);
+        // phone
+        if (!$this->getHelper()->isPhoneSet($quote)) {
+            if (isset($params[$this->_code . '_phone'])) {
+                $phone = $data->getData($this->_code . '_phone');
+                if ($phone && $this->getHelper()->isValidPhone($phone)) {
+                    $this->getHelper()->setPhone($quote, $phone);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+            }
+        } else {
+            $phoneCustomer = $this->getHelper()->getPhone($quote);
+            $phoneParams = (isset($params[$this->_code . '_phone'])) ? $params[$this->_code . '_phone'] : false;
+            if ($phoneCustomer != $phoneParams && !empty($phoneParams)) {
+                if ($this->getHelper()->isValidPhone($phoneParams)) {
+                    $this->getHelper()->setPhone($quote, $phoneParams);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+                }
+            } elseif (!$this->getHelper()->isValidPhone($phoneCustomer)) {
+                Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
             }
         }
 
         // taxvat
         if (isset($params[$this->_code . '_taxvat'])) {
-            $taxvat = $data->getData($this->_code . '_taxvat'); //@todo warum nicht via $params
-            if ($taxvat) {
-                $this->getHelper()->setTaxvat($quote, $taxvat);
+            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+                $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi VatId Error'));
             }
         }
         
-        // Bank details
-        Mage::getSingleton('core/session')->setDirectDebitFlag(false);
-        if (array_key_exists($this->_code . '_type', $params) && $params[$this->_code . '_type'] == 'direct_debit') {
-            if (!empty($params[$this->_code . '_bank_code_number']) && !empty($params[$this->_code . '_account_holder']) && !empty($params[$this->_code . '_account_number'])) {
-                $this->getHelper()->setBankData($params, $quote, $this->_code);
-            }
-        }
-
-        // dob
-        if (isset($params[$this->_code . '_day'])) {
-            $day   = $data->getData($this->_code . '_day');
-            $month = $data->getData($this->_code . '_month');
-            $year  = $data->getData($this->_code . '_year');
-
-            $datearray = array('year' => $year,
-                'month' => $month,
-                'day' => $day,
-                'hour' => 0,
-                'minute' => 0,
-                'second' => 0);
-            $date = new Zend_Date($datearray);
-
-            $this->getHelper()->setDob($quote, $date);
-        }
-
         return $this;
     }
 
@@ -114,31 +126,6 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
     {
         parent::validate();
 
-        $quoteOrOrder = $this->getQuoteOrOrder();
-
-        if (!$this->getHelper()->isPhoneSet($quoteOrOrder)) {
-            Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
-        }
-
-        if($this->getHelper()->isDobSet($quoteOrOrder)) {
-            $validAge = $this->getHelper()->isValidAge($quoteOrOrder->getCustomerDob());
-            switch($validAge) {
-                case 'old':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-                case 'young':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Age Error'));
-                    break;
-                case 'wrongdate':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-            }
-        } else {
-            Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-        }
         Mage::getSingleton('checkout/session')->getRatepayRateTotalAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
         Mage::getSingleton('checkout/session')->getRatepayRateAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
         Mage::getSingleton('checkout/session')->getRatepayRateInterestRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
@@ -190,6 +177,27 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
         }
 
         return $this;
+    }
+
+    /**
+     * Returns date object from dob params
+     *
+     * @param   mixed $data
+     * @return  Zend_Date
+     */
+
+    function _getDob($data) {
+        $day   = $data->getData($this->_code . '_day');
+        $month = $data->getData($this->_code . '_month');
+        $year  = $data->getData($this->_code . '_year');
+
+        $datearray = array('year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'hour' => 0,
+            'minute' => 0,
+            'second' => 0);
+        return new Zend_Date($datearray);
     }
 
 }

@@ -259,6 +259,10 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         } else {
             $head['orderId'] = $quoteOrOrder->getReservedOrderId();
         }
+        if ($customerId = $quoteOrOrder->getCustomerId()) {
+            $head['customerId'] = $customerId;
+        }
+
         $head['subtype'] = $subtype;
         return $head;
     }

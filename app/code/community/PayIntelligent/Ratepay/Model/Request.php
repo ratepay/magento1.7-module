@@ -387,13 +387,17 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $credential->addChild('profile-id', $headInfo['profileId']);
         $credential->addChild('securitycode', $headInfo['securityCode']);
 
-        if($operationInfo != 'PAYMENT_INIT') {
+        if ($operationInfo != 'PAYMENT_INIT') {
             if($headInfo['orderId'] != '') {
                 $external = $head->addChild('external');
                 $external->addChild('order-id', $headInfo['orderId']);
+                if ($operationInfo == 'PAYMENT_REQUEST' ||
+                    $operationInfo == 'PAYMENT_QUERY') {
+                    $external->addChild('merchant-consumer-id', $headInfo['customerId']);
+                }
             }
         }
-        
+
         if ($operationInfo == "PAYMENT_REQUEST") {
             $this->setRatepayHeadCustomerDevice($head);
         }

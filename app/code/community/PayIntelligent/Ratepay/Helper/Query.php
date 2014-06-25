@@ -32,10 +32,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
                                       "PREPAYMENT" => "ratepay_vorkasse");
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Checks if PQ is activated and selected for the method
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote $quote
+     * @return boolean
      */
     public function isPaymentQueryActive($quote)
     {
@@ -43,10 +43,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Valids if conditions for PQ are complied
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote $quote
+     * @return boolean
      */
     public function validation($quote)
     {
@@ -72,10 +72,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Checks if the current and previous quote are different
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote $currentQuote, $previousQuote
+     * @return boolean
      */
     public function relevantOrderChanges($currentQuote, $previousQuote)
     {
@@ -111,10 +111,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Returns required sub type
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param array Mage_Sales_Model_Quote $quote
+     * @return string
      */
     public function getQuerySubType($quote)
     {
@@ -165,10 +165,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Checks if the billing and shipping addresses are different (just for checking changes in the postal address, not in the customer information)
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote_Address $billingAddress, $shippingAddress
+     * @return boolean
      */
     private function _differentAddresses($billingAddress, $shippingAddress) {
         if ($billingAddress->getFirstname() != $shippingAddress->getFirstname()) {
@@ -191,10 +191,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Returns the lowest amount limit (of all RatePAY payment methods)
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote $quote
+     * @return int
      */
     private function _getOuterLimitMin($quote) {
         foreach ($this->products2Methods AS $product => $method) {
@@ -209,10 +209,10 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Extracts allowed products from the response xml (associative) and returns an simple array
+     * Returns the highest amount limit (of all RatePAY payment methods)
      *
-     * @param array $result_products
-     * @return array/boolean
+     * @param Mage_Sales_Model_Quote $quote
+     * @return int
      */
     private function _getOuterLimitMax($quote) {
         foreach ($this->products2Methods AS $product => $method) {

@@ -89,43 +89,63 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         }
 
         // dob
-        if (isset($params[$this->_code . '_day'])) {
-            $day   = $data->getData($this->_code . '_day');
-            $month = $data->getData($this->_code . '_month');
-            $year  = $data->getData($this->_code . '_year');
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
 
-            $datearray = array('year' => $year,
-                'month' => $month,
-                'day' => $day,
-                'hour' => 0,
-                'minute' => 0,
-                'second' => 0);
-            $date = new Zend_Date($datearray);
-
-            $this->getHelper()->setDob($quote, $date);
-        }
-
-        // phone
-        if (isset($params[$this->_code . '_phone'])) {
-            $phone = $data->getData($this->_code . '_phone');
-            if ($phone) {
-                $this->getHelper()->setPhone($quote, $phone);
+        if(!$this->getHelper()->isDobSet($quote) ||
+            $quote->getCustomerDob() != $dob) {
+            if ($dob) {
+                $validAge = $this->getHelper()->isValidAge($dob);
+                switch($validAge) {
+                    case 'old':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'young':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'wrongdate':
+                        Mage::throwException($this->_getHelper()->__('Pi Date Error'));
+                        break;
+                    case 'success':
+                        $this->getHelper()->setDob($quote, $dob);
+                        break;
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi Date Error'));
             }
         }
 
-        // company
-        if (isset($params[$this->_code . '_company'])) {
-            $company = $data->getData($this->_code . '_company');
-            if ($company) {
-                $this->getHelper()->setCompany($quote, $company);
+        // phone
+        if (!$this->getHelper()->isPhoneSet($quote)) {
+            if (isset($params[$this->_code . '_phone'])) {
+                $phone = $data->getData($this->_code . '_phone');
+                if ($phone && $this->getHelper()->isValidPhone($phone)) {
+                    $this->getHelper()->setPhone($quote, $phone);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+            }
+        } else {
+            $phoneCustomer = $this->getHelper()->getPhone($quote);
+            $phoneParams = (isset($params[$this->_code . '_phone'])) ? $params[$this->_code . '_phone'] : false;
+            if ($phoneCustomer != $phoneParams && !empty($phoneParams)) {
+                if ($this->getHelper()->isValidPhone($phoneParams)) {
+                    $this->getHelper()->setPhone($quote, $phoneParams);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
+                }
+            } elseif (!$this->getHelper()->isValidPhone($phoneCustomer)) {
+                Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
             }
         }
 
         // taxvat
         if (isset($params[$this->_code . '_taxvat'])) {
-            $taxvat = $data->getData($this->_code . '_taxvat');
-            if ($taxvat) {
-                $this->getHelper()->setTaxvat($quote, $taxvat);
+            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+                $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
+            } else {
+                Mage::throwException($this->_getHelper()->__('Pi VatId Error'));
             }
         }
         
@@ -133,41 +153,24 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
     }
     
     /**
-     * Validate payment method information object
+     * Returns date object from dob params
      *
-     * @return  PayIntelligent_Ratepay_Model_Method_Directdebit
+     * @param   mixed $data
+     * @return  Zend_Date
      */
-    public function validate()
-    {
-        parent::validate();
-        
-        $quoteOrOrder = $this->getQuoteOrOrder();
 
-        if (!$this->getHelper()->isPhoneSet($quoteOrOrder)) {
-            Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
-        }
+    function _getDob($data) {
+        $day   = $data->getData($this->_code . '_day');
+        $month = $data->getData($this->_code . '_month');
+        $year  = $data->getData($this->_code . '_year');
 
-        if($this->getHelper()->isDobSet($quoteOrOrder)) {
-            $validAge = $this->getHelper()->isValidAge($quoteOrOrder->getCustomerDob());
-            switch($validAge) {
-                case 'old':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-                case 'young':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Age Error'));
-                    break;
-                case 'wrongdate':
-                    $this->getHelper()->unsetDob($quoteOrOrder);
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-            }
-        } else {
-            Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-        }
-
-        return $this;
+        $datearray = array('year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'hour' => 0,
+            'minute' => 0,
+            'second' => 0);
+        return new Zend_Date($datearray);
     }
 
     public function _clearIban($iban)
