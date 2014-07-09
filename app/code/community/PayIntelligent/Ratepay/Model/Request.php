@@ -391,8 +391,9 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
             if($headInfo['orderId'] != '') {
                 $external = $head->addChild('external');
                 $external->addChild('order-id', $headInfo['orderId']);
-                if ($operationInfo == 'PAYMENT_REQUEST' ||
-                    $operationInfo == 'PAYMENT_QUERY') {
+                if ($headInfo['customerId'] != '' &&
+                    ($operationInfo == 'PAYMENT_REQUEST' ||
+                    $operationInfo == 'PAYMENT_QUERY')) {
                     $external->addChild('merchant-consumer-id', $headInfo['customerId']);
                 }
             }
@@ -488,9 +489,11 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $customer->addCDataChild('first-name', $customerInfo['firstName']);
         $customer->addCDataChild('last-name', $customerInfo['lastName']);
         $customer->addChild('gender', $customerInfo['gender']);
-        $customer->addChild('date-of-birth', $customerInfo['dob']);
+        if(empty($customerInfo['company'])) {
+            $customer->addChild('date-of-birth', $customerInfo['dob']);
+        }
         $customer->addChild('ip-address', $customerInfo['ip']);
-        if($customerInfo['company'] != '') {
+        if(!empty($customerInfo['company'])) {
             $customer->addCDataChild('company-name', $customerInfo['company']);
             $customer->addChild('vat-id', $customerInfo['vatId']);
         }

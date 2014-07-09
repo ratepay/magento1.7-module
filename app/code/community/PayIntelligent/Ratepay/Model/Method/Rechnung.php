@@ -57,8 +57,9 @@ class PayIntelligent_Ratepay_Model_Method_Rechnung extends PayIntelligent_Ratepa
         // dob
         $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
 
-        if(!$this->getHelper()->isDobSet($quote) ||
-            $quote->getCustomerDob() != $dob) {
+        if (!$this->getHelper()->isCompanySet($quote) &&
+            (!$this->getHelper()->isDobSet($quote) ||
+            $quote->getCustomerDob() != $dob)) {
             if ($dob) {
                 $validAge = $this->getHelper()->isValidAge($dob);
                 switch($validAge) {

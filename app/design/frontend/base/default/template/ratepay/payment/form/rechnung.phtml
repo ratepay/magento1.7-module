@@ -78,6 +78,7 @@
         </li>
     <?php endif; ?>
 
+    <?php if (!$this->isB2b()): ?>
     <li id="dobForm_rechnung" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
         <label for="month" class="required"><em>*</em><?php echo $this->__('Pi Date of Birth') ?></label>
         <div class="input-box customer-dob ratepayrechnungdob" id="">
@@ -111,4 +112,5 @@
             <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?>&nbsp;<a onclick="alterDob('rechnung')"><?php echo $this->__('Pi Alter') ?></a></label>
         </div>
     </li>
+    <?php endif; ?>
 </ul>

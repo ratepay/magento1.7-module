@@ -1,11 +1,14 @@
 ***********************************************************
-**********| Version 2.4.2 - Released 2014-06-25 |**********
+**********| Version 2.4.2 - Released 2014-07-09 |**********
 ***********************************************************
 
 * dob bugfix and refactoring the method of input
 * added validation of vat id and phone number
 * added merchant cunsumer id
 * changes in language files
+* fixed PQ Payment Init bug
+* disabled DOB in case of B2B
+* fixed VatId bug and added changeable VatId form
 
 ***********************************************************
 **********| Version 2.4.1 - Released 2014-06-04 |**********

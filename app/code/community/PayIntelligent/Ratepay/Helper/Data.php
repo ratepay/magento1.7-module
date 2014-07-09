@@ -244,6 +244,17 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check if company is set
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
+     * @param string
+     */
+    public function isCompanySet($quote)
+    {
+        return $quote->getBillingAddress()->getCompany();
+    }
+
+    /**
      * We have to diff the addresses, because same_as_billing is sometimes wrong
      *
      * @param unknown_type $address

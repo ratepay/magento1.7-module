@@ -224,6 +224,14 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     {
         Mage::getSingleton('checkout/session')->setRatepayMethodHide(true);
         Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
+    }
+
+    /**
+     *  Sets Sessionvariable to go back to the payment overview and to reload the payment-method block
+     *  Additionally setting a variable to hide RatePAY if the Riskcheck was negative
+     */
+    protected function _setGoToPayment()
+    {
         Mage::getSingleton('checkout/session')->setGotoSection('payment');
     }
 
@@ -267,7 +275,8 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
         $client = Mage::getSingleton('ratepay/request');
 
         $helper = Mage::helper('ratepay/mapping');
-        if (Mage::getSingleton('ratepay/session')->getQueryActive()) {
+        if (Mage::getSingleton('ratepay/session')->getQueryActive() &&
+            Mage::getSingleton('ratepay/session')->getTransactionId()) {
             $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
             $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
         } else {
@@ -288,6 +297,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                 if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
                     $this->_hidePaymentMethod();
                 }
+                $this->_setGoToPayment();
                 $this->_cleanSession();
                 Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
             }
@@ -295,6 +305,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
                 $this->_hidePaymentMethod();
             }
+            $this->_setGoToPayment();
             $this->_cleanSession();
             Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
         }
