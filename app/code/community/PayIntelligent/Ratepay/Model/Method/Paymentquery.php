@@ -39,93 +39,52 @@ class PayIntelligent_Ratepay_Model_Method_Paymentquery extends PayIntelligent_Ra
         parent::assignData($data);
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();
+
+
         // dob
-        if (isset($params[$this->_code . '_day'])) {
-            $day   = $data->getData($this->_code . '_day');
-            $month = $data->getData($this->_code . '_month');
-            $year  = $data->getData($this->_code . '_year');
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
 
-            $datearray = array('year' => $year,
-                'month' => $month,
-                'day' => $day,
-                'hour' => 0,
-                'minute' => 0,
-                'second' => 0);
-            $date = new Zend_Date($datearray);
-
-            $validAge = $this->getHelper()->isValidAge($date);
-            switch($validAge) {
-                case 'old':
-                    $this->getHelper()->setDob($quote, $date);
-                case 'young':
-                    $this->getHelper()->setDob($quote, $date);
-                case 'success':
-                    $this->getHelper()->setDob($quote, $date);
+        if (!$this->getHelper()->isCompanySet($quote) &&
+            (!$this->getHelper()->isDobSet($quote) ||
+                $quote->getCustomerDob() != $dob)) {
+            if ($dob) {
+                $validAge = $this->getHelper()->isValidAge($dob);
+                switch($validAge) {
+                    case 'success':
+                        $this->getHelper()->setDob($quote, $dob);
+                        break;
+                }
             }
         }
 
         // phone
-        if (isset($params[$this->_code . '_phone'])) {
-            $phone = $data->getData($this->_code . '_phone');
-            if ($phone) {
-                $this->getHelper()->setPhone($quote, $phone);
+        if (!$this->getHelper()->isPhoneSet($quote)) {
+            if (isset($params[$this->_code . '_phone'])) {
+                $phone = $data->getData($this->_code . '_phone');
+                if ($phone && $this->getHelper()->isValidPhone($phone)) {
+                    $this->getHelper()->setPhone($quote, $phone);
+                }
             }
-        }
-
-        // company
-        if (isset($params[$this->_code . '_company'])) {
-            $company = $data->getData($this->_code . '_company');
-            if ($company) {
-                $this->getHelper()->setCompany($quote, $company);
+        } else {
+            $phoneCustomer = $this->getHelper()->getPhone($quote);
+            $phoneParams = (isset($params[$this->_code . '_phone'])) ? $params[$this->_code . '_phone'] : false;
+            if ($phoneCustomer != $phoneParams && !empty($phoneParams)) {
+                if ($this->getHelper()->isValidPhone($phoneParams)) {
+                    $this->getHelper()->setPhone($quote, $phoneParams);
+                }
             }
         }
 
         // taxvat
         if (isset($params[$this->_code . '_taxvat'])) {
-            $taxvat = $data->getData($this->_code . '_taxvat');
-            if ($taxvat) {
-                $this->getHelper()->setTaxvat($quote, $taxvat);
+            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+                $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
             }
         }
 
-        if(!isset($params[$this->_code . '_agreement'])) {
-            Mage::throwException($this->_getHelper()->__('Pi AGB Error'));
-        }
         return $this;
+
     }
 
-    /**
-     * Validate payment method information object
-     *
-     * @return  PayIntelligent_Ratepay_Model_Method_Rechnung
-     */
-    public function validate()
-    {
-        parent::validate();
-        
-        $quoteOrOrder = $this->getQuoteOrOrder();
-
-        if (!$this->getHelper()->isPhoneSet($quoteOrOrder)) {
-            Mage::throwException($this->_getHelper()->__('Pi Phone Error'));
-        }
-
-        if($this->getHelper()->isDobSet($quoteOrOrder)) {
-            $validAge = $this->getHelper()->isValidAge($quoteOrOrder->getCustomerDob());
-            switch($validAge) {
-                case 'old':
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-                case 'young':
-                    Mage::throwException($this->_getHelper()->__('Pi Age Error'));
-                    break;
-                case 'wrongdate':
-                    Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-                    break;
-            }
-        } else {
-            Mage::throwException($this->_getHelper()->__('Pi Date Error'));
-        }
-        return $this;
-    }
 }
 

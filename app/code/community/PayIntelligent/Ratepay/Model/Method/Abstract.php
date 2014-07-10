@@ -292,7 +292,6 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                                                   $helper->getLoggingInfo($this->getQuoteOrOrder()));
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
-
             } else {
                 if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
                     $this->_hidePaymentMethod();
@@ -359,5 +358,26 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
             Mage::logException($e);
         }
         return $title . $paymentFee;
+    }
+
+    /**
+     * Returns date object from dob params
+     *
+     * @param   mixed $data
+     * @return  Zend_Date
+     */
+
+    protected function getDob($data) {
+        $day   = $data->getData($this->_code . '_day');
+        $month = $data->getData($this->_code . '_month');
+        $year  = $data->getData($this->_code . '_year');
+
+        $datearray = array('year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'hour' => 0,
+            'minute' => 0,
+            'second' => 0);
+        return new Zend_Date($datearray);
     }
 }

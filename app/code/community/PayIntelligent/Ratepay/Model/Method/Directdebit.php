@@ -89,7 +89,7 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         }
 
         // dob
-        $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
 
         if(!$this->getHelper()->isDobSet($quote) ||
             $quote->getCustomerDob() != $dob) {
@@ -152,27 +152,6 @@ class PayIntelligent_Ratepay_Model_Method_Directdebit extends PayIntelligent_Rat
         return $this;
     }
     
-    /**
-     * Returns date object from dob params
-     *
-     * @param   mixed $data
-     * @return  Zend_Date
-     */
-
-    function _getDob($data) {
-        $day   = $data->getData($this->_code . '_day');
-        $month = $data->getData($this->_code . '_month');
-        $year  = $data->getData($this->_code . '_year');
-
-        $datearray = array('year' => $year,
-            'month' => $month,
-            'day' => $day,
-            'hour' => 0,
-            'minute' => 0,
-            'second' => 0);
-        return new Zend_Date($datearray);
-    }
-
     public function _clearIban($iban)
     {
         $iban = ltrim(strtoupper($iban));

@@ -567,7 +567,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </bankdata_saving>
-
+                        <!--
                         <elv_enabled>
                             <label>Pi Enable elv</label>
                             <frontend_type>select</frontend_type>
@@ -577,6 +577,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </elv_enabled>
+                        -->
                     </fields>
                 </ratepay_rate>
                 <ratepay_directdebit module="ratepay">
@@ -777,7 +778,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </privacy_policy>
-
+                        <!--
                         <bankdata_saving>
                             <label>Pi Save bank data</label>
                             <frontend_type>select</frontend_type>
@@ -787,6 +788,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </bankdata_saving>
+                        -->
                     </fields>
                 </ratepay_directdebit>
             </groups>

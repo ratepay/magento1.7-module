@@ -54,7 +54,7 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
         $params = $data->getData();
 
         // dob
-        $dob = (isset($params[$this->_code . '_day'])) ? $this->_getDob($data) : false;
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
 
         if(!$this->getHelper()->isDobSet($quote) ||
             $quote->getCustomerDob() != $dob) {
@@ -151,8 +151,18 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
     public function authorize(Varien_Object $payment, $amount)
     {
         $client = Mage::getSingleton('ratepay/request');
+
         $helper = Mage::helper('ratepay/mapping');
-        $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+        if (Mage::getSingleton('ratepay/session')->getQueryActive() &&
+            Mage::getSingleton('ratepay/session')->getTransactionId()) {
+            $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
+            $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
+        } else {
+            $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+        }
+
+        //$helper = Mage::helper('ratepay/mapping');
+        //$result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
         if (is_array($result) || $result == true) {
             $payment->setAdditionalInformation('transactionId', $result['transactionId']);
             $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
@@ -168,36 +178,23 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
             } else {
-                $this->_hidePaymentMethod();
+                if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
+                    $this->_hidePaymentMethod();
+                }
+                $this->_setGoToPayment();
+                $this->_cleanSession();
                 Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
             }
         } else {
-            $this->_hidePaymentMethod();
+            if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
+                $this->_hidePaymentMethod();
+            }
+            $this->_setGoToPayment();
+            $this->_cleanSession();
             Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
         }
 
         return $this;
-    }
-
-    /**
-     * Returns date object from dob params
-     *
-     * @param   mixed $data
-     * @return  Zend_Date
-     */
-
-    function _getDob($data) {
-        $day   = $data->getData($this->_code . '_day');
-        $month = $data->getData($this->_code . '_month');
-        $year  = $data->getData($this->_code . '_year');
-
-        $datearray = array('year' => $year,
-            'month' => $month,
-            'day' => $day,
-            'hour' => 0,
-            'minute' => 0,
-            'second' => 0);
-        return new Zend_Date($datearray);
     }
 
 }
