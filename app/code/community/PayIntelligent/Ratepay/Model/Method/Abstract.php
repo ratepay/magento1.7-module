@@ -313,7 +313,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
         return $this;
     }
 
-    private function _cleanSession()
+    public function _cleanSession()
     {
         Mage::getSingleton('core/session')->setDirectDebitFlag(null);
         Mage::getSingleton('core/session')->setAccountHolder(null);
