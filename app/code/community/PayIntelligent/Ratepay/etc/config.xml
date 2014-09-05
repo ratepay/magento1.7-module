@@ -24,7 +24,7 @@
 
     <modules>
         <PayIntelligent_Ratepay>
-            <version>2.4.2</version>
+            <version>2.4.3</version>
         </PayIntelligent_Ratepay>
     </modules>
 
@@ -35,48 +35,6 @@
                 <class>PayIntelligent_Ratepay_Block</class>
             </ratepay>
         </blocks>
-
-        <template>
-            <email>
-
-                <ratepay_rechnung_invoice_template module="ratepay">
-                    <label>RatePAY Rechnung Email Invoice</label>
-                    <file>ratepay_rechnung_invoice_template.html</file>
-                    <type>html</type>
-                </ratepay_rechnung_invoice_template>
-
-                <ratepay_rate_invoice_template module="ratepay">
-                    <label>RatePAY Rate Email Invoice</label>
-                    <file>ratepay_rate_invoice_template.html</file>
-                    <type>html</type>
-                </ratepay_rate_invoice_template>
-
-                <ratepay_directdebit_invoice_template module="ratepay">
-                    <label>RatePAY Lastschrift Email Invoice</label>
-                    <file>ratepay_directdebit_invoice_template.html</file>
-                    <type>html</type>
-                </ratepay_directdebit_invoice_template>
-
-                <ratepay_rechnung_creditmemo_template module="ratepay">
-                    <label>RatePAY Rechnung Email Creditmemo</label>
-                    <file>ratepay_rechnung_creditmemo_template.html</file>
-                    <type>html</type>
-                </ratepay_rechnung_creditmemo_template>
-
-                <ratepay_rate_creditmemo_template module="ratepay">
-                    <label>RatePAY Rate Email Creditmemo</label>
-                    <file>ratepay_rate_creditmemo_template.html</file>
-                    <type>html</type>
-                </ratepay_rate_creditmemo_template>
-
-                <ratepay_directdebit_creditmemo_template module="ratepay">
-                    <label>RatePAY Lastschrift Email Creditmemo</label>
-                    <file>ratepay_directdebit_creditmemo_template.html</file>
-                    <type>html</type>
-                </ratepay_directdebit_creditmemo_template>
-
-            </email>
-        </template>
 
         <models>
 
@@ -99,14 +57,6 @@
 
                 </entities>
             </ratepay_mysql4>
-
-            <sales>
-                <rewrite>
-                    <order_pdf_invoice>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Invoice</order_pdf_invoice>
-                    <order_pdf_abstract>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Abstract</order_pdf_abstract>
-                    <order_pdf_shipment>PayIntelligent_Ratepay_Model_Adminhtml_Order_Pdf_Shipment</order_pdf_shipment>
-                </rewrite>
-            </sales>
 
         </models>
 
@@ -205,12 +155,6 @@
                 <specificcountry>DE</specificcountry>
                 <specificcurrency>EUR</specificcurrency>
             </ratepay_paymentquery>
-
-            <sales_pdf>
-                <ratepay_rate>
-                    <invoice_field>Bei Fragen zur Rechnung wenden Sie sich bitte an:{{pdf_row_separator}}Tel 012/34567 ● Fax 012/345678 ● testshop@ratepay.de</invoice_field>
-                </ratepay_rate>
-            </sales_pdf>
 
         </payment>
 
@@ -335,15 +279,6 @@
                     </sendRatepayCancelCall>
                 </observers>
             </order_cancel_after>
-
-            <controller_action_postdispatch_adminhtml_sales_order_invoice_save>
-                <observers>
-                    <sendRatepayInvoiceEmail>
-                        <class>ratepay/observer</class>
-                        <method>sendRatepayInvoiceEmail</method>
-                    </sendRatepayInvoiceEmail>
-                </observers>
-            </controller_action_postdispatch_adminhtml_sales_order_invoice_save>
 
         </events>
 

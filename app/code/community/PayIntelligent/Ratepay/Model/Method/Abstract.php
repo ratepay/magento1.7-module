@@ -217,25 +217,6 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     }
 
     /**
-     *  Sets Sessionvariable to go back to the payment overview and to reload the payment-method block
-     *  Additionally setting a variable to hide RatePAY if the Riskcheck was negative
-     */
-    protected function _hidePaymentMethod()
-    {
-        Mage::getSingleton('checkout/session')->setRatepayMethodHide(true);
-        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
-    }
-
-    /**
-     *  Sets Sessionvariable to go back to the payment overview and to reload the payment-method block
-     *  Additionally setting a variable to hide RatePAY if the Riskcheck was negative
-     */
-    protected function _setGoToPayment()
-    {
-        Mage::getSingleton('checkout/session')->setGotoSection('payment');
-    }
-
-    /**
      * Return Quote or Order Object depending what the Payment is
      *
      * @return Mage_Sales_Model_Order|Mage_Sales_Model_Ouote
@@ -274,39 +255,36 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     {
         $client = Mage::getSingleton('ratepay/request');
 
+        $order = $this->getQuoteOrOrder();
         $helper = Mage::helper('ratepay/mapping');
         if (Mage::getSingleton('ratepay/session')->getQueryActive() &&
             Mage::getSingleton('ratepay/session')->getTransactionId()) {
-            $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
-            $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
+            $resultInit['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
+            $resultInit['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
         } else {
-            $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+            $resultInit = $client->callPaymentInit($helper->getRequestHead($order), $helper->getLoggingInfo($order));
         }
-        if (is_array($result) || $result == true) {
-            $payment->setAdditionalInformation('transactionId', $result['transactionId']);
-            $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
-            $result = $client->callPaymentRequest($helper->getRequestHead($this->getQuoteOrOrder()),
-                                                  $helper->getRequestCustomer($this->getQuoteOrOrder()),
-                                                  $helper->getRequestBasket($this->getQuoteOrOrder()),
-                                                  $helper->getRequestPayment($this->getQuoteOrOrder()),
-                                                  $helper->getLoggingInfo($this->getQuoteOrOrder()));
-            if (is_array($result) || $result == true) {
-                $payment->setAdditionalInformation('descriptor', $result['descriptor']);
-            } else {
-                if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
-                    $this->_hidePaymentMethod();
+        if (is_array($resultInit) || $resultInit == true) {
+            $payment->setAdditionalInformation('transactionId', $resultInit['transactionId']);
+            $payment->setAdditionalInformation('transactionShortId', $resultInit['transactionShortId']);
+            $resultRequest = $client->callPaymentRequest($helper->getRequestHead($order),
+                                                  $helper->getRequestCustomer($order),
+                                                  $helper->getRequestBasket($order),
+                                                  $helper->getRequestPayment($order),
+                                                  $helper->getLoggingInfo($order));
+            if (is_array($resultRequest) || $resultRequest == true) {
+                $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+
+                $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+
+                if (!is_array($resultConfirm) && !$resultConfirm == true) {
+                    $this->_abortBackToPayment('Pi PAYMENT_REQUEST Declined');
                 }
-                $this->_setGoToPayment();
-                $this->_cleanSession();
-                Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
+            } else {
+                $this->_abortBackToPayment('Pi PAYMENT_REQUEST Declined');
             }
         } else {
-            if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
-                $this->_hidePaymentMethod();
-            }
-            $this->_setGoToPayment();
-            $this->_cleanSession();
-            Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
+            $this->_abortBackToPayment('Pi Gateway Offline');
         }
 
         $this->_cleanSession();
@@ -328,6 +306,27 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('ratepay/session')->setTransactionShortId(null);
         Mage::getSingleton('ratepay/session')->setAllowedProducts(false);
         Mage::getSingleton('ratepay/session')->setPreviousQuote(null);
+    }
+
+    protected function _abortBackToPayment($exception) {
+        $order = $this->getQuoteOrOrder();
+
+        if (!$this->getConfigData('sandbox', $order->getStoreId())) {
+            $this->_hidePaymentMethod();
+        }
+        $this->_cleanSession();
+        Mage::getSingleton('checkout/session')->setGotoSection('payment');
+        Mage::throwException($this->_getHelper()->__($exception));
+    }
+
+    /**
+     *  Sets Sessionvariable to go back to the payment overview and to reload the payment-method block
+     *  Additionally setting a variable to hide RatePAY if the Riskcheck was negative
+     */
+    protected function _hidePaymentMethod()
+    {
+        Mage::getSingleton('checkout/session')->setRatepayMethodHide(true);
+        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
     }
 
     /**
