@@ -518,12 +518,12 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    <tr class="piTableHr">';
         echo '        <th>';
         echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDebitRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDebitRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft">' . $this->__('pi_lang_debit_rate') . ':</div>';
+        echo '            <div class="piRpFloatLeft">' . $this->__('pi_lang_interestrate_default') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDebitRate">' . $this->__('pi_lang_mouseover_debit_rate') . ':</div>';
         echo '            </div>';
         echo '         </th>';
-        echo '        <td colspan="2"><div class="piRpFloatLeft">&nbsp;<div class="piRpPercentWith">' . $result['monthlyDebitInterest'] . '%</div></div></td>';
+        echo '        <td colspan="2"><div class="piRpFloatLeft">&nbsp;<div class="piRpPercentWith">' . $result['interestRate'] . '%</div></div></td>';
         echo '    </tr>';
         echo '    <tr>';
         echo '        <th>';
