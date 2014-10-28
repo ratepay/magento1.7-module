@@ -18,25 +18,22 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class PayIntelligent_Ratepay_Model_Source_Rechnung_Countries
+class PayIntelligent_Ratepay_Model_Source_Elv_Currency
 {
     /**
-     * Define which Countries are allowed for payment
+     * Define which Currencies are allowed for payment
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $countries = array(
+        $currency = array(
             array(
-                'label' => Mage::helper('core')->__('Germany'),
-                'value' => 'DE'
-            ),
-            array(
-                'label' => Mage::helper('core')->__('Austria'),
-                'value' => 'AT'
+                'label' => Mage::helper('core')->__('Euro'),
+                'value' => 'EUR'
             )
         );
-        return $countries;
+        return $currency;
     }
 }
+

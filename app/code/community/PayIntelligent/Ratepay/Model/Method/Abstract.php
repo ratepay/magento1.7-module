@@ -119,10 +119,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
      */
     public function canUseForCountry($country)
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-        $storeId = $quote ? $quote->getStoreId() : null;
-
-        $availableCountries = explode(',', $this->getConfigData('specificcountry'), $storeId);
+        $availableCountries = explode(',', $this->getConfigData('specificcountry'));
         if(!in_array($country, $availableCountries)){
             return false;
         }

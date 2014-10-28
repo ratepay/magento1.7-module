@@ -18,7 +18,7 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class PayIntelligent_Ratepay_Model_Source_Rechnung_Countries
+class PayIntelligent_Ratepay_Model_Source_Elv_Countries
 {
     /**
      * Define which Countries are allowed for payment
@@ -31,10 +31,6 @@ class PayIntelligent_Ratepay_Model_Source_Rechnung_Countries
             array(
                 'label' => Mage::helper('core')->__('Germany'),
                 'value' => 'DE'
-            ),
-            array(
-                'label' => Mage::helper('core')->__('Austria'),
-                'value' => 'AT'
             )
         );
         return $countries;
