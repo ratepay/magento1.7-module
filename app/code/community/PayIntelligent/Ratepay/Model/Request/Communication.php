@@ -53,6 +53,7 @@ class PayIntelligent_Ratepay_Model_Request_Communication extends Zend_Http_Clien
         'curloptions' => array(
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSLVERSION => 1,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_POST => 1,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
