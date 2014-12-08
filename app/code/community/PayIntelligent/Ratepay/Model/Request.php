@@ -95,6 +95,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
                 if($statusCode == "OK" && $resultCode == "402") {
                     $result = array();
                     $result['descriptor'] = (string) $this->response->content->payment->descriptor;
+                    $result['address'] = (array) $this->response->content->customer->addresses->address;
                     $this->error = '';
                     return $result;
                 } else {
@@ -443,13 +444,6 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
         $content = $this->request->addChild('content');
         if($requestInfo != 'CONFIRMATION_DELIVER') {
             $this->setRatepayContentCustomer($content, $customerInfo);
-        } else if ($requestInfo == 'CONFIRMATION_DELIVER') {
-            if (!Mage::helper('ratepay')->isInstallment((string) $this->request->head->external->{'order-id'})) {
-                $dueDate = Mage::helper('ratepay')->getDueDays($paymentInfo);
-                $invoicing = $content->addChild('invoicing');
-                $invoicing->addChild('delivery-date', date(DATE_ATOM, mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"))));
-                $invoicing->addChild('due-date', date(DATE_ATOM, mktime(date("H"), date("i"), date("s"), date("m"), date("d") + $dueDate, date("Y"))));
-            }
         }
 
         $this->setRatepayContentBasket($content, $itemInfo);
@@ -533,7 +527,6 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
             $data = Mage::helper('ratepay')->getBankData();
             $bankData = $customer->addChild('bank-account');
             $bankData->addChild('owner', $data['owner']);
-            $bankData->addChild('bank-name', $data['bankname']);
             if(!empty($data['accountnumber']) && empty($data['iban'])) {
                 $bankData->addChild('bank-account-number', $data['accountnumber']);
                 $bankData->addChild('bank-code', $data['bankcode']);

@@ -111,45 +111,6 @@ $bankData = $this->getBankData();
         </div>
     </li>
 
-    <br/>
-
-    <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-        <li><label><?php echo $this->__('Pi Ratepay address') ?></label></li>
-        <li><label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label></li>
-        <li><label><?php echo $this->__('Pi Mandate') ?>: <?php echo $this->__('Pi Mandate Ref') ?></label></li>
-    </ul>
-    <br/>
-    <ul>
-        <li>
-            <label>
-                <?php echo $this->__('Pi insert bank data'); ?>
-            </label>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Pi Account holder'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['owner'] ?>" type="text" name="payment[<?php echo $_code ?>_account_holder]" id="<?php echo $_code ?>_account_holder" class="input-text required-entry"/>
-            </div>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_account_number" class="required"><em>*</em><?php echo $this->__('Pi IBAN') . " / " . $this->__('Pi Account number'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo (!empty($bankData['iban'])) ? $bankData['iban'] : $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code ?>_account_number]" id="<?php echo $_code ?>_account_number" class="input-text required-entry" onkeyup="switchAccountType(this)" onchange="switchAccountType(this)" />
-            </div>
-        </li>
-        <li id="li_<?php echo $_code ?>_bank_code_number" style="display: <?php echo (!empty($bankData['iban'])) ? "none" : "inline-block" ?>;">
-            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('Pi SWIFT-BIC'); ?> / <?php echo $this->__('Pi Bank code number'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="input-text"/>
-            </div>
-        </li>
-        <li>
-            <label for="<?php echo $_code ?>_bank_name" class="required"><em>*</em><?php echo $this->__('Pi Bank name'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['bankname'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_name]" id="<?php echo $_code ?>_bank_name" class="input-text required-entry"/>
-            </div>
-        </li>
-    </ul>
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
         <li>
             <b><?php echo $this->__('Pi Missing contact informations'); ?></b>
@@ -174,10 +135,43 @@ $bankData = $this->getBankData();
         </li>
     <?php endif; ?>
 
+    <br/>
+
+    <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+        <li><label><?php echo $this->__('Pi Ratepay address') ?></label></li>
+        <li><label><?php echo $this->__('Pi Creditor') ?>: <?php echo $this->__('Pi RatePAY Creditor ID') ?></label></li>
+        <li><label><?php echo $this->__('Pi Mandate') ?>: <?php echo $this->__('Pi Mandate Ref') ?></label></li>
+    </ul>
+    <br/>
+    <ul>
+        <li>
+            <label>
+                <?php echo $this->__('Pi insert bank data'); ?>
+            </label>
+        </li>
+        <li>
+            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Pi Account holder'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['owner'] ?>" type="text" name="payment[<?php echo $_code ?>_account_holder]" id="<?php echo $_code ?>_account_holder" class="input-text required-entry"/>
+            </div>
+        </li>
+        <li>
+            <label for="<?php echo $_code ?>_account_number" class="required"><em>*</em><?php echo $this->__('Pi IBAN'); if ($this->getCountryCode() == 'de') echo " / " . $this->__('Pi Account number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo (!empty($bankData['iban'])) ? $bankData['iban'] : $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code ?>_account_number]" id="<?php echo $_code ?>_account_number" class="input-text required-entry" onkeyup="switchAccountType(this)" onchange="switchAccountType(this)" />
+            </div>
+        </li>
+        <li <?php if ($this->getCountryCode() == 'de') echo 'id="li_' . $_code .'_bank_code_number"'; ?>>
+            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('Pi SWIFT-BIC'); if ($this->getCountryCode() == 'de') echo " / " . $this->__('Pi Bank code number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="input-text<?php if ($this->getCountryCode() != 'de') echo ' required-entry'; ?>"/>
+            </div>
+        </li>
+
         <li>
             <table>
                 <tr>
-                    <td>
+                    <td style="vertical-align: top; padding-right: 5px;">
                         <input type="checkbox" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                     </td>
                     <td>
@@ -185,7 +179,7 @@ $bankData = $this->getBankData();
                             <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_1');?>
                             <?php echo $this->__('Pi Ratepay address');?>
                             <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_2');?>
-                            <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_directdebit/privacy_policy",$this->getQuote()->getStoreId()); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
+                            <a target="_blank" href="<?php echo Mage::getStoreConfig("payment/ratepay_directdebit/privacy_policy",$this->getQuote()->getStoreId()) . "-" . $this->getCountryCode(); ?>"><?php echo $this->__('Pi RatePAY Data Privacy Policy');?></a>
                             <?php echo $this->__('Pi ratepay_directdebit_sepa_terms_block_3');?>
                         </span>
                     </td>

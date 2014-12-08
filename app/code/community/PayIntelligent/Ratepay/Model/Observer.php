@@ -305,7 +305,7 @@ class PayIntelligent_Ratepay_Model_Observer
                 $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
                 $msg = Mage::helper('ratepay')->__('Pi Voucher was not successful.');
             } else {
-                $headInfo = $mappingHelper->getRequestHead($order, $this->_getSubtype($creditmemo, 'return'));
+                $headInfo = $mappingHelper->getRequestHead($order, 'partial-return');
                 $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
                 $msg = Mage::helper('ratepay')->__('Pi Return was not successful.');
             }
@@ -319,7 +319,7 @@ class PayIntelligent_Ratepay_Model_Observer
     }
 
     /**
-     * Send a PAYMENT_CHANGE (full-cancellation, partial-cancellation) call with all available item
+     * Send a PAYMENT_CHANGE (partial-cancellation) call with all available item
      *
      * @param Varien_Event_Observer $observer
      */
@@ -346,7 +346,7 @@ class PayIntelligent_Ratepay_Model_Observer
             $availableProducts = $paymentHelper->getAvailableProducts($orderItems, $data);
 
             $basketInfo = $mappingHelper->getRequestBasket($order, $amount, $availableProducts);
-            $headInfo = $mappingHelper->getRequestHead($order, $this->_getSubtype($order, 'cancellation'));
+            $headInfo = $mappingHelper->getRequestHead($order, 'partial-cancellation');
             $customerInfo = $mappingHelper->getRequestCustomer($order);
             $paymentInfo = $mappingHelper->getRequestPayment($order, $amount);
             $loggingInfo = $mappingHelper->getLoggingInfo($order);
@@ -389,34 +389,6 @@ class PayIntelligent_Ratepay_Model_Observer
         }
         
         return true;
-    }
-
-    /**
-     * Retrieve subtype
-     *
-     * @param Mage_Sales_Model_Creditmemo | Mage_Sales_Model_Order $object
-     * @return string
-     */
-    private function _getSubtype($object, $type)
-    {
-        $subType = 'partial-' . $type;
-        ($type == 'return') ? $method = '_isFullReturn' : $method = '_isFullCancel';
-        if ($this->$method($object)) {
-            $subType = 'full-' . $type;
-        }
-
-        return $subType;
-    }
-
-    /**
-     * Is full return
-     *
-     * @param Mage_Sales_Model_Order_Creditmemo $object
-     * @return boolean
-     */
-    private function _isFullReturn(Mage_Sales_Model_Order_Creditmemo $object)
-    {
-        return $this->_getItemCount($object) == $this->_getItemCount($object->getOrder());
     }
 
     /**

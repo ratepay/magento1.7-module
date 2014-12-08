@@ -196,6 +196,17 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Gets the country id from the quote
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
+     * @return String
+     */
+    public function getCountryCode($quote)
+    {
+        return strtoupper($quote->getBillingAddress()->getCountryId());
+    }
+
+    /**
      * Sets the vat id into the customer if not guest and always into the Quote/Order
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
@@ -301,8 +312,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
             $bankdata = array (
-                'owner' => $data[$code . '_account_holder'],
-                'bankname' => $data[$code . '_bank_name']
+                'owner' => $data[$code . '_account_holder']
             );
             if(!empty($data[$code . '_iban'])) {
                 $bankdata['iban'] = $data[$code . '_iban'];
@@ -336,7 +346,6 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('core/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         }
         Mage::getSingleton('core/session')->setAccountHolder($data[$code . '_account_holder']);
-        Mage::getSingleton('core/session')->setBankName($data[$code . '_bank_name']);
     }
     
     /**
@@ -354,8 +363,7 @@ class PayIntelligent_Ratepay_Helper_Data extends Mage_Core_Helper_Abstract
             $bankdata = $piEncryption->loadBankdata($customerId);
         } else {
             $bankdata = array (
-                'owner' => Mage::getSingleton('core/session')->getAccountHolder(),
-                'bankname' => Mage::getSingleton('core/session')->getBankName()
+                'owner' => Mage::getSingleton('core/session')->getAccountHolder()
             );
 
             if(Mage::getSingleton('core/session')->getIban()) {

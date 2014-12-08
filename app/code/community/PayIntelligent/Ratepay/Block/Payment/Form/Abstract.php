@@ -164,11 +164,21 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     /**
      * Returns the entered company name
      *
-     * @return boolean
+     * @return string
      */
     public function getCompany()
     {
         return $this->getQuote()->getBillingAddress()->getCompany();
+    }
+
+    /**
+     * Returns the country code
+     *
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return strtolower($this->getQuote()->getBillingAddress()->getCountryId());
     }
 
     /**

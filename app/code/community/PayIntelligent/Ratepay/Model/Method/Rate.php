@@ -142,7 +142,7 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
     }
 
     /**
-     * Authorize the transaction by calling PAYMENT_INIT and PAYMENT_REQUEST.
+     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST and PAYMENT_CONFIRM.
      *
      * @param   Varien_Object $orderPayment
      * @param   float $amount
@@ -152,46 +152,41 @@ class PayIntelligent_Ratepay_Model_Method_Rate extends PayIntelligent_Ratepay_Mo
     {
         $client = Mage::getSingleton('ratepay/request');
 
+        $order = $this->getQuoteOrOrder();
         $helper = Mage::helper('ratepay/mapping');
         if (Mage::getSingleton('ratepay/session')->getQueryActive() &&
             Mage::getSingleton('ratepay/session')->getTransactionId()) {
             $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
             $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
         } else {
-            $result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
+            $result = $client->callPaymentInit($helper->getRequestHead($order), $helper->getLoggingInfo($order));
         }
 
-        //$helper = Mage::helper('ratepay/mapping');
-        //$result = $client->callPaymentInit($helper->getRequestHead($this->getQuoteOrOrder()), $helper->getLoggingInfo($this->getQuoteOrOrder()));
         if (is_array($result) || $result == true) {
             $payment->setAdditionalInformation('transactionId', $result['transactionId']);
             $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
-            $result = $client->callPaymentRequest($helper->getRequestHead($this->getQuoteOrOrder()), 
-                                                    $helper->getRequestCustomer($this->getQuoteOrOrder()), 
-                                                    $helper->getRequestBasket($this->getQuoteOrOrder()), 
-                                                    $helper->getRequestPayment($this->getQuoteOrOrder(),
+            $result = $client->callPaymentRequest($helper->getRequestHead($order), 
+                                                    $helper->getRequestCustomer($order), 
+                                                    $helper->getRequestBasket($order), 
+                                                    $helper->getRequestPayment($order,
                                                         (float)Mage::getSingleton('checkout/session')->getRatepayRateTotalAmount(),
                                                         'PAYMENT_REQUEST'
                                                     ),
-                                                    $helper->getLoggingInfo($this->getQuoteOrOrder())
+                                                    $helper->getLoggingInfo($order)
                         );
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
-            } else {
-                if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
-                    $this->_hidePaymentMethod();
+
+                $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+
+                if (!is_array($resultConfirm) && !$resultConfirm == true) {
+                    $this->_abortBackToPayment('Pi PAYMENT_REQUEST Declined');
                 }
-                $this->_setGoToPayment();
-                $this->_cleanSession();
-                Mage::throwException($this->_getHelper()->__('Pi PAYMENT_REQUEST Declined'));
+            } else {
+                $this->_abortBackToPayment('Pi PAYMENT_REQUEST Declined');
             }
         } else {
-            if (!$this->getConfigData('sandbox', $this->getQuoteOrOrder()->getStoreId())) {
-                $this->_hidePaymentMethod();
-            }
-            $this->_setGoToPayment();
-            $this->_cleanSession();
-            Mage::throwException($this->_getHelper()->__('Pi Gateway Offline'));
+            $this->_abortBackToPayment('Pi Gateway Offline');
         }
 
         return $this;

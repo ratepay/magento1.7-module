@@ -201,7 +201,7 @@ class PayIntelligent_Ratepay_Helper_Payment extends Mage_Core_Helper_Abstract
     private function _addAdjustment(array &$items, array $creditmemoItems)
     {
         foreach ($creditmemoItems as $creditmemoItem) {
-            if (($creditmemoItem['articleNumber'] == 'adj-pos' || $creditmemoItem['articleNumber'] == 'adj-neg') && $creditmemoItem['quantity'] != 0) {
+            if (($creditmemoItem['articleNumber'] == 'adj-fee' || $creditmemoItem['articleNumber'] == 'adj-ref') && $creditmemoItem['quantity'] != 0) {
                 array_push($items, $creditmemoItem);
             }
         }

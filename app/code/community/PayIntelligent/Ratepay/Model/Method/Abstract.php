@@ -242,7 +242,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
     }
 
     /**
-     * Authorize the transaction by calling PAYMENT_INIT and PAYMENT_REQUEST.
+     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST and PAYMENT_CONFIRM.
      *
      * @param   Varien_Object $orderPayment
      * @param   float $amount
@@ -271,6 +271,21 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                                                   $helper->getLoggingInfo($order));
             if (is_array($resultRequest) || $resultRequest == true) {
                 $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+
+                if ($this->getConfigData('address_normalization', $order->getStoreId())) {
+                    $billingAddress = $order->getBillingAddress();
+                    $shippingAddress = $order->getShippingAddress();
+
+                    $billingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
+                    $billingAddress->setPostcode($resultRequest['address']['zip-code']);
+                    $billingAddress->setCity($resultRequest['address']['city']);
+
+                    if ($billingAddress->getCustomerAddressId() == $shippingAddress->getCustomerAddressId()) {
+                        $shippingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
+                        $shippingAddress->setPostcode($resultRequest['address']['zip-code']);
+                        $shippingAddress->setCity($resultRequest['address']['city']);
+                    }
+                }
 
                 $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
 

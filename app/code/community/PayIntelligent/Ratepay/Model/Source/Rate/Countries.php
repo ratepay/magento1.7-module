@@ -31,6 +31,10 @@ class PayIntelligent_Ratepay_Model_Source_Rate_Countries
             array(
                 'label' => Mage::helper('core')->__('Germany'),
                 'value' => 'DE'
+            ),
+            array(
+                'label' => Mage::helper('core')->__('Austria'),
+                'value' => 'AT'
             )
         );
         return $countries;

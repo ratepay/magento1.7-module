@@ -165,10 +165,10 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     private function addAdjustments($creditmemo, $articles)
     {
         if ($creditmemo->getAdjustmentPositive() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Positive', 'adj-pos'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Fee', 'adj-fee'));
         }
         if ($creditmemo->getAdjustmentNegative() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Negative', 'adj-neg'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Refund', 'adj-refgetRequestBasket'));
         }
 
         return $articles;
@@ -336,6 +336,12 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
             $basket['amount'] = $object->getGrandTotal();
         }
 
+        // Ensure that the basket amout is never less than zero
+            // In certain cases (i.e. in case of maloperation) the amount can become < 0
+        if ($basket['amount'] < 0) {
+            $basket['amount'] = 0;
+        }
+
         if ($object instanceof Mage_Sales_Model_Order) {
             $basket['currency'] = $object->getOrderCurrencyCode();
         } else if ($object instanceof Mage_Sales_Model_Quote) {
@@ -350,7 +356,28 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
             $basket['items'] = $this->getArticles($object);
         }
 
+        // If no positiv item is remained in basket clear basket
+        if (!$this->_anyPositiveItems($basket['items'])) {
+            $basket['items'] = array();
+        }
+
         return $basket;
+    }
+
+    /**
+     * Check for any positive items
+     *
+     * @param array $items
+     * @return boolean
+     */
+    public function _anyPositiveItems($items) {
+        $anyPositiveItems = false;
+        foreach ($items as $item) {
+            if ($item['unitPrice'] >= 0) {
+                $anyPositiveItems = true;
+            }
+        }
+        return $anyPositiveItems;
     }
 
     /**
@@ -401,6 +428,12 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
             $payment['amount'] = $amount;
         } else {
             $payment['amount'] = $object->getGrandTotal();
+        }
+
+        // Ensure that the basket amout is never less than zero
+            // In certain cases (i.e. in case of maloperation) the amount can become < 0
+        if ($payment['amount'] < 0) {
+            $payment['amount'] = 0;
         }
 
         return $payment;
