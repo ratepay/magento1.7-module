@@ -85,7 +85,7 @@ class PayIntelligent_Ratepay_Block_Payment_Form_Rate extends PayIntelligent_Rate
     public function getRatePreInfo()
     {
         $paymentStep = Mage::getSingleton('checkout/session')->getStepData('payment');
-        if(isset($paymentStep['allow']) && $paymentStep['allow'] == 1) {
+        if(isset($paymentStep['is_show']) && $paymentStep['is_show'] == 1) {
             try {
                 Mage::getSingleton('checkout/session')->setRatepayRateTotalAmount(null);
                 Mage::getSingleton('checkout/session')->setRatepayRateAmount(null);

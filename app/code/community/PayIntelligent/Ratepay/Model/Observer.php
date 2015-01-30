@@ -234,7 +234,7 @@ class PayIntelligent_Ratepay_Model_Observer
     }
 
     /**
-     * Send a CONFIRMATION_DELIVER call with all invoiced items
+     * Send a CONFIRMATION_DELIVER call with all shipping items
      *
      * @param Varien_Event_Observer $observer
      * @throws Exception Pi Delivery was not successful.
@@ -243,22 +243,17 @@ class PayIntelligent_Ratepay_Model_Observer
     {
         $client = Mage::getSingleton('ratepay/request');
         $helper = Mage::helper('ratepay/mapping');
-        $invoice = $observer->getEvent()->getInvoice();
-        $order = $invoice->getOrder();
+        $shipping = $observer->getEvent()->getShipment();
+        $order = $shipping->getOrder();
         if (Mage::helper('ratepay/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
-            $result = $client->callConfirmationDeliver($helper->getRequestHead($order), $helper->getRequestBasket($invoice), $helper->getLoggingInfo($order));
+            $result = $client->callConfirmationDeliver($helper->getRequestHead($order), $helper->getRequestBasket($order), $helper->getLoggingInfo($order));
 
             if (!$result) {
                 Mage::throwException(Mage::helper('ratepay')->__('Pi Delivery was not successful.'));
             }
 
-            //Mage::helper('ratepay/payment')->convertInvoiceToShipment($invoice);
-            Mage::helper('ratepay/payment')->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $invoice, true, 'CONFIRMATION_DELIVER SEND (capture)');
-            if (!$order->canInvoice()) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, 'payment_processing', 'success')->save();
-            } else {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, 'payment_complete', 'success')->save();
-            }
+            Mage::helper('ratepay/payment')->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $shipping, true, 'CONFIRMATION_DELIVER SEND (capture)');
+            $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, 'payment_complete', 'success')->save();
         }
     }
 

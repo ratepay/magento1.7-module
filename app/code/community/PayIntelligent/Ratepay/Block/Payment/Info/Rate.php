@@ -46,6 +46,8 @@ class PayIntelligent_Ratepay_Block_Payment_Info_Rate extends PayIntelligent_Rate
      * @return array
      */
     public function getRateData() {
+        $info = $this->getInfo();
+
         $result = array();
         $result['totalAmount'] = Mage::helper('ratepay')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Total Amount'));
         $result['amount'] = Mage::helper('ratepay')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Amount'));

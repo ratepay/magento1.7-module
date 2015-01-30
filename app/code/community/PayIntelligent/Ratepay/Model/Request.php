@@ -204,11 +204,12 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentInit($head, $loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PAYMENT_INIT',$head);
-        $loggingInfo['requestType'] = 'PAYMENT_INIT';
+        $requestType =  "PAYMENT_INIT";
+        $this->setRequestHead($requestType, $head);
+        $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PAYMENT_INIT');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -224,12 +225,13 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentQuery($headInfo, $subType, $customerInfo, $itemInfo, $loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PAYMENT_QUERY',$headInfo);
-        $this->setRequestContent($customerInfo,$itemInfo, false,'PAYMENT_QUERY');
-        $loggingInfo['requestType'] = 'PAYMENT_QUERY';
+        $requestType =  "PAYMENT_QUERY";
+        $this->setRequestHead($requestType,$headInfo);
+        $this->setRequestContent($customerInfo,$itemInfo, false, $requestType);
+        $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = $subType;
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PAYMENT_QUERY');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -245,12 +247,13 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentRequest($headInfo, $customerInfo, $itemInfo, $paymentInfo, $loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PAYMENT_REQUEST',$headInfo);
-        $this->setRequestContent($customerInfo,$itemInfo, $paymentInfo);
-        $loggingInfo['requestType'] = 'PAYMENT_REQUEST';
+        $requestType =  "PAYMENT_REQUEST";
+        $this->setRequestHead($requestType, $headInfo);
+        $this->setRequestContent($customerInfo,$itemInfo, $paymentInfo, $requestType);
+        $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PAYMENT_REQUEST');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -263,11 +266,12 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentConfirm($headInfo, $loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PAYMENT_CONFIRM',$headInfo);
-        $loggingInfo['requestType'] = 'PAYMENT_CONFIRM';
+        $requestType =  "PAYMENT_CONFIRM";
+        $this->setRequestHead($requestType, $headInfo);
+        $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PAYMENT_CONFIRM');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -281,12 +285,13 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callConfirmationDeliver($headInfo, $itemInfo ,$loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('CONFIRMATION_DELIVER',$headInfo);
-        $this->setRequestContent(array(), $itemInfo, $headInfo, "CONFIRMATION_DELIVER");
-        $loggingInfo['requestType'] = 'CONFIRMATION_DELIVER';
+        $requestType =  "CONFIRMATION_DELIVER";
+        $this->setRequestHead($requestType, $headInfo);
+        $this->setRequestContent(array(), $itemInfo, $headInfo, $requestType);
+        $loggingInfo['requestType'] = $requestType;;
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('CONFIRMATION_DELIVER');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -302,12 +307,13 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentChange($headInfo,$customerInfo,$itemInfo, $paymentInfo, $loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PAYMENT_CHANGE',$headInfo);
+        $requestType =  "PAYMENT_CHANGE";
+        $this->setRequestHead($requestType, $headInfo);
         $this->setRequestContent($customerInfo, $itemInfo, $paymentInfo);
-        $loggingInfo['requestType'] = 'PAYMENT_CHANGE';
+        $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = $headInfo['subtype'];
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PAYMENT_CHANGE');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -320,10 +326,11 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callConfigurationRequest($headInfo,$loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('CONFIGURATION_REQUEST',$headInfo);
-        $loggingInfo['requestType'] = 'CONFIGURATION_REQUEST';
+        $requestType =  "CONFIGURATION_REQUEST";
+        $this->setRequestHead($requestType, $headInfo);
+        $loggingInfo['requestType'] = $requestType;
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('CONFIGURATION_REQUEST');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -336,10 +343,11 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callProfileRequest($headInfo,$loggingInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('PROFILE_REQUEST',$headInfo);
-        $loggingInfo['requestType'] = 'PROFILE_REQUEST';
+        $requestType =  "PROFILE_REQUEST";
+        $this->setRequestHead($requestType, $headInfo);
+        $loggingInfo['requestType'] = $requestType;
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('PROFILE_REQUEST');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -352,11 +360,12 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callCalculationRequest($headInfo,$loggingInfo,$calculationInfo)
     {
         $this->constructXml();
-        $this->setRequestHead('CALCULATION_REQUEST',$headInfo);
+        $requestType =  "CALCULATION_REQUEST";
+        $this->setRequestHead($requestType, $headInfo);
         $this->setRatepayContentCalculation($calculationInfo);
-        $loggingInfo['requestType'] = 'CALCULATION_REQUEST';
+        $loggingInfo['requestType'] = $requestType;
         $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse('CALCULATION_REQUEST');
+        return $this->validateResponse($requestType);
     }
 
     /**
@@ -442,7 +451,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     private function setRequestContent($customerInfo, $itemInfo, $paymentInfo = '', $requestInfo = '')
     {
         $content = $this->request->addChild('content');
-        if($requestInfo != 'CONFIRMATION_DELIVER') {
+        if($requestInfo == 'PROFILE_REQUEST') {
             $this->setRatepayContentCustomer($content, $customerInfo);
         }
 
