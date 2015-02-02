@@ -451,7 +451,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     private function setRequestContent($customerInfo, $itemInfo, $paymentInfo = '', $requestInfo = '')
     {
         $content = $this->request->addChild('content');
-        if($requestInfo == 'PROFILE_REQUEST') {
+        if($requestInfo == 'PAYMENT_REQUEST') {
             $this->setRatepayContentCustomer($content, $customerInfo);
         }
 
