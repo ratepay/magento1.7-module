@@ -65,7 +65,7 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
 
                 if ($item->getDiscountAmount() > 0) {
                     $discount = array();
-                    $discount['articleNumber'] = 'DISCOUNT';
+                    $discount['articleNumber'] = 'DISCOUNT-' . $item->getSk;
                     $discount['articleName'] = 'DISCOUNT - ' . $item->getName();
                     $discount['quantity'] = $article['quantity'];
                     $article['tax'] = $item->getRowTotalInclTax() - $item->getRowTotal();
@@ -165,10 +165,10 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
     private function addAdjustments($creditmemo, $articles)
     {
         if ($creditmemo->getAdjustmentPositive() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Fee', 'adj-fee'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref'));
         }
         if ($creditmemo->getAdjustmentNegative() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Refund', 'adj-refgetRequestBasket'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee'));
         }
 
         return $articles;

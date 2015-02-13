@@ -1,4 +1,12 @@
 ***********************************************************
+**********| Version 2.5.2 - Released 2015-02-13 |**********
+***********************************************************
+
+* bugfix in directdebit form template (redundant phone check)
+* DISCOUNT article number enhanced with item number
+* interchanged adj-fee and adj-ref
+
+***********************************************************
 **********| Version 2.5.1 - Released 2015-01-30 |**********
 ***********************************************************
 

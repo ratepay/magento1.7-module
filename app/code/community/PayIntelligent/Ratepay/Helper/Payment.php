@@ -80,7 +80,7 @@ class PayIntelligent_Ratepay_Helper_Payment extends Mage_Core_Helper_Abstract
         $creditmemoItems = array();
         foreach ($creditmemos as $creditmemo) {
             foreach (Mage::helper('ratepay/mapping')->getArticles($creditmemo) as $article) {
-                ($article['articleNumber'] == 'DISCOUNT') ? $condition = $article['articleName']: $condition = $article['articleNumber'];
+                (strpos($article['articleNumber'], 'DISCOUNT')) ? $condition = $article['articleName']: $condition = $article['articleNumber'];
                 if (array_key_exists($condition, $creditmemoItems)) {
                     $creditmemoItems[$condition]['quantity'] += $article['quantity'];
                     $creditmemoItems[$condition]['totalPrice'] += $article['totalPrice'];
