@@ -225,8 +225,8 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     public function callPaymentQuery($headInfo, $subType, $customerInfo, $itemInfo, $loggingInfo)
     {
         $this->constructXml();
-        $requestType =  "PAYMENT_QUERY";
-        $this->setRequestHead($requestType,$headInfo);
+        $requestType = "PAYMENT_QUERY";
+        $this->setRequestHead($requestType, $headInfo);
         $this->setRequestContent($customerInfo,$itemInfo, false, $requestType);
         $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = $subType;
@@ -402,14 +402,13 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
                 $external = $head->addChild('external');
                 $external->addChild('order-id', $headInfo['orderId']);
                 if ($headInfo['customerId'] != '' &&
-                    ($operationInfo == 'PAYMENT_REQUEST' ||
-                    $operationInfo == 'PAYMENT_QUERY')) {
+                    ($operationInfo == 'PAYMENT_REQUEST' || $operationInfo == 'PAYMENT_QUERY')) {
                     $external->addChild('merchant-consumer-id', $headInfo['customerId']);
                 }
             }
         }
 
-        if ($operationInfo == "PAYMENT_REQUEST") {
+        if ($operationInfo == 'PAYMENT_REQUEST' || $operationInfo == 'PAYMENT_QUERY') {
             $this->setRatepayHeadCustomerDevice($head);
         }
         
@@ -451,7 +450,7 @@ class PayIntelligent_Ratepay_Model_Request extends Mage_Core_Model_Abstract
     private function setRequestContent($customerInfo, $itemInfo, $paymentInfo = '', $requestInfo = '')
     {
         $content = $this->request->addChild('content');
-        if($requestInfo == 'PAYMENT_REQUEST') {
+        if($requestInfo == 'PAYMENT_REQUEST' || $requestInfo == 'PAYMENT_QUERY') {
             $this->setRatepayContentCustomer($content, $customerInfo);
         }
 

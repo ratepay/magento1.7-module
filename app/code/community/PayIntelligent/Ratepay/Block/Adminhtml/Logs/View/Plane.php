@@ -48,7 +48,8 @@ class PayIntelligent_Ratepay_Block_Adminhtml_Logs_View_Plane extends Mage_Adminh
          */
 	public function getRequest()
 	{
-	    return $this->_formatXml($this->getEntry()->getRequest());
+	    $rquest = $this->_formatXml($this->getEntry()->getRequest());
+        return $this->_formatXml($this->getEntry()->getRequest());
 	}
 
         /**
@@ -58,7 +59,7 @@ class PayIntelligent_Ratepay_Block_Adminhtml_Logs_View_Plane extends Mage_Adminh
          */
 	public function getResponse()
 	{
-	    return $this->_formatXml($this->getEntry()->getResponse());
+        return $this->_formatXml($this->getEntry()->getResponse());
 	}
 
         /**
@@ -74,7 +75,7 @@ class PayIntelligent_Ratepay_Block_Adminhtml_Logs_View_Plane extends Mage_Adminh
             $xml->formatOutput = true;
             $xml->loadXML($str);
             $var = $xml->saveXML();
-	    return htmlentities(utf8_decode($var));
+	    return htmlentities($var);
 	}
 
 }

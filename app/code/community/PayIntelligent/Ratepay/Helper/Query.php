@@ -79,15 +79,8 @@ class PayIntelligent_Ratepay_Helper_Query extends Mage_Core_Helper_Abstract
      */
     public function relevantOrderChanges($currentQuote, $previousQuote)
     {
-        if ($currentQuote['basket']['amount'] > $previousQuote['basket']['amount']) {
-            if ($previousQuote['Result'] == true) {
-                return true;
-            }
-        }
-        if ($currentQuote['basket']['amount'] < $previousQuote['basket']['amount']) {
-            if ($previousQuote['Result'] != true) {
-                return true;
-            }
+        if ($currentQuote['basket']['amount'] <> $previousQuote['basket']['amount']) {
+            return true;
         }
 
         if ($currentQuote['customer']['firstname'] != $previousQuote['customer']['firstname']) {

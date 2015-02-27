@@ -246,14 +246,13 @@ class PayIntelligent_Ratepay_Helper_Mapping extends Mage_Core_Helper_Abstract
         if ($methodCode == '') {
             $head['profileId'] = Mage::getStoreConfig('payment/' . $quoteOrOrder->getPayment()->getMethod() . '/profile_id', $quoteOrOrder->getStoreId());
             $head['securityCode'] = Mage::getStoreConfig('payment/' . $quoteOrOrder->getPayment()->getMethod() . '/security_code', $quoteOrOrder->getStoreId());
-            $head['transactionId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId');
-            $head['transactionShortId'] = $quoteOrOrder->getPayment()->getAdditionalInformation('transactionShortId');
         } else {
             $head['profileId'] = Mage::getStoreConfig('payment/' . $methodCode . '/profile_id', $quoteOrOrder->getStoreId());
             $head['securityCode'] = Mage::getStoreConfig('payment/' . $methodCode . '/security_code', $quoteOrOrder->getStoreId());
-            $head['transactionId'] = '';
-            $head['transactionShortId'] = '';
         }
+        $head['transactionId'] = ($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId')) ? $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId') : '';
+        $head['transactionShortId'] = ($quoteOrOrder->getPayment()->getAdditionalInformation('transactionShortId')) ? $quoteOrOrder->getPayment()->getAdditionalInformation('transactionShortId') : '';
+
         if ($quoteOrOrder instanceof Mage_Sales_Model_Order) {
             $head['orderId'] = $quoteOrOrder->getRealOrderId();
         } else {

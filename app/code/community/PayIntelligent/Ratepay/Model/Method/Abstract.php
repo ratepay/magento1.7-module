@@ -271,6 +271,7 @@ abstract class PayIntelligent_Ratepay_Model_Method_Abstract extends Mage_Payment
                                                   $helper->getLoggingInfo($order));
             if (is_array($resultRequest) || $resultRequest == true) {
                 $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+                Mage::getSingleton('ratepay/session')->setDeviceIdentToken();
 
                 if ($this->getConfigData('address_normalization', $order->getStoreId())) {
                     $billingAddress = $order->getBillingAddress();

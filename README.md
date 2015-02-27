@@ -6,8 +6,8 @@ RatePAY GmbH - Magento Payment Module
 |Author | `Aarne Welschlau`
 |Prefix | `pi`
 |Shop Version | `CE` `<= 1.9.x`
-|Version | `2.5.2`
+|Version | `2.5.3`
 |Link | `http://www.ratepay.com`
 |Mail | `integration@ratepay.com`
-|Description | `enhanced DISCOUNT number and directdebit tpl bugfix`
+|Description | `changes in IBS, DFP and logs view`
 |Installation | `see separate installation manual`

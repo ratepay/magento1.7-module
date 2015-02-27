@@ -36,15 +36,9 @@ class PayIntelligent_Ratepay_Model_Observer
             return false;
         }
 
-        $paymentMethod = 'ratepay_paymentquery';
         $quote = Mage::getModel('checkout/session')->getQuote();
-        $payment = $quote->getPayment();
-        $payment->setMethod($paymentMethod);
-        $payment->save();
 
         $helper_query = Mage::helper('ratepay/query');
-
-        $querySubType = $helper_query->getQuerySubType($quote);
 
         if ($helper_query->isPaymentQueryActive($quote) &&
             $helper_query->validation($quote) &&
@@ -55,19 +49,21 @@ class PayIntelligent_Ratepay_Model_Observer
             $client = Mage::getSingleton('ratepay/request');
             $helper_mapping = Mage::helper('ratepay/mapping');
 
-            $arrayOrder = array("customer" => $helper_mapping->getRequestCustomer($quote),
+            $currentOrder = array("customer" => $helper_mapping->getRequestCustomer($quote),
                                 "basket" => $helper_mapping->getRequestBasket($quote),
-                                "result" => null);
+                                "result" => false);
 
-            if (Mage::getSingleton('ratepay/session')->getQueryActive()) {
+            $previousOrder = Mage::getSingleton('ratepay/session')->getPreviousQuote();
+
+            if (is_array($previousOrder) && !$helper_query->relevantOrderChanges($currentOrder, $previousOrder)) {
+                return;
+            }
+
+            if (Mage::getSingleton('ratepay/session')->getTransactionId()) {
                 $result['transactionId'] = Mage::getSingleton('ratepay/session')->getTransactionId();
                 $result['transactionShortId'] = Mage::getSingleton('ratepay/session')->getTransactionShortId();
-
-                if (!$helper_query->relevantOrderChanges($arrayOrder, Mage::getSingleton('ratepay/session')->getPreviousQuote())) {
-                    return;
-                }
             } else {
-                $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote), $helper_mapping->getLoggingInfo($quote));
+                $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote, '', 'ratepay_paymentquery'), $helper_mapping->getLoggingInfo($quote, 'ratepay_paymentquery'));
             }
 
             if (is_array($result) || $result == true) {
@@ -78,32 +74,35 @@ class PayIntelligent_Ratepay_Model_Observer
                 $payment->setAdditionalInformation('transactionId', $result['transactionId']);
                 $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
                 $payment->save();
-                $result = $client->callPaymentQuery($helper_mapping->getRequestHead($quote, $querySubType),
+                $result = $client->callPaymentQuery($helper_mapping->getRequestHead($quote, $querySubType, 'ratepay_paymentquery'),
                                                     $querySubType,
                                                     $helper_mapping->getRequestCustomer($quote),
                                                     $helper_mapping->getRequestBasket($quote),
-                                                    $helper_mapping->getLoggingInfo($quote));
+                                                    $helper_mapping->getLoggingInfo($quote, 'ratepay_paymentquery'));
 
                 if ((is_array($result) || $result == true)) {
                     $allowedProducts = $helper_query->getProducts($result['products']['product']);
-                    $arrayOrder['Result'] = true;
+                    $currentOrder['result'] = true;
 
                     Mage::getSingleton('ratepay/session')->setQueryActive(true);
                     Mage::getSingleton('ratepay/session')->setTransactionId($transactionId);
                     Mage::getSingleton('ratepay/session')->setTransactionShortId($transactionShortId);
                     Mage::getSingleton('ratepay/session')->setAllowedProducts($allowedProducts);
-                    Mage::getSingleton('ratepay/session')->setPreviousQuote($arrayOrder);
+                    Mage::getSingleton('ratepay/session')->setPreviousQuote($currentOrder);
                 } else {
-                    $arrayOrder['Result'] = false;
+                    $currentOrder['result'] = false;
 
                     Mage::getSingleton('ratepay/session')->setQueryActive(false);
+                    Mage::getSingleton('ratepay/session')->setTransactionId($transactionId);
+                    Mage::getSingleton('ratepay/session')->setTransactionShortId($transactionShortId);
                     Mage::getSingleton('ratepay/session')->setAllowedProducts(false);
-                    Mage::getSingleton('ratepay/session')->setPreviousQuote($arrayOrder);
+                    Mage::getSingleton('ratepay/session')->setPreviousQuote($currentOrder);
                 }
             } else {
-                if (!Mage::getStoreConfig('payment/' . $paymentMethod . '/sandbox', $quote->getStoreId())) {
-                    $this->_hidePaymentMethod();
+                if (!Mage::getStoreConfig('payment/ratepay_paymentquery/sandbox', $quote->getStoreId())) {
+                    Mage::getSingleton('checkout/session')->setRatepayMethodHide(true);
                 }
+
             }
 
         } elseif (!$helper_query->validation($quote)) {
