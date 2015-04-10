@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    //<![CDATA[
+    function callRpProfileRequest(id) {
+        if (document.getElementById(id + '_sandbox').value == 1 && document.getElementById(id + '_profile_id').value.search(/_PR_.+/) != -1) {
+            if (!confirm('<?php echo Mage::helper('ratepaypayment')->__('PROD credentials in sandbox mode') ?>')) {
+                return;
+            }
+        }
+
+        if (document.getElementById(id + '_sandbox').value == 0 && document.getElementById(id + '_profile_id').value.search(/_TE_.+/) != -1) {
+            if (!confirm('<?php echo Mage::helper('ratepaypayment')->__('INT credentials in live mode') ?>')) {
+                return;
+            }
+        }
+
+        new Ajax.Request('<?php echo $this->getAjaxCheckUrl() ?>', {
+            method:     'get',
+            parameters: {
+                profile_id:     document.getElementById(id + '_profile_id').value,
+                security_code:  document.getElementById(id + '_security_code').value,
+                sandbox:        document.getElementById(id + '_sandbox').value,
+                method:         id
+            },
+            onSuccess: function(transport){
+                if (transport.responseText == 1){
+                    configForm.submit()
+                }else{
+                    alert(transport.responseText);
+                }
+            },
+            onFailure:  function(){
+                alert('<?php echo Mage::helper('ratepaypayment')->__('No Ajax Connection') ?>');
+            }
+        });
+    }
+    //]]>
+</script>
+
+<?php echo $this->getButtonHtml() ?>

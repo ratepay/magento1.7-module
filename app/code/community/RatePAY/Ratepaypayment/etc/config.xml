@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category RatePAY
+ * @package RatePAY_Ratepaypayment
+ * @copyright Copyright (c) 2015 RatePAY GmbH (https://www.ratepay.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+
+-->
+<config>
+
+    <modules>
+        <RatePAY_Ratepaypayment>
+            <version>3.0.0</version>
+        </RatePAY_Ratepaypayment>
+    </modules>
+
+    <global>
+
+        <blocks>
+            <ratepaypayment>
+                <class>RatePAY_Ratepaypayment_Block</class>
+            </ratepaypayment>
+            <checkout>
+                <rewrite>
+                    <agreements>RatePAY_Ratepaypayment_Block_Checkout_Installmentplan</agreements>
+                </rewrite>
+            </checkout>
+        </blocks>
+
+        <models>
+
+            <ratepaypayment>
+                <class>RatePAY_Ratepaypayment_Model</class>
+                <resourceModel>ratepaypayment_mysql4</resourceModel>
+            </ratepaypayment>
+
+            <ratepaypayment_mysql4>
+                <class>RatePAY_Ratepaypayment_Model_Mysql4</class>
+                <entities>
+
+                    <logging>
+                        <table>ratepay_log</table>
+                    </logging>
+
+                    <debitdetails>
+                        <table>ratepay_debitdetails</table>
+                    </debitdetails>
+
+                </entities>
+            </ratepaypayment_mysql4>
+
+        </models>
+
+        <helpers>
+            <ratepaypayment>
+                <class>RatePAY_Ratepaypayment_Helper</class>
+            </ratepaypayment>
+        </helpers>
+
+        <resources>
+            <ratepay_setup>
+                <setup>
+                    <module>RatePAY_Ratepaypayment</module>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ratepay_setup>
+
+            <ratepay_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ratepay_write>
+
+            <ratepay_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ratepay_read>
+        </resources>
+
+        <events>
+            <!-- Beginn Frontend -->
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>handlePaymentFee</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <sendRatepayConfirmCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayConfirmCall</method>
+                    </sendRatepayConfirmCall>
+                </observers>
+            </checkout_onepage_controller_success_action>
+
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>paymentQuery</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+
+            <controller_action_layout_load_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>ratepay_cart</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </controller_action_layout_load_before>
+            <!-- End Frontend -->
+
+            <!-- Beginn Backend -->
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <handlePaymentFee>
+                        <type>model</type>
+                        <class>ratepaypayment/observer</class>
+                        <method>handlePaymentFee</method>
+                    </handlePaymentFee>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <sales_order_invoice_save_before>
+                <observers>
+                    <sendRatepayDeliverCallOnInvoice>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayDeliverCallOnInvoice</method>
+                    </sendRatepayDeliverCallOnInvoice>
+                </observers>
+            </sales_order_invoice_save_before>
+
+            <sales_order_shipment_save_before>
+                <observers>
+                    <sendRatepayDeliverCallOnDelivery>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayDeliverCallOnDelivery</method>
+                    </sendRatepayDeliverCallOnDelivery>
+                </observers>
+            </sales_order_shipment_save_before>
+
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <sendRatepayCreditmemoCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayCreditmemoCall</method>
+                    </sendRatepayCreditmemoCall>
+                </observers>
+            </sales_order_creditmemo_refund>
+
+            <order_cancel_after>
+                <observers>
+                    <sendRatepayCancelCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayCancelCall</method>
+                    </sendRatepayCancelCall>
+                </observers>
+            </order_cancel_after>
+            <!-- End Backend -->
+        </events>
+
+    </global>
+
+    <default>
+        <payment>
+
+            <ratepay_general>
+                <whitelabel>0</whitelabel>
+                <address_normalization>0</address_normalization>
+                <device_ident>0</device_ident>
+                <device_ident_id>ratepay</device_ident_id>
+            </ratepay_general>
+            <ratepay_general_advanced>
+                <specificcategories>NO</specificcategories>
+                <specificshipping>NO</specificshipping>
+                <hook_deliver>1</hook_deliver>
+                <hook_creditmemo>1</hook_creditmemo>
+                <hook_cancel>1</hook_cancel>
+                <deliver_event>invoice</deliver_event>
+                <specificstate_before>STATE_PROCESSING</specificstate_before>
+                <specificstate_after>STATE_PROCESSING</specificstate_after>
+                <specificstatus_before>payment_success</specificstatus_before>
+                <specificstatus_after>payment_complete</specificstatus_after>
+            </ratepay_general_advanced>
+
+            <ratepay_rechnung>
+                <model>ratepaypayment/method_rechnung</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_rechnung>
+            <ratepay_rechnung_de>
+                <active>0</active>
+                <title>RatePAY Rechnung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rechnung_de>
+            <ratepay_rechnung_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rechnung_advanced_de>
+            <ratepay_rechnung_at>
+                <active>0</active>
+                <title>RatePAY Rechnung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rechnung_at>
+            <ratepay_rechnung_advanced_at>
+                <specificgroups>ALL</specificgroups>
+                <specificcategories>NO</specificcategories>
+            </ratepay_rechnung_advanced_at>            
+
+            <ratepay_rate>
+                <model>ratepaypayment/method_rate</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_rate>
+            <ratepay_rate_de>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_de>
+            <ratepay_rate_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_de>
+            <ratepay_rate>
+                <model>ratepaypayment/method_rate</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_rate>
+            <ratepay_rate_at>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_at>
+            <ratepay_rate_advanced_at>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_at>
+            
+            <ratepay_directdebit>
+                <model>ratepaypayment/method_directdebit</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_directdebit>
+            <ratepay_directdebit_de>
+                <active>0</active>
+                <title>RatePAY SEPA-Lastschrift</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_directdebit_de>
+            <ratepay_directdebit_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_directdebit_advanced_de>
+            <ratepay_directdebit>
+                <model>ratepaypayment/method_directdebit</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_directdebit>
+            <ratepay_directdebit_at>
+                <active>0</active>
+                <title>RatePAY SEPA-Lastschrift</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_directdebit_at>
+            <ratepay_directdebit_advanced_at>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_directdebit_advanced_at>
+
+            <ratepay_ibs>
+                <model>ratepaypayment/method_ibs</model>
+                <payment_action>authorize</payment_action>
+            </ratepay_ibs>
+            <ratepay_ibs_de>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_ibs_de>
+            <ratepay_ibs_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_ibs_advanced_de>
+            <ratepay_ibs>
+                <model>ratepaypayment/method_ibs</model>
+                <payment_action>authorize</payment_action>
+            </ratepay_ibs>
+            <ratepay_ibs_at>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_ibs_at>
+            <ratepay_ibs_advanced_at>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_ibs_advanced_at>
+        </payment>
+
+    </default>
+
+    <frontend>
+        <layout>
+            <updates>
+                <ratepaypayment>
+                    <file>ratepay.xml</file>
+                </ratepaypayment>
+            </updates>
+        </layout>
+
+        <events>
+            <!--<sales_quote_payment_import_data_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>handlePaymentFee</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <sendRatepayConfirmCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayConfirmCall</method>
+                    </sendRatepayConfirmCall>
+                </observers>
+            </checkout_onepage_controller_success_action>
+
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>paymentQuery</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+
+            <controller_action_layout_load_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <type>model</type>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>ratepay_cart</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </controller_action_layout_load_before>-->
+        </events>
+
+        <translate>
+            <modules>
+                <RatePAY_Ratepaypayment>
+                    <files>
+                        <default>RatePAY_Ratepaypayment.csv</default>
+                    </files>
+                </RatePAY_Ratepaypayment>
+            </modules>
+        </translate>
+
+    </frontend>
+
+    <adminhtml>
+
+        <translate>
+            <modules>
+                <RatePAY_Ratepaypayment>
+                    <files>
+                        <default>RatePAY_Ratepaypayment.csv</default>
+                    </files>
+                </RatePAY_Ratepaypayment>
+            </modules>
+        </translate>
+
+        <layout>
+            <updates>
+                <ratepaypayment>
+                    <file>ratepay.xml</file>
+                </ratepaypayment>
+            </updates>
+        </layout>
+
+        <events>
+            <!--<adminhtml_init_system_config>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <class>paypal/observer</class>
+                        <method>loadConfigurationBy</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </adminhtml_init_system_config>-->
+
+            <!--<sales_quote_payment_import_data_before>
+                <observers>
+                    <handlePaymentFee>
+                        <type>model</type>
+                        <class>ratepaypayment/observer</class>
+                        <method>handlePaymentFee</method>
+                    </handlePaymentFee>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
+            <sales_order_invoice_register>
+                <observers>
+                    <sendRatepayDeliverCallOnInvoice>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayDeliverCallOnInvoice</method>
+                    </sendRatepayDeliverCallOnInvoice>
+                </observers>
+            </sales_order_invoice_register>
+
+            <sales_order_shipment_save_before>
+                <observers>
+                    <sendRatepayDeliverCallOnDelivery>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayDeliverCallOnDelivery</method>
+                    </sendRatepayDeliverCallOnDelivery>
+                </observers>
+            </sales_order_shipment_save_before>
+
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <sendRatepayCreditmemoCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayCreditmemoCall</method>
+                    </sendRatepayCreditmemoCall>
+                </observers>
+            </sales_order_creditmemo_refund>
+
+            <order_cancel_after>
+                <observers>
+                    <sendRatepayCancelCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayCancelCall</method>
+                    </sendRatepayCancelCall>
+                </observers>
+            </order_cancel_after>-->
+
+        </events>
+
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <ratepaypayment>
+                <use>admin</use>
+                <args>
+                    <module>RatePAY_Ratepaypayment</module>
+                    <frontName>ratepaypayment</frontName>
+                </args>
+            </ratepaypayment>
+        </routers>
+    </admin>
+
+    <frontend>
+        <routers>
+            <ratepaypayment>
+                <use>standard</use>
+                <args>
+                    <module>RatePAY_Ratepaypayment</module>
+                    <frontName>ratepaypayment</frontName>
+                </args>
+            </ratepaypayment>
+        </routers>
+    </frontend>
+
+</config>

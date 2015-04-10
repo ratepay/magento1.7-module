@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category RatePAY
+ * @package RatePAY_Ratepaypayment
+ * @copyright Copyright (c) 2015 RatePAY GmbH (https://www.ratepay.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ */
+
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addJs">
+                <script>ratepay/ratenrechner.js</script>
+            </action>
+        </reference>
+    </default>
+    <ratepaypayment_adminhtml_logs_index>
+        <reference name="content">
+            <block type="ratepaypayment/adminhtml_logs" name="adminhtml_logs.grid.container" />
+        </reference>
+    </ratepaypayment_adminhtml_logs_index>
+    
+    <ratepaypayment_adminhtml_logs_grid>
+        <update handle="formkey"/>
+        <block type="ratepaypayment/adminhtml_logs_grid" name="adminhtml_logs.grid" output="toHtml"></block>
+    </ratepaypayment_adminhtml_logs_grid>
+    
+    <ratepaypayment_adminhtml_config_grid>
+        <update handle="formkey"/>
+        <block type="ratepaypayment/adminhtml_config_grid" name="adminhtml_config.grid" output="toHtml"></block>
+    </ratepaypayment_adminhtml_config_grid>
+    
+    <ratepaypayment_adminhtml_config_index>
+        <reference name="content">
+            <block type="ratepaypayment/adminhtml_config" name="adminhtml_config.grid.container" />
+        </reference>
+    </ratepaypayment_adminhtml_config_index>
+    
+    <ratepaypayment_adminhtml_bulk_grid>
+        <update handle="formkey"/>
+        <block type="ratepaypayment/adminhtml_bulk_grid" name="adminhtml_bulk.grid" output="toHtml"></block>
+    </ratepaypayment_adminhtml_bulk_grid>
+    
+    <ratepaypayment_adminhtml_bulk_index>
+        <reference name="content">
+            <block type="ratepaypayment/adminhtml_bulk" name="adminhtml_bulk.grid.container" />
+        </reference>
+    </ratepaypayment_adminhtml_bulk_index>
+    
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">                        
+            <action method="addTab">
+                <name>order_log_ratepay</name>
+                <block>ratepaypayment/adminhtml_log</block>
+            </action>       
+        </reference>           
+    </adminhtml_sales_order_view>
+   
+</layout>
