@@ -48,7 +48,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $article['articleNumber'] = $item->getSku();
                 $article['articleName'] = $item->getName();
                 $article['quantity'] = ($object instanceof Mage_Sales_Model_Order) ? $item->getQtyOrdered() : $item->getQty();
-                $article['unitPriceGross'] = ($object instanceof Mage_Sales_Model_Order_Shipment) ? $item->getPriceInclTax() : $item->getRowTotalInclTax();
+                $article['unitPriceGross'] = $item->getPriceInclTax();
                 $article['tax'] = $item->getTaxAmount();
                 $article['taxPercent'] = $orderItem->getTaxPercent();
 

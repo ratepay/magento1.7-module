@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -34,11 +34,11 @@
             <ratepaypayment>
                 <class>RatePAY_Ratepaypayment_Block</class>
             </ratepaypayment>
-            <checkout>
+            <!--<checkout>
                 <rewrite>
                     <agreements>RatePAY_Ratepaypayment_Block_Checkout_Installmentplan</agreements>
                 </rewrite>
-            </checkout>
+            </checkout>-->
         </blocks>
 
         <models>
