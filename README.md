@@ -5,8 +5,8 @@ RatePAY GmbH - Magento Payment Module
 |------|----------
 |Author | `Aarne Welschlau`
 |Shop Version | `CE` `<= 1.9.x`
-|Version | `3.0.1`
+|Version | `3.0.2`
 |Link | `http://www.ratepay.com`
 |Mail | `integration@ratepay.com`
-|Description | `fixed bug in unit-price-gross calculation`
+|Description | `changed invoice event from save to register`
 |Installation | `see separate installation manual`
