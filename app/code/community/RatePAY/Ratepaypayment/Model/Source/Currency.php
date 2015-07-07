@@ -29,8 +29,12 @@ class RatePAY_Ratepaypayment_Model_Source_Currency
     {
         $currency = array(
             array(
-                'label' => Mage::helper('core')->__('Euro'),
+                'label' => Mage::helper('core')->__('EUR'),
                 'value' => 'EUR'
+            ),
+            array(
+                'label' => Mage::helper('core')->__('CHF'),
+                'value' => 'CHF'
             )
         );
         return $currency;

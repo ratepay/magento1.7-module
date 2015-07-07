@@ -379,7 +379,9 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $head = $this->request->addChild('head');
         
         $head->addChild('system-id', Mage::helper('core/http')->getServerAddr(false));
-        if($operationInfo != 'PAYMENT_INIT') {
+        if ($operationInfo != 'PAYMENT_INIT' &&
+            $operationInfo != 'PROFILE_REQUEST' &&
+            $operationInfo != 'CALCULATION_REQUEST') {
             if($headInfo['transactionId'] != '') {
                 $head->addChild('transaction-id', $headInfo['transactionId']);
             }
@@ -397,14 +399,16 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $credential->addChild('profile-id', $headInfo['profileId']);
         $credential->addChild('securitycode', $headInfo['securityCode']);
 
-        if ($operationInfo != 'PAYMENT_INIT') {
-            if($headInfo['orderId'] != '') {
-                $external = $head->addChild('external');
+        if ($operationInfo == 'PAYMENT_QUERY' ||
+            $operationInfo == 'PAYMENT_REQUEST' ||
+            $operationInfo == 'PAYMENT_CONFIRM') {
+
+            $external = $head->addChild('external');
+            if (($operationInfo == 'PAYMENT_QUERY' || $operationInfo == 'PAYMENT_REQUEST') && $headInfo['customerId'] != '') {
+                $external->addChild('merchant-consumer-id', $headInfo['customerId']);
+            }
+            if ($operationInfo == 'PAYMENT_CONFIRM' && $headInfo['orderId'] != '') {
                 $external->addChild('order-id', $headInfo['orderId']);
-                if ($headInfo['customerId'] != '' &&
-                    ($operationInfo == 'PAYMENT_REQUEST' || $operationInfo == 'PAYMENT_QUERY')) {
-                    $external->addChild('merchant-consumer-id', $headInfo['customerId']);
-                }
             }
         }
 

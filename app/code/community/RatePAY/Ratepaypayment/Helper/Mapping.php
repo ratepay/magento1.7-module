@@ -392,7 +392,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     public function _anyPositiveItems($items) {
         $anyPositiveItems = false;
         foreach ($items as $item) {
-            if ($item['unitPrice'] >= 0) {
+            if ($item['unitPriceGross'] >= 0) {
                 $anyPositiveItems = true;
             }
         }

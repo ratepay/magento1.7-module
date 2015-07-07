@@ -108,6 +108,7 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
     private function _getRpMethodWithoutCountry($id) {
         $id = str_replace('_de', '', $id);
         $id = str_replace('_at', '', $id);
+        $id = str_replace('_ch', '', $id);
 
         return $id;
     }
@@ -115,6 +116,9 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
     private function _getRpCountry($id) {
         if(strstr($id, '_at')) {
             return 'at';
+        }
+        if(strstr($id, '_ch')) {
+            return 'ch';
         }
         return 'de';
     }

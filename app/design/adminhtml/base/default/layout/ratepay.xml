@@ -27,6 +27,8 @@
                 <script>ratepay/ratenrechner.js</script>
             </action>
         </reference>
+        <remove name="notification_security" />
+        <remove name="notification_survey" />
     </default>
     <ratepaypayment_adminhtml_logs_index>
         <reference name="content">

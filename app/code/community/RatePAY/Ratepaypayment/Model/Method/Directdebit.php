@@ -80,6 +80,17 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
                         }
                         $params[$this->_code . '_bic'] = $bic;
                     }
+                    if ($ibanAccNoCountryCode == "CH") {
+                        if (strlen($ibanAccNo) <> 21) {
+                            Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
+                        }
+                        if ($bic == '') {
+                            Mage::throwException($this->_getHelper()->__('insert bank code'));
+                        } elseif (strlen($bic) <> 8 && strlen($bic) <> 11) {
+                            Mage::throwException($this->_getHelper()->__('insert bank code'));
+                        }
+                        $params[$this->_code . '_bic'] = $bic;
+                    }
                 } else {
                     Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
                 }

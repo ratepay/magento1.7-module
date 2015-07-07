@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.0.2</version>
+            <version>3.0.3</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -243,7 +243,22 @@
             <ratepay_rechnung_advanced_at>
                 <specificgroups>ALL</specificgroups>
                 <specificcategories>NO</specificcategories>
-            </ratepay_rechnung_advanced_at>            
+            </ratepay_rechnung_advanced_at>
+            <ratepay_rechnung_ch>
+                <active>0</active>
+                <title>RatePAY Rechnung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rechnung_ch>
+            <ratepay_rechnung_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+                <specificcategories>NO</specificcategories>
+            </ratepay_rechnung_advanced_ch>
 
             <ratepay_rate>
                 <model>ratepaypayment/method_rate</model>
@@ -283,6 +298,20 @@
             <ratepay_rate_advanced_at>
                 <specificgroups>ALL</specificgroups>
             </ratepay_rate_advanced_at>
+            <ratepay_rate_ch>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_ch>
+            <ratepay_rate_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_ch>            
             
             <ratepay_directdebit>
                 <model>ratepaypayment/method_directdebit</model>
@@ -324,6 +353,21 @@
             <ratepay_directdebit_advanced_at>
                 <specificgroups>ALL</specificgroups>
             </ratepay_directdebit_advanced_at>
+            <ratepay_directdebit_ch>
+                <active>0</active>
+                <title>RatePAY SEPA-Lastschrift</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_directdebit_ch>
+            <ratepay_directdebit_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_directdebit_advanced_ch>            
 
             <ratepay_ibs>
                 <model>ratepaypayment/method_ibs</model>
@@ -359,6 +403,19 @@
             <ratepay_ibs_advanced_at>
                 <specificgroups>ALL</specificgroups>
             </ratepay_ibs_advanced_at>
+            <ratepay_ibs_ch>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>CHF</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_ibs_ch>
+            <ratepay_ibs_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_ibs_advanced_ch>            
         </payment>
 
     </default>
