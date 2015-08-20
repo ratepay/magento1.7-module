@@ -324,10 +324,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function setBankData($data, Mage_Sales_Model_Quote $quote, $code)
     {
         Mage::getSingleton('core/session')->setDirectDebitFlag(true);
-        if (!$this->getRpConfigData($quote, $code, 'bankdata_saving') || $quote->getCustomerIsGuest()) {
+        //if (!$this->getRpConfigData($quote, $code, 'bankdata_saving') || $quote->getCustomerIsGuest()) {
             $this->_setBankDataSession($data, $code);
             Mage::getSingleton('core/session')->setBankdataAfter(false);
-        } else {
+        /*} else {
             $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
             $bankdata = array (
                 'owner' => $data[$code . '_account_holder']
@@ -349,7 +349,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::getSingleton('core/session')->setBankdataAfter(true);
                 $this->_setBankDataSession($data, $code);
             }
-        }
+        }*/
     }
     
     private function _setBankDataSession($data, $code)
@@ -376,10 +376,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         $bankdata = null;
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         (!$quote->getCustomerIsGuest()) ? $customerId = $quote->getCustomer()->getId() : $customerId = '';
-        $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
+        /*$piEncryption = new Pi_Util_Encryption_MagentoEncryption();
         if (!$quote->getCustomerIsGuest() && $piEncryption->isBankdataSetForUser($customerId)) {
             $bankdata = $piEncryption->loadBankdata($customerId);
-        } else {
+        } else {*/
             $bankdata = array (
                 'owner' => Mage::getSingleton('core/session')->getAccountHolder()
             );
@@ -393,7 +393,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 $bankdata['accountnumber'] = Mage::getSingleton('core/session')->getAccountNumber();
                 $bankdata['bankcode'] = Mage::getSingleton('core/session')->getBankCodeNumber();
             }
-        }
+        //}
         return $bankdata;
     }
 

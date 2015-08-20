@@ -189,7 +189,7 @@ class RatePAY_Ratepaypayment_Model_Observer
             $order = $observer->getEvent()->getOrder();
         }
 
-        if (Mage::getSingleton('core/session')->getBankdataAfter()) {
+        /*if (Mage::getSingleton('core/session')->getBankdataAfter()) {
             $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
             $bankdata = array(
                 'owner' => $data[$code . '_account_holder'],
@@ -199,7 +199,7 @@ class RatePAY_Ratepaypayment_Model_Observer
             );
             Mage::getSingleton('core/session')->setBankdataAfter(false);
             $piEncryption->saveBankdata($order->getCustomerId(), $bankdata);
-        }
+        }*/
 
         if (Mage_Sales_Model_Order::STATE_PROCESSING == $order->getState()) {
             if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
