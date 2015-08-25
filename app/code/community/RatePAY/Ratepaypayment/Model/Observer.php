@@ -367,25 +367,12 @@ class RatePAY_Ratepaypayment_Model_Observer
     {
         $client = Mage::getSingleton('ratepaypayment/request');
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
-        $paymentHelper = Mage::helper('ratepaypayment/payment');
         $order = $observer->getEvent()->getOrder();
-        $storeId = Mage::app()->getStore()->getStoreId();
         if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod()) && (bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true)) {
-            $orderItems = array();
-
             $amount = 0;
-            if (!$this->_isFullCancel($order)) {
-                $orderItems = $paymentHelper->getAllInvoiceItems($order);
-                $amount = $order->getTotalInvoiced() - $order->getTotalRefunded();
-            }
+            $items = array();
 
-            $data = array(
-                'creditmemo' => $paymentHelper->getAllCreditmemoItems($order)
-            );
-
-            $availableProducts = $paymentHelper->getAvailableProducts($orderItems, $data);
-
-            $basketInfo = $mappingHelper->getRequestBasket($order, $amount, $availableProducts);
+            $basketInfo = $mappingHelper->getRequestBasket($order, $amount, $items);
             $headInfo = $mappingHelper->getRequestHead($order, 'cancellation');
             $customerInfo = $mappingHelper->getRequestCustomer($order);
             $paymentInfo = $mappingHelper->getRequestPayment($order, $amount);
