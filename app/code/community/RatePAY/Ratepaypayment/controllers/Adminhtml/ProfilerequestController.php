@@ -96,7 +96,8 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
             $coreConfig->saveConfig('payment/' . $method . '/rate_min', $installmentConfig['rate-min-normal']);
         }
 
-        $coreConfig->saveConfig('payment/ratepay_general/device_ident', ($merchantConfig['eligibility-device-fingerprint'] == "yes") ? 1 : 0);
+        $coreConfig->saveConfig('payment/ratepay_general/device_ident', ($merchantConfig['eligibility-device-fingerprint'] == "yes") ? 1 : 0);//device-fingerprint-snippet-id
+        $coreConfig->saveConfig('payment/ratepay_general/snipped_id', $merchantConfig['device-fingerprint-snippet-id']);
 
         return 1;
     }

@@ -36,12 +36,6 @@
                 <script>ratepay/elv.js</script>
             </action>
         </reference>
-
-        <reference name="footer">
-            <action method="setCacheLifetime"><s>1</s></action>
-            <lifetime>1</lifetime>
-            <block type="core/template" name="ratepay_deviceident" template="ratepay/footer/deviceident.phtml"/>
-        </reference>
     </default>
 </layout>
 

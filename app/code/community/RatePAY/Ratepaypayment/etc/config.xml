@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.0.3</version>
+            <version>3.0.4</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -195,7 +195,6 @@
                 <whitelabel>0</whitelabel>
                 <address_normalization>0</address_normalization>
                 <device_ident>0</device_ident>
-                <device_ident_id>ratepay</device_ident_id>
             </ratepay_general>
             <ratepay_general_advanced>
                 <specificcategories>NO</specificcategories>
