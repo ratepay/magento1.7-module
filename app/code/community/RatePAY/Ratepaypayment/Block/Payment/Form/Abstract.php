@@ -34,8 +34,8 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
 
             $snippedId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
             $timestamp = microtime();
-            $customerId = Mage::getSingleton('customer/session')->getId();
-            $token = md5($customerId . "_" . $timestamp);
+            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+            $token = md5($quoteId . "_" . $timestamp);
 
             Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($token);
 
@@ -43,11 +43,11 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
                 <script language=\"JavaScript\">
                     var di = {t:'" . $token . "',v:'" . $snippedId . " ',l:'Checkout'};
                 </script>
-                <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . " /di.js\"></script>
-                <noscript><link rel=\"stylesheet\" type=\"text/css\" href=\"//d.ratepay.com/di.css?t=" . $token . " &v=" . $snippedId . " &l=Checkout\"></noscript>
-                <object type=\"application/x-shockwave-flash\" data=\"//d.ratepay.com/" . $snippedId . " /c.swf\" style=\"display: none;\">
-                    <param name=\"movie\" value=\"//d.ratepay.com/" . $snippedId . " /c.swf\" />
-                    <param name=\"flashvars\" value=\"t=" . $token . " &v=" . $snippedId . " &l=Checkout\"/>
+                <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . "/di.js\"></script>
+                <noscript><link rel=\"stylesheet\" type=\"text/css\" href=\"//d.ratepay.com/di.css?t=" . $token . "&v=" . $snippedId . "&l=Checkout\"></noscript>
+                <object type=\"application/x-shockwave-flash\" data=\"//d.ratepay.com/" . $snippedId . "/c.swf\" style=\"float: right; visibility: hidden; height: 0px; width: 0px;\">
+                    <param name=\"movie\" value=\"//d.ratepay.com/" . $snippedId . "/c.swf\" />
+                    <param name=\"flashvars\" value=\"t=" . $token . "&v=" . $snippedId . "&l=Checkout\"/>
                     <param name=\"AllowScriptAccess\" value=\"always\"/>
                 </object>";
         }

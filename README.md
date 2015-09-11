@@ -15,6 +15,7 @@
 ### Version 3.0.4 - Released 2015-09-10
 * DFP output moved from footer to checkout
 * full DFP config via PROFILE REQUEST
+* changed token generation
 
 ### Version 3.0.3 - Released 2015-07-07
 * changes in backend config
