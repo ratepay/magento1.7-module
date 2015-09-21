@@ -69,18 +69,15 @@ class RatePAY_Ratepaypayment_Model_Observer
 
             if (Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
                 $result['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-                $result['transactionShortId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionShortId();
             } else {
                 $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote, '', 'ratepay_ibs'), $helper_mapping->getLoggingInfo($quote, 'ratepay_ibs'));
             }
 
             if (is_array($result) || $result == true) {
                 $transactionId = $result['transactionId'];
-                $transactionShortId = $result['transactionShortId'];
 
                 $payment = $quote->getPayment();
                 $payment->setAdditionalInformation('transactionId', $result['transactionId']);
-                $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
                 $payment->save();
                 $result = $client->callPaymentQuery($helper_mapping->getRequestHead($quote, $querySubType, 'ratepay_ibs'),
                     $querySubType,
@@ -94,7 +91,6 @@ class RatePAY_Ratepaypayment_Model_Observer
 
                     Mage::getSingleton('ratepaypayment/session')->setQueryActive(true);
                     Mage::getSingleton('ratepaypayment/session')->setTransactionId($transactionId);
-                    Mage::getSingleton('ratepaypayment/session')->setTransactionShortId($transactionShortId);
                     Mage::getSingleton('ratepaypayment/session')->setAllowedProducts($allowedProducts);
                     Mage::getSingleton('ratepaypayment/session')->setPreviousQuote($currentOrder);
                 } else {
@@ -102,7 +98,6 @@ class RatePAY_Ratepaypayment_Model_Observer
 
                     Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
                     Mage::getSingleton('ratepaypayment/session')->setTransactionId($transactionId);
-                    Mage::getSingleton('ratepaypayment/session')->setTransactionShortId($transactionShortId);
                     Mage::getSingleton('ratepaypayment/session')->setAllowedProducts(false);
                     Mage::getSingleton('ratepaypayment/session')->setPreviousQuote($currentOrder);
                 }
@@ -372,11 +367,11 @@ class RatePAY_Ratepaypayment_Model_Observer
             $amount = 0;
             $items = array();
 
-            $basketInfo = $mappingHelper->getRequestBasket($order, $amount, $items);
-            $headInfo = $mappingHelper->getRequestHead($order, 'cancellation');
+            $basketInfo   = $mappingHelper->getRequestBasket($order, $amount, $items);
+            $headInfo     = $mappingHelper->getRequestHead($order, 'cancellation');
             $customerInfo = $mappingHelper->getRequestCustomer($order);
-            $paymentInfo = $mappingHelper->getRequestPayment($order, $amount);
-            $loggingInfo = $mappingHelper->getLoggingInfo($order);
+            $paymentInfo  = $mappingHelper->getRequestPayment($order, $amount);
+            $loggingInfo  = $mappingHelper->getLoggingInfo($order);
 
             $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
 

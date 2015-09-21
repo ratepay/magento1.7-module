@@ -152,20 +152,22 @@ class RatePAY_Ratepaypayment_Model_Method_Rate extends RatePAY_Ratepaypayment_Mo
     {
         $client = Mage::getSingleton('ratepaypayment/request');
 
-        $order = $this->getQuoteOrOrder();
+        $order  = $this->getQuoteOrOrder();
         $helper = Mage::helper('ratepaypayment/mapping');
+        $head   = $helper->getRequestHead($order);
         if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
             Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
             $result['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-            $result['transactionShortId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionShortId();
         } else {
             $result = $client->callPaymentInit($helper->getRequestHead($order), $helper->getLoggingInfo($order));
         }
 
         if (is_array($result) || $result == true) {
             $payment->setAdditionalInformation('transactionId', $result['transactionId']);
-            $payment->setAdditionalInformation('transactionShortId', $result['transactionShortId']);
-            $result = $client->callPaymentRequest($helper->getRequestHead($order), 
+            $payment->setAdditionalInformation('profileId', $head['profileId']);
+            $payment->setAdditionalInformation('securityCode', $head['securityCode']);
+
+            $result = $client->callPaymentRequest($helper->getRequestHead($order),
                                                     $helper->getRequestCustomer($order), 
                                                     $helper->getRequestBasket($order), 
                                                     $helper->getRequestPayment($order,

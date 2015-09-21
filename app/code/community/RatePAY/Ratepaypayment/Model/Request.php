@@ -72,7 +72,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
                 if($statusCode == "OK" &&  $resultCode == "350") {
                     $result = array();
                     $result['transactionId'] = (string)$this->response->head->{'transaction-id'};
-                    $result['transactionShortId'] = (string)$this->response->head->{'transaction-short-id'};
                     $this->error = '';
                     return $result;
                 } else {
@@ -384,9 +383,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             $operationInfo != 'CALCULATION_REQUEST') {
             if($headInfo['transactionId'] != '') {
                 $head->addChild('transaction-id', $headInfo['transactionId']);
-            }
-            if($headInfo['transactionShortId'] != '') {
-                $head->addChild('transaction-short-id', $headInfo['transactionShortId']);
             }
         }
 

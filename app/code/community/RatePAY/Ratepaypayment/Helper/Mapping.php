@@ -241,14 +241,23 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     {
         $head = array();
         if ($methodCode == '') {
-            $head['profileId'] = $this->getHelper()->getRpConfigData($quoteOrOrder, $quoteOrOrder->getPayment()->getMethod(), 'profile_id');
-            $head['securityCode'] = $this->getHelper()->getRpConfigData($quoteOrOrder, $quoteOrOrder->getPayment()->getMethod(), 'security_code');
+            $configProfileId    = $this->getHelper()->getRpConfigData($quoteOrOrder, $quoteOrOrder->getPayment()->getMethod(), 'profile_id');
+            $configSecurityCode = $this->getHelper()->getRpConfigData($quoteOrOrder, $quoteOrOrder->getPayment()->getMethod(), 'security_code');
         } else {
-            $head['profileId'] = $this->getHelper()->getRpConfigData($quoteOrOrder, $methodCode, 'profile_id');
-            $head['securityCode'] = $this->getHelper()->getRpConfigData($quoteOrOrder, $methodCode, 'security_code');
+            $configProfileId    = $this->getHelper()->getRpConfigData($quoteOrOrder, $methodCode, 'profile_id');
+            $configSecurityCode = $this->getHelper()->getRpConfigData($quoteOrOrder, $methodCode, 'security_code');
         }
+        $orderProfileId    = $quoteOrOrder->getPayment()->getAdditionalInformation('profileId');
+        $orderSecurityCode = $quoteOrOrder->getPayment()->getAdditionalInformation('securityCode');
+        if (!empty($orderProfileId) && $orderProfileId <> $configProfileId) {
+            $head['profileId']     = $orderProfileId;
+            $head['securityCode']  = $orderSecurityCode;
+        } else {
+            $head['profileId']     = $configProfileId;
+            $head['securityCode']  = $configSecurityCode;
+        }
+
         $head['transactionId'] = ($quoteOrOrder->getPayment()->getAdditionalInformation('transactionId')) ? $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId') : '';
-        $head['transactionShortId'] = ($quoteOrOrder->getPayment()->getAdditionalInformation('transactionShortId')) ? $quoteOrOrder->getPayment()->getAdditionalInformation('transactionShortId') : '';
 
         if ($quoteOrOrder instanceof Mage_Sales_Model_Order) {
             $head['orderId'] = $quoteOrOrder->getRealOrderId();
@@ -260,6 +269,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         }
 
         $head['subtype'] = $subtype;
+
         return $head;
     }
 

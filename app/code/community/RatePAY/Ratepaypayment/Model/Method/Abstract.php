@@ -297,18 +297,20 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     {
         $client = Mage::getSingleton('ratepaypayment/request');
 
-        $order = $this->getQuoteOrOrder();
+        $order  = $this->getQuoteOrOrder();
         $helper = Mage::helper('ratepaypayment/mapping');
+        $head   = $helper->getRequestHead($order);
         if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
             Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
             $resultInit['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-            $resultInit['transactionShortId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionShortId();
         } else {
             $resultInit = $client->callPaymentInit($helper->getRequestHead($order), $helper->getLoggingInfo($order));
         }
         if (is_array($resultInit) || $resultInit == true) {
             $payment->setAdditionalInformation('transactionId', $resultInit['transactionId']);
-            $payment->setAdditionalInformation('transactionShortId', $resultInit['transactionShortId']);
+            $payment->setAdditionalInformation('profileId', $head['profileId']);
+            $payment->setAdditionalInformation('securityCode', $head['securityCode']);
+
             $resultRequest = $client->callPaymentRequest($helper->getRequestHead($order),
                                                   $helper->getRequestCustomer($order),
                                                   $helper->getRequestBasket($order),
@@ -360,7 +362,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
         Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
         Mage::getSingleton('ratepaypayment/session')->setTransactionId(false);
-        Mage::getSingleton('ratepaypayment/session')->setTransactionShortId(false);
         Mage::getSingleton('ratepaypayment/session')->setAllowedProducts(false);
         Mage::getSingleton('ratepaypayment/session')->setPreviousQuote(null);
 
