@@ -41,7 +41,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
 
             return "
                 <script language=\"JavaScript\">
-                    var di = {t:'" . $token . "',v:'" . $snippedId . " ',l:'Checkout'};
+                    var di = {t:'" . $token . "',v:'" . $snippedId . "',l:'Checkout'};
                 </script>
                 <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . "/di.js\"></script>
                 <noscript><link rel=\"stylesheet\" type=\"text/css\" href=\"//d.ratepay.com/di.css?t=" . $token . "&v=" . $snippedId . "&l=Checkout\"></noscript>
