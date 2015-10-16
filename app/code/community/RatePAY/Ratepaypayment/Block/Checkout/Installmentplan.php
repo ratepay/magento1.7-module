@@ -18,25 +18,19 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Checkout_Block_Agreements
+class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Core_Block_Template
 {
     /**
-     * Override block template
-     *
-     * @return string
+     * Show installment plan
      */
-    protected function _toHtml()
-    {
-        if ($this->_getCode() == "ratepay_rate") {
-            $this->setTemplate('ratepay/checkout/installmentplan.phtml');
-        }
-        return parent::_toHtml();
-    }
-
     public function showRateResultHtml() {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult(), true);
+        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult(), false);
     }
 
+    /**
+     * Returns the session saved installment plan
+     * @return array
+     */
     private function _getResult() {
         return array(
             'amount' => Mage::getSingleton('checkout/session')->getRatepay_rate_amount(),
@@ -51,7 +45,11 @@ class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Checkou
         );
     }
 
-    private function _getCode() {
+    /**
+     * Returns the current method code
+     * @return string
+     */
+    public function getRatepayMethodCode() {
         $quote = Mage::getModel('checkout/session')->getQuote();
         return $quote->getPayment()->getMethodInstance()->getCode();
     }

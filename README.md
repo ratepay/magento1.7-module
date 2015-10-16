@@ -5,12 +5,18 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x`
-|Version | `3.0.4`
+|Version | `3.0.5`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.0.5 - Released 2015-10-16
+* persistent credentials as additional payment information
+* preloaded installment plan in case of just one month allowed
+* installment plan on order review page
+* fex changes to avoid php notices
 
 ### Version 3.0.4 - Released 2015-09-10
 * DFP output moved from footer to checkout

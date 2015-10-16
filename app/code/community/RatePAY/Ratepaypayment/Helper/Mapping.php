@@ -83,12 +83,22 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
                 }
 
+                // set default values for unitPrice and totalPrice if they are not set
+                if(!isset($article['unitPrice'])) {
+                    $article['unitPrice'] = '';
+                }
+                if(!isset($article['totalPrice'])) {
+                    $article['totalPrice'] = '';
+                }
+
                 $articles[] = $article;
                 if ($item->getDiscountAmount() > 0) { // only for sort reason
                     $articles[] = $discount;
                 }
             }
         }
+
+
 
         if ($object instanceof Mage_Sales_Model_Order || $object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
             $shippingObject = $object;
@@ -141,6 +151,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $discount['taxPercent'] = $article['taxPercent'];
                 }
                 $discount['discountId'] = 'SHIPPING';
+            }
+
+            // set default values for unitPrice and totalPrice if they are not set
+            if(!isset($article['unitPrice'])) {
+                $article['unitPrice'] = '';
+            }
+            if(!isset($article['totalPrice'])) {
+                $article['totalPrice'] = '';
             }
 
             $articles[] = $article;

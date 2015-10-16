@@ -422,7 +422,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      */
     private function setRatepayHeadCustomerDevice($head)
     {
-        $storeId = Mage::app()->getStore()->getStoreId();
         $DeviceIdentToken = Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken();
 
         if (!empty($DeviceIdentToken)) {

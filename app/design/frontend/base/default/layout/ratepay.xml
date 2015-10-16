@@ -37,5 +37,10 @@
             </action>
         </reference>
     </default>
+    <checkout_onepage_review>
+        <reference name="checkout.onepage.review.info.items.after">
+            <block type="ratepaypayment/checkout_installmentplan" name="ratepay.checkout.installmentplan" as="installmentplan" template="ratepay/checkout/installmentplan.phtml"/>
+        </reference>
+    </checkout_onepage_review>
 </layout>
 

@@ -23,14 +23,6 @@ class RatePAY_Ratepaypayment_Model_Observer
 
     private $_errorMessage;
 
-    public function ratepay_cart(Varien_Event_Observer $observer) {
-        /*$action = $observer->getEvent()->getAction();
-
-        if ($action instanceof Mage_Checkout_OnepageController && $action->getRequest()->getRequestedActionName() == 'index') {
-            $observer->getEvent()->getLayout()->createBlock('ratepaypayment/footer_deviceident');
-        }*/
-    }
-
     /**
      * Starts the PAYMENT QUERY if activated and saves the allowed payment methods in the RatePAY session
      *

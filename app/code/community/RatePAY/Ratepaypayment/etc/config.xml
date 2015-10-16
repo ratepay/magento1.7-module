@@ -135,6 +135,15 @@
                     </RatePAY_Ratepaypayment_model_observer>
                 </observers>
             </controller_action_layout_load_before>
+
+            <adminhtml_block_html_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>showInstallmentPlan</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </adminhtml_block_html_before>
             <!-- End Frontend -->
 
             <!-- Beginn Backend -->

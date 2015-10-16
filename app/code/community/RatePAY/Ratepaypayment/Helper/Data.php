@@ -354,9 +354,9 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     private function _setBankDataSession($data, $code)
     {
-        if($data[$code . '_iban']) {
+        if (isset($data[$code . 'iban']) && $data[$code . '_iban']) {
             Mage::getSingleton('core/session')->setIban($data[$code . '_iban']);
-            if($data[$code . '_bic']) {
+            if(isset($data[$code . '_bic']) && $data[$code . '_bic']) {
                 Mage::getSingleton('core/session')->setBic($data[$code . '_bic']);
             }
         } else {
@@ -386,12 +386,18 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
             if(Mage::getSingleton('core/session')->getIban()) {
                 $bankdata['iban'] = Mage::getSingleton('core/session')->getIban();
-                if(Mage::getSingleton('core/session')->getBic()) {
+                if (Mage::getSingleton('core/session')->getBic()) {
                     $bankdata['bic'] = Mage::getSingleton('core/session')->getBic();
+                } else {
+                    $bankdata['bic'] = null;
                 }
+                $bankdata['accountnumber'] = null;
+                $bankdata['bankcode'] = null;
             } else {
                 $bankdata['accountnumber'] = Mage::getSingleton('core/session')->getAccountNumber();
                 $bankdata['bankcode'] = Mage::getSingleton('core/session')->getBankCodeNumber();
+                $bankdata['iban'] = null;
+                $bankdata['bic'] = null;
             }
         //}
         return $bankdata;
@@ -501,9 +507,9 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * 
      * @param array $result
      */
-    public function getRateResultHtml($result, $admin = false)
+    public function getRateResultHtml($result, $notification = true)
     {
-        if (!$admin) {
+        if ($notification) {
             echo '<div id="piRpNotfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
         }
 

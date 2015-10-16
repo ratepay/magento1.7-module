@@ -587,105 +587,120 @@ echo $this->getDeviceIdentToken();
         </div>
     </li>
 
-    <li>
-        <div id="pirpmain-cont">
-            <div id="piRpHeader">
-                <div class="piRpFullWidth">
-                    <h2 class="piRpH2"><?php echo $this->__('Calculate here your own rate'); ?></h2>
-                    <?php if (!$this->isWhitelabel()): ?>
-                        <img class="piRpLogoImg" src="<?php echo $this->getSkinUrl('images/ratepay/Logo_Ratepay_Ratenrechner_01_Final_RGB_Farbe_01-small_.png'); ?>" width="141" height="43" alt="RatePAY Logo">
-                    <?php endif; ?>
-                </div>
-                <br class="piRpClearFix" />
-            </div>
-
-            <div id="piRpContentSwitch">
-                <div class="piRpChooseRuntime">
-                    <?php echo $this->__('lang_cash_payment_price_part_one'); ?>:
-                    <span><b><?php echo Mage::helper('checkout')->formatPrice($this->getAmount(), true, true); ?></b></span>
-                    <?php echo $this->__('lang_cash_payment_price_part_two'); ?>
-                    <br />
-                    <label for="firstInput" style="width:100%;">
-                        <div class="piRpChooseInput" id="piRpChooseInputRate">
-                            <input id="firstInput" class="piRpFloatLeft" type="radio" name="Zahlmethode" value="wishrate"  onClick="switchRateOrRuntime('rate', '<?php echo $this->getSkinUrl(); ?>');" checked="checked">
-                        </div>
-                        <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black; width: 390px;"><?php echo $this->__('lang_payment_text_wishrate'); ?></div>
-                    </label>
-                    <div id="piRpContentTerm" class="piRpContent" style="display: none;">
-                        <!--<?php if ($this->isDynamicDue()) { ?>
-                            <div id="piRpDueDate" class="piRpDueDate">
-                                <div class="piRpDueText"><?php echo $this->__('lang_due_date'); ?></div>
-                                <select name="piRpDueDateSelect" id="debitSelect" size="3">
-                                    <option value="1"><?php echo $this->__('At 1st of month'); ?></option>
-                                    <option value="15"><?php echo $this->__('At 15th of month'); ?></option>
-                                    <option value="28" selected="selected"><?php echo $this->__('At 28th of month'); ?></option>
-                                </select>
-                            </div>
-                        <?php } ?>-->
-                        <br class="piRpClearFix" />
-                        <div class="piRpMarginTop">
-                            <span class="piRpVertAlignMiddle"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_wishrate'); ?>:</span>
-                            <input name="" id="rate" class="piRpInput-amount" type="text">
-                            <span class="piRpCurrency"> &euro;</span>
-                            <input name="" onclick="piRatepayRateCalculatorAction('rate', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_runtime'); ?>" id="piRpInput-button" class="piRpInput-button" type="button">
-                        </div>
+    <?php if (count($monthAllowed['month_allowed']) > 1): ?>
+        <li>
+            <input type="hidden" id="piRpNotification" value="1">
+            <div id="pirpmain-cont">
+                <div id="piRpHeader">
+                    <div class="piRpFullWidth">
+                        <h2 class="piRpH2"><?php echo $this->__('Calculate here your own rate'); ?></h2>
+                        <?php if (!$this->isWhitelabel()): ?>
+                            <img class="piRpLogoImg" src="<?php echo $this->getSkinUrl('images/ratepay/Logo_Ratepay_Ratenrechner_01_Final_RGB_Farbe_01-small_.png'); ?>" width="141" height="43" alt="RatePAY Logo">
+                        <?php endif; ?>
                     </div>
                     <br class="piRpClearFix" />
-                    <label for="secondInput" style="width:100%;">
-                        <div class="piRpChooseInput" id="piRpChooseInputRuntime">
-                            <input id="secondInput" class="piRpFloatLeft" type="radio" name="Zahlmethode" value="runtime" onClick="switchRateOrRuntime('runtime', '<?php echo $this->getSkinUrl(); ?>');">
-                        </div>
-                        <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black;"><?php echo $this->__('lang_payment_text_runtime'); ?></div>
-                    </label>
-                    <div id="piRpContentRuntime" class="piRpContent" style="display: none;">
-                        <!--<?php if ($this->isDynamicDue()) { ?>
-                            <div id="piRpDueDate" class="piRpDueDate">
-                                <div class="piRpDueText"><?php echo $this->__('lang_due_date'); ?></div>
-                                <span style="float: right;">
-                                    <select name="piRpDueDateSelect" id="debitSelectRuntime" size="3" style="width: 167px;">
+                </div>
+
+                <div id="piRpContentSwitch">
+                    <div class="piRpChooseRuntime">
+                        <?php echo $this->__('lang_cash_payment_price_part_one'); ?>:
+                        <span><b><?php echo Mage::helper('checkout')->formatPrice($this->getAmount(), true, true); ?></b></span>
+                        <?php echo $this->__('lang_cash_payment_price_part_two'); ?>
+                        <br />
+                        <label for="firstInput" style="width:100%;">
+                            <div class="piRpChooseInput" id="piRpChooseInputRate">
+                                <input id="firstInput" class="piRpFloatLeft" type="radio" name="Zahlmethode" value="wishrate"  onClick="switchRateOrRuntime('rate', '<?php echo $this->getSkinUrl(); ?>');" checked="checked">
+                            </div>
+                            <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black; width: 390px;"><?php echo $this->__('lang_payment_text_wishrate'); ?></div>
+                        </label>
+                        <div id="piRpContentTerm" class="piRpContent" style="display: none;">
+                            <!--<?php if ($this->isDynamicDue()) { ?>
+                                <div id="piRpDueDate" class="piRpDueDate">
+                                    <div class="piRpDueText"><?php echo $this->__('lang_due_date'); ?></div>
+                                    <select name="piRpDueDateSelect" id="debitSelect" size="3">
                                         <option value="1"><?php echo $this->__('At 1st of month'); ?></option>
                                         <option value="15"><?php echo $this->__('At 15th of month'); ?></option>
                                         <option value="28" selected="selected"><?php echo $this->__('At 28th of month'); ?></option>
                                     </select>
-                                </span>
+                                </div>
+                            <?php } ?>-->
+                            <br class="piRpClearFix" />
+                            <div class="piRpMarginTop">
+                                <span class="piRpVertAlignMiddle"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_wishrate'); ?>:</span>
+                                <input name="" id="rate" class="piRpInput-amount" type="text">
+                                <span class="piRpCurrency"> &euro;</span>
+                                <input name="" onclick="piRatepayRateCalculatorAction('rate', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_runtime'); ?>" id="piRpInput-button" class="piRpInput-button" type="button">
                             </div>
-                        <?php } ?>-->
-                        <br class="piRpClearFix" />
-                        <div class="piRpMarginTop">
-                            <span class="piRpVertAlignMiddle" style="float: left;"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_runtime'); ?>:</span>
-                            <select id="runtime">
-                                <?php
-                                foreach ($monthAllowed['month_allowed'] as $month) {
-                                    echo '<option value="' . $month . '">';
-                                    if ($month < 10)
-                                        echo'&nbsp;'; echo $month . ' ' . $this->__('lang_months') . '</option>';
-                                }
-                                ?>
-                            </select>
-                            <input name="" onclick="piRatepayRateCalculatorAction('runtime', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_rate'); ?>" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" id="piRpInput-buttonRuntime"  class="piRpInput-button2">
                         </div>
+                        <br class="piRpClearFix" />
+                        <label for="secondInput" style="width:100%;">
+                            <div class="piRpChooseInput" id="piRpChooseInputRuntime">
+                                <input id="secondInput" class="piRpFloatLeft" type="radio" name="Zahlmethode" value="runtime" onClick="switchRateOrRuntime('runtime', '<?php echo $this->getSkinUrl(); ?>');">
+                            </div>
+                            <div class="piRpNintyPercentWidth piRpFloatLeft" style="color: black;"><?php echo $this->__('lang_payment_text_runtime'); ?></div>
+                        </label>
+                        <div id="piRpContentRuntime" class="piRpContent" style="display: none;">
+                            <!--<?php if ($this->isDynamicDue()) { ?>
+                                <div id="piRpDueDate" class="piRpDueDate">
+                                    <div class="piRpDueText"><?php echo $this->__('lang_due_date'); ?></div>
+                                    <span style="float: right;">
+                                        <select name="piRpDueDateSelect" id="debitSelectRuntime" size="3" style="width: 167px;">
+                                            <option value="1"><?php echo $this->__('At 1st of month'); ?></option>
+                                            <option value="15"><?php echo $this->__('At 15th of month'); ?></option>
+                                            <option value="28" selected="selected"><?php echo $this->__('At 28th of month'); ?></option>
+                                        </select>
+                                    </span>
+                                </div>
+                            <?php } ?>-->
+                            <br class="piRpClearFix" />
+                            <div class="piRpMarginTop">
+                                <span class="piRpVertAlignMiddle" style="float: left;"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_runtime'); ?>:</span>
+                                <select id="runtime">
+                                    <?php
+                                    foreach ($monthAllowed['month_allowed'] as $month) {
+                                        echo '<option value="' . $month . '">';
+                                        if ($month < 10)
+                                            echo'&nbsp;'; echo $month . ' ' . $this->__('lang_months') . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <input name="" onclick="piRatepayRateCalculatorAction('runtime', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_rate'); ?>" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" id="piRpInput-buttonRuntime"  class="piRpInput-button2">
+                            </div>
+                        </div>
+                        <br class="piRpClearFix" />
+                        <div class="piRpContentSwitchDiv" id="piRpSwitchToTerm" class="piRpActive" style="display: none">
+                            <span id="pirpspanrate">
+                                <?php echo $this->__('lang_insert_wishrate'); ?> <?php echo $this->__('lang_calculate_runtime'); ?>
+                            </span>
+                            <input name="" value="<?php echo $this->__('lang_calculate_runtime'); ?>" type="button" class="piRpInput-button piRpContentSwitchInput ">
+                        </div>
+                        <div class="piRpContentSwitchDiv"  id="piRpSwitchToRuntime" style="display: none">
+                            <span id="pirpspanruntime" class="pirpactive">
+                                <?php echo $this->__('lang_choose_runtime'); ?> <?php echo $this->__('lang_calculate_rate'); ?>
+                            </span>
+                            <input name="" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" class="piRpInput-button piRpContentSwitchInput ">
+                        </div>
+                        <div id="piRpResultContainer"></div>
                     </div>
-                    <br class="piRpClearFix" />
-                    <div class="piRpContentSwitchDiv" id="piRpSwitchToTerm" class="piRpActive" style="display: none">
-                        <span id="pirpspanrate">
-                            <?php echo $this->__('lang_insert_wishrate'); ?> <?php echo $this->__('lang_calculate_runtime'); ?>
-                        </span>
-                        <input name="" value="<?php echo $this->__('lang_calculate_runtime'); ?>" type="button" class="piRpInput-button piRpContentSwitchInput ">
-                    </div>
-                    <div class="piRpContentSwitchDiv"  id="piRpSwitchToRuntime" style="display: none">
-                        <span id="pirpspanruntime" class="pirpactive">
-                            <?php echo $this->__('lang_choose_runtime'); ?> <?php echo $this->__('lang_calculate_rate'); ?>
-                        </span>
-                        <input name="" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" class="piRpInput-button piRpContentSwitchInput ">
-                    </div>
+                </div>
+                <script>
+                    switchRateOrRuntime('rate', '<?php echo $this->getSkinUrl(); ?>');
+                </script>
+
+                <br class="piRpClearFix" />
+            </div>
+        </li>
+    <?php else: ?>
+        <li>
+            <script>
+                piRatepayRateCalculatorAction('runtime', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>');
+            </script>
+            <input type="hidden" id="runtime" value="<?php echo $monthAllowed['month_allowed'][0]; ?>" />
+            <div id="piRpContentSwitch">
+                <div class="piRpChooseRuntime">
                     <div id="piRpResultContainer"></div>
                 </div>
             </div>
-            <script>
-                switchRateOrRuntime('rate', '<?php echo $this->getSkinUrl(); ?>');
-            </script>
-
-            <br class="piRpClearFix" />
-        </div>
-    </li>
+        </li>
+    <?php endif; ?>
 </ul>

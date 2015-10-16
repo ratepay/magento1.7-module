@@ -53,7 +53,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
         return array(
-            "month_allowed" => explode("," ,Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/month_allowed', $storeId)),
+            "month_allowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/month_allowed', $storeId)),
             "rate_min" => Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/rate_min', $storeId)
         );
     }

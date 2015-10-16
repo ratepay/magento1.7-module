@@ -99,7 +99,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
                 
                 if (is_array($result) || $result == true) {
                     $this->setSessionData($result);
-                    $this->getHtml($this->formatResult($result));
+                    $this->getHtml($this->formatResult($result), (bool) $this->getRequest()->getParam('notification'));
                 } else {
                     $this->unsetSessionData();
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
@@ -205,8 +205,8 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      * Printout of rates result
      * @param array $result
      */
-    public function getHtml($result)
+    public function getHtml($result, $notification = true)
     {
-        Mage::helper('ratepaypayment')->getRateResultHtml($result);
+        Mage::helper('ratepaypayment')->getRateResultHtml($result, $notification);
     }
 }

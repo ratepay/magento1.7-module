@@ -162,9 +162,9 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
         foreach (Mage::helper('ratepaypayment/mapping')->getArticles($creditmemo) as $article) {
             ($article['articleNumber'] == 'DISCOUNT') ? $condition = $article['articleName'] : $condition = $article['articleNumber'];
             $creditmemoItems[$condition]['quantity'] = $article['quantity'];
-            $creditmemoItems[$condition]['unitPrice'] = $article['unitPrice'];
+            $creditmemoItems[$condition]['unitPrice'] = (isset($article['unitPrice']) ? $article['unitPrice'] : '');
             $creditmemoItems[$condition]['unitPriceGross'] = $article['unitPriceGross'];
-            $creditmemoItems[$condition]['totalPrice'] = $article['totalPrice'];
+            $creditmemoItems[$condition]['totalPrice'] = (isset($article['totalPrice']) ? $article['totalPrice'] : '');
             $creditmemoItems[$condition]['tax'] = $article['tax'];
             $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
             $creditmemoItems[$condition]['articleNumber'] = $article['articleNumber'];
@@ -191,9 +191,9 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
         foreach ($orderItems as $orderItem) {
             $tempArray = array();
             $tempArray['quantity'] = $orderItem['quantity'];
-            $tempArray['unitPrice'] = $orderItem['unitPrice'];
+            $tempArray['unitPrice'] = (isset($orderItem['unitPrice']) ? $orderItem['unitPrice'] : '');
             $tempArray['unitPriceGross'] = $orderItem['unitPriceGross'];
-            $tempArray['totalPrice'] = $orderItem['totalPrice'];
+            $tempArray['totalPrice'] = (isset($orderItem['totalPrice']) ? $orderItem['totalPrice'] : '');
             $tempArray['tax'] = $orderItem['tax'];
             $tempArray['taxPercent'] = !isset($orderItem['taxPercent']) ? 0 : $orderItem['taxPercent'];
             $tempArray['articleNumber'] = $orderItem['articleNumber'];

@@ -40,10 +40,10 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
             Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($token);
 
             return "
-                <script language=\"JavaScript\">
-                    var di = {t:'" . $token . "',v:'" . $snippedId . " ',l:'Checkout'};
+                <script language=\"JavaScript\" async>
+                    var di = {t:'" . $token . "',v:'" . $snippedId . "',l:'Checkout'};
                 </script>
-                <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . "/di.js\"></script>
+                <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . "/di.js\" async></script>
                 <noscript><link rel=\"stylesheet\" type=\"text/css\" href=\"//d.ratepay.com/di.css?t=" . $token . "&v=" . $snippedId . "&l=Checkout\"></noscript>
                 <object type=\"application/x-shockwave-flash\" data=\"//d.ratepay.com/" . $snippedId . "/c.swf\" style=\"float: right; visibility: hidden; height: 0px; width: 0px;\">
                     <param name=\"movie\" value=\"//d.ratepay.com/" . $snippedId . "/c.swf\" />

@@ -22,6 +22,7 @@ function piRatepayRateCalculatorAction(mode, url)
 {
     var calcValue;
     var calcMethod;
+    var notification;
 
     var html;
 
@@ -42,6 +43,7 @@ function piRatepayRateCalculatorAction(mode, url)
     } else if (mode == 'runtime') {
         calcValue = document.getElementById('runtime').value;
         calcMethod = 'calculation-by-time';
+        notification = (document.getElementById('piRpNotification') == null) ? 0 : 1;
         if(document.getElementById('debitSelectRuntime')){
              dueDate = document.getElementById('debitSelectRuntime').value;
         } else {
@@ -53,7 +55,7 @@ function piRatepayRateCalculatorAction(mode, url)
     xmlhttp.setRequestHeader("Content-Type",
         "application/x-www-form-urlencoded");
 
-    xmlhttp.send("calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate);
+    xmlhttp.send("calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification);
 
     if (xmlhttp.responseText != null) {
         html = xmlhttp.responseText;
