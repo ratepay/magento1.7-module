@@ -98,8 +98,6 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             }
         }
 
-
-
         if ($object instanceof Mage_Sales_Model_Order || $object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
             $shippingObject = $object;
             if ($object instanceof Mage_Sales_Model_Order_Creditmemo) {

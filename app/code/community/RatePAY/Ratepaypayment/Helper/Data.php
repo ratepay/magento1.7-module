@@ -509,15 +509,13 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRateResultHtml($result, $notification = true)
     {
-        if ($notification) {
-            echo '<div id="piRpNotfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
-        }
+        if ($notification) echo '<div id="piRpNotfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
 
         echo '<h2 class="pirpmid-heading"><b>' . $this->__('lang_individual_rate_calculation') . '</b></h2>';
         echo '<table id="piInstallmentTerms" cellspacing="0">';
         echo '    <tr>';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoPaymentPrice\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoPaymentPrice\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoPaymentPrice\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoPaymentPrice\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft">' . $this->__('lang_cash_payment_price') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoPaymentPrice">' . $this->__('lang_mouseover_cash_payment_price') . '</div>';
@@ -528,7 +526,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr class="piTableHr">';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoServiceCharge\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoServiceCharge\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') .'"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoServiceCharge\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoServiceCharge\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') .'"/></div>';
         echo '             <div class="piRpFloatLeft">' . $this->__('lang_service_charge') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoServiceCharge">' . $this->__('lang_mouseover_service_charge') . '</div>';
@@ -539,7 +537,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr class="piPriceSectionHead">';
         echo '        <th class="piRpPercentWidth">';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoEffectiveRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoEffectiveRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoEffectiveRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoEffectiveRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft">' . $this->__('lang_effective_rate') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoEffectiveRate">' . $this->__('lang_mouseover_effective_rate') . ':</div>';
@@ -549,7 +547,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr class="piTableHr">';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDebitRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDebitRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDebitRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDebitRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft">' . $this->__('lang_interestrate_default') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDebitRate">' . $this->__('lang_mouseover_debit_rate') . ':</div>';
@@ -559,7 +557,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr>';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoInterestAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoInterestAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoInterestAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoInterestAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft">' . $this->__('lang_interest_amount') . ':</div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoInterestAmount">' . $this->__('lang_mouseover_interest_amount') . ':</div>';
@@ -570,7 +568,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr>';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoTotalAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoTotalAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoTotalAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoTotalAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft"><b>' . $this->__('lang_total_amount') . ':</b></div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoTotalAmount">' . $this->__('lang_mouseover_total_amount') . '</div>';
@@ -587,7 +585,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '     <tr class="piRpyellow piPriceSectionHead">';
         echo '        <th class="piRpPaddingTop">';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationTime\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationTime\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationTime\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationTime\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft"><b>' . $this->__('lang_duration_time') . ':</b></div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDurationTime">' . $this->__('lang_mouseover_duration_time') . '</div>';
@@ -597,7 +595,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr class="piRpyellow">';
         echo '        <th>';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationMonth\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationMonth\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationMonth\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationMonth\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft piRpPaddingLeft"><b>' . $result['numberOfRates'] . '' . $this->__('lang_duration_month') . ':</b></div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDurationMonth">' . $this->__('lang_mouseover_duration_month') . '</div>';
@@ -608,7 +606,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         echo '    </tr>';
         echo '    <tr class="piRpyellow piRpPaddingBottom">';
         echo '        <th class="piRpPaddingBottom">';
-        echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoLastRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoLastRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
+        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoLastRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoLastRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
         echo '            <div class="piRpFloatLeft piRpPaddingLeft"><b>' . $this->__('lang_last_rate') . ':</b></div>';
         echo '            <div class="piRpRelativePosition">';
         echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoLastRate">' . $this->__('lang_mouseover_last_rate') . '</div>';

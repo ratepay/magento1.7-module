@@ -36,17 +36,17 @@ class RatePAY_Ratepaypayment_Block_Payment_Info_Rate extends RatePAY_Ratepaypaym
      */
     public function getRateData() {
         $result = array();
-        $result['totalAmount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Total Amount'));
-        $result['amount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Amount'));
-        $result['interestRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Interest Rate'));
-        $result['interestAmount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Interest Amount'));
-        $result['serviceCharge'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Service Charge'));
+        $result['totalAmount']          = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Total Amount'));
+        $result['amount']               = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Amount'));
+        $result['interestRate']         = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Interest Rate'));
+        $result['interestAmount']       = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Interest Amount'));
+        $result['serviceCharge']        = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Service Charge'));
         $result['annualPercentageRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Annual Percentage Rate'));
         $result['monthlyDebitInterest'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Monthly Debit Interest'));
-        $result['numberOfRatesFull'] = $this->getInfo()->getAdditionalInformation('Rate Number of Rates Full');
-        $result['numberOfRates'] = $this->getInfo()->getAdditionalInformation('Rate Number of Rates');
-        $result['rate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Rate'));
-        $result['lastRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Last Rate'));
+        $result['numberOfRatesFull']    = $this->getInfo()->getAdditionalInformation('Rate Number of Rates Full');
+        $result['numberOfRates']        = $this->getInfo()->getAdditionalInformation('Rate Number of Rates');
+        $result['rate']                 = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Rate'));
+        $result['lastRate']             = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Last Rate'));
         return $result;
     }
     

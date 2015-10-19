@@ -16,6 +16,7 @@
 * persistent credentials as additional payment information
 * preloaded installment plan in case of just one month allowed
 * installment plan on order review page
+* textual changes in payment method forms
 * fex changes to avoid php notices
 
 ### Version 3.0.4 - Released 2015-09-10
