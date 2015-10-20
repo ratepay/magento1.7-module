@@ -204,7 +204,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
                 $tempArray = $this->_calcProductArrays($tempArray, $subtractItems);
             }
 
-            if ($tempArray['quantity'] > 0) {
+            if ((int) $tempArray['quantity'] > 0) {
                 $items[] = $tempArray;
             }
         }
@@ -239,12 +239,10 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
      */
     private function _calcProductArrays(array $tempArray, array $itemArray)
     {
-        ($tempArray['articleNumber'] == 'DISCOUNT') ? $condition = $tempArray['articleName'] : $condition = $tempArray['articleNumber'];
+        //$condition = (strstr($tempArray['articleNumber'], 'DISCOUNT')) ? $tempArray['articleName'] : $tempArray['articleNumber'];
+        $condition = $tempArray['articleNumber'];
         if (array_key_exists($condition, $itemArray)) {
             $tempArray['quantity'] = $tempArray['quantity'] - $itemArray[$condition]['quantity'];
-            $tempArray['totalPrice'] = $tempArray['totalPrice'] - $itemArray[$condition]['totalPrice'];
-            $tempArray['unitPriceGross'] = $tempArray['unitPriceGross'] - $itemArray[$condition]['unitPriceGross'];
-            $tempArray['tax'] = $tempArray['tax'] - $itemArray[$condition]['tax'];
         }
         return $tempArray;
     }
