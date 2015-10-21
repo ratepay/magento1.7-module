@@ -126,16 +126,6 @@
                 </observers>
             </checkout_controller_onepage_save_shipping_method>
 
-            <controller_action_layout_load_before>
-                <observers>
-                    <RatePAY_Ratepaypayment_model_observer>
-                        <type>model</type>
-                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
-                        <method>ratepay_cart</method>
-                    </RatePAY_Ratepaypayment_model_observer>
-                </observers>
-            </controller_action_layout_load_before>
-
             <adminhtml_block_html_before>
                 <observers>
                     <RatePAY_Ratepaypayment_model_observer>
