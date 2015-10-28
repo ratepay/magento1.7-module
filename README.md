@@ -5,12 +5,16 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x`
-|Version | `3.0.6`
+|Version | `3.0.7`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.0.7 - Released 2015-10-28
+* SEPA form redesign
+* IBAN only configurable
 
 ### Version 3.0.6 - Released 2015-10-20
 * bugfix of partial return logic

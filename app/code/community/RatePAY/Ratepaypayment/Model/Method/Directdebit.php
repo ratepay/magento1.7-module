@@ -54,62 +54,42 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
         parent::assignData($data);
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();
+        $country = $this->getHelper()->getCountryCode($quote);
 
         // Bank data
-        $ibanAccNo = $this->_clearIban($params[$this->_code . '_account_number']);
-        $ibanAccNoCountryCode = substr($ibanAccNo, 0, 2);
-        $bic = $params[$this->_code . '_bank_code_number'];
+        if (!empty($params[$this->_code . '_iban'])) {
+            $iban = $this->_clearIban($params[$this->_code . '_iban']);
 
-        if (!empty($ibanAccNo)) {
-            if (!is_numeric($ibanAccNo)) {
-                if ($ibanAccNoCountryCode == $this->getHelper()->getCountryCode($quote)) {
-                    if ($ibanAccNoCountryCode == "DE") {
-                        if (strlen($ibanAccNo) <> 22) {
-                            Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-                        }
-                        unset($params[$this->_code . '_bic']);
-                    }
-                    if ($ibanAccNoCountryCode == "AT") {
-                        if (strlen($ibanAccNo) <> 20) {
-                            Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-                        }
-                        if ($bic == '') {
-                            Mage::throwException($this->_getHelper()->__('insert bank code'));
-                        } elseif (strlen($bic) <> 8 && strlen($bic) <> 11) {
-                            Mage::throwException($this->_getHelper()->__('insert bank code'));
-                        }
-                        $params[$this->_code . '_bic'] = $bic;
-                    }
-                    if ($ibanAccNoCountryCode == "CH") {
-                        if (strlen($ibanAccNo) <> 21) {
-                            Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-                        }
-                        if ($bic == '') {
-                            Mage::throwException($this->_getHelper()->__('insert bank code'));
-                        } elseif (strlen($bic) <> 8 && strlen($bic) <> 11) {
-                            Mage::throwException($this->_getHelper()->__('insert bank code'));
-                        }
-                        $params[$this->_code . '_bic'] = $bic;
-                    }
-                } else {
-                    Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-                }
-                unset($params[$this->_code . '_account_number']);
-                unset($params[$this->_code . '_bank_code_number']);
+            if (substr($iban, 0, 2) != $country) {
+                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
+            } elseif ($country == 'DE' && strlen($iban) <> 22) {
+                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
+            } elseif ($country == 'AT' && strlen($iban) <> 20) {
+                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
+            }
 
-                $params[$this->_code . '_iban'] = $ibanAccNo;
-            } else {
-                if ($this->getHelper()->getCountryCode($quote) != "DE") {
-                    Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-                } elseif (!is_numeric($bic) || strlen($bic) <> 8) {
-                    Mage::throwException($this->_getHelper()->__('insert bank code'));
+            if ($country != "DE") {
+                $bic = $params[$this->_code . '_bic'];
+
+                if (strlen($bic) <> 8 && strlen($bic) <> 11) {
+                    Mage::throwException($this->_getHelper()->__('insert bank bic'));
                 }
             }
+        } elseif (!empty($params[$this->_code . '_account_number'])) {
+            $accountnumber = $params[$this->_code . '_account_number'];
+            $bankcode = $params[$this->_code . '_bank_code_number'];
+
+            if (!is_numeric($accountnumber)) {
+                Mage::throwException($this->_getHelper()->__('insert account number'));
+            } elseif (empty($bankcode) || !is_numeric($bankcode)) {
+                Mage::throwException($this->_getHelper()->__('insert bank code'));
+            }
+        } else {
+            Mage::throwException($this->_getHelper()->__('insert bank data'));
         }
 
         Mage::getSingleton('core/session')->setDirectDebitFlag(false);
-        if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban'])) &&
-            !empty($params[$this->_code . '_account_holder'])) {
+        if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban']))) {
             $this->getHelper()->setBankData($params, $quote, $this->_code);
         }
 

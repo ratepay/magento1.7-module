@@ -136,24 +136,46 @@ echo $this->getDeviceIdentToken();
                 <?php echo $this->__('insert bank data'); ?>
             </label>
         </li>
+        <?php if (!$this->isIbanOnly()): ?>
         <li>
-            <label for="<?php echo $_code ?>_account_holder" class="required"><em>*</em><?php echo $this->__('Account holder'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['owner'] ?>" type="text" name="payment[<?php echo $_code ?>_account_holder]" id="<?php echo $_code ?>_account_holder" class="input-text required-entry"/>
-            </div>
+            <button id="ratepay_directdebit_sepa_switch" type="button" class="button2" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_classic_switch" type="button" class="button" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
         </li>
+        <?php endif; ?>
         <li>
-            <label for="<?php echo $_code ?>_account_number" class="required"><em>*</em><?php echo $this->__('IBAN'); if ($this->getCountryCode() == 'de') echo " / " . $this->__('Account number'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo (!empty($bankData['iban'])) ? $bankData['iban'] : $bankData['accountnumber'] ?>" type="text" name="payment[<?php echo $_code ?>_account_number]" id="<?php echo $_code ?>_account_number" class="input-text required-entry" onkeyup="switchAccountType(this)" onchange="switchAccountType(this)" />
+            <label for="ratepay_directdebit_account_holder"><?php echo $this->__('Account holder'); ?></label>
+            <div class="input-box" style="font-weight: bold">
+                <?php echo $this->getAccountOwner(); ?>
             </div>
         </li>
-        <li <?php if ($this->getCountryCode() == 'de') echo 'id="li_' . $_code .'_bank_code_number"'; ?>>
-            <label for="<?php echo $_code ?>_bank_code_number" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); if ($this->getCountryCode() == 'de') echo " / " . $this->__('Bank code number'); ?></label>
+        <li id="ratepay_directdebit_element_iban">
+            <label for="ratepay_directdebit_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="input-text<?php if ($this->getCountryCode() != 'de') echo ' required-entry'; ?>"/>
+                <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
             </div>
         </li>
+        <?php if ($this->getCountryCode() != 'de'): ?>
+            <li id="ratepay_directdebit_element_bic">
+                <label for="ratepay_directdebit_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
+                <div class="input-box">
+                    <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_directdebit_bic]" id="ratepay_directdebit_bic" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if (!$this->isIbanOnly()): ?>
+            <li id="ratepay_directdebit_element_accountnumber" style="display: none;">
+                <label for="ratepay_directdebit_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>
+                <div class="input-box">
+                    <input value="<?php echo $bankData['accountnumber']; ?>" type="text" name="payment[ratepay_directdebit_account_number]" id="ratepay_directdebit_account_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+                </div>
+            </li>
+            <li id="ratepay_directdebit_element_bankcode" style="display: none;">
+                <label for="ratepay_directdebit_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
+                <div class="input-box">
+                    <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_directdebit_bank_code_number]" id="ratepay_directdebit_bank_code_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+                </div>
+            </li>
+        <?php endif; ?>
 
         <li>
             <table>

@@ -354,7 +354,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     
     private function _setBankDataSession($data, $code)
     {
-        if (isset($data[$code . 'iban']) && $data[$code . '_iban']) {
+        if (isset($data[$code . '_iban']) && $data[$code . '_iban']) {
             Mage::getSingleton('core/session')->setIban($data[$code . '_iban']);
             if(isset($data[$code . '_bic']) && $data[$code . '_bic']) {
                 Mage::getSingleton('core/session')->setBic($data[$code . '_bic']);
@@ -363,7 +363,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('core/session')->setAccountNumber($data[$code . '_account_number']);
             Mage::getSingleton('core/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         }
-        Mage::getSingleton('core/session')->setAccountHolder($data[$code . '_account_holder']);
     }
     
     /**
@@ -381,7 +380,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $bankdata = $piEncryption->loadBankdata($customerId);
         } else {*/
             $bankdata = array (
-                'owner' => Mage::getSingleton('core/session')->getAccountHolder()
+                'owner' => $quote->getBillingAddress()->getFirstname() . " " . $quote->getBillingAddress()->getLastname()
             );
 
             if(Mage::getSingleton('core/session')->getIban()) {
