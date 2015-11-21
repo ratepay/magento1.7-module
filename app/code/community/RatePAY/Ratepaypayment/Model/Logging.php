@@ -48,12 +48,11 @@ class RatePAY_Ratepaypayment_Model_Logging extends Mage_Core_Model_Abstract
             $request->content->customer->{'bank-account'}->owner = '(hidden)';
             if (isset($request->content->customer->{'bank-account'}->{'iban'})) {
                 $request->content->customer->{'bank-account'}->{'iban'} = '(hidden)';
-                $request->content->customer->{'bank-account'}->{'bic'} = '(hidden)';
+                $request->content->customer->{'bank-account'}->{'bic-swift'} = '(hidden)';
             } else {
                 $request->content->customer->{'bank-account'}->{'bank-account-number'} = '(hidden)';
                 $request->content->customer->{'bank-account'}->{'bank-code'} = '(hidden)';
             }
-            $request->content->customer->{'bank-account'}->{'bank-name'} = '(hidden)';
         }
 
         if ($response != null && isset($response) && $response->asXML() != '') {

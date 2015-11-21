@@ -34,7 +34,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
 
             $snippedId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
             $timestamp = microtime();
-            $quoteId = Mage::getSingleton('core/session')->getQuoteId();
+            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
             $token = md5($quoteId . "_" . $timestamp);
 
             Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($token);
