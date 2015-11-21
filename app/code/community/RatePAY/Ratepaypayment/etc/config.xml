@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.0.7</version>
+            <version>3.1.0</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -253,59 +253,6 @@
                 <specificcategories>NO</specificcategories>
             </ratepay_rechnung_advanced_ch>
 
-            <ratepay_rate>
-                <model>ratepaypayment/method_rate</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
-            </ratepay_rate>
-            <ratepay_rate_de>
-                <active>0</active>
-                <title>RatePAY Rate</title>
-                <logging>1</logging>
-                <sandbox>1</sandbox>
-                <specificcurrency>EUR</specificcurrency>
-                <dynamic_due>0</dynamic_due>
-                <status>0</status>
-                <b2b>0</b2b>
-                <delivery_address>0</delivery_address>
-            </ratepay_rate_de>
-            <ratepay_rate_advanced_de>
-                <specificgroups>ALL</specificgroups>
-            </ratepay_rate_advanced_de>
-            <ratepay_rate>
-                <model>ratepaypayment/method_rate</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
-            </ratepay_rate>
-            <ratepay_rate_at>
-                <active>0</active>
-                <title>RatePAY Rate</title>
-                <logging>1</logging>
-                <sandbox>1</sandbox>
-                <specificcurrency>EUR</specificcurrency>
-                <dynamic_due>0</dynamic_due>
-                <status>0</status>
-                <b2b>0</b2b>
-                <delivery_address>0</delivery_address>
-            </ratepay_rate_at>
-            <ratepay_rate_advanced_at>
-                <specificgroups>ALL</specificgroups>
-            </ratepay_rate_advanced_at>
-            <ratepay_rate_ch>
-                <active>0</active>
-                <title>RatePAY Rate</title>
-                <logging>1</logging>
-                <sandbox>1</sandbox>
-                <specificcurrency>EUR</specificcurrency>
-                <dynamic_due>0</dynamic_due>
-                <status>0</status>
-                <b2b>0</b2b>
-                <delivery_address>0</delivery_address>
-            </ratepay_rate_ch>
-            <ratepay_rate_advanced_ch>
-                <specificgroups>ALL</specificgroups>
-            </ratepay_rate_advanced_ch>            
-            
             <ratepay_directdebit>
                 <model>ratepaypayment/method_directdebit</model>
                 <order_status>pending_payment</order_status>
@@ -327,11 +274,6 @@
             <ratepay_directdebit_advanced_de>
                 <specificgroups>ALL</specificgroups>
             </ratepay_directdebit_advanced_de>
-            <ratepay_directdebit>
-                <model>ratepaypayment/method_directdebit</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
-            </ratepay_directdebit>
             <ratepay_directdebit_at>
                 <active>0</active>
                 <title>RatePAY SEPA-Lastschrift</title>
@@ -363,7 +305,103 @@
             </ratepay_directdebit_ch>
             <ratepay_directdebit_advanced_ch>
                 <specificgroups>ALL</specificgroups>
-            </ratepay_directdebit_advanced_ch>            
+            </ratepay_directdebit_advanced_ch>
+
+            <ratepay_rate>
+                <model>ratepaypayment/method_rate</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_rate>
+            <ratepay_rate_de>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_de>
+            <ratepay_rate_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_de>
+            <ratepay_rate_at>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_at>
+            <ratepay_rate_advanced_at>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_at>
+            <ratepay_rate_ch>
+                <active>0</active>
+                <title>RatePAY Rate</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate_ch>
+            <ratepay_rate_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate_advanced_ch>
+
+            <ratepay_rate0>
+                <model>ratepaypayment/method_rate0</model>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+            </ratepay_rate0>
+            <ratepay_rate0_de>
+                <active>0</active>
+                <title>RatePAY 0%-Finanzierung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate0_de>
+            <ratepay_rate0_advanced_de>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate0_advanced_de>
+            <ratepay_rate0_at>
+                <active>0</active>
+                <title>RatePAY 0%-Finanzierung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate0_at>
+            <ratepay_rate0_advanced_at>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate0_advanced_at>
+            <ratepay_rate0_ch>
+                <active>0</active>
+                <title>RatePAY 0%-Finanzierung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <dynamic_due>0</dynamic_due>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rate0_ch>
+            <ratepay_rate0_advanced_ch>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_rate0_advanced_ch>
 
             <ratepay_ibs>
                 <model>ratepaypayment/method_ibs</model>
@@ -382,10 +420,6 @@
             <ratepay_ibs_advanced_de>
                 <specificgroups>ALL</specificgroups>
             </ratepay_ibs_advanced_de>
-            <ratepay_ibs>
-                <model>ratepaypayment/method_ibs</model>
-                <payment_action>authorize</payment_action>
-            </ratepay_ibs>
             <ratepay_ibs_at>
                 <active>0</active>
                 <allowspecific>0</allowspecific>

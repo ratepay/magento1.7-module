@@ -21,30 +21,30 @@
 
 <style>
    /* reset */
-    #pirpmain-cont, #pirpmain-cont div, #pirpmain-cont span, #pirpmain-cont p, #pirpmain-cont input, #pirpmain-cont select, #pirpmain-cont h2, #pirpmain-cont table, #pirpmain-cont td {
+    #ratepay-main-cont, #ratepay-main-cont div, #ratepay-main-cont span, #ratepay-main-cont p, #ratepay-main-cont input, #ratepay-main-cont select, #ratepay-main-cont h2, #ratepay-main-cont table, #ratepay-main-cont td {
         font: 13px  Arial,"Helvetica Neue",Helvetica,sans-serif;
         line-height: 17px;
         text-align: left;
     }
 
     /* RatePAY Calculator */
-    .piRpLeft {
+    .ratepay-Left {
         text-align: left;
     }
     
-    .piRpClearFix {
+    .ratepay-ClearFix {
         clear: both;
         line-height: 1px;
         height: 1px;
     }
 
-    #pirpmain-cont {
+    #ratepay-main-cont {
         width: 472px !important;
         margin: 0 auto;
         vertical-align: middle;
     }
 
-    #pirpmain-cont input.piRpInput-button {
+    #ratepay-main-cont input.ratepay-Input-button {
         width:164px;
         color:#000;
         background:#f2c551;
@@ -61,7 +61,7 @@
         right:5px;
         margin-left: 15px;
     }
-    #pirpmain-cont input.piRpInput-button2 {
+    #ratepay-main-cont input.ratepay-Input-button2 {
         width:164px;
         color:#000;
         background:#f2c551;
@@ -77,11 +77,11 @@
         top: 5px;
         right:5px;
     }
-    #pirpmain-cont input.piRpInput-button:hover {
+    #ratepay-main-cont input.ratepay-Input-button:hover {
         background-color:#f2B551;
         border:2px solid #f2C551;
     }
-    #pirpmain-cont input.piRpInput-button2:hover {
+    #ratepay-main-cont input.ratepay-Input-button2:hover {
         background-color:#f2B551;
         border:2px solid #f2C551;
     }
@@ -89,45 +89,45 @@
         margin: 0 0 0 15px;
     }
 
-    #piRpHeader {
+    #ratepay-Header {
         height: auto;
         margin: 0 0 13px;
         width: 100%;
     }
 
-    #piRpHeader img {
+    #ratepay-Header img {
         float: right;
     }
 
-    #piRpHeader span {
+    #ratepay-Header span {
         font-size: 16px;
     }
 
-    #pirpmain-cont p.piRpText {
+    #ratepay-main-cont p.ratepay-Text {
         width: 400px;
     }
 
-    #pirpmain-cont p.piRpTop-Text {
+    #ratepay-main-cont p.ratepay-Top-Text {
         margin: 20px 15px 0;
     }
 
-    div#piRpContentSwitch {
+    div#ratepay-ContentSwitch {
         margin: 0px 0 0;
         padding: 5px;
         background-color: #eee;
     }
 
-    .piRpContentSwitchDiv {
+    .ratepay-ContentSwitchDiv {
         width: 190px;
         padding: 2px 0 0 15px;
         color: #263551;
         display: none;
     }
 
-    #pirpmain-cont #piRpDueDate{
+    #ratepay-main-cont #ratepay-DueDate{
     }
 
-    #pirpmain-cont #debitSelect{
+    #ratepay-main-cont #debitSelect{
         float: right;
         font-size: 100%;
         margin: 0 3px 0 0;
@@ -135,84 +135,84 @@
         width: 167px;
         height:60px;
     }
-    #pirpmain-cont .piRpDueText{
+    #ratepay-main-cont .ratepay-DueText{
         float: left;
         margin-top: 10px;
         width: auto;
     }
 
-    #piRpContentSwitch div.piRpActive {
+    #ratepay-ContentSwitch div.ratepay-Active {
         color: #B69767;
     }
 
-    #piRpContentSwitchInput {
+    #ratepay-ContentSwitchInput {
         display: block;
         margin-top: 5px;
     }
 
-    #piRpSwitchToTerm {
+    #ratepay-SwitchToTerm {
         float: left;
     }
 
-    #piRpSwitchToRuntime {
+    #ratepay-SwitchToRuntime {
         float: right;
         left: 40px;
         position: relative;
     }
 
-    #pirpmain-cont .piRpContent p {
+    #ratepay-main-cont .ratepay-Content p {
         margin-bottom: 25px;
     }
 
-    #pirpmain-cont div.piRpContent {
+    #ratepay-main-cont div.ratepay-Content {
 
     }
 
-    #piRpContentTerm {
+    #ratepay-ContentTerm {
         display:none;
     }
 
-    #piRpContentRuntime {
+    #ratepay-ContentRuntime {
         display:none;
     }
 
-    #pirpmain-cont .piRpContent select, #pirpmain-cont .piRpContent input.piRpInput-amount {
+    #ratepay-main-cont .ratepay-Content select, #ratepay-main-cont .ratepay-Content input.ratepay-Input-amount {
         border: 1px solid #D1DFE0;
         text-align: right;
         position: relative;
         top: 2px;
     }
 
-    #pirpmain-cont .piRpContent select {
+    #ratepay-main-cont .ratepay-Content select {
         padding: 4px;
         text-align: left;
         width: 110px;
     }
 
-    #pirpmain-cont .piRpContent input.piRpInput-amount {
+    #ratepay-main-cont .ratepay-Content input.ratepay-Input-amount {
         padding: 4px;
         width: 65px;
     }
 
-    #pirpmain-cont .piRpContent span.piRpCurrency {
+    #ratepay-main-cont .ratepay-Content span.ratepay-Currency {
         padding-top: 3px;
         vertical-align: middle;
     }
 
     /* RatePAY Calculator Result */
-    #pirpmain-cont #piRpResult {
+    #ratepay-main-cont #ratepay-Result {
         background: none repeat scroll 0 0 #fefefe;
         color: black;
         margin-top: 10px;
     }
     /* RatePAY Calculator Result */
-    #pirpmain-cont #piRpResult2 {
+    #ratepay-main-cont #ratepay-Result2 {
         background: none repeat scroll 0 0 #fefefe;
         color: black;
         margin-top: 10px;
     }
 
-    #pirpmain-cont #piRpNotfication {
+    #ratepay-main-cont #ratepay-Notfication {
         background: none repeat scroll 0 0 #FFFFE0;
         border: 1px solid #E6DB55;
         -moz-border-radius: 5px;
@@ -223,7 +223,7 @@
         padding: 10px 5px;
     }
 
-    #pirpmain-cont .pirperror {
+    #ratepay-main-cont .ratepay-error {
         background: none repeat scroll 0 0 #FFEBE8;
         border: 1px solid #CC0000;
         -moz-border-radius: 5px;
@@ -233,26 +233,26 @@
         padding: 10px;
     }
 
-    #pirpmain-cont h2.pirpmid-heading {
+    #ratepay-main-cont h2.ratepay-mid-heading {
         color: black;
         font-size: 15px;
         margin: 5px 0;
         padding-left: 5px;
     }
 
-    #piRpResult table{
+    #ratepay-Result table{
         border: none;
     }
-    #piRpResult2 table{
+    #ratepay-Result2 table{
         border: none;
     }
-    #piInstallmentTerms table,#piInstallmentTerms td,#piInstallmentTerms th {
+    #ratepay-InstallmentTerms table,#ratepay-InstallmentTerms td,#ratepay-InstallmentTerms th {
         border: none;
         padding: 0px;
     }
     
     
-    #piInstallmentTerms th {
+    #ratepay-InstallmentTerms th {
         padding-left:10px;
         text-align: left;
         width: 240px;
@@ -260,52 +260,52 @@
         vertical-align: middle;
     }
 
-    #piInstallmentTerms td {
+    #ratepay-InstallmentTerms td {
         text-align: right;
         color: black;
         border: none;
         vertical-align: middle;
     }
 
-    #piInstallmentTerms label {
+    #ratepay-InstallmentTerms label {
         border: 1px solid #DDDDDD;
         display: inline-block;
         margin-top: 4px;
         padding-bottom: 5px;
     }
 
-    #piInstallmentTerms tr.piHighlight th {
+    #ratepay-InstallmentTerms tr.ratepay-Highlight th {
         padding-left: 0;
         color: black;
         border: none;
     }
 
-    #piInstallmentTerms tr.piHighlight th, #piInstallmentTerms tr.piHighlight td {
+    #ratepay-InstallmentTerms tr.ratepay-Highlight th, #ratepay-InstallmentTerms tr.ratepay-Highlight td {
         color: black;
         border: none;
     }
 
-    #piInstallmentTerms th, #piInstallmentTerms td {
+    #ratepay-InstallmentTerms th, #ratepay-InstallmentTerms td {
         color: black;
         border: none;
     }
 
-    #piInstallmentTerms tr.piTableHr th, #piInstallmentTerms tr.piTableHr td {
+    #ratepay-InstallmentTerms tr.ratepay-TableHr th, #ratepay-InstallmentTerms tr.ratepay-TableHr td {
         color: black;
         border: none;
     }
 
-    #piInstallmentTerms tr.piTableHr {
+    #ratepay-InstallmentTerms tr.ratepay-TableHr {
         color: black;
         border: none;
     }
 
-    #piInstallmentTerms tr.piPriceSectionHead td, #piInstallmentTerms tr.piPriceSectionHead th {
+    #ratepay-InstallmentTerms tr.ratepay-PriceSectionHead td, #ratepay-InstallmentTerms tr.ratepay-PriceSectionHead th {
         color: black;
         border: none;
     }
 
-    table#piInstallmentTerms {
+    table#ratepay-InstallmentTerms {
         color: black;
         margin: 0 auto;
         padding: 5px 3px;
@@ -313,7 +313,7 @@
         float: left;
     }
 
-    #pirpmain-cont .piRpH2{
+    #ratepay-main-cont .ratepay-H2{
         color: black;
         float: left;
         font-size: 18px;
@@ -321,32 +321,32 @@
         margin: 5px 0 0 10px;
     }
 
-    #pirpmain-cont .piRpLogoText{
+    #ratepay-main-cont .ratepay-LogoText{
         float: right;
         font-size: 10px;
         padding-right: 5px;
         margin-top: -3px;
     }
-    .piRpFullWidth{
+    .ratepay-FullWidth{
         width: 100%;
         height: 20px;
     }
 
-    #pirpmain-cont .piRpChooseRuntime{
+    #ratepay-main-cont .ratepay-ChooseRuntime{
         border: 1px solid;
         font-size: 95%;
         padding: 10px;
     }
-    .piRpFloatLeft{
+    .ratepay-FloatLeft{
         float: left;
     }
 
-    .piRpNintyPercentWidth{
+    .ratepay-NintyPercentWidth{
         padding-top: 13px;
         width: 90%;
     }
 
-    #pirpmain-cont .piRpChooseInput{
+    #ratepay-main-cont .ratepay-ChooseInput{
         background: url("<?php echo $this->getSkinUrl('images/ratepay/arrow.png'); ?>") no-repeat scroll 0 0 transparent;
         float: left;
         height: 40px;
@@ -354,7 +354,7 @@
     }
 
 
-    #pirpmain-cont .piRpChooseInput Input{
+    #ratepay-main-cont .ratepay-ChooseInput Input{
         margin-top: 13px;
     }
 
@@ -363,7 +363,7 @@
         width:123px;
         margin: 0px;
     }
-    .piRpMouseoverInfo{
+    .ratepay-MouseoverInfo{
         background-color: orange;
         border: 1px solid black;
         bottom: 0;
@@ -377,54 +377,54 @@
         min-width:200px;
         padding: 5px;
     }
-    .piRpInfoImg{
+    .ratepay-InfoImg{
         width: 12px;
         height: 12px;
     }
-    .piRpInfoImgDiv{
+    .ratepay-InfoImgDiv{
         float: left;
         height: 16px;
         padding: 2px 3px;
         width: 16px;
     }
 
-    #pirpmain-cont .piRpCalculationText{
+    #ratepay-main-cont .ratepay-CalculationText{
         font-size: 85%;
         padding-top: 15px;
     }
-    .piRpRelativePosition{
+    .ratepay-RelativePosition{
         position: relative;
     }
 
 
-    .piRpyellow{
+    .ratepay-yellow{
         background-color: #F2C551;
     }
 
-    #piInstallmentTerms .piRpPercentWidth{
+    #ratepay-InstallmentTerms .ratepay-PercentWidth{
         width: 150px;
     }
-    .piRpMarginTop{
+    .ratepay-MarginTop{
         margin-top: 10px;
 
     }
 
-    #piInstallmentTerms .piRpPaddingBottom{
+    #ratepay-InstallmentTerms .ratepay-PaddingBottom{
         padding-bottom: 10px;  
     }
-    #piInstallmentTerms .piRpPaddingRight{
+    #ratepay-InstallmentTerms .ratepay-PaddingRight{
         padding-right: 10px;
     }
 
-    #piInstallmentTerms .piRpPaddingLeft{
+    #ratepay-InstallmentTerms .ratepay-PaddingLeft{
         padding-left: 10px;
     }
 
-    #piInstallmentTerms .piRpPaddingTop{
+    #ratepay-InstallmentTerms .ratepay-PaddingTop{
         padding-top: 10px;
     }
 
-    #piRpContentRuntime option{
+    #ratepay-ContentRuntime option{
         border-right: 1px solid #ccc;
         padding-left: 8px;
         padding-top: 2px;
@@ -432,29 +432,29 @@
         text-align: left;
     }
 
-    #pirpmain-cont .piRpVertAlignMiddle{
+    #ratepay-main-cont .ratepay-VertAlignMiddle{
         vertical-align: middle;
     }
 
-    #piInstallmentTerms .piRpPercentWith{
+    #ratepay-InstallmentTerms .ratepay-PercentWith{
         float: left;
         text-align: right;
         width: 50px;
     }
-    #piInstallmentTerms .piRpTextAlignLeft{
+    #ratepay-InstallmentTerms .ratepay-TextAlignLeft{
         text-align: left;
     }
 
-    #pirpmain-cont .piRpContent .piRpDueDateSelect{
+    #ratepay-main-cont .ratepay-Content .ratepay-DueDateSelect{
         float: right;
         width: 167px;
         height:60px;
     }
-    #pirpmain-cont .piRpContent .piRpDueDateSelect option{
+    #ratepay-main-cont .ratepay-Content .ratepay-DueDateSelect option{
         border-right: 0px solid;
     }
 
-    #pirpmain-cont input.ajaxloader{
+    #ratepay-main-cont input.ajaxloader{
         background: url("<?php echo $this->getSkinUrl('images/ratepay/ajaxloader.gif'); ?>")no-repeat 140px 1px #f2B551;
     }
 
@@ -486,7 +486,7 @@
 <?php endforeach; ?>
 </table>
 <?php endif;?>
-<div class="piRpLeft">
+<div class="ratepay-Left">
     <?php $this->getResultHtml(false); ?>
     <?php echo $this->getChildHtml();?>
 </div>

@@ -522,7 +522,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             $shippingAddress->addCDataChild('company', $customerInfo['shipping']['company']);
         }
         
-        if (Mage::getSingleton('core/session')->getDirectDebitFlag()) {
+        if (Mage::getSingleton('ratepaypayment/session')->getDirectDebitFlag()) {
             $data = Mage::helper('ratepaypayment')->getBankData();
             $bankData = $customer->addChild('bank-account');
             $bankData->addChild('owner', $data['owner']);

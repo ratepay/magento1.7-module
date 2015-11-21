@@ -18,28 +18,28 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class RatePAY_Ratepaypayment_Model_Method_Rate extends RatePAY_Ratepaypayment_Model_Method_Abstract
+class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_Model_Method_Abstract
 {
     /**
      * Payment code
      * 
      * @var string 
      */
-    protected $_code = 'ratepay_rate';
+    protected $_code = 'ratepay_rate0';
     
     /**
      * Form block identifier
      * 
      * @var string 
      */
-    protected $_formBlockType = 'ratepaypayment/payment_form_rate';
+    protected $_formBlockType = 'ratepaypayment/payment_form_rate0';
     
     /**
      * Info block identifier
      * 
      * @var string
      */
-    protected $_infoBlockType = 'ratepaypayment/payment_info_rate';
+    protected $_infoBlockType = 'ratepaypayment/payment_info_rate0';
     
     /**
      * Assign data to info model instance
@@ -126,17 +126,17 @@ class RatePAY_Ratepaypayment_Model_Method_Rate extends RatePAY_Ratepaypayment_Mo
     {
         parent::validate();
 
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateTotalAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateInterestRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateInterestAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateServiceCharge() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateAnnualPercentageRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateMonthlyDebitInterest() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateNumberOfRatesFull() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateNumberOfRates() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
-        Mage::getSingleton('ratepaypayment/session')->getRatepayRateLastRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0TotalAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0Amount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0InterestRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0InterestAmount() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0ServiceCharge() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0AnnualPercentageRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0MonthlyDebitInterest() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0NumberOfRatesFull() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0NumberOfRates() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0Rate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
+        Mage::getSingleton('ratepaypayment/session')->getRatepayRate0LastRate() == null ? Mage::throwException($this->_getHelper()->__('Berechnen Sie Ihre Raten!')) : "";
 
         return $this;
     }
@@ -171,7 +171,7 @@ class RatePAY_Ratepaypayment_Model_Method_Rate extends RatePAY_Ratepaypayment_Mo
                 $helper->getRequestHead($order),
                 $helper->getRequestCustomer($order),
                 $helper->getRequestBasket($order),
-                $helper->getRequestPayment($order, (float)Mage::getSingleton('ratepaypayment/session')->getRatepayRateTotalAmount(), 'PAYMENT_REQUEST'),
+                $helper->getRequestPayment($order, (float)Mage::getSingleton('ratepaypayment/session')->getRatepayRate0TotalAmount(), 'PAYMENT_REQUEST'),
                 $helper->getLoggingInfo($order));
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);

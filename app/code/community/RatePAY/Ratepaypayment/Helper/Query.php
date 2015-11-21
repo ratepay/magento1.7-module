@@ -26,10 +26,11 @@ class RatePAY_Ratepaypayment_Helper_Query extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    private $products2Methods = array("INVOICE" => "ratepay_rechnung",
-                                      "INSTALLMENT" => "ratepay_rate",
-                                      "ELV" => "ratepay_directdebit",
-                                      "PREPAYMENT" => "ratepay_vorkasse");
+    private $_products2Methods = array(
+        "INVOICE" => "ratepay_rechnung",
+        "INSTALLMENT" => "ratepay_rate",
+        "ELV" => "ratepay_directdebit",
+        "PREPAYMENT" => "ratepay_vorkasse");
 
     /**
      * Returns the payment method helper
@@ -169,7 +170,7 @@ class RatePAY_Ratepaypayment_Helper_Query extends Mage_Core_Helper_Abstract
 
         $products = array();
         foreach ($result_products as $element) {
-            $products[] = $this->products2Methods[(string) $element->attributes()->{'method'}];
+            $products[] = $this->_products2Methods[(string) $element->attributes()->{'method'}];
         }
 
         return $products;
@@ -208,7 +209,7 @@ class RatePAY_Ratepaypayment_Helper_Query extends Mage_Core_Helper_Abstract
      * @return int
      */
     private function _getOuterLimitMin($quote) {
-        foreach ($this->products2Methods AS $product => $method) {
+        foreach ($this->_products2Methods AS $product => $method) {
             if ($this->getHelper()->getRpConfigData($quote, $method, 'active') == "1") {
                 if (!isset($outerLimitMin) || $outerLimitMin > $this->getHelper()->getRpConfigData($quote, $method, 'min_order_total')) {
                     $outerLimitMin = $this->getHelper()->getRpConfigData($quote, $method, 'min_order_total');
@@ -226,7 +227,7 @@ class RatePAY_Ratepaypayment_Helper_Query extends Mage_Core_Helper_Abstract
      * @return int
      */
     private function _getOuterLimitMax($quote) {
-        foreach ($this->products2Methods AS $product => $method) {
+        foreach ($this->_products2Methods AS $product => $method) {
             if ($this->getHelper()->getRpConfigData($quote, $method, 'active') == "1") {
                 if (!isset($outerLimitMax) || $outerLimitMax < $this->getHelper()->getRpConfigData($quote, $method, 'max_order_total')) {
                     $outerLimitMax = $this->getHelper()->getRpConfigData($quote, $method, 'max_order_total');

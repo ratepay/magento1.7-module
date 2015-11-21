@@ -183,7 +183,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
-        $ratepayMethodHide = Mage::getSingleton('checkout/session')->getRatepayMethodHide();
+        $ratepayMethodHide = Mage::getSingleton('ratepaypayment/session')->getRatepayMethodHide();
         if ($ratepayMethodHide == true) {
             return false;
         }
@@ -352,13 +352,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
     public function _cleanSession()
     {
-        Mage::getSingleton('core/session')->setDirectDebitFlag(null);
-        Mage::getSingleton('core/session')->setAccountHolder(null);
-        Mage::getSingleton('core/session')->setIban(null);
-        Mage::getSingleton('core/session')->setBic(null);
-        Mage::getSingleton('core/session')->setAccountNumber(null);
-        Mage::getSingleton('core/session')->setBankCodeNumber(null);
-        Mage::getSingleton('core/session')->setBankName(null);
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(null);
+        Mage::getSingleton('ratepaypayment/session')->setAccountHolder(null);
+        Mage::getSingleton('ratepaypayment/session')->setIban(null);
+        Mage::getSingleton('ratepaypayment/session')->setBic(null);
+        Mage::getSingleton('ratepaypayment/session')->setAccountNumber(null);
+        Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber(null);
+        Mage::getSingleton('ratepaypayment/session')->setBankName(null);
 
         Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
         Mage::getSingleton('ratepaypayment/session')->setTransactionId(false);
@@ -385,8 +385,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     protected function _hidePaymentMethod()
     {
-        Mage::getSingleton('checkout/session')->setRatepayMethodHide(true);
-        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
+        Mage::getSingleton('ratepaypayment/session')->setRatepayMethodHide(true);
+        Mage::getSingleton('core/session')->setUpdateSection('payment-method');
     }
 
     /**
@@ -407,7 +407,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 $id = $product->getIdBySku($sku);
                 if(!empty($id)) {
                     $product->load($id);
-                    $paymentFee = Mage::helper('tax')->getPrice($product, $product->getFinalPrice(), true);
                     $paymentFee = Mage::helper('core')->currency($paymentFee,true,false);
                     $paymentFee = ' (+' . $paymentFee . ')';
                 }

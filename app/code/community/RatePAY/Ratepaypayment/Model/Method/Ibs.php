@@ -35,7 +35,7 @@ class RatePAY_Ratepaypayment_Model_Method_Ibs extends RatePAY_Ratepaypayment_Mod
      */
     public function assignData($data)
     {
-        Mage::getSingleton('core/session')->setDirectDebitFlag(false);
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
         parent::assignData($data);
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();

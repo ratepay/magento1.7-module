@@ -49,14 +49,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $article['articleName'] = $item->getName();
                 $article['quantity'] = ($object instanceof Mage_Sales_Model_Order) ? $item->getQtyOrdered() : $item->getQty();
                 $article['unitPriceGross'] = $item->getPriceInclTax();
-                $article['tax'] = $item->getTaxAmount();
                 $article['taxPercent'] = $orderItem->getTaxPercent();
-
-                if ($object instanceof Mage_Sales_Model_Quote) {
-                    $article['unitPriceNett'] = $item->getCalculationPrice();
-                } else {
-                    $article['unitPriceNett'] = $item->getPrice(); // netto
-                }
 
                 $article['discountId'] = '';
                 if ($item->getDiscountAmount() > 0) {
@@ -64,31 +57,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $discount['articleNumber'] = 'DISCOUNT-' . $item->getSku();
                     $discount['articleName'] = 'DISCOUNT - ' . $item->getName();
                     $discount['quantity'] = $article['quantity'];
-                    $article['tax'] = $item->getRowTotalInclTax() - $item->getRowTotal();
-                    $discount['tax'] = -1 * ($article['tax'] - $item->getTaxAmount());
-                    $tax = 0;
-                    $taxConfig = Mage::getSingleton('tax/config');
-                    if ($taxConfig->priceIncludesTax($object->getStoreId())) {
-                        $tax = $discount['tax'];
-                    }
-
-                    if (round($discount['tax'], 2) < 0) {
-                        $discount['taxPercent'] = $article['taxPercent'];
-                    }
-
                     $discount['unitPriceGross'] = (-1 * $item->getDiscountAmount()) / $article['quantity'];
-
                     $discount['discountId'] = $item->getSku();
 
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
-                }
-
-                // set default values for unitPrice and totalPrice if they are not set
-                if(!isset($article['unitPrice'])) {
-                    $article['unitPrice'] = '';
-                }
-                if(!isset($article['totalPrice'])) {
-                    $article['totalPrice'] = '';
                 }
 
                 $articles[] = $article;
@@ -122,7 +94,6 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['articleName'] = $shippingDescription;
             $article['quantity'] = '1';
             $article['unitPriceGross'] = $shippingObject->getShippingInclTax();
-            $article['tax'] = $shippingObject->getShippingTaxAmount();
             $shippingTaxPercent = 0;
             if (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) > 0) {
                 $shippingTaxPercent = (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) / $shippingObject->getShippingAmount();
@@ -136,27 +107,8 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $discount['articleName'] = 'Shipping - Discount';
                 $discount['quantity'] = 1;
                 $discount['unitPriceGross'] = -1 * $shippingObject->getShippingDiscountAmount();
-                $article['tax'] = $shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount();
-                $discount['tax'] = -1 * ($article['tax'] - $shippingObject->getShippingTaxAmount());
-                $tax = 0;
-                if (Mage::getSingleton('tax/config')->shippingPriceIncludesTax($object->getStoreId())) {
-                    $tax = $discount['tax'];
-                }
-                $discount['unitPrice'] = (-1 * $shippingObject->getShippingDiscountAmount()) - $tax;
-                $discount['totalPrice'] = (-1 * $shippingObject->getShippingDiscountAmount()) - $tax;
                 $discount['taxPercent'] = 0;
-                if (round($discount['tax'], 2) < 0) {
-                    $discount['taxPercent'] = $article['taxPercent'];
-                }
                 $discount['discountId'] = 'SHIPPING';
-            }
-
-            // set default values for unitPrice and totalPrice if they are not set
-            if(!isset($article['unitPrice'])) {
-                $article['unitPrice'] = '';
-            }
-            if(!isset($article['totalPrice'])) {
-                $article['totalPrice'] = '';
             }
 
             $articles[] = $article;
@@ -198,10 +150,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $tempVoucherItem['articleName'] = $name;
         $tempVoucherItem['articleNumber'] = $articleNumber;
         $tempVoucherItem['quantity'] = 1;
-        $tempVoucherItem['unitPrice'] = $amount;
         $tempVoucherItem['unitPriceGross'] = $amount;
-        $tempVoucherItem['totalPrice'] = $amount;
-        $tempVoucherItem['tax'] = 0;
         $tempVoucherItem['taxPercent'] = 0;
         $tempVoucherItem['discountId'] = 0;
 
@@ -233,6 +182,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             case 'ratepay_rechnung':
                 $loggingInfo['paymentMethod'] = 'INVOICE';
                 break;
+            case 'ratepay_rate0':
             case 'ratepay_rate':
                 $loggingInfo['paymentMethod'] = 'INSTALLMENT';
                 break;
@@ -435,30 +385,31 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function getRequestPayment($object, $amount = '', $request = '')
     {
+        $paymentMethod = $object->getPayment()->getMethod();
         $payment = array();
-        switch ($object->getPayment()->getMethod()) {
+        switch ($paymentMethod) {
             case 'ratepay_rechnung':
                 $payment['method'] = 'INVOICE';
                 break;
+            case 'ratepay_rate0':
             case 'ratepay_rate':
                 if ($request == 'PAYMENT_REQUEST') {
-                    $payment['installmentNumber'] = Mage::getSingleton('checkout/session')->getRatepayRateNumberOfRatesFull();
-                    $payment['installmentAmount'] = Mage::getSingleton('checkout/session')->getRatepayRateRate();
-                    $payment['lastInstallmentAmount'] = Mage::getSingleton('checkout/session')->getRatepayRateLastRate();
-                    $payment['interestRate'] = Mage::getSingleton('checkout/session')->getRatepayRateInterestRate();
+                    $payment['installmentNumber'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
+                    $payment['installmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
+                    $payment['lastInstallmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
+                    $payment['interestRate'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
                     if ($this->isDynamicDue()) {
-                        $payment['paymentFirstDay'] = Mage::getSingleton('checkout/session')->getRatepayPaymentFirstDay();
+                        $payment['paymentFirstDay'] = Mage::getSingleton('ratepaypayment/session')->getRatepayPaymentFirstDay();
                     } else {
                         $payment['paymentFirstDay'] = '28';
                     }
                 }
                 $payment['method'] = 'INSTALLMENT';
-                if (Mage::getSingleton('core/session')->getDirectDebitFlag()) {
+                if (Mage::getSingleton('ratepaypayment/session')->getDirectDebitFlag()) {
                     $payment['debitType'] = 'DIRECT-DEBIT';
                 } else {
                     $payment['debitType'] = 'BANK-TRANSFER';
                 }
-
                 break;
             case 'ratepay_directdebit':
                 $payment['method'] = 'ELV';
@@ -491,7 +442,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function isDynamicDue()
     {
-        if ($this->getHelper()->getRpConfigData($this->getHelper()->getQuote(), 'ratepay_rate', 'dynamic_due')) {
+        if ($this->getHelper()->getRpConfigData($this->getHelper()->getQuote(), 'ratepay_rate', 'dynamic_due') || $this->getHelper()->getRpConfigData($this->getHelper()->getQuote(), 'ratepay_rate0', 'dynamic_due')) {
             return true;
         }
 

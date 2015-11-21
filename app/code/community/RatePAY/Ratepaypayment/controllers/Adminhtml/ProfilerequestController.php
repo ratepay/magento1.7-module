@@ -67,7 +67,11 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
         $installmentConfig = $result['installment_config'];
 
         if (strstr(strtolower($merchantConfig['country-code-billing']), $country) == false) {
-            return Mage::helper('ratepaypayment')->__('Country is not supported by credentials');
+            return Mage::helper('ratepaypayment')->__('Country not supported by credentials');
+        }
+
+        if (strstr($method, "ratepay_rate0") && intval($installmentConfig['interestrate-max']) > 0) {
+            return Mage::helper('ratepaypayment')->__('Interest Rate not supported by payment method');
         }
 
         $coreConfig->saveConfig('payment/' . $method . '/specificcountry_billing', $merchantConfig['country-code-billing']);
@@ -91,7 +95,7 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
             }
         }
 
-        if ($this->_getRpMethodWithoutCountry($method) == "ratepay_rate") {
+        if (strstr($method, "ratepay_rate")) {
             $coreConfig->saveConfig('payment/' . $method . '/month_allowed', $installmentConfig['month-allowed']);
             $coreConfig->saveConfig('payment/' . $method . '/rate_min', $installmentConfig['rate-min-normal']);
         }
@@ -110,6 +114,7 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
         $id = str_replace('_de', '', $id);
         $id = str_replace('_at', '', $id);
         $id = str_replace('_ch', '', $id);
+        $id = str_replace('0', '', $id);
 
         return $id;
     }

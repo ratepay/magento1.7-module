@@ -7,6 +7,8 @@
 "ratepay_directdebit", "Direct Debit (SEPA)"
 "Installment", "Installment"
 "ratepay_rate", "Installment"
+"0% Financing", "0% Financing"
+"ratepay_rate0", "0% Financing"
 "IBS", "Integrated Payment Solution (IBS)"
 "Enabled","Enabled"
 "Title","Title"
@@ -298,7 +300,8 @@
 "Please invoice the articles you want to ship.", "Please invoice the articles you want to ship."
 "Only full return of shipping is possible.", "Only full return of shipping is possible."
 "Request Failed", "Request failed\Method is deactivated for security reasons"
-"Country is not supported by credentials", "Country not supported by config"
+"Country not supported by credentials", "Country not supported by config"
+"Interest Rate not supported by payment method", "Interest rates higher than 0% are not supported"
 "INT credentials in live mode", "Test credentials set in live mode.\nContinue?"
 "PROD credentials in sandbox mode", "Live credentials set in test mode.\nContinue?"
 

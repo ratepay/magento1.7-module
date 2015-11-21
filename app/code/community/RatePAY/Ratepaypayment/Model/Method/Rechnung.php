@@ -49,7 +49,7 @@ class RatePAY_Ratepaypayment_Model_Method_Rechnung extends RatePAY_Ratepaypaymen
      */
     public function assignData($data)
     {
-        Mage::getSingleton('core/session')->setDirectDebitFlag(false);
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
         parent::assignData($data);
         $quote = $this->getHelper()->getQuote();
         $params = $data->getData();

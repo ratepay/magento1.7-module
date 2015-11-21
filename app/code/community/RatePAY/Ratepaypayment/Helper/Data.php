@@ -323,10 +323,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function setBankData($data, Mage_Sales_Model_Quote $quote, $code)
     {
-        Mage::getSingleton('core/session')->setDirectDebitFlag(true);
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(true);
         //if (!$this->getRpConfigData($quote, $code, 'bankdata_saving') || $quote->getCustomerIsGuest()) {
             $this->_setBankDataSession($data, $code);
-            Mage::getSingleton('core/session')->setBankdataAfter(false);
+            Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(false);
         /*} else {
             $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
             $bankdata = array (
@@ -343,10 +343,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             if (Mage::helper('customer')->isLoggedIn()) {
-                Mage::getSingleton('core/session')->setBankdataAfter(false);
+                Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(false);
                 $piEncryption->saveBankdata($quote->getCustomer()->getId(), $bankdata);
             } else {
-                Mage::getSingleton('core/session')->setBankdataAfter(true);
+                Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(true);
                 $this->_setBankDataSession($data, $code);
             }
         }*/
@@ -355,13 +355,13 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     private function _setBankDataSession($data, $code)
     {
         if (isset($data[$code . '_iban']) && $data[$code . '_iban']) {
-            Mage::getSingleton('core/session')->setIban($data[$code . '_iban']);
+            Mage::getSingleton('ratepaypayment/session')->setIban($data[$code . '_iban']);
             if(isset($data[$code . '_bic']) && $data[$code . '_bic']) {
-                Mage::getSingleton('core/session')->setBic($data[$code . '_bic']);
+                Mage::getSingleton('ratepaypayment/session')->setBic($data[$code . '_bic']);
             }
         } else {
-            Mage::getSingleton('core/session')->setAccountNumber($data[$code . '_account_number']);
-            Mage::getSingleton('core/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
+            Mage::getSingleton('ratepaypayment/session')->setAccountNumber($data[$code . '_account_number']);
+            Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         }
     }
     
@@ -383,18 +383,18 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 'owner' => $quote->getBillingAddress()->getFirstname() . " " . $quote->getBillingAddress()->getLastname()
             );
 
-            if(Mage::getSingleton('core/session')->getIban()) {
-                $bankdata['iban'] = Mage::getSingleton('core/session')->getIban();
-                if (Mage::getSingleton('core/session')->getBic()) {
-                    $bankdata['bic'] = Mage::getSingleton('core/session')->getBic();
+            if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
+                $bankdata['iban'] = Mage::getSingleton('ratepaypayment/session')->getIban();
+                if (Mage::getSingleton('ratepaypayment/session')->getBic()) {
+                    $bankdata['bic'] = Mage::getSingleton('ratepaypayment/session')->getBic();
                 } else {
                     $bankdata['bic'] = null;
                 }
                 $bankdata['accountnumber'] = null;
                 $bankdata['bankcode'] = null;
             } else {
-                $bankdata['accountnumber'] = Mage::getSingleton('core/session')->getAccountNumber();
-                $bankdata['bankcode'] = Mage::getSingleton('core/session')->getBankCodeNumber();
+                $bankdata['accountnumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
+                $bankdata['bankcode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
                 $bankdata['iban'] = null;
                 $bankdata['bic'] = null;
             }
@@ -411,8 +411,8 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $order = $this->getOrderByIncrementId($payment['orderId']);
         $code = $order->getPayment()->getMethodInstance()->getCode();
-        if ($code == 'ratepay_rate') {
-            $data = '';
+        if (strstr($code, "ratepay_rate")) {
+            $data = "";
         } else {
             $data = $this->getRpConfigData($order, $code, 'due_days');
         }
@@ -498,7 +498,21 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isInstallment($orderId)
     {
-        return Mage::getModel('sales/order')->loadByIncrementId($orderId)->getPayment()->getMethodInstance()->getCode() == 'ratepay_rate';
+        return (bool) strstr(Mage::getModel('sales/order')->loadByIncrementId($orderId)->getPayment()->getMethodInstance()->getCode(), "ratepay_rate");
+    }
+
+
+    /**
+     * Converts names separated by underlines to camel case
+     *
+     * @param $paymentMethod
+     * @return mixed|string
+     */
+    public function convertUnderlineToCamelCase($paymentMethod) {
+        $paymentMethod = str_replace("_", " ", $paymentMethod);
+        $paymentMethod = ucwords($paymentMethod);
+        $paymentMethod = str_replace(" ", "", ucwords($paymentMethod));
+        return $paymentMethod;
     }
 
     /**
@@ -508,116 +522,148 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRateResultHtml($result, $notification = true)
     {
-        if ($notification) echo '<div id="piRpNotfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
+        echo '
+        <style>
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoPaymentPrice { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoServiceCharge { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoEffectiveRate { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDebitRate { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoInterestAmount { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoTotalAmount { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDurationTime { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDurationMonth { display: block; }
+            .ratepay-InfoDiv:hover #ratepayMouseoverInfoLastRate { display: block; }
+        </style>';
 
-        echo '<h2 class="pirpmid-heading"><b>' . $this->__('lang_individual_rate_calculation') . '</b></h2>';
-        echo '<table id="piInstallmentTerms" cellspacing="0">';
-        echo '    <tr>';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoPaymentPrice\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoPaymentPrice\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft">' . $this->__('lang_cash_payment_price') . ':</div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoPaymentPrice">' . $this->__('lang_mouseover_cash_payment_price') . '</div>';
-        echo '             </div>';
-        echo '        </th>';
-        echo '        <td>&nbsp;' . $result['amount'] . '</td>';
-        echo '        <td class="piRpTextAlignLeft">&euro;</td>';
-        echo '    </tr>';
-        echo '    <tr class="piTableHr">';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoServiceCharge\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoServiceCharge\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') .'"/></div>';
-        echo '             <div class="piRpFloatLeft">' . $this->__('lang_service_charge') . ':</div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoServiceCharge">' . $this->__('lang_mouseover_service_charge') . '</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td>&nbsp;' . $result['serviceCharge'] . '</td>';
-        echo '        <td class="piRpTextAlignLeft">&euro;</td>';
-        echo '    </tr>';
-        echo '    <tr class="piPriceSectionHead">';
-        echo '        <th class="piRpPercentWidth">';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoEffectiveRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoEffectiveRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft">' . $this->__('lang_effective_rate') . ':</div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoEffectiveRate">' . $this->__('lang_mouseover_effective_rate') . ':</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td colspan="2"><div class="piRpFloatLeft">&nbsp;<div class="piRpPercentWith">' . $result['annualPercentageRate'] . '%</div></div></td>';
-        echo '    </tr>';
-        echo '    <tr class="piTableHr">';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDebitRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDebitRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft">' . $this->__('lang_interestrate_default') . ':</div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDebitRate">' . $this->__('lang_mouseover_debit_rate') . ':</div>';
-        echo '            </div>';
-        echo '         </th>';
-        echo '        <td colspan="2"><div class="piRpFloatLeft">&nbsp;<div class="piRpPercentWith">' . $result['interestRate'] . '%</div></div></td>';
-        echo '    </tr>';
-        echo '    <tr>';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoInterestAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoInterestAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft">' . $this->__('lang_interest_amount') . ':</div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoInterestAmount">' . $this->__('lang_mouseover_interest_amount') . ':</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td>&nbsp;' . $result['interestAmount'] . '</td>';
-        echo '        <td class="piRpTextAlignLeft">&euro;</td>';
-        echo '    </tr>';
-        echo '    <tr>';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoTotalAmount\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoTotalAmount\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft"><b>' . $this->__('lang_total_amount') . ':</b></div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoTotalAmount">' . $this->__('lang_mouseover_total_amount') . '</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td><b>&nbsp;' . $result['totalAmount'] . '</b></td>';
-        echo '        <td class="piRpTextAlignLeft"><b>&euro;</b></td>';
-        echo '    </tr>';
-        echo '    <tr>';
-        echo '        <td colspan="2"><div class="piRpFloatLeft">&nbsp;<div></td>';
-        echo '    </tr>';
-        echo '    <tr>';
-        echo '        <td colspan="2"><div class="piRpFloatLeft">' . $this->__('lang_calulation_result_text') . '<div></td>';
-        echo '    </tr>';
-        echo '     <tr class="piRpyellow piPriceSectionHead">';
-        echo '        <th class="piRpPaddingTop">';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationTime\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationTime\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft"><b>' . $this->__('lang_duration_time') . ':</b></div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDurationTime">' . $this->__('lang_mouseover_duration_time') . '</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td colspan="2" class="piRpPaddingRight piRpPaddingTop"><b>' . $result['numberOfRatesFull'] . '&nbsp;' . $this->__('lang_months') . '</b></td>';
-        echo '    </tr>';
-        echo '    <tr class="piRpyellow">';
-        echo '        <th>';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoDurationMonth\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoDurationMonth\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft piRpPaddingLeft"><b>' . $result['numberOfRates'] . '' . $this->__('lang_duration_month') . ':</b></div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoDurationMonth">' . $this->__('lang_mouseover_duration_month') . '</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td><b>&nbsp;' . $result['rate'] . '</b></td>';
-        echo '        <td class="piRpPaddingRight"><b>&euro;</b></td>';
-        echo '    </tr>';
-        echo '    <tr class="piRpyellow piRpPaddingBottom">';
-        echo '        <th class="piRpPaddingBottom">';
-        if ($notification) echo '            <div class="piRpInfoImgDiv"><img onMouseOver="piMouseOver(\'piRpMouseoverInfoLastRate\')" onMouseOut="piMouseOut(\'piRpMouseoverInfoLastRate\')" class="piRpInfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>';
-        echo '            <div class="piRpFloatLeft piRpPaddingLeft"><b>' . $this->__('lang_last_rate') . ':</b></div>';
-        echo '            <div class="piRpRelativePosition">';
-        echo '                <div class="piRpMouseoverInfo" id="piRpMouseoverInfoLastRate">' . $this->__('lang_mouseover_last_rate') . '</div>';
-        echo '            </div>';
-        echo '        </th>';
-        echo '        <td class="piRpPaddingBottom"><b>&nbsp;' . $result['lastRate'] . '</b></td>';
-        echo '        <td class="piRpPaddingRight piRpPaddingBottom"><b>&euro;</b></td>';
-        echo '    </tr>';
-        echo '    <tr>';
-        echo '        <td colspan="2"><div class="piRpCalculationText ">' . $this->__('lang_calulation_example') . '</div></td>';
-        echo '    </tr>';
-        echo '</table>';
+        if ($notification) '<div id="ratepay-Notfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
+
+        echo '
+        <h2 class="ratepay-mid-heading"><b>' . $this->__('lang_individual_rate_calculation') . '</b></h2>
+        <table id="ratepay-InstallmentTerms" cellspacing="0">
+            <tr>
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft">' . $this->__('lang_cash_payment_price') . ':</div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoPaymentPrice">' . $this->__('lang_mouseover_cash_payment_price') . '</div>
+                         </div>
+                     </div>
+                </th>
+                <td>&nbsp;' . $result['amount'] . '</td>
+                <td class="ratepay-TextAlignLeft">&euro;</td>
+            </tr>
+            <tr class="piTableHr">
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') .'"/></div>
+                         <div class="ratepay-FloatLeft">' . $this->__('lang_service_charge') . ':</div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoServiceCharge">' . $this->__('lang_mouseover_service_charge') . '</div>
+                        </div>
+                    </div>
+                </th>
+                <td>&nbsp;' . $result['serviceCharge'] . '</td>
+                <td class="ratepay-TextAlignLeft">&euro;</td>
+            </tr>
+            <tr class="piPriceSectionHead">
+                <th class="ratepay-PercentWidth">
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft">' . $this->__('lang_effective_rate') . ':</div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoEffectiveRate">' . $this->__('lang_mouseover_effective_rate') . ':</div>
+                        </div>
+                    </div>
+                </th>
+                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div class="ratepay-PercentWith">' . $result['annualPercentageRate'] . '%</div></div></td>
+            </tr>
+            <tr class="piTableHr">
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft">' . $this->__('lang_interestrate_default') . ':</div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDebitRate">' . $this->__('lang_mouseover_debit_rate') . ':</div>
+                        </div>
+                    </div>
+                 </th>
+                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div class="ratepay-PercentWith">' . $result['interestRate'] . '%</div></div></td>
+            </tr>
+            <tr>
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft">' . $this->__('lang_interest_amount') . ':</div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoInterestAmount">' . $this->__('lang_mouseover_interest_amount') . ':</div>
+                        </div>
+                    </div>
+                </th>
+                <td>&nbsp;' . $result['interestAmount'] . '</td>
+                <td class="ratepay-TextAlignLeft">&euro;</td>
+            </tr>
+            <tr>
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft"><b>' . $this->__('lang_total_amount') . ':</b></div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoTotalAmount">' . $this->__('lang_mouseover_total_amount') . '</div>
+                        </div>
+                    </div>
+                </th>
+                <td><b>&nbsp;' . $result['totalAmount'] . '</b></td>
+                <td class="ratepay-TextAlignLeft"><b>&euro;</b></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="ratepay-FloatLeft">' . $this->__('lang_calulation_result_text') . '<div></td>
+            </tr>
+             <tr class="ratepay-yellow piPriceSectionHead">
+                <th class="ratepay-PaddingTop">
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft"><b>' . $this->__('lang_duration_time') . ':</b></div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDurationTime">' . $this->__('lang_mouseover_duration_time') . '</div>
+                        </div>
+                    </div>
+                </th>
+                <td colspan="2" class="ratepay-PaddingRight piRpPaddingTop"><b>' . $result['numberOfRatesFull'] . '&nbsp;' . $this->__('lang_months') . '</b></td>
+            </tr>
+            <tr class="ratepay-yellow">
+                <th>
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft piRpPaddingLeft"><b>' . $result['numberOfRates'] . '' . $this->__('lang_duration_month') . ':</b></div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDurationMonth">' . $this->__('lang_mouseover_duration_month') . '</div>
+                        </div>
+                    </div>
+                </th>
+                <td><b>&nbsp;' . $result['rate'] . '</b></td>
+                <td class="ratepay-PaddingRight"><b>&euro;</b></td>
+            </tr>
+            <tr class="ratepay-yellow piRpPaddingBottom">
+                <th class="ratepay-PaddingBottom">
+                    <div class="ratepay-InfoDiv">
+                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
+                        <div class="ratepay-FloatLeft piRpPaddingLeft"><b>' . $this->__('lang_last_rate') . ':</b></div>
+                        <div class="ratepay-RelativePosition">
+                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoLastRate">' . $this->__('lang_mouseover_last_rate') . '</div>
+                        </div>
+                    </div>
+                </th>
+                <td class="ratepay-PaddingBottom"><b>&nbsp;' . $result['lastRate'] . '</b></td>
+                <td class="ratepay-PaddingRight piRpPaddingBottom"><b>&euro;</b></td>
+            </tr>
+            <tr>
+                <td colspan="2"><div class="ratepay-CalculationText ">' . $this->__('lang_calulation_example') . '</div></td>
+            </tr>
+        </table>';
     }
 }
 

@@ -65,7 +65,7 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_System_Config_Form_Button_Profilere
             ->setData(array(
                 'id'        => 'ratepaypayment_profilerequest',
                 'label'     => Mage::helper('ratepaypayment')->__('Get Config'),
-                'onclick'   => 'javascript:callRpProfileRequest(\'' . $this->_element->getContainer()->getId() . '\'); return false;'
+                'onclick'   => 'callRpProfileRequest(\'' . $this->_element->getContainer()->getId() . '\'); return false;'
             ));
 
         return $button->toHtml();

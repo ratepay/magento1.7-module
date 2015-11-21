@@ -25,51 +25,51 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     public function rateAction()
     {
+        $paymentMethod = $this->getRequest()->getParam('paymentMethod');
+        $calcValue = $this->getRequest()->getParam('calcValue');
         try {
-            if (preg_match('/^[0-9]+(\.[0-9][0-9][0-9])?(,[0-9]{1,2})?$/', $this->getRequest()->getParam('calcValue'))) {
-                $calcValue = str_replace(".", "", $this->getRequest()->getParam('calcValue'));
+            if (preg_match('/^[0-9]+(\.[0-9][0-9][0-9])?(,[0-9]{1,2})?$/', $calcValue)) {
+                $calcValue = str_replace(".", "", $calcValue);
                 $calcValue = str_replace(",", ".", $calcValue);
                 $debitSelect = $this->getRequest()->getParam('dueDate');
                 $client = Mage::getSingleton('ratepaypayment/request');
                 $helper = Mage::helper('ratepaypayment/mapping');
-                $result = $client->callCalculationRequest($helper->getRequestHead($this->getQuote(),
-                                                                'calculation-by-rate', 'ratepay_rate'),
-                                                            $helper->getLoggingInfo($this->getQuote(),'ratepay_rate'),
-                                                            $this->getCalculationInfo('calculation-by-rate',$calcValue, $debitSelect)
-                            );
+                $result = $client->callCalculationRequest(
+                    $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
+                    $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
+                    $this->getCalculationInfo('calculation-by-rate',$calcValue, $debitSelect)
+                );
                 if (is_array($result) || $result == true) {
-                    $this->setSessionData($result);
+                    $this->setSessionData($result, $paymentMethod);
                     $this->getHtml($this->formatResult($result));
                 } else {
-                    $this->unsetSessionData();
+                    $this->unsetSessionData($paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
                 }
-            } else if (preg_match('/^[0-9]+(\,[0-9][0-9][0-9])?(.[0-9]{1,2})?$/', $this->getRequest()->getParam('calcValue'))) {
-                $calcValue = $this->getRequest()->getParam('calcValue');
+            } else if (preg_match('/^[0-9]+(\,[0-9][0-9][0-9])?(.[0-9]{1,2})?$/', $calcValue)) {
+                $calcValue = str_replace(".", "", $calcValue);
                 $calcValue = str_replace(",", "", $calcValue);
                 $debitSelect = $this->getRequest()->getParam('dueDate');
                 $client = Mage::getSingleton('ratepaypayment/request');
                 $helper = Mage::helper('ratepaypayment/mapping');
-                $result = $client->callCalculationRequest($helper->getRequestHead(
-                                                                $this->getQuote(),
-                                                                'calculation-by-rate', 
-                                                                'ratepay_rate'),
-                                                            $helper->getLoggingInfo($this->getQuote(),'ratepay_rate'),
-                                                            $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect)
-                            );
+                $result = $client->callCalculationRequest(
+                    $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
+                    $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
+                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect)
+                );
                 if (is_array($result) || $result == true) {
-                    $this->setSessionData($result);
+                    $this->setSessionData($result, $paymentMethod);
                     $this->getHtml($this->formatResult($result));
                 } else {
-                    $this->unsetSessionData();
+                    $this->unsetSessionData($paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
                 }
             } else {
-                $this->unsetSessionData();
+                $this->unsetSessionData($paymentMethod);
                 echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
             }
         } catch(Exception $e) {
-            $this->unsetSessionData();
+            $this->unsetSessionData($paymentMethod);
             echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
         }
     }
@@ -79,37 +79,41 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     public function runtimeAction()
     {
+        $paymentMethod = $this->getRequest()->getParam('paymentMethod');
+
         try {
-            if (preg_match('/^[0-9]{1,3}$/', $this->getRequest()->getParam('calcValue'))) {
+            $calcValue = $this->getRequest()->getParam('calcValue');
+            if (preg_match('/^[0-9]{1,3}$/', $calcValue)) {
                 $client = Mage::getSingleton('ratepaypayment/request');
                 $helper = Mage::helper('ratepaypayment/mapping');
                 $debitSelect = $this->getRequest()->getParam('dueDate');
-                $result = $client->callCalculationRequest($helper->getRequestHead(
-                                                                $this->getQuote(),
-                                                                'calculation-by-time', 
-                                                                'ratepay_rate'),
-                                                            $helper->getLoggingInfo(
-                                                                    $this->getQuote(),
-                                                                    'ratepay_rate'),
-                                                            $this->getCalculationInfo(
-                                                                    'calculation-by-time',
-                                                                    $this->getRequest()->getParam('calcValue'),
-                                                                    $debitSelect)
-                            );
+                $result = $client->callCalculationRequest(
+                    $helper->getRequestHead(
+                        $this->getQuote(),
+                        'calculation-by-time',
+                        $paymentMethod),
+                    $helper->getLoggingInfo(
+                        $this->getQuote(),
+                        $paymentMethod),
+                    $this->getCalculationInfo(
+                        'calculation-by-time',
+                        $calcValue,
+                        $debitSelect)
+                );
                 
                 if (is_array($result) || $result == true) {
-                    $this->setSessionData($result);
+                    $this->setSessionData($result, $paymentMethod);
                     $this->getHtml($this->formatResult($result), (bool) $this->getRequest()->getParam('notification'));
                 } else {
-                    $this->unsetSessionData();
+                    $this->unsetSessionData($paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
                 }
             } else {
-                $this->unsetSessionData();
+                $this->unsetSessionData($paymentMethod);
                 echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
             }
         } catch(Exception $e) {
-            $this->unsetSessionData();
+            $this->unsetSessionData($paymentMethod);
             echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
         }
     }
@@ -148,16 +152,9 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     private function formatResult($result) 
     {
-        $result['totalAmount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['totalAmount']);
-        $result['amount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['amount']);
-        $result['interestRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['interestRate']);
-        $result['interestAmount'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['interestAmount']);
-        $result['serviceCharge'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['serviceCharge']);
-        $result['annualPercentageRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['annualPercentageRate']);
-        $result['monthlyDebitInterest'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['monthlyDebitInterest']);
-        $result['rate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['rate']);
-        $result['lastRate'] = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($result['lastRate']);
-
+        foreach ($result as $key => $value) {
+            $result[$key] = (!strstr($key, "number")) ? Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($value) : $value;
+        }
         return $result;
     }
 
@@ -166,39 +163,28 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      *
      * @param array $result
      */
-    private function setSessionData($result) 
+    private function setSessionData($result, $paymentMethod)
     {
-        Mage::getSingleton('checkout/session')->setRatepayRateTotalAmount($result['totalAmount']);
-        Mage::getSingleton('checkout/session')->setRatepayRateAmount($result['amount']);
-        Mage::getSingleton('checkout/session')->setRatepayRateInterestRate($result['interestRate']);
-        Mage::getSingleton('checkout/session')->setRatepayRateInterestAmount($result['interestAmount']);
-        Mage::getSingleton('checkout/session')->setRatepayRateServiceCharge($result['serviceCharge']);
-        Mage::getSingleton('checkout/session')->setRatepayRateAnnualPercentageRate($result['annualPercentageRate']);
-        Mage::getSingleton('checkout/session')->setRatepayRateMonthlyDebitInterest($result['monthlyDebitInterest']);
-        Mage::getSingleton('checkout/session')->setRatepayRateNumberOfRatesFull($result['numberOfRatesFull']);
-        Mage::getSingleton('checkout/session')->setRatepayRateNumberOfRates($result['numberOfRates']);
-        Mage::getSingleton('checkout/session')->setRatepayRateRate($result['rate']);
-        Mage::getSingleton('checkout/session')->setRatepayRateLastRate($result['lastRate']);
-        Mage::getSingleton('checkout/session')->setRatepayPaymentFirstDay($result['debitSelect']);
+        foreach ($result as $key => $value) {
+            $setFunction = "set". Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . ucfirst($key);
+            Mage::getSingleton('ratepaypayment/session')->$setFunction($value);
+        }
     }
 
     /**
      * Unsets the calculated rates from the session
      */
-    private function unsetSessionData() 
+    private function unsetSessionData($paymentMethod)
     {
-        Mage::getSingleton('checkout/session')->setRatepayRateTotalAmount(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateAmount(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateInterestRate(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateInterestAmount(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateServiceCharge(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateAnnualPercentageRate(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateMonthlyDebitInterest(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateNumberOfRatesFull(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateNumberOfRates(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateRate(null);
-        Mage::getSingleton('checkout/session')->setRatepayRateLastRate(null);
-        Mage::getSingleton('checkout/session')->setRatepayPaymentFirstDay(null);
+        foreach (Mage::getSingleton('ratepaypayment/session')->getData() as $key => $value) {
+            if (!is_array($value)) {
+                $sessionNameBeginning = substr($key, 0, strlen($paymentMethod));
+                if ($sessionNameBeginning == $paymentMethod && $key[strlen($paymentMethod)] == "_") {
+                    $unsetFunction = "uns" . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($key);
+                    Mage::getSingleton('ratepaypayment/session')->$unsetFunction();
+                }
+            }
+        }
     }
 
     /**

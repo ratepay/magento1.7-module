@@ -23,26 +23,26 @@ class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Core_Bl
     /**
      * Show installment plan
      */
-    public function showRateResultHtml() {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult(), false);
+    public function showRateResultHtml($paymentMethod) {
+        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult($paymentMethod), false);
     }
 
     /**
      * Returns the session saved installment plan
      * @return array
      */
-    private function _getResult() {
-        return array(
-            'amount' =>               Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_amount()),
-            'serviceCharge' =>        Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_service_charge()),
-            'annualPercentageRate' => Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_annual_percentage_rate()),
-            'interestRate' =>         Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_interest_rate()),
-            'interestAmount' =>       Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_interest_amount()),
-            'totalAmount' =>          Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_total_amount()),
-            'numberOfRatesFull' =>    Mage::getSingleton('checkout/session')->getRatepay_rate_number_of_rates_full(),
-            'rate' =>                 Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_rate()),
-            'lastRate' =>             Mage::helper('ratepaypayment')->formatPriceWithoutCurrency(Mage::getSingleton('checkout/session')->getRatepay_rate_last_rate())
-        );
+    private function _getResult($paymentMethod) {
+        $returnArr = array();
+        foreach (Mage::getSingleton('ratepaypayment/session')->getData() as $key => $value) {
+            if (!is_array($value)) {
+                $sessionNameBeginning = substr($key, 0, strlen($paymentMethod)); // session variable name prefix = payment method
+                if ($sessionNameBeginning == $paymentMethod && $key[strlen($paymentMethod)] == "_") { // if session variable belongs to current payment method
+                    $shortKey = lcfirst(Mage::helper('ratepaypayment')->convertUnderlineToCamelCase(substr($key, strlen($paymentMethod)))); // use postfix as array key
+                    $returnArr[$shortKey] = (!strstr($shortKey, "number")) ? Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($value) : $value; // change format to readable except for number of months
+                }
+            }
+        }
+        return $returnArr;
     }
 
     /**
