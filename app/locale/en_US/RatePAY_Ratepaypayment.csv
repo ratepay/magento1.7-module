@@ -77,6 +77,7 @@
 "Device Ident Id", "Device Ident ID"
 "RatePAY Payment Fee", "Payment fee"
 "RatePAY privacy policy URL","RatePAY data privacy policy Url"
+"Sandbox Notifcation", "Testing mode activ. Please <u>do not use this payment method to order</u>. Please let the Merchant know about this notification"
 "Read more","Read more"
 "Read less","Read less"
 "ratepay_info_block_1","stellt mit Unterst&uuml;tzung von "

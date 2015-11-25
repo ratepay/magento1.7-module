@@ -353,7 +353,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $amount = 0;
 
         foreach ($items as $item) {
-            $amount += $item['unitPriceGross'];
+            $amount += $item['quantity'] * $item['unitPriceGross'];
         }
 
         return $amount;

@@ -64,25 +64,10 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
-     * Return minimum order total
+     * Return due days
      *
-     * @return string
+     * @return mixed
      */
-    public function getMinAmount()
-    {
-        return $this->getMethod()->getConfigData("min_order_total", $this->getQuote()->getStoreId());
-    }
-
-    /**
-     * Return maximum order total
-     *
-     * @return string
-     */
-    public function getMaxAmount()
-    {
-        return $this->getMethod()->getConfigData("max_order_total", $this->getQuote()->getStoreId());
-    }
-
     public function getDueDays()
     {
         return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'due_days');
@@ -227,13 +212,23 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
-     * Checks if method is set on Whitelabel mode
+     * Checks if method is set on whitelabel mode
      *
      * @return boolean
      */
     public function isWhitelabel()
     {
         return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), 'ratepay_general', 'whitelabel', false, true) == 1;
+    }
+
+    /**
+     * Checks if method is set on sandbox mode
+     *
+     * @return boolean
+     */
+    public function isSandbox()
+    {
+        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'sandbox');
     }
 
     /**

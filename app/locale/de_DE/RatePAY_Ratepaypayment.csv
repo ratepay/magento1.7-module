@@ -76,6 +76,7 @@
 "Device Ident Enabled", "Device Ident aktiviert"
 "Device Ident Id", "Device Ident ID"
 "Payment Fee", "RatePAY Zahlartenaufschlag"
+"Sandbox Notifcation", "Testmodus aktiv, bitte <u>nutzen Sie diese Zahlart nicht für die Bestellung</u> und informieren den H&auml;ndler &uuml;ber diese Nachricht"
 "Read more","Mehr Informationen"
 "Read less","Informationen ausblenden"
 "ratepay_info_block_1","stellt mit Unterst&uuml;tzung von "

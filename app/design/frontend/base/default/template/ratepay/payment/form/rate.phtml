@@ -494,8 +494,21 @@ echo $this->getDeviceIdentToken();
     .ratepay-MarginBottom {
         margin-bottom: 5px;
     }
+
+    .ratepay-sandbox-notification {
+        border: 2px dashed #000000;
+        background-color: #ffff00;
+        font-weight: bold;
+        font-color: #000000;
+        text-align: center;
+    }
 </style>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <?php if ($this->isSandbox()): ?>
+        <li class="ratepay-sandbox-notification">
+            <?php echo $this->__('Sandbox Notifcation'); ?>
+        </li>
+    <?php endif; ?>
     <?php if (!$this->isWhitelabel()): ?>
         <li>
             <button id="<?php echo $_code ?>_readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>_description').toggle(); document.getElementById('<?php echo $_code ?>_readless').toggle();this.toggle();"><span><span><?php echo $this->__('Read more') ?></span></span></button>
