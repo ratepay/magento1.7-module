@@ -2407,7 +2407,7 @@
                             </fields>
                         </ratepay_austria>
 
-                        <!--<ratepay_switzerland type="group" translate="label comment">
+                        <ratepay_switzerland type="group" translate="label comment">
                             <label>Switzerland</label>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
@@ -3504,7 +3504,7 @@
                                     </fields>
                                 </ratepay_ibs_ch>
                             </fields>
-                        </ratepay_switzerland>-->
+                        </ratepay_switzerland>
 
                         <version translate="label">
                             <label>v3.1.1</label>
