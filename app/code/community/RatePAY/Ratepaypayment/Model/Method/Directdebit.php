@@ -66,6 +66,8 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
                 Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
             } elseif ($country == 'AT' && strlen($iban) <> 20) {
                 Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
+            } elseif ($country == 'NL' && strlen($iban) <> 18) {
+                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
             }
 
             if ($country != "DE") {

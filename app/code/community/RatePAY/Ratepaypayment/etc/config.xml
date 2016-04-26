@@ -206,6 +206,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -220,6 +221,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -235,6 +237,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -243,6 +246,22 @@
                 <specificgroups>ALL</specificgroups>
                 <specificcategories>NO</specificcategories>
             </ratepay_rechnung_advanced_ch>
+            <ratepay_rechnung_nl>
+                <active>0</active>
+                <title>RatePAY Rechnung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rechnung_nl>
+            <ratepay_rechnung_advanced_nl>
+                <specificgroups>ALL</specificgroups>
+                <specificcategories>NO</specificcategories>
+            </ratepay_rechnung_advanced_nl>
 
             <ratepay_directdebit>
                 <model>ratepaypayment/method_directdebit</model>
@@ -256,7 +275,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -272,7 +291,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -288,7 +307,7 @@
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
-                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis</privacy_policy>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
@@ -297,6 +316,22 @@
             <ratepay_directdebit_advanced_ch>
                 <specificgroups>ALL</specificgroups>
             </ratepay_directdebit_advanced_ch>
+            <ratepay_directdebit_nl>
+                <active>0</active>
+                <title>RatePAY SEPA-Lastschrift</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/aanvullende-voorwaarden-en-privacybeleid-nl</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+                <iban_only>1</iban_only>
+            </ratepay_directdebit_nl>
+            <ratepay_directdebit_advanced_nl>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_directdebit_advanced_nl>
 
             <ratepay_rate>
                 <model>ratepaypayment/method_rate</model>
@@ -436,7 +471,20 @@
             </ratepay_ibs_ch>
             <ratepay_ibs_advanced_ch>
                 <specificgroups>ALL</specificgroups>
-            </ratepay_ibs_advanced_ch>            
+            </ratepay_ibs_advanced_ch>
+            <ratepay_ibs_nl>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <specificcurrency>EUR</specificcurrency>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_ibs_nl>
+            <ratepay_ibs_advanced_nl>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_ibs_advanced_nl>
         </payment>
 
     </default>

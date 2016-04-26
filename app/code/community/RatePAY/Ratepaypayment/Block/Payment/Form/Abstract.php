@@ -208,7 +208,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getPrivacyPolicyUrl()
     {
-        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), 'ratepay_directdebit', 'privacy_policy') . "-" . $this->getCountryCode();
+        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), 'ratepay_directdebit', 'privacy_policy');
     }
 
     /**

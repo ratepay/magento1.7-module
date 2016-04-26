@@ -114,6 +114,7 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
         $id = str_replace('_de', '', $id);
         $id = str_replace('_at', '', $id);
         $id = str_replace('_ch', '', $id);
+        $id = str_replace('_nl', '', $id);
         $id = str_replace('0', '', $id);
 
         return $id;
@@ -125,6 +126,9 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
         }
         if(strstr($id, '_ch')) {
             return 'ch';
+        }
+        if(strstr($id, '_nl')) {
+            return 'nl';
         }
         return 'de';
     }

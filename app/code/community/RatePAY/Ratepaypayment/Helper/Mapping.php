@@ -268,15 +268,26 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         if ($quoteOrOrder->getBillingAddress()->getFax() != '') {
             $contacts['fax'] = $quoteOrOrder->getBillingAddress()->getFax();
         }
-
-        $billing['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getBillingAddress()->getStreetFull());
+        // Different handling of street fields in case of NL orders
+        if ($quoteOrOrder->getBillingAddress()->getCountryId() == "NL" && !empty($quoteOrOrder->getBillingAddress()->getStreet2())) {
+            $billing['street'] = $quoteOrOrder->getBillingAddress()->getStreet1();
+            $billing['streetAdditional'] = $quoteOrOrder->getBillingAddress()->getStreet2();
+        } else {
+            $billing['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getBillingAddress()->getStreetFull());
+        }
         $billing['zipCode'] = $quoteOrOrder->getBillingAddress()->getPostcode();
         $billing['city'] = $quoteOrOrder->getBillingAddress()->getCity();
         $billing['countryId'] = $quoteOrOrder->getBillingAddress()->getCountryId();
 
         $shipping['firstName'] = $quoteOrOrder->getShippingAddress()->getFirstname();
         $shipping['lastName'] = $quoteOrOrder->getShippingAddress()->getLastname();
-        $shipping['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getShippingAddress()->getStreetFull());
+        // Different handling of street fields in case of NL orders
+        if ($quoteOrOrder->getShippingAddress()->getCountryId() == "NL" && !empty($quoteOrOrder->getShippingAddress()->getStreet2())) {
+            $shipping['street'] = $quoteOrOrder->getShippingAddress()->getStreet1();
+            $shipping['streetAdditional'] = $quoteOrOrder->getShippingAddress()->getStreet2();
+        } else {
+            $shipping['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getShippingAddress()->getStreetFull());
+        }
         $shipping['zipCode'] = $quoteOrOrder->getShippingAddress()->getPostcode();
         $shipping['city'] = $quoteOrOrder->getShippingAddress()->getCity();
         $shipping['countryId'] = $quoteOrOrder->getShippingAddress()->getCountryId();

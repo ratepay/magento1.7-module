@@ -107,13 +107,13 @@ echo $this->getDeviceIdentToken();
             <div class="input-box customer-dob ratepaydirectdebitdob" id="ratepay_directdebit_dob">
                 <div class="dob-day">
                     <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Day') ?>" value="<?php if ($dob) echo substr($dob, 8, 2) ?>" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
-                    <label for="<?php echo $_code ?>_day">DD</label>
+                    <label for="<?php echo $_code ?>_day"><?php echo $this->__('DD'); ?></label>
                 </div><div class="dob-month">
                     <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Month') ?>" value="<?php if ($dob) echo substr($dob, 5, 2) ?>" name="payment[<?php echo $_code ?>_month]" id="<?php echo $_code ?>_month">
-                    <label for="<?php echo $_code ?>_month">MM</label>
+                    <label for="<?php echo $_code ?>_month"><?php echo $this->__('MM'); ?></label>
                 </div><div class="dob-year">
                     <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Year') ?>" value="<?php if ($dob) echo substr($dob, 0, 4) ?>" name="payment[<?php echo $_code ?>_year]" id="<?php echo $_code ?>_year">
-                    <label for="<?php echo $_code ?>_year">YYYY</label>
+                    <label for="<?php echo $_code ?>_year"><?php echo $this->__('YYYY'); ?></label>
                 </div>    <div style="display:none;" class="dob-full">
                     <input type="hidden" name="<?php echo $_code ?>_dob" id="<?php echo $_code ?>_dob">
                 </div>

@@ -506,6 +506,9 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $billingAddress = $addresses->addChild('address');
         $billingAddress->addAttribute('type', 'BILLING');
         $billingAddress->addCDataChild('street', $customerInfo['billing']['street']);
+        if ($customerInfo['billing']['streetAdditional']) {
+            $billingAddress->addCDataChild('street-additional', $customerInfo['billing']['streetAdditional']);
+        }
         $billingAddress->addChild('zip-code', $customerInfo['billing']['zipCode']);
         $billingAddress->addCDataChild('city', $customerInfo['billing']['city']);
         $billingAddress->addChild('country-code', $customerInfo['billing']['countryId']);
@@ -515,6 +518,9 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $shippingAddress->addCDataChild('first-name', $customerInfo['shipping']['firstName']);
         $shippingAddress->addCDataChild('last-name', $customerInfo['shipping']['lastName']);
         $shippingAddress->addCDataChild('street', $customerInfo['shipping']['street']);
+        if ($customerInfo['shipping']['streetAdditional']) {
+            $shippingAddress->addCDataChild('street-additional', $customerInfo['shipping']['streetAdditional']);
+        }
         $shippingAddress->addChild('zip-code', $customerInfo['shipping']['zipCode']);
         $shippingAddress->addCDataChild('city', $customerInfo['shipping']['city']);
         $shippingAddress->addChild('country-code', $customerInfo['shipping']['countryId']);
