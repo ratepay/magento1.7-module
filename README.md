@@ -4,13 +4,17 @@
 |Module | RatePAY Module for Magento
 |------|----------
 |Author | Aarne Welschlau
-|Shop Version | `CE` `1.7.x` `1.8.x` `<=1.9.2.1`
-|Version | `3.1.1                      `
+|Shop Version | `CE` `1.7.x` `1.8.x` `<=1.9.x`
+|Version | `3.1.2                      `
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.1.2 - Released 2016-04-27
+* [MGNT-99] unhided CH config
+* [MGNT-132] Support of NL orders/customers and language
 
 ### Version 3.1.1 - Released 2015-11-25
 * Fixed config.xml
