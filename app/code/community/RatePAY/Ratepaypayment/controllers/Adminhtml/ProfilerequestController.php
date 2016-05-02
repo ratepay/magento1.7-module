@@ -76,6 +76,7 @@ class RatePAY_Ratepaypayment_Adminhtml_ProfilerequestController extends Mage_Adm
 
         $coreConfig->saveConfig('payment/' . $method . '/specificcountry_billing', $merchantConfig['country-code-billing']);
         $coreConfig->saveConfig('payment/' . $method . '/specificcountry_delivery', $merchantConfig['country-code-delivery']);
+        $coreConfig->saveConfig('payment/' . $method . '/specificcurrency', $merchantConfig['currency']);
 
         if ($this->_getRpMethodWithoutCountry($method) != "ratepay_ibs") {
             $coreConfig->saveConfig('payment/' . $method . '/status', (($merchantConfig['merchant-status'] == 2) &&
