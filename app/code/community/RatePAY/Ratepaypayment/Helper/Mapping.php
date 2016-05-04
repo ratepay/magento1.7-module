@@ -269,11 +269,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $contacts['fax'] = $quoteOrOrder->getBillingAddress()->getFax();
         }
         // Different handling of street fields in case of NL orders
-        if ($quoteOrOrder->getBillingAddress()->getCountryId() == "NL" && !empty($quoteOrOrder->getBillingAddress()->getStreet2())) {
-            $billing['street'] = $quoteOrOrder->getBillingAddress()->getStreet1();
-            $billing['streetAdditional'] = $quoteOrOrder->getBillingAddress()->getStreet2();
+            $billingStreetFull = $quoteOrOrder->getBillingAddress()->getStreetFull();
+            $billingStreet1 = $quoteOrOrder->getBillingAddress()->getStreet1();
+            $billingStreet2 = $quoteOrOrder->getBillingAddress()->getStreet2();
+        if ($quoteOrOrder->getBillingAddress()->getCountryId() == "NL" && !empty($billingStreet2)) {
+            $billing['street'] = $billingStreet1;
+            $billing['streetAdditional'] = $billingStreet2;
         } else {
-            $billing['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getBillingAddress()->getStreetFull());
+            $billing['street'] = preg_replace('~[\r\n]+~', ' ', $billingStreetFull);
         }
         $billing['zipCode'] = $quoteOrOrder->getBillingAddress()->getPostcode();
         $billing['city'] = $quoteOrOrder->getBillingAddress()->getCity();
@@ -282,11 +285,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $shipping['firstName'] = $quoteOrOrder->getShippingAddress()->getFirstname();
         $shipping['lastName'] = $quoteOrOrder->getShippingAddress()->getLastname();
         // Different handling of street fields in case of NL orders
-        if ($quoteOrOrder->getShippingAddress()->getCountryId() == "NL" && !empty($quoteOrOrder->getShippingAddress()->getStreet2())) {
-            $shipping['street'] = $quoteOrOrder->getShippingAddress()->getStreet1();
-            $shipping['streetAdditional'] = $quoteOrOrder->getShippingAddress()->getStreet2();
+            $shippingStreetFull = $quoteOrOrder->getShippingAddress()->getStreetFull();
+            $shippingStreet1 = $quoteOrOrder->getShippingAddress()->getStreet1();
+            $shippingStreet2 = $quoteOrOrder->getShippingAddress()->getStreet2();
+        if ($quoteOrOrder->getShippingAddress()->getCountryId() == "NL" && !empty($shippingStreet2)) {
+            $shipping['street'] = $shippingStreet1;
+            $shipping['streetAdditional'] = $shippingStreet2;
         } else {
-            $shipping['street'] = preg_replace('~[\r\n]+~', ' ', $quoteOrOrder->getShippingAddress()->getStreetFull());
+            $shipping['street'] = preg_replace('~[\r\n]+~', ' ', $shippingStreetFull);
         }
         $shipping['zipCode'] = $quoteOrOrder->getShippingAddress()->getPostcode();
         $shipping['city'] = $quoteOrOrder->getShippingAddress()->getCity();
