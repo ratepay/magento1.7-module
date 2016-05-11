@@ -12,9 +12,10 @@
 
 ## Changelog
 
-### Version 3.1.2 - Released 2016-04-27
-* [MGNT-99] unhided CH config
-* [MGNT-132] Support of NL orders/customers and language
+### Version 3.1.2 - Released 2016-05-11
+* Uncovered CH config
+* Fixed currency by Profile Request
+* Support of NL orders/customers and language
 
 ### Version 3.1.1 - Released 2015-11-25
 * Fixed config.xml
