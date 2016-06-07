@@ -35,7 +35,9 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Info_Abstract extends Mage_P
         $data = array();
         $data[$this->__('payment method')] = $this->__($this->getInfo()->getData('method'));
         $data[$this->__('transactionId')] = $this->getInfo()->getAdditionalInformation('transactionId');
-        $data[$this->__('descriptor')] = $this->getInfo()->getAdditionalInformation('descriptor');
+        if($this->getInfo()->getData('method') != 'ratepay_rate') {
+            $data[$this->__('descriptor')] = $this->getInfo()->getAdditionalInformation('descriptor');
+        }
         return $transport->setData(array_merge($data, $transport->getData()));
     }
 
