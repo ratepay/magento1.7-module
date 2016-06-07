@@ -29,12 +29,12 @@
                 <ratepaypayment_logs translate="title" module="ratepaypayment">
                     <title>Logs</title>
                     <sort_order>10</sort_order>
-                    <action>ratepaypayment/adminhtml_logs</action>
+                    <action>adminhtml/ratepaypayment_logs</action>
                 </ratepaypayment_logs>
                 <ratepaypayment_bulk translate="title" module="ratepaypayment">
                     <title>Bulk</title>
                     <sort_order>12</sort_order>
-                    <action>ratepaypayment/adminhtml_bulk</action>
+                    <action>adminhtml/ratepaypayment_bulk</action>
                 </ratepaypayment_bulk>
             </children>
         </logs>

@@ -30,38 +30,38 @@
         <remove name="notification_security" />
         <remove name="notification_survey" />
     </default>
-    <ratepaypayment_adminhtml_logs_index>
+    <adminhtml_ratepaypayment_logs_index>
         <reference name="content">
             <block type="ratepaypayment/adminhtml_logs" name="adminhtml_logs.grid.container" />
         </reference>
-    </ratepaypayment_adminhtml_logs_index>
+    </adminhtml_ratepaypayment_logs_index>
     
-    <ratepaypayment_adminhtml_logs_grid>
+    <adminhtml_ratepaypayment_logs_grid>
         <update handle="formkey"/>
         <block type="ratepaypayment/adminhtml_logs_grid" name="adminhtml_logs.grid" output="toHtml"></block>
-    </ratepaypayment_adminhtml_logs_grid>
+    </adminhtml_ratepaypayment_logs_grid>
     
-    <ratepaypayment_adminhtml_config_grid>
+    <adminhtml_ratepaypayment_config_grid>
         <update handle="formkey"/>
         <block type="ratepaypayment/adminhtml_config_grid" name="adminhtml_config.grid" output="toHtml"></block>
-    </ratepaypayment_adminhtml_config_grid>
+    </adminhtml_ratepaypayment_config_grid>
     
-    <ratepaypayment_adminhtml_config_index>
+    <adminhtml_ratepaypayment_config_index>
         <reference name="content">
             <block type="ratepaypayment/adminhtml_config" name="adminhtml_config.grid.container" />
         </reference>
-    </ratepaypayment_adminhtml_config_index>
+    </adminhtml_ratepaypayment_config_index>
     
-    <ratepaypayment_adminhtml_bulk_grid>
+    <adminhtml_ratepaypayment_bulk_grid>
         <update handle="formkey"/>
         <block type="ratepaypayment/adminhtml_bulk_grid" name="adminhtml_bulk.grid" output="toHtml"></block>
-    </ratepaypayment_adminhtml_bulk_grid>
+    </adminhtml_ratepaypayment_bulk_grid>
     
-    <ratepaypayment_adminhtml_bulk_index>
+    <adminhtml_ratepaypayment_bulk_index>
         <reference name="content">
             <block type="ratepaypayment/adminhtml_bulk" name="adminhtml_bulk.grid.container" />
         </reference>
-    </ratepaypayment_adminhtml_bulk_index>
+    </adminhtml_ratepaypayment_bulk_index>
     
     <adminhtml_sales_order_view>
         <reference name="sales_order_tabs">                        

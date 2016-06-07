@@ -51,7 +51,8 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_System_Config_Form_Button_Profilere
      */
     public function getAjaxCheckUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('ratepaypayment/adminhtml_profilerequest/callProfileRequest');
+        $url = Mage::helper('adminhtml')->getUrl('adminhtml/ratepaypayment_profilerequest/callProfileRequest');
+        return Mage::helper('adminhtml')->getUrl('adminhtml/ratepaypayment_profilerequest/callProfileRequest');
     }
 
     /**
