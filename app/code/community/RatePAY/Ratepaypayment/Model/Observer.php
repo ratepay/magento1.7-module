@@ -307,9 +307,6 @@ class RatePAY_Ratepaypayment_Model_Observer
         $order = $creditmemo->getOrder();
         $storeId = Mage::app()->getStore()->getStoreId();
         if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod()) && (bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true)) {
-            if (!$this->isCreditmemoAllowed($creditmemo)) {
-                Mage::throwException(Mage::helper('ratepaypayment')->__($this->_errorMessage));
-            }
 
             $data = array(
                 'creditmemo' => $paymentHelper->getAllCreditmemoItems($order),
@@ -331,22 +328,22 @@ class RatePAY_Ratepaypayment_Model_Observer
             $paymentInfo = $mappingHelper->getRequestPayment($order, $amount);
             $loggingInfo = $mappingHelper->getLoggingInfo($order);
 
-
+            if($this->_getItemCount($creditmemo) > 0){
+                $headInfo = $mappingHelper->getRequestHead($order, 'return');
+                if(!$client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo)){
+                    Mage::throwException(Mage::helper('ratepaypayment')->__('Return was not successful.'));
+                }
+                $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
+            }
             if ($creditmemo->getAdjustmentPositive() > 0) {
                 $headInfo = $mappingHelper->getRequestHead($order, 'credit');
-                $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
-                $msg = Mage::helper('ratepaypayment')->__('Voucher was not successful.');
-            } else {
-                $headInfo = $mappingHelper->getRequestHead($order, 'return');
-                $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
-                $msg = Mage::helper('ratepaypayment')->__('Return was not successful.');
+                if(!$client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo)) {
+                    Mage::throwException(Mage::helper('ratepaypayment')->__('Voucher was not successful.'));
+                }
+                $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
             }
 
-            if (!$result) {
-                Mage::throwException($msg);
-            }
-
-            $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (refund)');
+            
         }
     }
 
