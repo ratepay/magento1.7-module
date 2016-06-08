@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.1.2</version>
+            <version>3.1.3</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -534,13 +534,13 @@
 
     <admin>
         <routers>
-            <ratepaypayment>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>RatePAY_Ratepaypayment</module>
-                    <frontName>ratepaypayment</frontName>
+                    <modules>
+                        <ratepaypayment before="Mage_Adminhtml">RatePAY_Ratepaypayment_Adminhtml</ratepaypayment>
+                    </modules>
                 </args>
-            </ratepaypayment>
+            </adminhtml>
         </routers>
     </admin>
 
