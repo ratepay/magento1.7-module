@@ -40,16 +40,4 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Info_Abstract extends Mage_P
         }
         return $transport->setData(array_merge($data, $transport->getData()));
     }
-
-    /**
-     * Checks if method is set on Whitelabel mode
-     *
-     * @return boolean
-     */
-    public function isWhitelabel()
-    {
-        $quote = Mage::getModel('checkout/session')->getQuote();
-
-        return Mage::helper('ratepaypayment')->getRpConfigData($quote, 'ratepay_general', 'whitelabel', false, true) == 1;
-    }
 }

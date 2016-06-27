@@ -75,7 +75,6 @@
 "Delivery Address B2B", "Differing delivery address B2B"
 "IBAN only", "SEPA/IBAN account information only"
 "Address Normalization", "Address normalization"
-"Whitelabel", "Whitelabel"
 "Device Ident Enabled", "Device Ident aktiviert"
 "Device Ident Id", "Device Ident ID"
 "RatePAY Payment Fee", "Payment fee"
@@ -313,7 +312,6 @@
 "PROD credentials in sandbox mode", "Live credentials set in test mode.\nContinue?"
 
 "Adminhtml-Initial Text", "Allgemeine Modulkonfiguration und Zahlartenkonfiguration auf Länderebene<br>Bei Fragen wenden Sie sich an Ihren technischen Ansprechpartner oder an <a href='mailto:integration@ratepay.com'>integration@ratepay.com</a>"
-"Adminhtml-Help-Whitelabel", "Reduzierung der Verweise auf RatePAY als Zahlungsdienstleister und Ausblendung der RatePAY-Zahlungsartenlogos"
 "Adminhtml-Help-Device Ident", "Bei Device Ident handelt es sich um eine digitale Fingerabdrucktechnologie zur Risikobewertung"
 "Adminhtml-Help-Specific Categories", "Produktkategorien von der Zahlung mit RatePAY ausschließen"
 "Adminhtml-Help-Specific Shipping", "Versandmethoden von der Zahlung mit RatePAY ausschließen"
