@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -225,8 +226,8 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
     {
         $this->constructXml();
         $requestType = "PAYMENT_QUERY";
-        $this->setRequestHead($requestType,$headInfo);
-        $this->setRequestContent($customerInfo,$itemInfo, false, $requestType);
+        $this->setRequestHead($requestType, $headInfo);
+        $this->setRequestContent($customerInfo, $itemInfo, false, $requestType);
         $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = $subType;
         $this->sendXmlRequest($loggingInfo);
@@ -248,7 +249,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $this->constructXml();
         $requestType = "PAYMENT_REQUEST";
         $this->setRequestHead($requestType, $headInfo);
-        $this->setRequestContent($customerInfo,$itemInfo, $paymentInfo, $requestType);
+        $this->setRequestContent($customerInfo, $itemInfo, $paymentInfo, $requestType);
         $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = 'n/a';
         $this->sendXmlRequest($loggingInfo);
@@ -281,7 +282,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $loggingInfo
      * @return boolean|array
      */
-    public function callConfirmationDeliver($headInfo, $itemInfo ,$loggingInfo)
+    public function callConfirmationDeliver($headInfo, $itemInfo, $loggingInfo)
     {
         $this->constructXml();
         $requestType = "CONFIRMATION_DELIVER";
@@ -303,12 +304,12 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $loggingInfo
      * @return boolean|array
      */
-    public function callPaymentChange($headInfo,$customerInfo,$itemInfo, $paymentInfo, $loggingInfo)
+    public function callPaymentChange($headInfo, $itemInfo, $loggingInfo)
     {
         $this->constructXml();
         $requestType = "PAYMENT_CHANGE";
         $this->setRequestHead($requestType, $headInfo);
-        $this->setRequestContent($customerInfo, $itemInfo, $paymentInfo);
+        $this->setRequestContent(array(), $itemInfo, $headInfo, $requestType);
         $loggingInfo['requestType'] = $requestType;
         $loggingInfo['requestSubType'] = $headInfo['subtype'];
         $this->sendXmlRequest($loggingInfo);
@@ -322,7 +323,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $loggingInfo
      * @return boolean|array
      */
-    public function callConfigurationRequest($headInfo,$loggingInfo)
+    public function callConfigurationRequest($headInfo, $loggingInfo)
     {
         $this->constructXml();
         $requestType = "CONFIGURATION_REQUEST";
@@ -339,7 +340,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $loggingInfo
      * @return boolean|array
      */
-    public function callProfileRequest($headInfo,$loggingInfo)
+    public function callProfileRequest($headInfo, $loggingInfo)
     {
         $this->constructXml();
         $requestType = "PROFILE_REQUEST";
@@ -356,7 +357,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $calculationInfo
      * @return boolean|array
      */
-    public function callCalculationRequest($headInfo,$loggingInfo,$calculationInfo)
+    public function callCalculationRequest($headInfo, $loggingInfo, $calculationInfo)
     {
         $this->constructXml();
         $requestType = "CALCULATION_REQUEST";
@@ -438,7 +439,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param array $paymentInfo
      * @param string $requestInfo
      */
-    private function setRequestContent($customerInfo, $itemInfo, $paymentInfo = '', $requestInfo = '')
+    private function setRequestContent($customerInfo = null, $itemInfo, $paymentInfo = null, $requestInfo = '')
     {
         $content = $this->request->addChild('content');
         if ($requestInfo == 'PAYMENT_REQUEST' || $requestInfo == 'PAYMENT_QUERY') {
@@ -446,9 +447,9 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         }
 
         $this->setRatepayContentBasket($content, $itemInfo);
-        
-        if ($requestInfo != 'CONFIRMATION_DELIVER' && $requestInfo != 'PAYMENT_QUERY') {
-            $this->setRatepayContentPayment($content,$paymentInfo);
+
+        if ($requestInfo == 'PAYMENT_REQUEST') {
+            $this->setRatepayContentPayment($content, $paymentInfo);
         }
     }
     
@@ -475,7 +476,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
      * @param SimpleXMLElement $content
      * @param array $customerInfo
      */
-    private function setRatepayContentCustomer($content, $customerInfo)
+    private function setRatepayContentCustomer($content, $customerInfo = null)
     {
         $customer = $content->addChild('customer');
 
@@ -582,18 +583,16 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $payment = $content->addChild('payment');
         $payment->addAttribute('method', $paymentInfo['method']);
         $payment->addAttribute('currency', $paymentInfo['currency']);
-        if ($this->getRequest()->head->operation == 'PAYMENT_REQUEST') {
-            $payment->addChild('amount', number_format($paymentInfo['amount'], 2, ".", ""));
-            if(isset($paymentInfo['debitType'])) {
-                $payment->addChild('debit-pay-type', $paymentInfo['debitType']);
-                $installment = $payment->addChild('installment-details');
-                if(isset($paymentInfo['installmentNumber'])) {
-                    $installment->addChild('installment-number', $paymentInfo['installmentNumber']);
-                    $installment->addChild('installment-amount', $paymentInfo['installmentAmount']);
-                    $installment->addChild('last-installment-amount', $paymentInfo['lastInstallmentAmount']);
-                    $installment->addChild('interest-rate', $paymentInfo['interestRate']);
-                    $installment->addChild('payment-firstday', $paymentInfo['paymentFirstDay']);
-                }
+        $payment->addChild('amount', number_format($paymentInfo['amount'], 2, ".", ""));
+        if(isset($paymentInfo['debitType'])) {
+            $payment->addChild('debit-pay-type', $paymentInfo['debitType']);
+            $installment = $payment->addChild('installment-details');
+            if(isset($paymentInfo['installmentNumber'])) {
+                $installment->addChild('installment-number', $paymentInfo['installmentNumber']);
+                $installment->addChild('installment-amount', $paymentInfo['installmentAmount']);
+                $installment->addChild('last-installment-amount', $paymentInfo['lastInstallmentAmount']);
+                $installment->addChild('interest-rate', $paymentInfo['interestRate']);
+                $installment->addChild('payment-firstday', $paymentInfo['paymentFirstDay']);
             }
         }
     }

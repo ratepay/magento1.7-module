@@ -324,20 +324,18 @@ class RatePAY_Ratepaypayment_Model_Observer
             $amount = $paymentHelper->getShoppingBasketAmount($order, $creditmemo);
 
             $basketInfo = $mappingHelper->getRequestBasket($creditmemo, $amount, $availableProducts);
-            $customerInfo = $mappingHelper->getRequestCustomer($order);
-            $paymentInfo = $mappingHelper->getRequestPayment($order, $amount);
             $loggingInfo = $mappingHelper->getLoggingInfo($order);
 
             if($this->_getItemCount($creditmemo) > 0){
                 $headInfo = $mappingHelper->getRequestHead($order, 'return');
-                if(!$client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo)){
+                if(!$client->callPaymentChange($headInfo, $basketInfo, $loggingInfo)){
                     Mage::throwException(Mage::helper('ratepaypayment')->__('Return was not successful.'));
                 }
                 $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
             }
             if ($creditmemo->getAdjustmentPositive() > 0) {
                 $headInfo = $mappingHelper->getRequestHead($order, 'credit');
-                if(!$client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo)) {
+                if(!$client->callPaymentChange($headInfo, $basketInfo, $loggingInfo)) {
                     Mage::throwException(Mage::helper('ratepaypayment')->__('Voucher was not successful.'));
                 }
                 $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
@@ -363,62 +361,14 @@ class RatePAY_Ratepaypayment_Model_Observer
 
             $basketInfo   = $mappingHelper->getRequestBasket($order, $amount, $items);
             $headInfo     = $mappingHelper->getRequestHead($order, 'cancellation');
-            $customerInfo = $mappingHelper->getRequestCustomer($order);
-            $paymentInfo  = $mappingHelper->getRequestPayment($order, $amount);
             $loggingInfo  = $mappingHelper->getLoggingInfo($order);
 
-            $result = $client->callPaymentChange($headInfo, $customerInfo, $basketInfo, $paymentInfo, $loggingInfo);
+            $result = $client->callPaymentChange($headInfo, $basketInfo, $loggingInfo);
 
             if (!$result) {
                 Mage::throwException(Mage::helper('ratepaypayment')->__('Cancellation was not successful.'));
             }
         }
-    }
-
-    /**
-     * Is the given creditmemo allowed
-     *
-     * @param Mage_Sales_Model_Order_Creditmemo
-     */
-    private function isCreditmemoAllowed(Mage_Sales_Model_Order_Creditmemo $creditmemo)
-    {
-        if ($creditmemo->getShippingAmount() < $creditmemo->getOrder()->getShippingAmount() && $creditmemo->getShippingAmount() > 0) {
-            $this->_errorMessage = 'Only full return of shipping is possible.';
-            return false;
-        }
-        
-        if ($creditmemo->getAdjustmentPositive() > 0 && $this->_getItemCount($creditmemo) > 0) {
-            $this->_errorMessage = 'Please create product returns and positive adjustments separately.';
-            return false;
-        }
-        
-        return true;
-    }
-
-    /**
-     * Is full cancel
-     *
-     * @param Mage_Sales_Model_Order $object
-     * @return boolean
-     */
-    private function _isFullCancel(Mage_Sales_Model_Order $order)
-    {
-        return $this->getCancelItemCount($order) == $this->_getItemCount($order);
-    }
-
-    /**
-     * Retrieve the number of canceled positions
-     *
-     * @param Mage_Sales_Model_Order $order
-     * @return integer
-     */
-    private function getCancelItemCount(Mage_Sales_Model_Order $order)
-    {
-        $counter = 0;
-        foreach ($order->getAllItems() as $orderItem) {
-            $counter = $counter + $orderItem->getQtyCanceled();
-        }
-        return $counter;
     }
 
     /**
