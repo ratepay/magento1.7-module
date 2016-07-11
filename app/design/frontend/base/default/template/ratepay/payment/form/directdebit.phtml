@@ -43,6 +43,32 @@ echo $this->getDeviceIdentToken();
         font-color: #000000;
         text-align: center;
     }
+    .btn {
+        -moz-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .btn-default {
+        background-color: #fff;
+        border-color: #ccc;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        color: #fff;
+    }
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
@@ -132,8 +158,8 @@ echo $this->getDeviceIdentToken();
         </li>
         <?php if (!$this->isIbanOnly()): ?>
         <li>
-            <button id="ratepay_directdebit_sepa_switch" type="button" class="button2" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
-            <button id="ratepay_directdebit_classic_switch" type="button" class="button" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
         </li>
         <?php endif; ?>
         <li>
