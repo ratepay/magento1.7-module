@@ -128,10 +128,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     private function addAdjustments($creditmemo, $articles)
     {
         if ($creditmemo->getAdjustmentPositive() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Fee', 'adj-fee'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref'));
         }
         if ($creditmemo->getAdjustmentNegative() != 0) {
-            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Refund', 'adj-refgetRequestBasket'));
+            array_push($articles, $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee'));
         }
 
         return $articles;
