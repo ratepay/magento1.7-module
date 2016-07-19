@@ -97,7 +97,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
             foreach (Mage::helper('ratepaypayment/mapping')->getArticles($creditmemo) as $article) {
                 (strpos($article['articleNumber'], 'DISCOUNT')) ? $condition = $article['articleName']: $condition = $article['articleNumber'];
                 if (array_key_exists($condition, $creditmemoItems)) {
-                    $creditmemoItems[$condition]['quantity'] += $article['quantity'];
+                    $creditmemoItems[$condition]['quantity'] = $article['quantity'];
                     $creditmemoItems[$condition]['unitPriceGross'] += $article['unitPriceGross'];
                     $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
                 } else {
@@ -157,7 +157,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
             $creditmemoItems[$condition]['quantity'] = $article['quantity'];
             $creditmemoItems[$condition]['unitPriceGross'] = $article['unitPriceGross'];
             $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
-            $creditmemoItems[$condition]['articleNumber'] = $article['articleNumber'];
+            $creditmemoItems[$condition]['articleNumber'] = $article['articleNumber'] . '-new';
             $creditmemoItems[$condition]['articleName'] = $article['articleName'];
             $creditmemoItems[$condition]['discountId'] = $article['discountId'];
         }
@@ -211,7 +211,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
     private function _addAdjustment(array &$items, array $creditmemoItems)
     {
         foreach ($creditmemoItems as $creditmemoItem) {
-            if (($creditmemoItem['articleNumber'] == 'adj-fee' || $creditmemoItem['articleNumber'] == 'adj-ref') && $creditmemoItem['quantity'] != 0) {
+            if (($creditmemoItem['articleNumber'] == 'adj-fee' || $creditmemoItem['articleNumber'] == 'adj-fee-new' || $creditmemoItem['articleNumber'] == 'adj-ref' || $creditmemoItem['articleNumber'] == 'adj-ref-new') && $creditmemoItem['quantity'] != 0) {
                 array_push($items, $creditmemoItem);
             }
         }
