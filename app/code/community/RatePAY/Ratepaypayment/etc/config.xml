@@ -339,7 +339,7 @@
             </ratepay_rate>
             <ratepay_rate_de>
                 <active>0</active>
-                <title>Teilzahlung</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -353,7 +353,7 @@
             </ratepay_rate_advanced_de>
             <ratepay_rate_at>
                 <active>0</active>
-                <title>Teilzahlung</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -367,7 +367,7 @@
             </ratepay_rate_advanced_at>
             <ratepay_rate_ch>
                 <active>0</active>
-                <title>Teilzahlung</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>

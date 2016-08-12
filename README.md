@@ -12,7 +12,7 @@
 
 ## Changelog
 
-### Version 3.1.4 - Released
+### Version 3.1.4 - Released 2016-08-15
 * hiding payment issue fixed
 * payment methods renamed
 * 2.5.4 - 3.0.0 update issue fixed
