@@ -5,16 +5,26 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x`
-|Version | `3.1.3`
+|Version | `3.1.4`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
 
+### Version 3.1.4 - Released 2016-08-18
+* hiding payment issue fixed
+* payment methods renamed
+* 2.5.4 - 3.0.0 update issue fixed
+* removed customer and payment data from request-call
+* account-type buttons improved
+* adjustment-fee and refund renamed
+* debit implemented
+
 ### Version 3.1.3 - Released 2016-06-08
 * Compatibility with SUPEE-6788 and APPSEC-1034
     * addressing bypassing custom admin URL
+* Now refund and adjustment in one operation possible
 
 ### Version 3.1.2 - Released 2016-05-11
 * Uncovered CH config

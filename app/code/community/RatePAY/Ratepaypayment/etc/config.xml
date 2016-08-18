@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.1.3</version>
+            <version>3.1.4</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -177,7 +177,6 @@
         <payment>
 
             <ratepay_general>
-                <whitelabel>0</whitelabel>
                 <address_normalization>0</address_normalization>
                 <device_ident>0</device_ident>
             </ratepay_general>
@@ -201,7 +200,7 @@
             </ratepay_rechnung>
             <ratepay_rechnung_de>
                 <active>0</active>
-                <title>RatePAY Rechnung</title>
+                <title>Rechnung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -216,7 +215,7 @@
             </ratepay_rechnung_advanced_de>
             <ratepay_rechnung_at>
                 <active>0</active>
-                <title>RatePAY Rechnung</title>
+                <title>Rechnung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -232,7 +231,7 @@
             </ratepay_rechnung_advanced_at>
             <ratepay_rechnung_ch>
                 <active>0</active>
-                <title>RatePAY Rechnung</title>
+                <title>Rechnung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -248,7 +247,7 @@
             </ratepay_rechnung_advanced_ch>
             <ratepay_rechnung_nl>
                 <active>0</active>
-                <title>RatePAY Rechnung</title>
+                <title>Rechnung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -270,7 +269,7 @@
             </ratepay_directdebit>
             <ratepay_directdebit_de>
                 <active>0</active>
-                <title>RatePAY SEPA-Lastschrift</title>
+                <title>Lastschrift</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -286,7 +285,7 @@
             </ratepay_directdebit_advanced_de>
             <ratepay_directdebit_at>
                 <active>0</active>
-                <title>RatePAY SEPA-Lastschrift</title>
+                <title>Lastschrift</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -302,7 +301,7 @@
             </ratepay_directdebit_advanced_at>
             <ratepay_directdebit_ch>
                 <active>0</active>
-                <title>RatePAY SEPA-Lastschrift</title>
+                <title>Lastschrift</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -318,7 +317,7 @@
             </ratepay_directdebit_advanced_ch>
             <ratepay_directdebit_nl>
                 <active>0</active>
-                <title>RatePAY SEPA-Lastschrift</title>
+                <title>Lastschrift</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
@@ -340,7 +339,7 @@
             </ratepay_rate>
             <ratepay_rate_de>
                 <active>0</active>
-                <title>RatePAY Rate</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -354,7 +353,7 @@
             </ratepay_rate_advanced_de>
             <ratepay_rate_at>
                 <active>0</active>
-                <title>RatePAY Rate</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -368,7 +367,7 @@
             </ratepay_rate_advanced_at>
             <ratepay_rate_ch>
                 <active>0</active>
-                <title>RatePAY Rate</title>
+                <title>Ratenzahlung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -388,7 +387,7 @@
             </ratepay_rate0>
             <ratepay_rate0_de>
                 <active>0</active>
-                <title>RatePAY 0%-Finanzierung</title>
+                <title>0%-Finanzierung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -402,7 +401,7 @@
             </ratepay_rate0_advanced_de>
             <ratepay_rate0_at>
                 <active>0</active>
-                <title>RatePAY 0%-Finanzierung</title>
+                <title>0%-Finanzierung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
@@ -416,7 +415,7 @@
             </ratepay_rate0_advanced_at>
             <ratepay_rate0_ch>
                 <active>0</active>
-                <title>RatePAY 0%-Finanzierung</title>
+                <title>0%-Finanzierung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>

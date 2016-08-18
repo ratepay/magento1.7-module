@@ -386,7 +386,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     protected function _hidePaymentMethod()
     {
         Mage::getSingleton('ratepaypayment/session')->setRatepayMethodHide(true);
-        Mage::getSingleton('core/session')->setUpdateSection('payment-method');
+        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
     }
 
     /**

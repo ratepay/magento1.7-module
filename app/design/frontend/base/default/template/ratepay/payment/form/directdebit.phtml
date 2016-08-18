@@ -43,30 +43,38 @@ echo $this->getDeviceIdentToken();
         font-color: #000000;
         text-align: center;
     }
+    .btn {
+        -moz-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .btn-default {
+        background-color: #fff;
+        border-color: #ccc;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        color: #fff;
+    }
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <?php if ($this->isSandbox()): ?>
         <li class="ratepay-sandbox-notification">
             <?php echo $this->__('Sandbox Notifcation'); ?>
-        </li>
-    <?php endif; ?>
-    <?php if (!$this->isWhitelabel()): ?>
-        <li>
-            <button id="<?php echo $_code ?>readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readless').toggle();this.toggle();"><span><span><?php echo $this->__('Read more') ?></span></span></button>
-            <div id='<?php echo $_code ?>description' style="display:none;">
-                <span style="color: #000000; font-weight: bold;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
-                <?php echo $this->__('ratepay_info_block_1') ?>
-                <a href="http://www.ratepay.com" target="_block" style="font-weight: bold; color: #000000">RatePAY</a>
-                <?php echo $this->__('ratepay_info_block_2') ?>
-                <?php echo $this->__('ratepay_directdebit') ?>
-                <?php echo $this->__('ratepay_info_block_3') ?>
-                <?php echo $this->__('ratepay_directdebit') ?>
-                <?php echo $this->__('ratepay_info_block_4') ?>
-                <?php echo sprintf($this->__('ratepay_info_block_5'), $this->getDueDays()) ?>
-            </div>
-            <br />
-            <button style="display:none;" id="<?php echo $_code ?>readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Read less') ?></span></span></button>
         </li>
     <?php endif; ?>
 
@@ -150,8 +158,8 @@ echo $this->getDeviceIdentToken();
         </li>
         <?php if (!$this->isIbanOnly()): ?>
         <li>
-            <button id="ratepay_directdebit_sepa_switch" type="button" class="button2" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
-            <button id="ratepay_directdebit_classic_switch" type="button" class="button" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
         </li>
         <?php endif; ?>
         <li>

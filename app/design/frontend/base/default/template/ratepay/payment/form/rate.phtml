@@ -509,38 +509,6 @@ echo $this->getDeviceIdentToken();
             <?php echo $this->__('Sandbox Notifcation'); ?>
         </li>
     <?php endif; ?>
-    <?php if (!$this->isWhitelabel()): ?>
-        <li>
-            <button id="<?php echo $_code ?>_readmore" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>_description').toggle(); document.getElementById('<?php echo $_code ?>_readless').toggle();this.toggle();"><span><span><?php echo $this->__('Read more') ?></span></span></button>
-            <div id='<?php echo $_code ?>description' style="display:none;">
-                <span style="color: #000000; font-weight: bold;"><?php echo $this->getPaymentHelper()->getStoreName(); ?></span>
-                <?php echo $this->__('ratepay_info_block_1') ?>
-                <a href="http://www.ratepay.com" target="_block" style="font-weight: bold; color: #000000">RatePAY</a>
-                <?php echo $this->__('ratepay_info_block_2') ?>
-                <?php echo $this->__('ratepay_rate') ?>
-                <?php echo $this->__('ratepay_info_block_3') ?>
-                <?php echo $this->__('ratepay_rate') ?>
-                <?php echo $this->__('ratepay_info_block_4') ?>
-                <br/>
-                <?php if (count($monthAllowed['month_allowed']) > 1): ?>
-                    <?php echo $this->__('ratepay_rate_info_block_multiruntime_1'); ?>
-                    <span style="font-weight:bold;"><?php echo min($monthAllowed['month_allowed']) ?></span>
-                    <?php echo $this->__('up to') ?>
-                    <span style="font-weight:bold;"><?php echo max($monthAllowed['month_allowed']) ?></span>
-                    <?php echo $this->__('ratepay_rate_info_block_multiruntime_2') ?>
-                    <span style="font-weight:bold;"><?php echo $monthAllowed['rate_min'] ?> &euro;</span>
-                    <?php echo $this->__('ratepay_rate_info_block_multiruntime_3') ?>
-                <?php else: ?>
-                    <?php echo $this->__('ratepay_rate_info_block_singleruntime_1'); ?>
-                    <span style="font-weight:bold;"><?php echo min($monthAllowed['month_allowed']) ?></span>
-                    <?php echo $this->__('ratepay_rate_info_block_singleruntime_2') ?>
-                    <?php echo $this->__('ratepay_rate_info_block_singleruntime_3') ?>
-                <?php endif; ?>
-            </div>
-            <br />
-            <button style="display:none;" id="<?php echo $_code ?>_readless" type="button" class="button" onclick="document.getElementById('<?php echo $_code ?>description').toggle(); document.getElementById('<?php echo $_code ?>readmore').toggle();this.toggle();"><span><span><?php echo $this->__('Read less') ?></span></span></button>
-        </li>
-    <?php endif; ?>
 
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
         <li>
@@ -614,9 +582,6 @@ echo $this->getDeviceIdentToken();
                 <div id="ratepay-Header">
                     <div class="ratepay-FullWidth">
                         <h2 class="ratepay-H2"><?php echo $this->__('Calculate here your own rate'); ?></h2>
-                        <?php if (!$this->isWhitelabel()): ?>
-                            <img class="ratepay-LogoImg" src="<?php echo $this->getSkinUrl('images/ratepay/ratepay_ratenrechner.png'); ?>" width="150" alt="RatePAY Ratenrechner">
-                        <?php endif; ?>
                     </div>
                     <br class="ratepay-ClearFix" />
                 </div>

@@ -212,16 +212,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
-     * Checks if method is set on whitelabel mode
-     *
-     * @return boolean
-     */
-    public function isWhitelabel()
-    {
-        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), 'ratepay_general', 'whitelabel', false, true) == 1;
-    }
-
-    /**
      * Checks if method is set on sandbox mode
      *
      * @return boolean

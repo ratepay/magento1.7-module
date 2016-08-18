@@ -21,4 +21,4 @@
 $methodCode = $this->getMethod()->getCode();
 
 $info = $this->htmlEscape($this->getMethod()->getTitle());
-echo ($this->isWhitelabel()) ? $info : "<img src=" . $this->getSkinUrl('images/ratepay/' . $methodCode . '.png', array('_secure' => true)) . " width=\"150\" alt=" . $info . " />";
+echo $info;
