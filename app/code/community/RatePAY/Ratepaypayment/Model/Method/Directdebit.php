@@ -56,6 +56,9 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
         $params = $data->getData();
         $country = $this->getHelper()->getCountryCode($quote);
 
+        $b2b = (isset($params[$this->_code . '_taxvat']));
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
+
         // Bank data
         if (!empty($params[$this->_code . '_iban'])) {
             $iban = $this->_clearIban($params[$this->_code . '_iban']);
@@ -99,11 +102,7 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
             Mage::throwException($this->_getHelper()->__('AGB Error'));
         }
 
-        // dob
-        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
-
-        if(!$this->getHelper()->isDobSet($quote) ||
-            $quote->getCustomerDob() != $dob) {
+        if(!$b2b && (!$this->getHelper()->isDobSet($quote) || $quote->getCustomerDob() != $dob)) {
             if ($dob) {
                 $validAge = $this->getHelper()->isValidAge($dob);
                 switch($validAge) {
@@ -152,7 +151,7 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
         }
 
         // taxvat
-        if (isset($params[$this->_code . '_taxvat'])) {
+        if ($b2b) {
             if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
                 $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
             } else {
