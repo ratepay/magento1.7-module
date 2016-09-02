@@ -71,7 +71,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
         try {
             $addInformation = $payment->getAdditionalInformation();
 
-            $payment->setTransactionId($addInformation['transactionId'] . '-' . $type);
+            $payment->setTransactionId($addInformation['transactionId']);
             $transaction = $payment->addTransaction($type, $salesDocument, $failsafe, $message);
             $transaction->save();
 
