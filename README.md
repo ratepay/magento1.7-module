@@ -5,12 +5,18 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x`
-|Version | `3.1.4`
+|Version | `3.1.5`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.1.5 - Released 2016-09-06
+* Separate vat id validation on ids from DE, AT, NL and CH
+* Fix of wrong dob validation on direct debit b2b orders
+* Removed type suffix in payment transaction id
+* Change of expression in language files
 
 ### Version 3.1.4 - Released 2016-08-18
 * hiding payment issue fixed
