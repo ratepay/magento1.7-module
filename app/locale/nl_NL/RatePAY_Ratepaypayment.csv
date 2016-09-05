@@ -311,7 +311,7 @@
 "INT credentials in live mode", "Test credentials set in live mode.\nContinue?"
 "PROD credentials in sandbox mode", "Live credentials set in test mode.\nContinue?"
 
-"Adminhtml-Initial Text", "Allgemeine Modulkonfiguration und Zahlartenkonfiguration auf Länderebene<br>Bei Fragen wenden Sie sich an Ihren technischen Ansprechpartner oder an <a href='mailto:integration@ratepay.com'>integration@ratepay.com</a>"
+"Adminhtml-Initial Text", "Allgemeine Modulkonfiguration und Zahlungsartenkonfiguration auf Länderebene<br>Bei Fragen wenden Sie sich an Ihren technischen Ansprechpartner oder an <a href='mailto:integration@ratepay.com'>integration@ratepay.com</a>"
 "Adminhtml-Help-Device Ident", "Bei Device Ident handelt es sich um eine digitale Fingerabdrucktechnologie zur Risikobewertung"
 "Adminhtml-Help-Specific Categories", "Produktkategorien von der Zahlung mit RatePAY ausschließen"
 "Adminhtml-Help-Specific Shipping", "Versandmethoden von der Zahlung mit RatePAY ausschließen"
@@ -329,6 +329,6 @@
 "Adminhtml-Help-B2B", "Zahlungsart für Geschäftskunden zugelassen"
 "Adminhtml-Help-ALA", "Zahlungsart bei abweichender Lieferadresse zugelassen"
 "Adminhtml-Help-IBAN only", "Keine klassischen Kontodaten zulassen, nur Eingabeformulare für SEPA/IBAN-Kontodaten"
-"Adminhtml-Help-Payment Fee", "Zahlartenaufschläge/gebühren sind als separate Produkte anzulegen. In diesem Feld wird anschließend die Artikelposition/SKU hinterlegt"
+"Adminhtml-Help-Payment Fee", "Zahlungsartenaufschläge/gebühren sind als separate Produkte anzulegen. In diesem Feld wird anschließend die Artikelposition/SKU hinterlegt"
 "Adminhtml-Help-Specific Customer Groups", "Nur spezifische Benutzergruppen für die Zahlung mit RatePAY zulassen"
-"Adminhtml-Help-IBS", "<b>Hinweis</b>:<br>IBS erfordert die Telefonnummer und das Geburtsdatum des Käufers. Beide Werte müssen bei Kundenregistrierung erfasst werden bzw. vor Zahlartenauswahl vorliegen"
+"Adminhtml-Help-IBS", "<b>Hinweis</b>:<br>IBS erfordert die Telefonnummer und das Geburtsdatum des Käufers. Beide Werte müssen bei Kundenregistrierung erfasst werden bzw. vor Zahlungsartenauswahl vorliegen"
