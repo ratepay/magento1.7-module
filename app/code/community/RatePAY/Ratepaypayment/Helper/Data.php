@@ -243,13 +243,20 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if the vat id is valid
      *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string
-     * @param bool
+     * @return bool
      */
-    public function isValidTaxvat($taxvat)
+    public function isValidTaxvat($quote, $taxvat)
     {
-        $valid = "<^((DE)?[0-9]{9})$>"; // in case of AT: "^((DE)?[0-9]{9}|(AT)?U[0-9]{8})$"
-        if (preg_match($valid, trim($taxvat))) {
+        switch (strtoupper($quote->getBillingAddress()->getCountryId())) {
+            case "DE": $valid = "<^((DE)?[0-9]{9})$>"; break;
+            case "AT": $valid = "<^((AT)?U[0-9]{8})$>"; break;
+            case "NL": $valid = "<^((NL)?[0-9]{9}?(B)[0-9]{2})$>"; break;
+            case "CH": $valid = "<^((CHE)?[0-9]{9}(MWST))$>"; break;
+        }
+
+        if (preg_match($valid, trim(strtoupper($taxvat)))) {
             return true;
         }
         return false;

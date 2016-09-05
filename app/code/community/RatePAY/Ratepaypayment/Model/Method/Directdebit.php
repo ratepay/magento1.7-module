@@ -152,7 +152,7 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
 
         // taxvat
         if ($b2b) {
-            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+            if ($this->getHelper()->isValidTaxvat($quote, $params[$this->_code . '_taxvat'])) {
                 $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
             } else {
                 Mage::throwException($this->_getHelper()->__('VatId Error'));

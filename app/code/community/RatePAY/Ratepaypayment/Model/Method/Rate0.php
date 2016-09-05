@@ -107,7 +107,7 @@ class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_M
 
         // taxvat
         if (isset($params[$this->_code . '_taxvat'])) {
-            if ($this->getHelper()->isValidTaxvat($params[$this->_code . '_taxvat'])) {
+            if ($this->getHelper()->isValidTaxvat($quote, $params[$this->_code . '_taxvat'])) {
                 $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
             } else {
                 Mage::throwException($this->_getHelper()->__('VatId Error'));
