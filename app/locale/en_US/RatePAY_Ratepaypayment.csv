@@ -102,7 +102,7 @@
 "Phone Error","Geben Sie bitte für die gewählte Zahlungsart eine gültige Telefonnummer an."
 "Date Error","Bitte überprüfen Sie ihre Eingabe. Für die gewählte Zahlungsart müssen Sie mindestens 18 Jahre alt sein und das Geburtsdatum muss in dem Format TT.MM.JJJJ vorliegen."
 "Age Error","Für die gewählte Zahlungsart müssen Sie mindestens 18 Jahre alt sein."
-"VatId Error","Geben Sie bitte für die gewählte Zahlungsart eine gültige USt-IdNr. an. Diese muss die Länderkennung und eine 9-stellige Nummer enthalten."
+"VatId Error","Geben Sie bitte eine gültige USt-IdNr. an."
 "PAYMENT_REQUEST Declined","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten."
 "Gateway Offline","Leider ist die Verbindung zu RatePAY derzeit nicht möglich, bitte versuchen Sie es zu einem späteren Zeitpunkt erneut."
 "Id","Id"
