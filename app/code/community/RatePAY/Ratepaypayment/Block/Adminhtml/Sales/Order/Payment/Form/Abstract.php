@@ -226,11 +226,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getQuote()
     {
-        if (Mage::app()->getStore()->isAdmin()){
-            return Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        else {
-            return $this->getMethod()->getInfoInstance()->getQuote();
-        }
+        return $this->getMethod()->getInfoInstance()->getQuote();
     }
 }

@@ -53,7 +53,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      *
      * @var boolean
      */
-    protected $_canUseInternal = false;
+    protected $_canUseInternal = true;
 
     /**
      * Can payment use for checkout
@@ -119,7 +119,12 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function canUseForCountry($country)
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else{
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
 
         $availableCountries = explode(',', $this->getHelper()->getRpConfigData($quote, $this->_code, 'specificcountry_billing'));
         if(!in_array($country, $availableCountries)){
@@ -135,8 +140,12 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function canUseForCountryDelivery($country)
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else{
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
         $availableCountries = explode(',', $this->getHelper()->getRpConfigData($quote, $this->_code, 'specificcountry_delivery'));
         if(!in_array($country, $availableCountries)){
             return false;
@@ -152,7 +161,12 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function canUseForCurrency($currencyCode)
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else{
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
 
         $availableCurrencies = explode(',', $this->getHelper()->getRpConfigData($quote, $this->_code, 'specificcurrency'));
         if (!in_array($currencyCode, $availableCurrencies)) {
@@ -371,7 +385,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     protected function _abortBackToPayment($exception) {
         $order = $this->getQuoteOrOrder();
 
-        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox')) {
+        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') || !Mage::app()->getStore()->isAdmin()) {
             $this->_hidePaymentMethod();
         }
         $this->_cleanSession();
@@ -396,7 +410,12 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function getTitle()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else{
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
 
         $title = $this->getHelper()->getRpConfigData($quote, $this->_code, 'title');
         $paymentFee = '';

@@ -17,7 +17,7 @@ function switchRateOrRuntime(mode, paymentMethod, url)
     }
 }
 
-function ratepayRateCalculatorAction(mode, paymentMethod, url)
+function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
 {
     var calcValue;
     var calcMethod;
@@ -54,7 +54,7 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url)
     xmlhttp.setRequestHeader("Content-Type",
         "application/x-www-form-urlencoded");
 
-    xmlhttp.send("paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification);
+    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification);
 
     if (xmlhttp.responseText != null) {
         html = xmlhttp.responseText;

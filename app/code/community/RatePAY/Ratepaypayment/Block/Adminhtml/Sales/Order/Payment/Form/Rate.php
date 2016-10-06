@@ -18,9 +18,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypayment_Block_Payment_Form_Abstract
+class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypayment_Block_Payment_Form_Abstract
 {
-    protected $_code = 'ratepay_rate0';
+    protected $_code = 'ratepay_rate';
 
     /**
      * Construct
@@ -48,18 +48,13 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypay
      */
     public function getMonthAllowed()
     {
-        if(Mage::app()->getStore()->isAdmin()){
-            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        else {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-        }
+        $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
         $storeId = $quote->getStoreId();
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
         return array(
-            "month_allowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/month_allowed', $storeId)),
-            "rate_min" => Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/rate_min', $storeId)
+            "month_allowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/month_allowed', $storeId)),
+            "rate_min" => Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/rate_min', $storeId)
         );
     }
 
@@ -90,15 +85,10 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypay
      */
     public function isElvEnabled()
     {
-        if(Mage::app()->getStore()->isAdmin()){
-            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        else {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-        }
+        $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
         $storeId = $quote->getStoreId();
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
-        return Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/elv_enabled', $storeId);
+        return Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/elv_enabled', $storeId);
     }
 }

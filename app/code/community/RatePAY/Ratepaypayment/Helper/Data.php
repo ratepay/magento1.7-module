@@ -109,7 +109,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else {
+            return Mage::getSingleton('checkout/session')->getQuote();
+        }
     }
 
     /**
@@ -380,7 +385,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getBankData()
     {
         $bankdata = null;
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if (Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else {
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
         (!$quote->getCustomerIsGuest()) ? $customerId = $quote->getCustomer()->getId() : $customerId = '';
         /*$piEncryption = new Pi_Util_Encryption_MagentoEncryption();
         if (!$quote->getCustomerIsGuest() && $piEncryption->isBankdataSetForUser($customerId)) {

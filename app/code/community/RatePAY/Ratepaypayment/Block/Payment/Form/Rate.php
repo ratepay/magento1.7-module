@@ -48,7 +48,12 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
      */
     public function getMonthAllowed()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else {
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
         $storeId = $quote->getStoreId();
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
@@ -85,7 +90,12 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
      */
     public function isElvEnabled()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if(Mage::app()->getStore()->isAdmin()){
+            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        }
+        else {
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+        }
         $storeId = $quote->getStoreId();
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
