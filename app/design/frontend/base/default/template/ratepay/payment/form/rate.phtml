@@ -588,8 +588,7 @@ echo $this->getDeviceIdentToken();
 
                 <div id="ratepay-ContentSwitch">
                     <div class="ratepay-ChooseRuntime">
-                        <?php echo $this->__('lang_cash_payment_price_part_one'); ?>:
-                        <span><b><?php echo Mage::helper('checkout')->formatPrice($this->getAmount(), true, true); ?></b></span>
+                        <?php echo $this->__('lang_cash_payment_price_part_one'); ?>
                         <?php echo $this->__('lang_cash_payment_price_part_two'); ?>
                         <br />
                         <label for="firstInput" style="width:100%;">
@@ -614,7 +613,7 @@ echo $this->getDeviceIdentToken();
                                 <span class="ratepay-VertAlignMiddle"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_wishrate'); ?>:</span>
                                 <input id="<?php echo $_code ?>-rate" class="ratepay-Input-amount" type="text">
                                 <span class="ratepay-Currency"> &euro;</span>
-                                <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_runtime'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
+                                <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('lang_calculate_runtime'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
                             </div>
                         </div>
                         <br class="ratepay-ClearFix" />
@@ -649,7 +648,7 @@ echo $this->getDeviceIdentToken();
                                     }
                                     ?>
                                 </select>
-                                <input name="" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>');" value="<?php echo $this->__('lang_calculate_rate'); ?>" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" id="<?php echo $_code ?>_Input-buttonRuntime"  class="ratepay-Input-button2">
+                                <input name="" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('lang_calculate_rate'); ?>" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" id="<?php echo $_code ?>_Input-buttonRuntime"  class="ratepay-Input-button2">
                             </div>
                         </div>
                         <br class="ratepay-ClearFix" />
@@ -678,7 +677,7 @@ echo $this->getDeviceIdentToken();
     <?php else: ?>
         <li>
             <script>
-                ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>');
+                ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');
             </script>
             <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed['month_allowed'][0]; ?>" />
             <div id="ratepay-main-cont">

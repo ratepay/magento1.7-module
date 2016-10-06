@@ -17,7 +17,7 @@ function switchRateOrRuntime(mode, paymentMethod, url)
     }
 }
 
-function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
+function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
 {
     var calcValue;
     var calcMethod;
@@ -30,6 +30,12 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
     } else {// code for IE6, IE5
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
+    if(document.getElementById('use_reward_points')) {
+        if (!document.getElementById('use_reward_points').checked) {
+            reward = 0;
+        }
+    }
+
 
     if (mode == 'rate') {
         calcValue = document.getElementById(paymentMethod + '-rate').value;
@@ -54,7 +60,7 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
     xmlhttp.setRequestHeader("Content-Type",
         "application/x-www-form-urlencoded");
 
-    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification);
+    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification + "&rewardPoints=" + reward);
 
     if (xmlhttp.responseText != null) {
         html = xmlhttp.responseText;

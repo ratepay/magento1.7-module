@@ -259,7 +259,7 @@
 "lang_cash_payment_price", "Bestellwert"
 "lang_calulation_example", "*die Ratenberechnung kann zum Ratenplan abweichen"
 "lang_calulation_result_text", "Aus Ihren Eingaben ergibt sich folgende Wunschrate"
-"lang_cash_payment_price_part_one", "Bitte entscheiden Sie sich nun, wie der Bestellwert von"
+"lang_cash_payment_price_part_one", "Bitte entscheiden Sie sich nun, wie der Bestellwert"
 "lang_cash_payment_price_part_two", "auf die monatlichen Raten verteilt werden soll. Hierzu haben Sie zwei M&ouml;glichkeiten:"
 "lang_interest_amount", "Zinsbetrag"
 "lang_service_charge", "Vertragsabschlussgeb&uuml;hr"

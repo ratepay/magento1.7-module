@@ -27,6 +27,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
     {
         $paymentMethod = $this->getRequest()->getParam('paymentMethod');
         $calcValue = $this->getRequest()->getParam('calcValue');
+        $reward = $this->getRequest()->getParam('rewardPoints');
         try {
             if (preg_match('/^[0-9]+(\.[0-9][0-9][0-9])?(,[0-9]{1,2})?$/', $calcValue)) {
                 $calcValue = str_replace(".", "", $calcValue);
@@ -37,7 +38,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
                 $result = $client->callCalculationRequest(
                     $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
                     $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
-                    $this->getCalculationInfo('calculation-by-rate',$calcValue, $debitSelect)
+                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect,$reward)
                 );
                 if (is_array($result) || $result == true) {
                     $this->setSessionData($result, $paymentMethod);
@@ -55,7 +56,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
                 $result = $client->callCalculationRequest(
                     $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
                     $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
-                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect)
+                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect,$reward)
                 );
                 if (is_array($result) || $result == true) {
                     $this->setSessionData($result, $paymentMethod);
@@ -80,6 +81,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
     public function runtimeAction()
     {
         $paymentMethod = $this->getRequest()->getParam('paymentMethod');
+        $reward = $this->getRequest()->getParam('rewardPoints');
 
         try {
             $calcValue = $this->getRequest()->getParam('calcValue');
@@ -98,7 +100,8 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
                     $this->getCalculationInfo(
                         'calculation-by-time',
                         $calcValue,
-                        $debitSelect)
+                        $debitSelect,
+                        $reward)
                 );
                 
                 if (is_array($result) || $result == true) {
@@ -125,12 +128,12 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      * @param float $calcValue
      * @return array
      */
-    private function getCalculationInfo($method = '', $calcValue = '', $debitSelect = '') 
+    private function getCalculationInfo($method = '', $calcValue = '', $debitSelect = '', $reward = '')
     {
         $calculation = array();
         $calculation['method'] = $method;
         $calculation['value'] = $calcValue;
-        $calculation['amount'] = round($this->getQuote()->getGrandTotal(),2);
+        $calculation['amount'] = round($this->getQuote()->getGrandTotal() - $reward,2);
         $calculation['debitSelect'] = $debitSelect;
         return $calculation;
     }

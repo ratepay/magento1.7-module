@@ -194,6 +194,10 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
             if ((int) $tempArray['quantity'] > 0) {
                 $items[] = $tempArray;
             }
+            elseif ($tempArray['articleNumber'] == 'REWARDPOINTS' && $tempArray['unitPriceGross'] < 0){
+                $tempArray['quantity'] = 1;
+                $items[] = $tempArray;
+            }
         }
 
         if(isset($data['creditmemo'])) $this->_addAdjustment($items, $data['creditmemo']);
@@ -230,6 +234,9 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
         $condition = $tempArray['articleNumber'];
         if (array_key_exists($condition, $itemArray)) {
             $tempArray['quantity'] = $tempArray['quantity'] - $itemArray[$condition]['quantity'];
+        }
+        if ($condition == 'REWARDPOINTS'){
+            $tempArray['unitPriceGross'] = $tempArray['unitPriceGross'] - $itemArray[$condition]['unitPriceGross'];
         }
         return $tempArray;
     }

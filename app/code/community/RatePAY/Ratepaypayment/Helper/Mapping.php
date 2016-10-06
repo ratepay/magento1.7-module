@@ -116,6 +116,18 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $articles[] = $discount;
             }
         }
+
+        if($object->getRewardCurrencyAmount() > 0){
+            $article = array();
+            $article['articleNumber'] = 'REWARDPOINTS';
+            $article['articleName'] = 'Reward points';
+            $article['quantity'] = '1';
+            $article['unitPriceGross'] = -1 * $object->getRewardCurrencyAmount();
+            $article['taxPercent'] = 0;
+            $article['discountId'] = '';
+
+            $articles[] = $article;
+        }
         return $articles;
     }
 
