@@ -113,6 +113,11 @@ class RatePAY_Ratepaypayment_Model_Method_Rate extends RatePAY_Ratepaypayment_Mo
                 Mage::throwException($this->_getHelper()->__('VatId Error'));
             }
         }
+
+        //customer balance (store credit)
+        if($params['use_customer_balance'] == 1){
+            Mage::throwException($this->getHelper()->__('StoreCredit Error'));
+        }
         
         return $this;
     }

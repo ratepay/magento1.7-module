@@ -116,6 +116,11 @@ class RatePAY_Ratepaypayment_Model_Method_Rechnung extends RatePAY_Ratepaypaymen
             }
         }
 
+        //customer balance (store credit)
+        if($params['use_customer_balance'] == 1){
+            Mage::throwException($this->getHelper()->__('StoreCredit Error'));
+        }
+
         return $this;
     }
 

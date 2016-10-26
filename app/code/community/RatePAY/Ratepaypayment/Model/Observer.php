@@ -313,6 +313,10 @@ class RatePAY_Ratepaypayment_Model_Observer
                 'temp_creditmemo' => $paymentHelper->getTempCreditmemoItems($creditmemo)
             );
 
+            if($creditmemo->getCustomerBalanceRefundFlag() == true){
+                Mage::throwException($this->getHelper()->__('StoreCreditRefund Error'));
+            }
+
             $items = array();
             if ($paymentHelper->isOrderCanceled($order)) {
                 $items = $paymentHelper->getAllInvoiceItems($order);

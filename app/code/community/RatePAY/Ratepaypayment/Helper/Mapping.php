@@ -70,6 +70,57 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             }
         }
 
+        if($object->getGwPrice() > 0){
+            $article = array();
+            $article['articleNumber'] = 'orderwrapping';
+            $article['articleName'] = 'Wrapping Cost Order';
+            $article['quantity'] = '1';
+            $article['unitPriceGross'] = $object->getGwPrice();
+            $article['taxPercent'] = (100 / $object->getGwPrice()) * $object->getGwTaxAmount();
+            $article['discountId'] = '';
+
+            $articles[] = $article;
+        }
+
+        if($object->getGwItemsPrice() > 0){
+            $article = array();
+            $article['articleNumber'] = 'itemswrapping';
+            $article['articleName'] = 'Wrapping Cost Items';
+            $article['quantity'] = '1';
+            $article['unitPriceGross'] = $object->getGwItemsPrice();
+            $article['taxPercent'] = (100 / $object->getGwItemsPrice()) * $object->getGwItemsTaxAmount();
+            $article['discountId'] = '';
+
+            $articles[] = $article;
+        }
+
+        if($object->getGwAddCard() > 0){
+            $article = array();
+            $article['articleNumber'] = 'printed_card';
+            $article['articleName'] = 'Printed Card';
+            $article['quantity'] = '1';
+            $article['unitPriceGross'] = $object->getGwCardPrice();
+            $article['taxPercent'] = (100 / $object->getGwCardPrice()) * $object->getGwCardTaxAmount();
+            $article['discountId'] = '';
+
+            $articles[] = $article;
+        }
+
+        $_cards = Mage::getBlockSingleton('enterprise_giftcardaccount/checkout_cart_total')->getQuoteGiftCards();
+        if($_cards){
+            foreach($_cards as $card){
+                $article = array();
+                $article['articleNumber'] = 'gift_card';
+                $article['articleName'] = $card['c'];
+                $article['quantity'] = '1';
+                $article['unitPriceGross'] = -round($card['ba'],2);
+                $article['taxPercent'] = 0;
+                $article['discountId'] = '';
+
+                $articles[] = $article;
+            }
+        }
+
         if ($object instanceof Mage_Sales_Model_Order || $object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
             $shippingObject = $object;
             if ($object instanceof Mage_Sales_Model_Order_Creditmemo) {
