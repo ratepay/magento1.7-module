@@ -30,12 +30,9 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
     } else {// code for IE6, IE5
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    if(document.getElementById('use_reward_points')) {
-        if (!document.getElementById('use_reward_points').checked) {
-            reward = 0;
-        }
+    if(document.getElementById('use_reward_points') && !document.getElementById('use_reward_points').checked) {
+        reward = 0;
     }
-
 
     if (mode == 'rate') {
         calcValue = document.getElementById(paymentMethod + '-rate').value;

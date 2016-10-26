@@ -402,4 +402,23 @@ class RatePAY_Ratepaypayment_Model_Observer
         return Mage::helper('ratepaypayment');
     }
 
+    public function rewardCheck(Varien_Event_Observer $observer)
+    {
+        if ($orderIds = $observer->getEvent()->getOrderIds()) { // frontend event
+            $orderId = current($orderIds);
+            if (!$orderId) {
+                return;
+            }
+            $order = Mage::getModel('sales/order')->load($orderId);
+        } else { // adminhtml event
+            $order = $observer->getEvent()->getOrder();
+        }
+        $paymentMethod = $order->getPayment()->getMethod();
+        $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(),1);
+        $rateAmount = Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount();
+        if($paymentMethod == 'ratepay_rate' && $rateAmount != $grandTotal){
+            Mage::getSingleton('checkout/session')->setGotoSection('payment');
+            Mage::throwException(Mage::helper('ratepaypayment')->__('rate basket difference'));
+        }
+    }
 }

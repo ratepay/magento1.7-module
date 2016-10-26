@@ -120,6 +120,15 @@
                     </RatePAY_Ratepaypayment_model_observer>
                 </observers>
             </checkout_controller_onepage_save_shipping_method>
+
+            <sales_order_place_before>
+                <observers>
+                    <RatePAY_Ratepaypayment_model_observer>
+                        <class>RatePAY_Ratepaypayment_Model_Observer</class>
+                        <method>rewardCheck</method>
+                    </RatePAY_Ratepaypayment_model_observer>
+                </observers>
+            </sales_order_place_before>
             <!-- End Frontend -->
 
             <!-- Beginn Backend -->
