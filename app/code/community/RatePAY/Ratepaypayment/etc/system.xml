@@ -345,11 +345,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -359,7 +369,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -369,7 +379,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -556,11 +566,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -571,7 +591,7 @@
                                             <label>IBAN only</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>145</sort_order>
+                                            <sort_order>155</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -581,7 +601,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -591,7 +611,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -600,7 +620,7 @@
                                         <privacy_policy translate="label">
                                             <label>RatePAY privacy policy URL</label>
                                             <frontend_type>label</frontend_type>
-                                            <sort_order>170</sort_order>
+                                            <sort_order>180</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -802,11 +822,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -816,7 +846,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -826,7 +856,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1048,11 +1078,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1062,7 +1102,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1072,7 +1112,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1250,11 +1290,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1265,7 +1315,7 @@
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1279,7 +1329,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -1465,11 +1515,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1479,7 +1539,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1489,7 +1549,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1676,11 +1736,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1690,7 +1760,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1700,7 +1770,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1709,7 +1779,7 @@
                                         <privacy_policy translate="label">
                                             <label>RatePAY privacy policy URL</label>
                                             <frontend_type>label</frontend_type>
-                                            <sort_order>170</sort_order>
+                                            <sort_order>180</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1733,7 +1803,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>180</sort_order>
+                                            <sort_order>190</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -1912,11 +1982,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1926,7 +2006,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1936,7 +2016,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1946,7 +2026,7 @@
                                             <label>Enable dynamic due</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1979,7 +2059,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>180</sort_order>
+                                            <sort_order>190</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -2158,11 +2238,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2173,7 +2263,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2183,7 +2273,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2193,7 +2283,7 @@
                                             <label>Enable dynamic due</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2226,7 +2316,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>180</sort_order>
+                                            <sort_order>190</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -2361,11 +2451,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2565,11 +2665,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2579,7 +2689,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2589,7 +2699,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2737,11 +2847,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2941,11 +3061,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2955,7 +3085,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2965,7 +3095,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2978,7 +3108,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>170</sort_order>
+                                            <sort_order>180</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -3152,11 +3282,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>140</sort_order>
+                                            <sort_order>150</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3166,7 +3306,7 @@
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>150</sort_order>
+                                            <sort_order>160</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3176,7 +3316,7 @@
                                         <sort_order translate="label">
                                             <label>Sort Order</label>
                                             <frontend_type>text</frontend_type>
-                                            <sort_order>160</sort_order>
+                                            <sort_order>170</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3185,7 +3325,7 @@
                                         <privacy_policy translate="label">
                                             <label>RatePAY privacy policy URL</label>
                                             <frontend_type>label</frontend_type>
-                                            <sort_order>170</sort_order>
+                                            <sort_order>180</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3210,7 +3350,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                            <sort_order>180</sort_order>
+                                            <sort_order>190</sort_order>
                                             <fields>
                                                 <specificgroups translate="label">
                                                     <label>Specific Customer Groups</label>
@@ -3345,11 +3485,21 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
                                             <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
-                                            <sort_order>130</sort_order>
+                                            <sort_order>140</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>

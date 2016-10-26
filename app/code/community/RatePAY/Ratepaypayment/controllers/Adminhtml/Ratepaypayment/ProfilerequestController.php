@@ -86,6 +86,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
             $coreConfig->saveConfig('payment/' . $method . '/min_order_total', $merchantConfig['tx-limit-' . $product . '-min']);
             $coreConfig->saveConfig('payment/' . $method . '/max_order_total', $merchantConfig['tx-limit-' . $product . '-max']);
             $coreConfig->saveConfig('payment/' . $method . '/b2b', ($merchantConfig['b2b-' . $product] == 'yes') ? 1 : 0);
+            $coreConfig->saveConfig('payment/' . $method . '/limit_max_b2b', ($merchantConfig['tx-limit-' . $product . '-max-b2b'] > 0) ? $merchantConfig['tx-limit-' . $product . '-max-b2b'] : $merchantConfig['tx-limit-' . $product . '-max']);
             $coreConfig->saveConfig('payment/' . $method . '/delivery_address', ($merchantConfig['delivery-address-' . $product] == 'yes') ? 1 : 0);
         } else {
             $ibsSubtypes = array("full");

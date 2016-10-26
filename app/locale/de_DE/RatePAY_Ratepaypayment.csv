@@ -40,6 +40,7 @@
 "Status RatePAY", "Status RatePAY"
 "Minimum Order Total","Mindestbestellwert"
 "Maximum Order Total","Höchstbestellwert"
+"Maximum Order B2B", "Höchstbestellwert B2B"
 "Activate Sandbox","Sandbox aktivieren"
 "Due Days", "Dynamische Fälligkeit"
 "Rate Minimum", "Minimumrate"
