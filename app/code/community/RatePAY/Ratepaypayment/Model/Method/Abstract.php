@@ -385,7 +385,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     protected function _abortBackToPayment($exception) {
         $order = $this->getQuoteOrOrder();
 
-        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') || !Mage::app()->getStore()->isAdmin()) {
+        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') && !Mage::app()->getStore()->isAdmin()) {
             $this->_hidePaymentMethod();
         }
         $this->_cleanSession();
