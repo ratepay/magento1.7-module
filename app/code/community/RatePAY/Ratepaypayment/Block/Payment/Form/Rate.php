@@ -57,9 +57,23 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
         $storeId = $quote->getStoreId();
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
+        $basketAmount = (float) $this->getAmount();
+        $rateMinNormal = Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/rate_min', $storeId);
+        $runtimes = explode(",",Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/month_allowed', $storeId));
+        $interestrateMonth = ((float) Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/interestrate_default', $storeId) / 12) / 100;
+
+        $allowedRuntimes = array();
+
+        foreach ($runtimes as $runtime){
+            $rateAmount = ceil($basketAmount * (($interestrateMonth * pow((1 + $interestrateMonth), $runtime)) / (pow((1 + $interestrateMonth), $runtime) - 1)));
+
+            if($rateAmount >= $rateMinNormal){
+                $allowedRuntimes[] = $runtime;
+            }
+        }
         return array(
-            "month_allowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/month_allowed', $storeId)),
-            "rate_min" => Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/rate_min', $storeId)
+            "month_allowed" => $allowedRuntimes,
+            "rate_min" => $rateMinNormal
         );
     }
 
