@@ -24,7 +24,16 @@
     <default>
         <reference name="head">
             <action method="addJs">
+                <script>ratepay/rppayment.js</script>
+            </action>
+            <action method="addJs">
                 <script>ratepay/ratenrechner.js</script>
+            </action>
+            <action method="addJs">
+                <script>ratepay/dobFix.js</script>
+            </action>
+            <action method="addJs">
+                <script>ratepay/elv.js</script>
             </action>
         </reference>
         <remove name="notification_security" />
