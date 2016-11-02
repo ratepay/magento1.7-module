@@ -333,3 +333,5 @@
 "Adminhtml-Help-Specific Customer Groups", "Nur spezifische Benutzergruppen für die Zahlung mit RatePAY zulassen"
 "Adminhtml-Help-IBS", "<b>Hinweis</b>:<br>IBS erfordert die Telefonnummer und das Geburtsdatum des Käufers. Beide Werte müssen bei Kundenregistrierung erfasst werden bzw. vor Zahlungsartenauswahl vorliegen"
 "rate basket difference", "Es ist ein Fehler aufgetreten. Bitte berechnen Sie den Ratenplan erneut."
+"StoreCredit Error", "Gebruik van de store credit is niet toegestaan ​​met deze betaalmethode."
+"StoreCreditRefund Error", "Die Funktion 'Refund to Store Credit' ist mit Ratepay-Bestellungen nicht möglich."
