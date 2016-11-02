@@ -42,3 +42,8 @@ function switchAccountType(element) {
         document.getElementById('ratepay_directdebit_bank_code_number').className = '';
     }
 }
+
+function showAgreement(){
+    document.getElementById('ratepay_directdebit_sepa_agreement').style.display = 'inline-block';
+    document.getElementById('ratepay_directdebit_sepa_agreement_link').style.display = 'none';
+}

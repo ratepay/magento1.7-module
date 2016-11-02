@@ -4,13 +4,21 @@
 |Module | RatePAY Module for Magento
 |------|----------
 |Author | Aarne Welschlau
-|Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x`
-|Version | `3.1.5`
+|Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
+|Version | `3.2.0`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.2.0 - Released 2016-11-02
+* compatibility with SUPEE-8788`
+* support backend orders
+* support reward points
+* support enterprise edition
+* device fingerprint without flash
+* rate calculator - hiding unavailable runtimes
 
 ### Version 3.1.5 - Released 2016-09-06
 * Separate vat id validation on ids from DE, AT, NL and CH
