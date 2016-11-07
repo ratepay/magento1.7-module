@@ -32,9 +32,21 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_System_Config_Form_Label_Active
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $elementData = $element->getData();
-        $status = ((int) $elementData['value'] == 1);
-        $text = ($status) ? 'Active' : 'Inactive';
-        $color = ($status) ? 'green' : 'red';
+        $status = ((int) $elementData['value']);
+        switch ($status){
+            case 1:
+                $text = 'Inactive';
+                $color = 'Red';
+                break;
+            case 2:
+                $text = 'Active';
+                $color = 'Green';
+                break;
+            case 3:
+                $text = 'Phased out';
+                $color = 'Orange';
+                break;
+        }
         return '<p style="font-weight:bold; color: ' . $color . '">' . Mage::helper('ratepaypayment')->__($text) . '</p>';
     }
 }

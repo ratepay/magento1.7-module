@@ -80,8 +80,8 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
 
         if ($this->_getRpMethodWithoutCountry($method) != "ratepay_ibs") {
             $coreConfig->saveConfig('payment/' . $method . '/status', (($merchantConfig['merchant-status'] == 2) &&
-                ($merchantConfig['activation-status-' . $product] == 2) &&
-                ($merchantConfig['eligibility-ratepay-' . $product] == 'yes')) ? 1 : 0);
+                ($merchantConfig['activation-status-' . $product] != 1) &&
+                ($merchantConfig['eligibility-ratepay-' . $product] == 'yes')) ? $merchantConfig['activation-status-' . $product] : 1);
 
             $coreConfig->saveConfig('payment/' . $method . '/min_order_total', $merchantConfig['tx-limit-' . $product . '-min']);
             $coreConfig->saveConfig('payment/' . $method . '/max_order_total', $merchantConfig['tx-limit-' . $product . '-max']);

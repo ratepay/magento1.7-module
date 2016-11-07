@@ -269,6 +269,10 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
+        $status = $this->getHelper()->getRpConfigData($quote, $this->_code, 'status');
+        if($status != 2){
+            return false;
+        }
         return true;
     }
 

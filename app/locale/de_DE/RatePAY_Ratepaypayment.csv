@@ -335,3 +335,4 @@
 "rate basket difference", "Es ist ein Fehler aufgetreten. Bitte berechnen Sie den Ratenplan erneut."
 "StoreCredit Error", "Eine Verwendung des Store Credits ist mit dieser Zahlungsart nicht zulässig."
 "StoreCreditRefund Error", "Die Funktion 'Refund to Store Credit' ist mit Ratepay-Bestellungen nicht möglich."
+"Processing failed", "Die weitere Verarbeitung der Bestellung ist nicht möglich. Bei Fragen, wenden Sie sich bitte an Ihren verantwortlichen RatePAY-Ansprechpartner."
