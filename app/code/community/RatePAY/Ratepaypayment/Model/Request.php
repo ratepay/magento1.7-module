@@ -98,6 +98,15 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
                     $result['address'] = (array) $this->response->content->customer->addresses->address;
                     $this->error = '';
                     return $result;
+                } elseif($resultCode == "150" || $resultCode == "401"){
+                    if($resultCode == "150"){
+                        $result['type'] = 'soft';
+                    }else {
+                        $result['type'] = 'hard';
+                    }
+                    $result['customer_message'] = (string) $this->response->head->processing->{'customer-message'};
+                    $this->error = 'FAIL';
+                    return $result;
                 } else {
                     $this->error = 'FAIL';
                     return false;

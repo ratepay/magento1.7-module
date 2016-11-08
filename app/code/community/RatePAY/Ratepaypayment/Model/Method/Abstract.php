@@ -315,9 +315,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     {
         $client = Mage::getSingleton('ratepaypayment/request');
 
-        $order  = $this->getQuoteOrOrder();
+        $order = $this->getQuoteOrOrder();
         $helper = Mage::helper('ratepaypayment/mapping');
-        $head   = $helper->getRequestHead($order);
+        $head = $helper->getRequestHead($order);
         if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
             Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
             $resultInit['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
@@ -330,40 +330,42 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             $payment->setAdditionalInformation('securityCode', $head['securityCode']);
 
             $resultRequest = $client->callPaymentRequest($helper->getRequestHead($order),
-                                                  $helper->getRequestCustomer($order),
-                                                  $helper->getRequestBasket($order),
-                                                  $helper->getRequestPayment($order),
-                                                  $helper->getLoggingInfo($order));
+                $helper->getRequestCustomer($order),
+                $helper->getRequestBasket($order),
+                $helper->getRequestPayment($order),
+                $helper->getLoggingInfo($order));
             if (is_array($resultRequest) || $resultRequest == true) {
-                $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+                if (!isset($resultRequest['customer_message'])) {
+                    $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+                    if ($this->getHelper()->getRpConfigData($order, $this->_code, 'address_normalization')) {
+                        $billingAddress = $order->getBillingAddress();
+                        $shippingAddress = $order->getShippingAddress();
 
-                if ($this->getHelper()->getRpConfigData($order, $this->_code, 'address_normalization')) {
-                    $billingAddress = $order->getBillingAddress();
-                    $shippingAddress = $order->getShippingAddress();
+                        $billingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
+                        $billingAddress->setPostcode($resultRequest['address']['zip-code']);
+                        $billingAddress->setCity($resultRequest['address']['city']);
 
-                    $billingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
-                    $billingAddress->setPostcode($resultRequest['address']['zip-code']);
-                    $billingAddress->setCity($resultRequest['address']['city']);
-
-                    if ($billingAddress->getCustomerAddressId() == $shippingAddress->getCustomerAddressId()) {
-                        $shippingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
-                        $shippingAddress->setPostcode($resultRequest['address']['zip-code']);
-                        $shippingAddress->setCity($resultRequest['address']['city']);
+                        if ($billingAddress->getCustomerAddressId() == $shippingAddress->getCustomerAddressId()) {
+                            $shippingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
+                            $shippingAddress->setPostcode($resultRequest['address']['zip-code']);
+                            $shippingAddress->setCity($resultRequest['address']['city']);
+                        }
                     }
-                }
 
-                $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+                    $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
 
-                if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                    $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
+                    if (!is_array($resultConfirm) && !$resultConfirm == true) {
+                        $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
+                    }
+                }else {
+                $this->_abortBackToPayment($resultRequest['customer_message'], $resultRequest['type']);
                 }
             } else {
-                $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
+                $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
             }
         } else {
-            $this->_abortBackToPayment('Gateway Offline');
+            $this->_abortBackToPayment('Gateway Offline', 'hard' );
         }
-
         $this->_cleanSession();
         return $this;
     }
@@ -386,15 +388,18 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken(false);
     }
 
-    protected function _abortBackToPayment($exception) {
+    protected function _abortBackToPayment($exception, $type = null) {
         $order = $this->getQuoteOrOrder();
 
-        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') && !Mage::app()->getStore()->isAdmin()) {
+        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') && !Mage::app()->getStore()->isAdmin() && $type == 'hard') {
+            if(strpos($exception, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
+                $exception = $exception . "\n\n" . $this->getHelper()->getRpConfigData($order, $this->_code, 'privacy_policy');
+            }
             $this->_hidePaymentMethod();
         }
         $this->_cleanSession();
         Mage::getSingleton('checkout/session')->setGotoSection('payment');
-        Mage::throwException($this->_getHelper()->__($exception));
+        Mage::throwException($this->_getHelper()->__((strip_tags($exception))));
     }
 
     /**
