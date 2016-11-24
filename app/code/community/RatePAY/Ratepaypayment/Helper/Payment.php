@@ -99,11 +99,11 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
                 if (array_key_exists($condition, $creditmemoItems)) {
                     $creditmemoItems[$condition]['quantity'] = $article['quantity'];
                     $creditmemoItems[$condition]['unitPriceGross'] += $article['unitPriceGross'];
-                    $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
+                    $creditmemoItems[$condition]['taxPercent'] = (!empty($article['taxPercent'])) ? $article['taxPercent'] : 0;
                 } else {
                     $creditmemoItems[$condition]['quantity'] = $article['quantity'];
                     $creditmemoItems[$condition]['unitPriceGross'] = $article['unitPriceGross'];
-                    $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
+                    $creditmemoItems[$condition]['taxPercent'] = (!empty($article['taxPercent'])) ? $article['taxPercent'] : 0;
                     $creditmemoItems[$condition]['articleNumber'] = $article['articleNumber'];
                     $creditmemoItems[$condition]['articleName'] = $article['articleName'];
                     $creditmemoItems[$condition]['discountId'] = $article['discountId'];
@@ -156,7 +156,7 @@ class RatePAY_Ratepaypayment_Helper_Payment extends Mage_Core_Helper_Abstract
             ($article['articleNumber'] == 'DISCOUNT') ? $condition = $article['articleName'] : $condition = $article['articleNumber'];
             $creditmemoItems[$condition]['quantity'] = $article['quantity'];
             $creditmemoItems[$condition]['unitPriceGross'] = $article['unitPriceGross'];
-            $creditmemoItems[$condition]['taxPercent'] = $article['taxPercent'];
+            $creditmemoItems[$condition]['taxPercent'] = (!empty($article['taxPercent'])) ? $article['taxPercent'] : 0;
             $creditmemoItems[$condition]['articleNumber'] = $article['articleNumber'] . '-new';
             $creditmemoItems[$condition]['articleName'] = $article['articleName'];
             $creditmemoItems[$condition]['discountId'] = $article['discountId'];
