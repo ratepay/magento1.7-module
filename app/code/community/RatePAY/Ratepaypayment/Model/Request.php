@@ -493,7 +493,11 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $customer->addCDataChild('last-name', $customerInfo['lastName']);
         $customer->addChild('gender', $customerInfo['gender']);
         if(empty($customerInfo['company'])) {
-            $customer->addChild('date-of-birth', $customerInfo['dob']);
+            if (!Mage::getSingleton('ratepaypayment/session')->getCustomerDob()) {
+                $customer->addChild('date-of-birth', $customerInfo['dob']);
+            }else{
+                $customer->addChild('date-of-birth', Mage::getSingleton('ratepaypayment/session')->getCustomerDob());
+            }
         }
         $customer->addChild('ip-address', $customerInfo['ip']);
         if(!empty($customerInfo['company'])) {

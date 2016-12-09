@@ -180,6 +180,9 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 ->setDob($dob->toString("yyyy-MM-dd HH:mm:ss"))
                 ->save();
         }
+        if (Mage::app()->getStore()->isAdmin()){
+            Mage::getSingleton('ratepaypayment/session')->setCustomerDob($dob->toString("yyyy-MM-dd HH:mm:ss"));
+        }
         $quote->setCustomerDob($dob->toString("yyyy-MM-dd HH:mm:ss"))->save();
     }
 
