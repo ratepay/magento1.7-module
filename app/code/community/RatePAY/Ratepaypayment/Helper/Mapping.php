@@ -106,18 +106,20 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $articles[] = $article;
         }
 
-        $_cards = Mage::getBlockSingleton('enterprise_giftcardaccount/checkout_cart_total')->getQuoteGiftCards();
-        if($_cards){
-            foreach($_cards as $card){
-                $article = array();
-                $article['articleNumber'] = 'gift_card';
-                $article['articleName'] = $card['c'];
-                $article['quantity'] = '1';
-                $article['unitPriceGross'] = -round($card['ba'],2);
-                $article['taxPercent'] = 0;
-                $article['discountId'] = '';
+        if(Mage::getEdition() == 'Enterprise') {
+            $_cards = Mage::getBlockSingleton('enterprise_giftcardaccount/checkout_cart_total')->getQuoteGiftCards();
+            if ($_cards) {
+                foreach ($_cards as $card) {
+                    $article = array();
+                    $article['articleNumber'] = 'gift_card';
+                    $article['articleName'] = $card['c'];
+                    $article['quantity'] = '1';
+                    $article['unitPriceGross'] = -round($card['ba'], 2);
+                    $article['taxPercent'] = 0;
+                    $article['discountId'] = '';
 
-                $articles[] = $article;
+                    $articles[] = $article;
+                }
             }
         }
 
