@@ -433,7 +433,11 @@ class RatePAY_Ratepaypayment_Model_Observer
             $order = $observer->getEvent()->getOrder();
         }
         $paymentMethod = $order->getPayment()->getMethod();
-        $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(),1);
+        if(Mage::app()->getStore()->isAdmin()){
+            $grandTotal = round(Mage::getModel('adminhtml/session_quote')->getQuote()->getGrandTotal(),1);
+        }else {
+            $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(), 1);
+        }
         $rateAmount = Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount();
         if($paymentMethod == 'ratepay_rate' && $rateAmount != $grandTotal){
             Mage::getSingleton('checkout/session')->setGotoSection('payment');
