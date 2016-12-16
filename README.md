@@ -5,13 +5,21 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `3.2.0`
+|Version | `3.2.1`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
 
+### Version 3.2.1 - Released 2016-12-16
+* payment method activation status 'phased out' added
+* Extended Responses implemented
+* Installment calculator issue in backend order fixed
+* Date of birth issue in backend order fixed
+* ability to create new customer within backend order
+* prevent missing taxPercent index
+ 
 ### Version 3.2.0 - Released 2016-11-02
 * compatibility with SUPEE-8788`
 * support backend orders
