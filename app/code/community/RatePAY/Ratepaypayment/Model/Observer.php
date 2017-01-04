@@ -248,9 +248,9 @@ class RatePAY_Ratepaypayment_Model_Observer
         if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "invoice" && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
             $this->sendRatepayDeliverCall($order, $invoice);
         }
-        else {
+        /*else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
-        }
+        }*/
     }
 
     /**
@@ -266,9 +266,9 @@ class RatePAY_Ratepaypayment_Model_Observer
             if( $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1) {
                 $this->sendRatepayDeliverCall($order, $shipment);
             }
-            else{
+            /*else{
                 Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
-            }
+            }*/
         }
     }
 
@@ -299,9 +299,9 @@ class RatePAY_Ratepaypayment_Model_Observer
 
             $order->setState($stateAfter, $statusAfter, 'success')->save();
         }
-        else {
+        /*else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
-        }
+        }*/
     }
 
     /**
@@ -356,9 +356,9 @@ class RatePAY_Ratepaypayment_Model_Observer
                 $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
             }
         }
-        else {
+        /*else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
-        }
+        }*/
     }
 
     /**
@@ -385,9 +385,9 @@ class RatePAY_Ratepaypayment_Model_Observer
                 Mage::throwException(Mage::helper('ratepaypayment')->__('Cancellation was not successful.'));
             }
         }
-        else {
+        /*else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
-        }
+        }*/
     }
 
     /**

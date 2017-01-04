@@ -53,20 +53,11 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
                 $article['discountId'] = '';
                 if ($item->getDiscountAmount() > 0) {
-                    $discount = array();
-                    $discount['articleNumber'] = 'DISCOUNT-' . $item->getSku();
-                    $discount['articleName'] = 'DISCOUNT - ' . $item->getName();
-                    $discount['quantity'] = $article['quantity'];
-                    $discount['unitPriceGross'] = (-1 * $item->getDiscountAmount()) / $article['quantity'];
-                    $discount['discountId'] = $item->getSku();
-
+                    $article['discount'] = (-1 * $item->getDiscountAmount()) / $article['quantity'];
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
                 }
 
-                $articles[] = $article;
-                if ($item->getDiscountAmount() > 0) { // only for sort reason
-                    $articles[] = $discount;
-                }
+                $articles['items'][] = $article;
             }
         }
 
@@ -79,7 +70,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['taxPercent'] = (100 / $object->getGwPrice()) * $object->getGwTaxAmount();
             $article['discountId'] = '';
 
-            $articles[] = $article;
+            $articles['items'][] = $article;
         }
 
         if($object->getGwItemsPrice() > 0){
@@ -91,7 +82,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['taxPercent'] = (100 / $object->getGwItemsPrice()) * $object->getGwItemsTaxAmount();
             $article['discountId'] = '';
 
-            $articles[] = $article;
+            $articles['items'][] = $article;
         }
 
         if($object->getGwAddCard() > 0){
@@ -103,7 +94,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['taxPercent'] = (100 / $object->getGwCardPrice()) * $object->getGwCardTaxAmount();
             $article['discountId'] = '';
 
-            $articles[] = $article;
+            $articles['items'][] = $article;
         }
 
         if(Mage::getEdition() == 'Enterprise') {
@@ -118,7 +109,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $article['taxPercent'] = 0;
                     $article['discountId'] = '';
 
-                    $articles[] = $article;
+                    $articles['items'][] = $article;
                 }
             }
         }
@@ -142,32 +133,20 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $shippingDescription = $shippingObject->getShippingDescription();
             }
 
-            $article = array();
-            $article['articleNumber'] = 'SHIPPING';
-            $article['articleName'] = $shippingDescription;
-            $article['quantity'] = '1';
-            $article['unitPriceGross'] = $shippingObject->getShippingInclTax();
+            $shipping = array();
+            $shipping['articleName'] = $shippingDescription;
+            $shipping['unitPriceGross'] = $shippingObject->getShippingInclTax();
             $shippingTaxPercent = 0;
             if (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) > 0) {
                 $shippingTaxPercent = (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) / $shippingObject->getShippingAmount();
             }
-            $article['taxPercent'] = $shippingTaxPercent;
-            $article['discountId'] = '';
+            $shipping['taxPercent'] = $shippingTaxPercent;
 
             if ($shippingDiscountAmount > 0) {
-                $discount = array();
-                $discount['articleNumber'] = 'SHIPPINGDISCOUNT';
-                $discount['articleName'] = 'Shipping - Discount';
-                $discount['quantity'] = 1;
-                $discount['unitPriceGross'] = -1 * $shippingObject->getShippingDiscountAmount();
-                $discount['taxPercent'] = 0;
-                $discount['discountId'] = 'SHIPPING';
+                $shipping['discount'] = -1 * $shippingObject->getShippingDiscountAmount();
             }
 
-            $articles[] = $article;
-            if ($shippingDiscountAmount > 0) { // only for sort reason
-                $articles[] = $discount;
-            }
+            $articles['shipping'] = $shipping;
         }
 
         if($object->getRewardCurrencyAmount() > 0){
@@ -179,7 +158,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $article['taxPercent'] = 0;
             $article['discountId'] = '';
 
-            $articles[] = $article;
+            $articles['items'][] = $article;
         }
         return $articles;
     }
@@ -395,7 +374,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         if ($articleList != '') {
             $basket['items'] = $articleList;
         } else {
-            $basket['items'] = $this->getArticles($object);
+            $articles = $this->getArticles($object);
+            $basket['items'] = $articles['items'];
+            if (key_exists('shipping', $articles)) {
+                $basket['shipping'] = $articles['shipping'];
+            }
+            if (key_exists('discount', $articles)) {
+                $basket['discount'] = $articles['discount'];
+            }
         }
 
         // If no positiv item is remained in basket clear basket

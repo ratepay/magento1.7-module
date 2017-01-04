@@ -477,6 +477,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             'version',  
             Mage::getVersion() . '_' . (string) Mage::getConfig()->getNode()->modules->RatePAY_Ratepaypayment->version
         );
+        $systems->addChild('api-version', 1.8);
     }
 
     /**
@@ -582,6 +583,21 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             $item->addAttribute('quantity', number_format($itemInfo['quantity'], 0, '.', ''));
             $item->addAttribute('unit-price-gross', number_format(round($itemInfo['unitPriceGross'],2), 2, ".", ""));
             $item->addAttribute('tax-rate', number_format($itemInfo['taxPercent'], 0, ".", ""));
+            if (key_exists('discount', $itemInfo)) {
+                $item->addAttribute('discount', number_format($itemInfo['discount'], 2, ".", ""));
+            }
+        }
+
+        if (key_exists('shipping', $basketInfo)) {
+            $shipping = $shoppingBasket->addCDataChild('shipping', $this->removeSpecialChars($basketInfo['shipping']['articleName']));
+            $shipping->addAttribute('unit-price-gross', number_format(round($basketInfo['shipping']['unitPriceGross'],2), 2, ".", ""));
+            $shipping->addAttribute('tax-rate', number_format($basketInfo['shipping']['taxPercent'], 0, ".", ""));
+        }
+
+        if (key_exists('discount', $basketInfo)) {
+            $discount = $shoppingBasket->addCDataChild('discount', $this->removeSpecialChars($basketInfo['discount']['articleName']));
+            $discount->addAttribute('unit-price-gross', number_format(round($basketInfo['discount']['unitPriceGross'],2), 2, ".", ""));
+            $discount->addAttribute('tax-rate', number_format($basketInfo['discount']['taxPercent'], 0, ".", ""));
         }
     }
 

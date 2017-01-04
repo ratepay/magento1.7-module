@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>3.2.1</version>
+            <version>3.2.1_modified_api1.8</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -192,9 +192,9 @@
             <ratepay_general_advanced>
                 <specificcategories>NO</specificcategories>
                 <specificshipping>NO</specificshipping>
-                <hook_deliver>1</hook_deliver>
-                <hook_creditmemo>1</hook_creditmemo>
-                <hook_cancel>1</hook_cancel>
+                <hook_deliver>0</hook_deliver>
+                <hook_creditmemo>0</hook_creditmemo>
+                <hook_cancel>0</hook_cancel>
                 <deliver_event>invoice</deliver_event>
                 <specificstate_before>STATE_PROCESSING</specificstate_before>
                 <specificstate_after>STATE_PROCESSING</specificstate_after>

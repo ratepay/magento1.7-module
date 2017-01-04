@@ -181,11 +181,11 @@ class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_M
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
 
-                $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+                /*$resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
 
                 if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                    $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
-                }
+                    $this->_abortBackToPayment('PAYMENT_CONFIRM Declined');
+                }*/
             } else {
                 $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
             }

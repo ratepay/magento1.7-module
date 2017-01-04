@@ -352,11 +352,11 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                         }
                     }
 
-                    $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+                    /*$resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
 
                     if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                        $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
-                    }
+                        $this->_abortBackToPayment('CONFIRM Declined', 'hard');
+                    }*/
                 }else {
                 $this->_abortBackToPayment($resultRequest['customer_message'], $resultRequest['type']);
                 }
