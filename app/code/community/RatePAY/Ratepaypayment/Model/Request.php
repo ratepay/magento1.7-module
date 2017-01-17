@@ -112,33 +112,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
                     return false;
                 }
                 break;
-            case 'PAYMENT_CONFIRM':
-                if($statusCode == "OK" && $resultCode == "400") {
-                    $this->error = '';
-                    return true;
-                } else {
-                    $this->error = 'FAIL';
-                    return false;
-                }
-                break;
-            case 'CONFIRMATION_DELIVER':
-                if($statusCode == "OK" && $resultCode == "404") {
-                    $this->error = '';
-                    return true;
-                } else {
-                    $this->error = 'FAIL';
-                    return false;
-                }
-                break;
-            case 'PAYMENT_CHANGE':
-                if($statusCode == "OK" && $resultCode == "403") {
-                    $this->error = '';
-                    return true;
-                } else {
-                    $this->error = 'FAIL';
-                    return false;
-                }
-                break;
             case 'CONFIGURATION_REQUEST':
                 if($statusCode == "OK" && $resultCode == "500") {
                     $result = array();
@@ -266,66 +239,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Calls the PAYMENT_CONFIRM
-     *
-     * @param array $headInfo
-     * @param array $loggingInfo
-     * @return boolean|array
-     */
-    public function callPaymentConfirm($headInfo, $loggingInfo)
-    {
-        $this->constructXml();
-        $requestType = "PAYMENT_CONFIRM";
-        $this->setRequestHead($requestType, $headInfo);
-        $loggingInfo['requestType'] = $requestType;
-        $loggingInfo['requestSubType'] = 'n/a';
-        $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse($requestType);
-    }
-
-    /**
-     * Calls the CONFIRMATION_DELIVER
-     *
-     * @param array $headInfo
-     * @param array $itemInfo
-     * @param array $loggingInfo
-     * @return boolean|array
-     */
-    public function callConfirmationDeliver($headInfo, $itemInfo, $loggingInfo)
-    {
-        $this->constructXml();
-        $requestType = "CONFIRMATION_DELIVER";
-        $this->setRequestHead($requestType, $headInfo);
-        $this->setRequestContent(array(), $itemInfo, $headInfo, $requestType);
-        $loggingInfo['requestType'] = $requestType;;
-        $loggingInfo['requestSubType'] = 'n/a';
-        $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse($requestType);
-    }
-
-    /**
-     * Calls the PAYMENT_CHANGE
-     *
-     * @param array $headInfo
-     * @param array $customerInfo
-     * @param array $itemInfo
-     * @param array $paymentInfo
-     * @param array $loggingInfo
-     * @return boolean|array
-     */
-    public function callPaymentChange($headInfo, $itemInfo, $loggingInfo)
-    {
-        $this->constructXml();
-        $requestType = "PAYMENT_CHANGE";
-        $this->setRequestHead($requestType, $headInfo);
-        $this->setRequestContent(array(), $itemInfo, $headInfo, $requestType);
-        $loggingInfo['requestType'] = $requestType;
-        $loggingInfo['requestSubType'] = $headInfo['subtype'];
-        $this->sendXmlRequest($loggingInfo);
-        return $this->validateResponse($requestType);
-    }
-
-    /**
      * Calls the CONFIGURATION_REQUEST
      *
      * @param array $headInfo
@@ -406,15 +319,11 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
         $credential->addChild('securitycode', $headInfo['securityCode']);
 
         if ($operationInfo == 'PAYMENT_QUERY' ||
-            $operationInfo == 'PAYMENT_REQUEST' ||
-            $operationInfo == 'PAYMENT_CONFIRM') {
+            $operationInfo == 'PAYMENT_REQUEST') {
 
             $external = $head->addChild('external');
             if (($operationInfo == 'PAYMENT_QUERY' || $operationInfo == 'PAYMENT_REQUEST') && $headInfo['customerId'] != '') {
                 $external->addChild('merchant-consumer-id', $headInfo['customerId']);
-            }
-            if ($operationInfo == 'PAYMENT_CONFIRM' && $headInfo['orderId'] != '') {
-                $external->addChild('order-id', $headInfo['orderId']);
             }
         }
 

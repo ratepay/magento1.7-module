@@ -31,9 +31,6 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_Logs_Grid_Renderer_Result extends M
         switch ($row->getResultCode()) {
             case '350': // PAYMENT_INIT
             case '402': // PAYMENT_REQUEST
-            case '400': // PAYMENT_CONFIRM
-            case '403': // PAYMENT_CHANGE
-            case '404': // CONFIRMATION_DELIVER
             case '500': // CALCULATION_REQUEST
                 return 'SUCCESS';
             default:

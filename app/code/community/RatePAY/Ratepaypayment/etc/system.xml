@@ -43,17 +43,6 @@
                             <sort_order>10</sort_order>
                             <fields>
 
-                                <!--<address_normalization translate="label">
-                                    <label>Address Normalization</label>
-                                    <frontend_type>select</frontend_type>
-                                    <source_model>adminhtml/system_config_source_yesno</source_model>
-                                    <sort_order>20</sort_order>
-                                    <show_in_default>1</show_in_default>
-                                    <show_in_website>1</show_in_website>
-                                    <show_in_store>1</show_in_store>
-                                    <comment>Explanation Here</comment>
-                                </address_normalization>-->
-
                                 <ratepay_general_advanced type="group" translate="label">
                                     <label>Advanced Settings</label>
                                     <frontend_class>config-advanced</frontend_class>
@@ -85,50 +74,6 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Specific Shipping</comment>
                                         </specificshipping>
-
-                                        <hook_deliver translate="label">
-                                            <label>Hook Deliver</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>90</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Hook Deliver</comment>
-                                        </hook_deliver>
-
-                                        <hook_creditmemo translate="label">
-                                            <label>Hook Creditmemo</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>92</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Hook Creditmemo</comment>
-                                        </hook_creditmemo>
-
-                                        <hook_cancel translate="label">
-                                            <label>Hook Cancel</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>94</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Hook Cancel</comment>
-                                        </hook_cancel>
-
-                                        <!--<deliver_event translate="label">
-                                            <label>Confirmation Deliver Event</label>
-                                            <frontend_type>select</frontend_type>
-                                            <sort_order>98</sort_order>
-                                            <source_model>ratepaypayment/source_deliverevent</source_model>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Confirmation Deliver Event</comment>
-                                        </deliver_event>-->
 
                                         <specificstate_before translate="label">
                                             <label>Specific States Before Delivery</label>
@@ -287,7 +232,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -508,7 +452,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -625,17 +568,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </privacy_policy>
-                                        <!--
-                                        <bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>13</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>
-                                        -->
 
                                         <ratepay_directdebit_advanced_de type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -759,7 +691,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -861,36 +792,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </sort_order>
-
-                                        <!--<dynamic_due>
-                                            <label>Enable dynamic due</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>160</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </dynamic_due>-->
-
-                                        <!--<bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>170</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>-->
-
-                                        <!--<elv_enabled>
-                                            <label>Enable elv</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>26</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </elv_enabled>-->
 
                                         <ratepay_rate_advanced_de type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -1015,7 +916,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1117,36 +1017,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </sort_order>
-
-                                        <!--<dynamic_due>
-                                            <label>Enable dynamic due</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>160</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </dynamic_due>-->
-
-                                        <!--<bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>170</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>-->
-
-                                        <!--<elv_enabled>
-                                            <label>Enable elv</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>26</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </elv_enabled>-->
 
                                         <ratepay_rate0_advanced_de type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -1263,7 +1133,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1457,7 +1326,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1678,7 +1546,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -1784,17 +1651,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </privacy_policy>
-                                        <!--
-                                        <bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>13</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>
-                                        -->
 
                                         <ratepay_directdebit_advanced_at type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -1919,7 +1775,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2031,26 +1886,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </dynamic_due>
-
-                                        <!--<bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>170</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>-->
-
-                                        <!--<elv_enabled>
-                                            <label>Enable elv</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>26</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </elv_enabled>-->
 
                                         <ratepay_rate_advanced_at type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -2175,7 +2010,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2288,26 +2122,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </dynamic_due>
-
-                                        <!--<bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>170</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>-->
-
-                                        <!--<elv_enabled>
-                                            <label>Enable elv</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>26</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </elv_enabled>-->
 
                                         <ratepay_rate0_advanced_at type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -2424,7 +2238,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3003,7 +2816,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3224,7 +3036,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3330,18 +3141,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </privacy_policy>
-
-                                        <!--
-                                        <bankdata_saving>
-                                            <label>Save bank data</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>13</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </bankdata_saving>
-                                        -->
 
                                         <ratepay_directdebit_advanced_nl type="group" translate="label">
                                             <label>Advanced Settings</label>
@@ -3458,7 +3257,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>

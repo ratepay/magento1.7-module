@@ -336,35 +336,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * @param array $data
      * @param string $code
      */
-    public function setBankData($data, Mage_Sales_Model_Quote $quote, $code)
+    public function setBankData($data, $code)
     {
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(true);
-        //if (!$this->getRpConfigData($quote, $code, 'bankdata_saving') || $quote->getCustomerIsGuest()) {
-            $this->_setBankDataSession($data, $code);
-            Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(false);
-        /*} else {
-            $piEncryption = new Pi_Util_Encryption_MagentoEncryption();
-            $bankdata = array (
-                'owner' => $data[$code . '_account_holder']
-            );
-            if(!empty($data[$code . '_iban'])) {
-                $bankdata['iban'] = $data[$code . '_iban'];
-                if(!empty($data[$code . '_bic'])) {
-                    $bankdata['bic'] = $data[$code . '_bic'];
-                }
-            } else {
-                $bankdata['accountnumber'] = $data[$code . '_account_number'];
-                $bankdata['bankcode'] = $data[$code . '_bank_code_number'];
-            }
+        $this->_setBankDataSession($data, $code);
+        Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(false);
 
-            if (Mage::helper('customer')->isLoggedIn()) {
-                Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(false);
-                $piEncryption->saveBankdata($quote->getCustomer()->getId(), $bankdata);
-            } else {
-                Mage::getSingleton('ratepaypayment/session')->setBankdataAfter(true);
-                $this->_setBankDataSession($data, $code);
-            }
-        }*/
     }
     
     private function _setBankDataSession($data, $code)
@@ -395,30 +372,26 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             $quote = Mage::getSingleton('checkout/session')->getQuote();
         }
         (!$quote->getCustomerIsGuest()) ? $customerId = $quote->getCustomer()->getId() : $customerId = '';
-        /*$piEncryption = new Pi_Util_Encryption_MagentoEncryption();
-        if (!$quote->getCustomerIsGuest() && $piEncryption->isBankdataSetForUser($customerId)) {
-            $bankdata = $piEncryption->loadBankdata($customerId);
-        } else {*/
-            $bankdata = array (
-                'owner' => $quote->getBillingAddress()->getFirstname() . " " . $quote->getBillingAddress()->getLastname()
-            );
 
-            if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
-                $bankdata['iban'] = Mage::getSingleton('ratepaypayment/session')->getIban();
-                if (Mage::getSingleton('ratepaypayment/session')->getBic()) {
-                    $bankdata['bic'] = Mage::getSingleton('ratepaypayment/session')->getBic();
-                } else {
-                    $bankdata['bic'] = null;
-                }
-                $bankdata['accountnumber'] = null;
-                $bankdata['bankcode'] = null;
+        $bankdata = array (
+           'owner' => $quote->getBillingAddress()->getFirstname() . " " . $quote->getBillingAddress()->getLastname()
+        );
+
+        if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
+            $bankdata['iban'] = Mage::getSingleton('ratepaypayment/session')->getIban();
+            if (Mage::getSingleton('ratepaypayment/session')->getBic()) {
+                $bankdata['bic'] = Mage::getSingleton('ratepaypayment/session')->getBic();
             } else {
-                $bankdata['accountnumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
-                $bankdata['bankcode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
-                $bankdata['iban'] = null;
                 $bankdata['bic'] = null;
             }
-        //}
+            $bankdata['accountnumber'] = null;
+            $bankdata['bankcode'] = null;
+        } else {
+            $bankdata['accountnumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
+            $bankdata['bankcode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
+            $bankdata['iban'] = null;
+            $bankdata['bic'] = null;
+        }
         return $bankdata;
     }
 
@@ -472,28 +445,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     /**
-     * Is object a instance of Mage_Sales_Model_Order_Invoice
-     * 
-     * @param mixed $object
-     * @return boolean 
-     */
-    public function isInvoice($object)
-    {
-        return $object instanceof Mage_Sales_Model_Order_Invoice;
-    }
-    
-    /**
-     * Is object a instance of Mage_Sales_Model_Order_Creditmemo
-     * 
-     * @param mixed $object
-     * @return boolean 
-     */
-    public function isCreditmemo($object)
-    {
-        return $object instanceof Mage_Sales_Model_Order_Creditmemo;
-    }
-    
-    /**
      * Retrieve Magento edition
      * 
      * @return string 
@@ -506,7 +457,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         } else if (file_exists(Mage::getBaseDir() . '/LICENSE_PRO.html')) {
             $edition = 'PE';
         }
-        
         return $edition;
     }
     

@@ -61,17 +61,6 @@
         </reference>
     </adminhtml_ratepaypayment_config_index>
     
-    <adminhtml_ratepaypayment_bulk_grid>
-        <update handle="formkey"/>
-        <block type="ratepaypayment/adminhtml_bulk_grid" name="adminhtml_bulk.grid" output="toHtml"></block>
-    </adminhtml_ratepaypayment_bulk_grid>
-    
-    <adminhtml_ratepaypayment_bulk_index>
-        <reference name="content">
-            <block type="ratepaypayment/adminhtml_bulk" name="adminhtml_bulk.grid.container" />
-        </reference>
-    </adminhtml_ratepaypayment_bulk_index>
-    
     <adminhtml_sales_order_view>
         <reference name="sales_order_tabs">                        
             <action method="addTab">

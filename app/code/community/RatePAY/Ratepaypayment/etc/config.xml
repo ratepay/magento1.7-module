@@ -130,54 +130,6 @@
                 </observers>
             </sales_order_place_before>
             <!-- End Frontend -->
-
-            <!-- Beginn Backend -->
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <handlePaymentFee>
-                        <type>model</type>
-                        <class>ratepaypayment/observer</class>
-                        <method>handlePaymentFee</method>
-                    </handlePaymentFee>
-                </observers>
-            </sales_quote_payment_import_data_before>
-
-            <sales_order_invoice_register>
-                <observers>
-                    <sendRatepayDeliverCallOnInvoice>
-                        <class>ratepaypayment/observer</class>
-                        <method>sendRatepayDeliverCallOnInvoice</method>
-                    </sendRatepayDeliverCallOnInvoice>
-                </observers>
-            </sales_order_invoice_register>
-
-            <sales_order_shipment_save_before>
-                <observers>
-                    <sendRatepayDeliverCallOnDelivery>
-                        <class>ratepaypayment/observer</class>
-                        <method>sendRatepayDeliverCallOnDelivery</method>
-                    </sendRatepayDeliverCallOnDelivery>
-                </observers>
-            </sales_order_shipment_save_before>
-
-            <sales_order_creditmemo_refund>
-                <observers>
-                    <sendRatepayCreditmemoCall>
-                        <class>ratepaypayment/observer</class>
-                        <method>sendRatepayCreditmemoCall</method>
-                    </sendRatepayCreditmemoCall>
-                </observers>
-            </sales_order_creditmemo_refund>
-
-            <order_cancel_after>
-                <observers>
-                    <sendRatepayCancelCall>
-                        <class>ratepaypayment/observer</class>
-                        <method>sendRatepayCancelCall</method>
-                    </sendRatepayCancelCall>
-                </observers>
-            </order_cancel_after>
-            <!-- End Backend -->
         </events>
 
     </global>
@@ -186,15 +138,11 @@
         <payment>
 
             <ratepay_general>
-                <address_normalization>0</address_normalization>
                 <device_ident>0</device_ident>
             </ratepay_general>
             <ratepay_general_advanced>
                 <specificcategories>NO</specificcategories>
                 <specificshipping>NO</specificshipping>
-                <hook_deliver>0</hook_deliver>
-                <hook_creditmemo>0</hook_creditmemo>
-                <hook_cancel>0</hook_cancel>
                 <deliver_event>invoice</deliver_event>
                 <specificstate_before>STATE_PROCESSING</specificstate_before>
                 <specificstate_after>STATE_PROCESSING</specificstate_after>

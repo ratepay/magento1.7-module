@@ -147,7 +147,7 @@ class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_M
     }
 
     /**
-     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST and PAYMENT_CONFIRM.
+     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST.
      *
      * @param   Varien_Object $orderPayment
      * @param   float $amount
@@ -180,12 +180,6 @@ class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_M
                 $helper->getLoggingInfo($order));
             if (is_array($result) || $result == true) {
                 $payment->setAdditionalInformation('descriptor', $result['descriptor']);
-
-                /*$resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
-
-                if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                    $this->_abortBackToPayment('PAYMENT_CONFIRM Declined');
-                }*/
             } else {
                 $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
             }

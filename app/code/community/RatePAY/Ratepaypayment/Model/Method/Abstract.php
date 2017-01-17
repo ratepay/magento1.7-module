@@ -154,7 +154,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     }
 
     /**
-     * Check if currency is avaible for this payment
+     * Check if currency is available for this payment
      *
      * @param string $currencyCode
      * @return boolean
@@ -305,7 +305,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     }
 
     /**
-     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST and PAYMENT_CONFIRM.
+     * Authorize the transaction by calling PAYMENT_INIT, PAYMENT_REQUEST.
      *
      * @param   Varien_Object $orderPayment
      * @param   float $amount
@@ -337,27 +337,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if (is_array($resultRequest) || $resultRequest == true) {
                 if (!isset($resultRequest['customer_message'])) {
                     $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
-                    if ($this->getHelper()->getRpConfigData($order, $this->_code, 'address_normalization')) {
-                        $billingAddress = $order->getBillingAddress();
-                        $shippingAddress = $order->getShippingAddress();
-
-                        $billingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
-                        $billingAddress->setPostcode($resultRequest['address']['zip-code']);
-                        $billingAddress->setCity($resultRequest['address']['city']);
-
-                        if ($billingAddress->getCustomerAddressId() == $shippingAddress->getCustomerAddressId()) {
-                            $shippingAddress->setStreet(implode(' ', array($resultRequest['address']['street'], $resultRequest['address']['street-number'])));
-                            $shippingAddress->setPostcode($resultRequest['address']['zip-code']);
-                            $shippingAddress->setCity($resultRequest['address']['city']);
-                        }
-                    }
-
-                    /*$resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
-
-                    if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                        $this->_abortBackToPayment('CONFIRM Declined', 'hard');
-                    }*/
-                }else {
+                } else {
                 $this->_abortBackToPayment($resultRequest['customer_message'], $resultRequest['type']);
                 }
             } else {
