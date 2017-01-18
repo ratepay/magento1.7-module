@@ -104,10 +104,10 @@
 
             <checkout_onepage_controller_success_action>
                 <observers>
-                    <sendRatepayConfirmCall>
+                    <finalizeRatepayOrder>
                         <class>ratepaypayment/observer</class>
-                        <method>sendRatepayConfirmCall</method>
-                    </sendRatepayConfirmCall>
+                        <method>finalizeRatepayOrder</method>
+                    </finalizeRatepayOrder>
                 </observers>
             </checkout_onepage_controller_success_action>
 

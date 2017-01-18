@@ -86,17 +86,6 @@
                                             <comment>Adminhtml-Help-Specific States Before Delivery</comment>
                                         </specificstate_before>
 
-                                        <specificstate_after translate="label">
-                                            <label>Specific States After Delivery</label>
-                                            <frontend_type>select</frontend_type>
-                                            <sort_order>101</sort_order>
-                                            <source_model>ratepaypayment/source_states</source_model>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Specific States After Delivery</comment>
-                                        </specificstate_after>
-
                                         <specificstatus_before translate="label">
                                             <label>Specific Statuses Before Delivery</label>
                                             <frontend_type>select</frontend_type>
@@ -107,17 +96,6 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Specific Statuses Before Delivery</comment>
                                         </specificstatus_before>
-
-                                        <specificstatus_after translate="label">
-                                            <label>Specific Statuses After Delivery</label>
-                                            <frontend_type>select</frontend_type>
-                                            <sort_order>111</sort_order>
-                                            <source_model>ratepaypayment/source_statuses</source_model>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <comment>Adminhtml-Help-Specific Statuses After Delivery</comment>
-                                        </specificstatus_after>
                                     </fields>
                                 </ratepay_general_advanced>
                             </fields>
