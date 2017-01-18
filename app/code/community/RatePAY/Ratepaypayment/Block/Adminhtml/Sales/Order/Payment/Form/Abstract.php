@@ -109,7 +109,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
             return false;
         }
         $phone = $this->getPhone();
-        $valid = "<^((\\+|00)[1-9]\\d{0,3}|0 ?[1-9]|\\(00? ?[1-9][\\d ]*\\))[\\d\\-/ ]*$>";
+        $valid = "/^[\d\s\/\(\)-+]/";
         if (strlen(trim($phone)) >= 6 && preg_match($valid, trim($phone))) {
             return true;
         }
