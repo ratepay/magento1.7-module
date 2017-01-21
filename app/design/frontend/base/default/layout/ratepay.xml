@@ -36,6 +36,11 @@
                 <script>ratepay/elv.js</script>
             </action>
         </reference>
+        <reference name="before_body_end">
+            <action method="setCacheLifetime"><s>1</s></action>
+            <lifetime>1</lifetime>
+            <block type="core/template" name="ratepay_deviceident" template="ratepay/body/deviceident.phtml"/>
+        </reference>
     </default>
     <checkout_onepage_review>
         <reference name="checkout.onepage.review.info.items.after">
