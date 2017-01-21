@@ -58,6 +58,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                     $discount['articleName'] = 'DISCOUNT - ' . $item->getName();
                     $discount['quantity'] = $article['quantity'];
                     $discount['unitPriceGross'] = (-1 * $item->getDiscountAmount()) / $article['quantity'];
+                    $discount['taxPercent'] = $orderItem->getTaxPercent();
                     $discount['discountId'] = $item->getSku();
 
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
