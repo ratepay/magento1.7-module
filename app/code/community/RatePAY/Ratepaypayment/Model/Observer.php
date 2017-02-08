@@ -250,11 +250,17 @@ class RatePAY_Ratepaypayment_Model_Observer
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
 
+        // Check whether RatePAY method is selected
         if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
             return;
         }
 
-        if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "invoice" && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        // Check whether backend operation is admitted
+        if ($this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {
+            Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
+        }
+
+        if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "invoice") {
             $this->sendRatepayDeliverCall($order, $invoice);
         }
         else {
@@ -272,8 +278,14 @@ class RatePAY_Ratepaypayment_Model_Observer
         $shipment = $observer->getEvent()->getShipment();
         $order = $shipment->getOrder();
 
+        // Check whether RatePAY method is selected
         if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
             return;
+        }
+
+        // Check whether backend operation is admitted
+        if ($this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {
+            Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
 
         if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "delivery") {
@@ -299,7 +311,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
         $dataHelper = Mage::helper('ratepaypayment/data');
         $paymentHelper = Mage::helper('ratepaypayment/payment');
-        if ((bool) $dataHelper->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        if ((bool) $dataHelper->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true)) {
             $result = $client->callConfirmationDeliver($mappingHelper->getRequestHead($order), $mappingHelper->getRequestBasket($shippingOrInvoice), $mappingHelper->getLoggingInfo($order)); // , '', $paymentHelper->getAllInvoiceItems($order)
 
             if (!$result) {
@@ -312,8 +324,6 @@ class RatePAY_Ratepaypayment_Model_Observer
             $statusAfter = $dataHelper->getRpConfigData($order, 'ratepay_general', 'specificstatus_after', true, true);
 
             $order->setState($stateAfter, $statusAfter, 'success')->save();
-        } else {
-            Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
 
@@ -333,8 +343,11 @@ class RatePAY_Ratepaypayment_Model_Observer
         $client = Mage::getSingleton('ratepaypayment/request');
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
         $paymentHelper = Mage::helper('ratepaypayment/payment');
-        //$storeId = Mage::app()->getStore()->getStoreId();
-        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true)) {
+            // Check whether backend operation is admitted
+            if ($this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {
+                Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
+            }
 
             $data = array(
                 'creditmemo' => $paymentHelper->getAllCreditmemoItems($order),
@@ -372,8 +385,6 @@ class RatePAY_Ratepaypayment_Model_Observer
                 }
                 $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
             }
-        } else {
-            Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
 
@@ -392,7 +403,12 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         $client = Mage::getSingleton('ratepaypayment/request');
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
-        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true)) {
+            // Check whether backend operation is admitted
+            if ($this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {
+                Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
+            }
+
             $amount = 0;
             $items = array();
 
@@ -405,8 +421,6 @@ class RatePAY_Ratepaypayment_Model_Observer
             if (!$result) {
                 Mage::throwException(Mage::helper('ratepaypayment')->__('Cancellation was not successful.'));
             }
-        } else {
-            Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
 
@@ -441,6 +455,11 @@ class RatePAY_Ratepaypayment_Model_Observer
         return Mage::helper('ratepaypayment');
     }
 
+    /**
+     * Checks if reward points are added after installment plan is created
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function rewardCheck(Varien_Event_Observer $observer)
     {
         if ($orderIds = $observer->getEvent()->getOrderIds()) { // frontend event
@@ -459,12 +478,12 @@ class RatePAY_Ratepaypayment_Model_Observer
         }
 
         if (Mage::app()->getStore()->isAdmin()) {
-            $grandTotal = round(Mage::getModel('adminhtml/session_quote')->getQuote()->getGrandTotal(),1);
+            $grandTotal = round(Mage::getModel('adminhtml/session_quote')->getQuote()->getGrandTotal(), 2);
         }else {
-            $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(), 1);
+            $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(), 2);
         }
 
-        $rateAmount = Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount();
+        $rateAmount = round(Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount(), 2);
 
         if($rateAmount != $grandTotal){
             Mage::getSingleton('checkout/session')->setGotoSection('payment');
