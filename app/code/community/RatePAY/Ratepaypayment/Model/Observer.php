@@ -117,13 +117,17 @@ class RatePAY_Ratepaypayment_Model_Observer
     public function handlePaymentFee(Varien_Event_Observer $observer)
     {
         try {
+            $paymentMethod = $observer->getEvent()->getData('input')->getData('method');
+            if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($paymentMethod)) {
+                return;
+            }
+
             $quote = Mage::getSingleton('checkout/session')->getQuote();
             $skuInvoice = $this->getHelper()->getRpConfigData($quote, 'ratepay_rechnung', 'payment_fee');
             $skuElv = $this->getHelper()->getRpConfigData($quote, 'ratepay_directdebit', 'payment_fee');
             $skuRate = $this->getHelper()->getRpConfigData($quote, 'ratepay_directdebit', 'payment_fee');
-            $paymentMethod = $observer->getEvent()->getData('input')->getData('method');
             $sku = $this->getHelper()->getRpConfigData($quote, $paymentMethod, 'payment_fee');
-            if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($paymentMethod)) {
+            //if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($paymentMethod)) {
                 $flag = true;
                 foreach ($quote->getAllItems() as $item) {
                     if (($item->getSku() == $skuInvoice || $item->getSku() == $skuElv || $item->getSku() == $skuRate) && $item->getSku() != $sku) {
@@ -145,13 +149,13 @@ class RatePAY_Ratepaypayment_Model_Observer
                         $item->calcRowTotal();
                     }
                 }
-            } else {
+            /*} else {
                 foreach ($quote->getAllItems() as $item) {
                     if ($item->getSku() == $skuInvoice || $item->getSku() == $skuElv || $item->getSku() == $skuRate) {
                         $quote->removeItem($item->getId());
                     }
                 }
-            }
+            }*/
         } catch (Exception $e) {
             Mage::logException($e);
         }
@@ -164,8 +168,6 @@ class RatePAY_Ratepaypayment_Model_Observer
      */
     public function sendRatepayConfirmCall(Varien_Event_Observer $observer)
     {
-        $storeId = Mage::app()->getStore()->getStoreId();
-
         if ($orderIds = $observer->getEvent()->getOrderIds()) { // frontend event
             $orderId = current($orderIds);
             if (!$orderId) {
@@ -188,51 +190,53 @@ class RatePAY_Ratepaypayment_Model_Observer
             $piEncryption->saveBankdata($order->getCustomerId(), $bankdata);
         }*/
 
+        if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
+            return;
+        }
+
         if (Mage_Sales_Model_Order::STATE_PROCESSING == $order->getState()) {
             $paymentMethod = $order->getPayment()->getMethod();
-            if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($paymentMethod)) {
-                // save entry in sales_payment_transaction
-                $message = 'PAYMENT_REQUEST SEND (authorize)';
-                $payment = $order->getPayment();
-                if (strstr($payment->getMethod(), "ratepay_rate")) {
-                    
-                    $payment->setAdditionalInformation('Rate Total Amount', Mage::getSingleton('ratepaypayment/session')->getRatepayRateTotalAmount());
-                    $payment->setAdditionalInformation('Rate Total Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'TotalAmount'}());
-                    
-                    $payment->setAdditionalInformation('Rate Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Amount'}());
-                    $payment->setAdditionalInformation('Rate Interest Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}());
-                    $payment->setAdditionalInformation('Rate Interest Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestAmount'}());
-                    $payment->setAdditionalInformation('Rate Service Charge', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'ServiceCharge'}());
-                    $payment->setAdditionalInformation('Rate Annual Percentage Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'AnnualPercentageRate'}());
-                    $payment->setAdditionalInformation('Rate Monthly Debit Interest', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'MonthlyDebitInterest'}());
-                    $payment->setAdditionalInformation('Rate Number of Rates Full', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}());
-                    $payment->setAdditionalInformation('Rate Number of Rates', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRates'}());
-                    $payment->setAdditionalInformation('Rate Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}());
-                    $payment->setAdditionalInformation('Rate Last Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}());
-                    $payment->setAdditionalInformation('Debit Select', Mage::getSingleton('ratepaypayment/session')->getRatepayPaymentFirstDay());
+            // save entry in sales_payment_transaction
+            $message = 'PAYMENT_REQUEST SEND (authorize)';
+            $payment = $order->getPayment();
+            if (strstr($payment->getMethod(), "ratepay_rate")) {
 
-                    // unset session installment information
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'TotalAmount'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Amount'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestAmount'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'ServiceCharge'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'AnnualPercentageRate'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'MonthlyDebitInterest'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRates'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
-                    Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
-                    Mage::getSingleton('ratepaypayment/session')->unsRatepayPaymentFirstDay();
-                }
+                $payment->setAdditionalInformation('Rate Total Amount', Mage::getSingleton('ratepaypayment/session')->getRatepayRateTotalAmount());
+                $payment->setAdditionalInformation('Rate Total Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'TotalAmount'}());
 
-                Mage::helper('ratepaypayment/payment')->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null, false, $message);
+                $payment->setAdditionalInformation('Rate Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Amount'}());
+                $payment->setAdditionalInformation('Rate Interest Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}());
+                $payment->setAdditionalInformation('Rate Interest Amount', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestAmount'}());
+                $payment->setAdditionalInformation('Rate Service Charge', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'ServiceCharge'}());
+                $payment->setAdditionalInformation('Rate Annual Percentage Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'AnnualPercentageRate'}());
+                $payment->setAdditionalInformation('Rate Monthly Debit Interest', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'MonthlyDebitInterest'}());
+                $payment->setAdditionalInformation('Rate Number of Rates Full', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}());
+                $payment->setAdditionalInformation('Rate Number of Rates', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRates'}());
+                $payment->setAdditionalInformation('Rate Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}());
+                $payment->setAdditionalInformation('Rate Last Rate', Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}());
+                $payment->setAdditionalInformation('Debit Select', Mage::getSingleton('ratepaypayment/session')->getRatepayPaymentFirstDay());
 
-                $stateBefore = $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'specificstate_before', true, true);
-                $statusBefore = $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'specificstatus_before', true, true);
-
-                $order->setState(constant('Mage_Sales_Model_Order::' . $stateBefore), $statusBefore, 'success')->save();
+                // unset session installment information
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'TotalAmount'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Amount'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestAmount'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'ServiceCharge'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'AnnualPercentageRate'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'MonthlyDebitInterest'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRates'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
+                Mage::getSingleton('ratepaypayment/session')->{'uns' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
+                Mage::getSingleton('ratepaypayment/session')->unsRatepayPaymentFirstDay();
             }
+
+            Mage::helper('ratepaypayment/payment')->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null, false, $message);
+
+            $stateBefore = $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'specificstate_before', true, true);
+            $statusBefore = $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'specificstatus_before', true, true);
+
+            $order->setState(constant('Mage_Sales_Model_Order::' . $stateBefore), $statusBefore, 'success')->save();
         }
     }
 
@@ -245,6 +249,11 @@ class RatePAY_Ratepaypayment_Model_Observer
     public function sendRatepayDeliverCallOnInvoice(Varien_Event_Observer $observer) {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
+
+        if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
+            return;
+        }
+
         if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "invoice" && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
             $this->sendRatepayDeliverCall($order, $invoice);
         }
@@ -262,6 +271,11 @@ class RatePAY_Ratepaypayment_Model_Observer
     public function sendRatepayDeliverCallOnDelivery(Varien_Event_Observer $observer) {
         $shipment = $observer->getEvent()->getShipment();
         $order = $shipment->getOrder();
+
+        if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
+            return;
+        }
+
         if ($this->getHelper()->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "delivery") {
             if( $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1) {
                 $this->sendRatepayDeliverCall($order, $shipment);
@@ -285,7 +299,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
         $dataHelper = Mage::helper('ratepaypayment/data');
         $paymentHelper = Mage::helper('ratepaypayment/payment');
-        if ($paymentHelper->isRatepayPayment($order->getPayment()->getMethod()) && (bool) $dataHelper->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        if ((bool) $dataHelper->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
             $result = $client->callConfirmationDeliver($mappingHelper->getRequestHead($order), $mappingHelper->getRequestBasket($shippingOrInvoice), $mappingHelper->getLoggingInfo($order)); // , '', $paymentHelper->getAllInvoiceItems($order)
 
             if (!$result) {
@@ -298,8 +312,7 @@ class RatePAY_Ratepaypayment_Model_Observer
             $statusAfter = $dataHelper->getRpConfigData($order, 'ratepay_general', 'specificstatus_after', true, true);
 
             $order->setState($stateAfter, $statusAfter, 'success')->save();
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
@@ -311,13 +324,17 @@ class RatePAY_Ratepaypayment_Model_Observer
      */
     public function sendRatepayCreditmemoCall(Varien_Event_Observer $observer)
     {
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditmemo->getOrder();
+        if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
+            return;
+        }
+
         $client = Mage::getSingleton('ratepaypayment/request');
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
         $paymentHelper = Mage::helper('ratepaypayment/payment');
-        $creditmemo = $observer->getEvent()->getCreditmemo();
-        $order = $creditmemo->getOrder();
-        $storeId = Mage::app()->getStore()->getStoreId();
-        if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod()) && (bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        //$storeId = Mage::app()->getStore()->getStoreId();
+        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
 
             $data = array(
                 'creditmemo' => $paymentHelper->getAllCreditmemoItems($order),
@@ -355,8 +372,7 @@ class RatePAY_Ratepaypayment_Model_Observer
                 }
                 $paymentHelper->addNewTransaction($order->getPayment(), Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
             }
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
@@ -368,10 +384,15 @@ class RatePAY_Ratepaypayment_Model_Observer
      */
     public function sendRatepayCancelCall(Varien_Event_Observer $observer)
     {
+        $order = $observer->getEvent()->getOrder();
+
+        if (!Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod())) {
+            return;
+        }
+
         $client = Mage::getSingleton('ratepaypayment/request');
         $mappingHelper = Mage::helper('ratepaypayment/mapping');
-        $order = $observer->getEvent()->getOrder();
-        if (Mage::helper('ratepaypayment/payment')->isRatepayPayment($order->getPayment()->getMethod()) && (bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
+        if ((bool) $this->getHelper()->getRpConfigData($order, 'ratepay_general', 'hook_creditmemo', true, true) && $this->getHelper()->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') != 1 ) {
             $amount = 0;
             $items = array();
 
@@ -384,8 +405,7 @@ class RatePAY_Ratepaypayment_Model_Observer
             if (!$result) {
                 Mage::throwException(Mage::helper('ratepaypayment')->__('Cancellation was not successful.'));
             }
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('ratepaypayment')->__('Processing failed'));
         }
     }
@@ -432,14 +452,21 @@ class RatePAY_Ratepaypayment_Model_Observer
         } else { // adminhtml event
             $order = $observer->getEvent()->getOrder();
         }
-        $paymentMethod = $order->getPayment()->getMethod();
-        if(Mage::app()->getStore()->isAdmin()){
+
+
+        if ($order->getPayment()->getMethod() != 'ratepay_rate') {
+            return;
+        }
+
+        if (Mage::app()->getStore()->isAdmin()) {
             $grandTotal = round(Mage::getModel('adminhtml/session_quote')->getQuote()->getGrandTotal(),1);
         }else {
             $grandTotal = round(Mage::getModel('checkout/session')->getQuote()->getGrandTotal(), 1);
         }
+
         $rateAmount = Mage::getSingleton('ratepaypayment/session')->getRatepayRateAmount();
-        if($paymentMethod == 'ratepay_rate' && $rateAmount != $grandTotal){
+
+        if($rateAmount != $grandTotal){
             Mage::getSingleton('checkout/session')->setGotoSection('payment');
             Mage::throwException(Mage::helper('ratepaypayment')->__('rate basket difference'));
         }
