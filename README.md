@@ -5,28 +5,34 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `3.2.1`
+|Version | `3.2.2`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
 
+### Version 3.2.2 - Released 2017-02-08
+* Relocated device fingerprinting
+* Fixed return of payment information within order details
+* Fixed missing tax rate of discount items
+* Fixed collisions with shop operations and other payment methods
+
 ### Version 3.2.1 - Released 2016-12-16
-* payment method activation status 'phased out' added
+* Payment method activation status 'phased out' added
 * Extended Responses implemented
 * Installment calculator issue in backend order fixed
 * Date of birth issue in backend order fixed
-* ability to create new customer within backend order
-* prevent missing taxPercent index
+* Ability to create new customer within backend order
+* Prevent missing taxPercent index
  
 ### Version 3.2.0 - Released 2016-11-02
-* compatibility with SUPEE-8788`
-* support backend orders
-* support reward points
-* support enterprise edition
-* device fingerprint without flash
-* rate calculator - hiding unavailable runtimes
+* Compatibility with SUPEE-8788`
+* Support backend orders
+* Support reward points
+* Support enterprise edition
+* Device fingerprint without flash
+* Rate calculator - hiding unavailable runtimes
 
 ### Version 3.1.5 - Released 2016-09-06
 * Separate vat id validation on ids from DE, AT, NL and CH
@@ -35,13 +41,13 @@
 * Change of expression in language files
 
 ### Version 3.1.4 - Released 2016-08-18
-* hiding payment issue fixed
-* payment methods renamed
+* Hiding payment issue fixed
+* Payment methods renamed
 * 2.5.4 - 3.0.0 update issue fixed
-* removed customer and payment data from request-call
-* account-type buttons improved
-* adjustment-fee and refund renamed
-* debit implemented
+* Removed customer and payment data from request-call
+* Account-type buttons improved
+* Adjustment-fee and refund renamed
+* Debit implemented
 
 ### Version 3.1.3 - Released 2016-06-08
 * Compatibility with SUPEE-6788 and APPSEC-1034
