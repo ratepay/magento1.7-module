@@ -21,36 +21,6 @@
 class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Block_Form
 {
     /**
-     * Return Device Ident token if not exists
-     * 
-     * @return RatePAY_Ratepaypayment_Helper_Data
-     */
-    public function getDeviceIdentToken()
-    {
-        $storeId = Mage::app()->getStore()->getStoreId();
-
-        if (!Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken() &&
-            Mage::getStoreConfig("payment/ratepay_general/device_ident", $storeId) == "1") {
-
-            $snippedId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
-            $timestamp = microtime();
-            $quoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-            $token = md5($quoteId . "_" . $timestamp);
-
-            Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($token);
-
-            return "
-                <script language=\"JavaScript\" async>
-                    var di = {t:'" . $token . "',v:'" . $snippedId . "',l:'Checkout'};
-                </script>
-                <script type=\"text/javascript\" src=\"//d.ratepay.com/" . $snippedId . "/di.js\" async></script>
-                <noscript><link rel=\"stylesheet\" type=\"text/css\" href=\"//d.ratepay.com/di.css?t=" . $token . "&v=" . $snippedId . "&l=Checkout\"></noscript>";
-        }
-
-        return false;
-    }
-
-    /**
      * @return RatePAY_Ratepaypayment_Helper_Data
      */
     public function getPaymentHelper()
