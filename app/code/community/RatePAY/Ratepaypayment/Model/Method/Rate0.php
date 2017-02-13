@@ -179,12 +179,22 @@ class RatePAY_Ratepaypayment_Model_Method_Rate0 extends RatePAY_Ratepaypayment_M
                 $helper->getRequestPayment($order, (float)Mage::getSingleton('ratepaypayment/session')->getRatepayRate0TotalAmount(), 'PAYMENT_REQUEST'),
                 $helper->getLoggingInfo($order));
             if (is_array($result) || $result == true) {
-                $payment->setAdditionalInformation('descriptor', $result['descriptor']);
+                if(!isset($result['customer_message'])) {
+                    $payment->setAdditionalInformation('descriptor', $result['descriptor']);
+
+                    $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+
+                    if (!is_array($resultConfirm) && !$resultConfirm == true) {
+                        $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
+                    }
+                } else{
+                    $this->_abortBackToPayment($result['customer_message'], $result['type']);
+                }
             } else {
-                $this->_abortBackToPayment('PAYMENT_REQUEST Declined');
+                $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
             }
         } else {
-            $this->_abortBackToPayment('Gateway Offline');
+            $this->_abortBackToPayment('Gateway Offline', 'hard');
         }
 
         return $this;
