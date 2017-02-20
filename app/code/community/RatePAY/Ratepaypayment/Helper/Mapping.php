@@ -451,7 +451,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      * @param string $request
      * @return array
      */
-    public function getRequestPayment($object, $amount = '', $request = '')
+    public function getRequestPayment($object, $amount = '')
     {
         $paymentMethod = $object->getPayment()->getMethod();
         $payment = array();
@@ -461,16 +461,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 break;
             case 'ratepay_rate0':
             case 'ratepay_rate':
-                if ($request == 'PAYMENT_REQUEST') {
-                    $payment['installmentNumber'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
-                    $payment['installmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
-                    $payment['lastInstallmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
-                    $payment['interestRate'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
-                    if ($this->isDynamicDue()) {
-                        $payment['paymentFirstDay'] = Mage::getSingleton('ratepaypayment/session')->getRatepayPaymentFirstDay();
-                    } else {
-                        $payment['paymentFirstDay'] = '28';
-                    }
+                $payment['installmentNumber'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
+                $payment['installmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
+                $payment['lastInstallmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
+                $payment['interestRate'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
+                if ($this->isDynamicDue()) {
+                    $payment['paymentFirstDay'] = Mage::getSingleton('ratepaypayment/session')->getRatepayPaymentFirstDay();
+                } else {
+                    $payment['paymentFirstDay'] = '28';
                 }
                 $payment['method'] = 'INSTALLMENT';
                 if (Mage::getSingleton('ratepaypayment/session')->getDirectDebitFlag()) {

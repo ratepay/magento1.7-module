@@ -111,6 +111,131 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     protected $_canManageRecurringProfiles  = false;
 
+    /**
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
+        parent::assignData($data);
+        $quote = $this->getHelper()->getQuote();
+        $params = $data->getData();
+
+        // dob
+        $dob = (isset($params[$this->_code . '_day'])) ? $this->getDob($data) : false;
+
+        if (!$this->getHelper()->isCompanySet($quote) &&
+            (!$this->getHelper()->isDobSet($quote) ||
+                $quote->getCustomerDob() != $dob)) {
+            if ($dob) {
+                $validAge = $this->getHelper()->isValidAge($dob);
+                switch($validAge) {
+                    case 'old':
+                        Mage::throwException($this->_getHelper()->__('Date Error'));
+                        break;
+                    case 'young':
+                        Mage::throwException($this->_getHelper()->__('Date Error'));
+                        break;
+                    case 'wrongdate':
+                        Mage::throwException($this->_getHelper()->__('Date Error'));
+                        break;
+                    case 'success':
+                        $this->getHelper()->setDob($quote, $dob);
+                        break;
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Date Error'));
+            }
+        }
+
+        // phone
+        if (!$this->getHelper()->isPhoneSet($quote)) {
+            if (isset($params[$this->_code . '_phone'])) {
+                $phone = $data->getData($this->_code . '_phone');
+                if ($phone && $this->getHelper()->isValidPhone($phone)) {
+                    $this->getHelper()->setPhone($quote, $phone);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Phone Error'));
+                }
+            } else {
+                Mage::throwException($this->_getHelper()->__('Phone Error'));
+            }
+        } else {
+            $phoneCustomer = $this->getHelper()->getPhone($quote);
+            $phoneParams = (isset($params[$this->_code . '_phone'])) ? $params[$this->_code . '_phone'] : false;
+            if ($phoneCustomer != $phoneParams && !empty($phoneParams)) {
+                if ($this->getHelper()->isValidPhone($phoneParams)) {
+                    $this->getHelper()->setPhone($quote, $phoneParams);
+                } else {
+                    Mage::throwException($this->_getHelper()->__('Phone Error'));
+                }
+            } elseif (!$this->getHelper()->isValidPhone($phoneCustomer)) {
+                Mage::throwException($this->_getHelper()->__('Phone Error'));
+            }
+        }
+
+        // taxvat
+        if (isset($params[$this->_code . '_taxvat'])) {
+            if ($this->getHelper()->isValidTaxvat($quote, $params[$this->_code . '_taxvat'])) {
+                $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
+            } else {
+                Mage::throwException($this->_getHelper()->__('VatId Error'));
+            }
+        }
+
+        //customer balance (store credit)
+        if($params['use_customer_balance'] == 1){
+            Mage::throwException($this->getHelper()->__('StoreCredit Error'));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Assign bank data to info model instance
+     *
+     * @param mixed $data
+     * @return RatePAY_Ratepaypayment_Model_Method_Abstract
+     */
+    protected function assignBankData($data)
+    {
+        parent::assignData($data);
+        $quote = $this->getHelper()->getQuote();
+        $params = $data->getData();
+        $country = $this->getHelper()->getCountryCode($quote);
+
+        // Bank data
+        if (!empty($params[$this->_code . '_iban'])) {
+            if ($country != "DE") {
+                $bic = $params[$this->_code . '_bic'];
+
+                if (strlen($bic) <> 8 && strlen($bic) <> 11) {
+                    Mage::throwException($this->_getHelper()->__('insert bank bic'));
+                }
+            }
+        } elseif (!empty($params[$this->_code . '_account_number'])) {
+            $accountnumber = $params[$this->_code . '_account_number'];
+            $bankcode = $params[$this->_code . '_bank_code_number'];
+
+            if (!is_numeric($accountnumber)) {
+                Mage::throwException($this->_getHelper()->__('insert account number'));
+            } elseif (empty($bankcode) || !is_numeric($bankcode)) {
+                Mage::throwException($this->_getHelper()->__('insert bank code'));
+            }
+        } else {
+            Mage::throwException($this->_getHelper()->__('insert bank data'));
+        }
+
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
+        if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban']))) {
+            $this->getHelper()->setBankData($params, $this->_code);
+        }
+
+        return $this;
+    }
 
     /**
      * To check billing country is allowed for the payment method
@@ -311,7 +436,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      * @param   float $amount
      * @return  RatePAY_Ratepaypayment_Model_Method_Rechnung
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Varien_Object $payment, $amount = 0)
     {
         $client = Mage::getSingleton('ratepaypayment/request');
 
@@ -332,7 +457,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             $resultRequest = $client->callPaymentRequest($helper->getRequestHead($order),
                 $helper->getRequestCustomer($order),
                 $helper->getRequestBasket($order),
-                $helper->getRequestPayment($order),
+                ($amount > 0) ? $helper->getRequestPayment($order, $amount) : $helper->getRequestPayment($order),
                 $helper->getLoggingInfo($order));
             if (is_array($resultRequest) || $resultRequest == true) {
                 if (!isset($resultRequest['customer_message'])) {
@@ -431,7 +556,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      * @param   mixed $data
      * @return  Zend_Date
      */
-
     protected function getDob($data) {
         $day   = $data->getData($this->_code . '_day');
         $month = $data->getData($this->_code . '_month');
@@ -444,5 +568,14 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             'minute' => 0,
             'second' => 0);
         return new Zend_Date($datearray);
+    }
+
+    public function _clearIban($iban)
+    {
+        $iban = ltrim(strtoupper($iban));
+        $iban = preg_replace('/^IBAN/','',$iban);
+        $iban = preg_replace('/[^a-zA-Z0-9]/','',$iban);
+        $iban = strtoupper($iban);
+        return $iban;
     }
 }
