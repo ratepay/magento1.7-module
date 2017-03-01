@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### Version 3.2.3 - Released 2017-03-01
+* SEPA - BIC field removed
+* IBAN country prefix validation removed
+
 ### Version 3.2.2 - Released 2017-02-08
 * Relocated device fingerprinting
 * Fixed return of payment information within order details

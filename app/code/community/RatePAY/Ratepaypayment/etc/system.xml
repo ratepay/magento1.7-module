@@ -3533,7 +3533,7 @@
                         </ratepay_netherlands>
 
                         <version translate="label">
-                            <label>v3.2.2</label>
+                            <label>v3.2.3</label>
                             <frontend_model>adminhtml/system_config_form_field_notification</frontend_model>
                             <frontend_type>label</frontend_type>
                             <sort_order>100</sort_order>
