@@ -552,9 +552,6 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             }
             if(!empty($data['iban'])) {
                 $bankData->addChild('iban', $data['iban']);
-                if(!empty($data['bic'])) {
-                    $bankData->addChild('bic-swift', $data['bic']);
-                }
             }
         }
         

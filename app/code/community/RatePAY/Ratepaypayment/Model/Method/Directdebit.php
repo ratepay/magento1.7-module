@@ -62,24 +62,30 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
         // Bank data
         if (!empty($params[$this->_code . '_iban'])) {
             $iban = $this->_clearIban($params[$this->_code . '_iban']);
+            $countryPrefix = substr($iban, 0, 2);
+            $length = strlen($iban);
 
-            if (substr($iban, 0, 2) != $country) {
-                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-            } elseif ($country == 'DE' && strlen($iban) <> 22) {
-                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-            } elseif ($country == 'AT' && strlen($iban) <> 20) {
-                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
-            } elseif ($country == 'NL' && strlen($iban) <> 18) {
+            $ibanValid = ($length >= 15 && $length <= 34);
+
+            switch ($countryPrefix) {
+                case 'DE':
+                    if (strlen($iban) <> 22) $ibanValid = false;
+                    break;
+                case 'AT':
+                    if (strlen($iban) <> 20) $ibanValid = false;
+                    break;
+                case 'CH':
+                    if (strlen($iban) <> 21) $ibanValid = false;
+                    break;
+                case 'NL':
+                    if (strlen($iban) <> 18) $ibanValid = false;
+                    break;
+            }
+
+            if (!$ibanValid) {
                 Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
             }
 
-            if ($country != "DE") {
-                $bic = $params[$this->_code . '_bic'];
-
-                if (strlen($bic) <> 8 && strlen($bic) <> 11) {
-                    Mage::throwException($this->_getHelper()->__('insert bank bic'));
-                }
-            }
         } elseif (!empty($params[$this->_code . '_account_number'])) {
             $accountnumber = $params[$this->_code . '_account_number'];
             $bankcode = $params[$this->_code . '_bank_code_number'];

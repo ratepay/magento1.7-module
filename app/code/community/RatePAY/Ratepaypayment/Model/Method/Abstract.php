@@ -375,7 +375,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(null);
         Mage::getSingleton('ratepaypayment/session')->setAccountHolder(null);
         Mage::getSingleton('ratepaypayment/session')->setIban(null);
-        Mage::getSingleton('ratepaypayment/session')->setBic(null);
         Mage::getSingleton('ratepaypayment/session')->setAccountNumber(null);
         Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber(null);
         Mage::getSingleton('ratepaypayment/session')->setBankName(null);

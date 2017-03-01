@@ -349,9 +349,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             );
             if(!empty($data[$code . '_iban'])) {
                 $bankdata['iban'] = $data[$code . '_iban'];
-                if(!empty($data[$code . '_bic'])) {
-                    $bankdata['bic'] = $data[$code . '_bic'];
-                }
             } else {
                 $bankdata['accountnumber'] = $data[$code . '_account_number'];
                 $bankdata['bankcode'] = $data[$code . '_bank_code_number'];
@@ -371,9 +368,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (isset($data[$code . '_iban']) && $data[$code . '_iban']) {
             Mage::getSingleton('ratepaypayment/session')->setIban($data[$code . '_iban']);
-            if(isset($data[$code . '_bic']) && $data[$code . '_bic']) {
-                Mage::getSingleton('ratepaypayment/session')->setBic($data[$code . '_bic']);
-            }
         } else {
             Mage::getSingleton('ratepaypayment/session')->setAccountNumber($data[$code . '_account_number']);
             Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
@@ -405,18 +399,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
             if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
                 $bankdata['iban'] = Mage::getSingleton('ratepaypayment/session')->getIban();
-                if (Mage::getSingleton('ratepaypayment/session')->getBic()) {
-                    $bankdata['bic'] = Mage::getSingleton('ratepaypayment/session')->getBic();
-                } else {
-                    $bankdata['bic'] = null;
-                }
                 $bankdata['accountnumber'] = null;
                 $bankdata['bankcode'] = null;
             } else {
                 $bankdata['accountnumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
                 $bankdata['bankcode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
                 $bankdata['iban'] = null;
-                $bankdata['bic'] = null;
             }
         //}
         return $bankdata;
