@@ -5,12 +5,17 @@
 |------|----------
 |Author | Aarne Welschlau
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `3.2.2.1`
+|Version | `3.2.3`
 |Link | http://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.2.3 - Released 2017-03-08
+* Implementation of installment+direct debit
+* BIC field removed
+* IBAN country prefix validation removed
 
 ### Version 3.2.2.1 - Released 2017-02-14
 * Added payment method title in the order information view
