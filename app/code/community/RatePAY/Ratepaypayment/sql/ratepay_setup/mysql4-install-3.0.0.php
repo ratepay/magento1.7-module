@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('ratepay_debitdetails')}` (
   `accountnumber` blob NOT NULL,
   `iban` blob NOT NULL,
   `bankcode` blob NOT NULL,
-  `bic` blob NOT NULL,
   `bankname` blob NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -203,9 +203,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     protected function assignBankData($data)
     {
         parent::assignData($data);
-        $quote = $this->getHelper()->getQuote();
         $params = $data->getData();
-        $country = $this->getHelper()->getCountryCode($quote);
 
         if ((bool) $params['ratepay_rate_method_invoice']) {
             return $this;
@@ -213,17 +211,30 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
         // Bank data
         if (!empty($params[$this->_code . '_iban'])) {
-            if ($country != "DE") {
-                $bic = $params[$this->_code . '_bic'];
-
-                if (strlen($bic) <> 8 && strlen($bic) <> 11) {
-                    Mage::throwException($this->_getHelper()->__('insert bank bic'));
-                }
+            $iban = $this->_clearIban($params[$this->_code . '_iban']);
+            $countryPrefix = substr($iban, 0, 2);
+            $length = strlen($iban);
+            $ibanValid = ($length >= 15 && $length <= 34);
+            switch ($countryPrefix) {
+                case 'DE':
+                    if (strlen($iban) <> 22) $ibanValid = false;
+                    break;
+                case 'AT':
+                    if (strlen($iban) <> 20) $ibanValid = false;
+                    break;
+                case 'CH':
+                    if (strlen($iban) <> 21) $ibanValid = false;
+                    break;
+                case 'NL':
+                    if (strlen($iban) <> 18) $ibanValid = false;
+                    break;
+            }
+            if (!$ibanValid) {
+                Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));
             }
         } elseif (!empty($params[$this->_code . '_account_number'])) {
             $accountnumber = $params[$this->_code . '_account_number'];
             $bankcode = $params[$this->_code . '_bank_code_number'];
-
             if (!is_numeric($accountnumber)) {
                 Mage::throwException($this->_getHelper()->__('insert account number'));
             } elseif (empty($bankcode) || !is_numeric($bankcode)) {
@@ -484,7 +495,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(null);
         Mage::getSingleton('ratepaypayment/session')->setAccountHolder(null);
         Mage::getSingleton('ratepaypayment/session')->setIban(null);
-        Mage::getSingleton('ratepaypayment/session')->setBic(null);
         Mage::getSingleton('ratepaypayment/session')->setAccountNumber(null);
         Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber(null);
         Mage::getSingleton('ratepaypayment/session')->setBankName(null);

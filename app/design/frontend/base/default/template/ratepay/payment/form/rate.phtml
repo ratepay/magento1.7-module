@@ -766,14 +766,6 @@ $monthAllowed = $this->getMonthAllowed();
             <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
         </div>
     </li>
-    <?php if ($this->getCountryCode() != 'de'): ?>
-        <li id="ratepay_rate_element_bic" class="ratepay_rate_sepa_element">
-            <label for="ratepay_rate_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_rate_bic]" id="ratepay_rate_bic" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
-            </div>
-        </li>
-    <?php endif; ?>
     <?php if (!$this->isIbanOnly()): ?>
         <li id="ratepay_rate_element_accountnumber" class="ratepay_rate_sepa_element" style="display: none;">
             <label for="ratepay_rate_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>

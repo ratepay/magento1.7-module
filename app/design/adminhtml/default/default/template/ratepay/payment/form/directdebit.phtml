@@ -170,14 +170,6 @@
                 <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
             </div>
         </li>
-        <?php if ($this->getCountryCode() != 'de'): ?>
-            <li id="ratepay_directdebit_element_bic">
-                <label for="ratepay_directdebit_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
-                <div class="input-box">
-                    <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_directdebit_bic]" id="ratepay_directdebit_bic" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
-                </div>
-            </li>
-        <?php endif; ?>
         <?php if (!$this->isIbanOnly()): ?>
             <li id="ratepay_directdebit_element_accountnumber" style="display: none;">
                 <label for="ratepay_directdebit_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>
