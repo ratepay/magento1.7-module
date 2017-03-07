@@ -18,31 +18,18 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypayment_Block_Payment_Form_Abstract
+class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypayment_Block_Payment_Form_RateAbstract
 {
     protected $_code = 'ratepay_rate';
 
-    /**
-     * Construct
-     */
-    protected function _construct()
+    /*protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('ratepay/payment/form/rate.phtml');
-    }
-
-     /**
-     * Return Grand Total Amount
-     *
-     * @return string
-     */
-    public function getAmount()
-    {
-        return $this->getQuote()->getGrandTotal();
-    }
+    }*/
 
     /**
-     * Calls the CONFIGURATION_REQUEST to check which Months are allowed and returns them
+     * Calls the CONFIGURATION_REQUEST to check which months are allowed and returns them
      *
      * @return boolean|array
      */
@@ -75,44 +62,5 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
             "month_allowed" => $allowedRuntimes,
             "rate_min" => $rateMinNormal
         );
-    }
-
-    /**
-     * Is dynamic due
-     * 
-     * @return boolean 
-     */
-    public function isDynamicDue() 
-    {
-        return Mage::helper('ratepaypayment/mapping')->isDynamicDue();
-    }
-    
-    /**
-     * Retrieve bank data from customer
-     * 
-     * @return array
-     */
-    public function getBankData()
-    {
-        return Mage::helper('ratepaypayment')->getBankData();
-    }
-    
-    /**
-     * Is ELV for ratepay rate anabled
-     * 
-     * @return type 
-     */
-    public function isElvEnabled()
-    {
-        if(Mage::app()->getStore()->isAdmin()){
-            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        else {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-        }
-        $storeId = $quote->getStoreId();
-        $country = strtolower($quote->getBillingAddress()->getCountryId());
-
-        return Mage::getStoreConfig('payment/ratepay_rate_' . $country . '/elv_enabled', $storeId);
     }
 }

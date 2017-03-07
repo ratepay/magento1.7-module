@@ -207,6 +207,10 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $params = $data->getData();
         $country = $this->getHelper()->getCountryCode($quote);
 
+        if ((bool) $params['ratepay_rate_method_invoice']) {
+            return $this;
+        }
+
         // Bank data
         if (!empty($params[$this->_code . '_iban'])) {
             if ($country != "DE") {
@@ -229,7 +233,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             Mage::throwException($this->_getHelper()->__('insert bank data'));
         }
 
-        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
+        Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(true);
         if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban']))) {
             $this->getHelper()->setBankData($params, $this->_code);
         }

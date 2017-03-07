@@ -731,16 +731,6 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
-                                        <limit_max_b2b translate="label">
-                                            <label>Maximum Order B2B</label>
-                                            <frontend_type>label</frontend_type>
-                                            <sort_order>130</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                        </limit_max_b2b>
-
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
@@ -751,6 +741,17 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
+
+                                        <rate_invoice translate="label">
+                                            <label>Invoice Allowed</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>145</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Invoice-Allowed</comment>
+                                        </rate_invoice>
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -956,16 +957,6 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
-                                        <limit_max_b2b translate="label">
-                                            <label>Maximum Order B2B</label>
-                                            <frontend_type>label</frontend_type>
-                                            <sort_order>130</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                        </limit_max_b2b>
-
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
@@ -976,6 +967,17 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
+
+                                        <rate_invoice translate="label">
+                                            <label>Invoice Allowed</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>145</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Invoice-Allowed</comment>
+                                        </rate_invoice>
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -1815,16 +1817,6 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
-                                        <limit_max_b2b translate="label">
-                                            <label>Maximum Order B2B</label>
-                                            <frontend_type>label</frontend_type>
-                                            <sort_order>130</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                        </limit_max_b2b>
-
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
@@ -1835,6 +1827,17 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
+
+                                        <rate_invoice translate="label">
+                                            <label>Invoice Allowed</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>145</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Invoice-Allowed</comment>
+                                        </rate_invoice>
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -2050,16 +2053,6 @@
                                             <comment>Adminhtml-Help-B2B</comment>
                                         </b2b>
 
-                                        <limit_max_b2b translate="label">
-                                            <label>Maximum Order B2B</label>
-                                            <frontend_type>label</frontend_type>
-                                            <sort_order>130</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                        </limit_max_b2b>
-
                                         <delivery_address translate="label">
                                             <label>Delivery Address</label>
                                             <frontend_type>label</frontend_type>
@@ -2069,8 +2062,18 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-ALA</comment>
-                                        </delivery_address>aarne
-                                        
+                                        </delivery_address>
+
+                                        <rate_invoice translate="label">
+                                            <label>Invoice Allowed</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>145</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Invoice-Allowed</comment>
+                                        </rate_invoice>
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>

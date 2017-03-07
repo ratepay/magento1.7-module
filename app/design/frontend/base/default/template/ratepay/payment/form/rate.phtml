@@ -501,6 +501,49 @@ $monthAllowed = $this->getMonthAllowed();
         text-align: center;
     }
 </style>
+
+<style>
+    .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
+    .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
+    .sp-methods select.ratepayyear {width: 154px ;}
+    .sp-methods input.ratepayphone {width: 147px;}
+    .sp-methods div.ratepaybirthdate {width: 476px;}
+    .sp-methods .form-list .ratepayagreement {width: auto;float: none;}
+    .ratepay-sandbox-notification {
+        border: 2px dashed #000000;
+        background-color: #ffff00;
+        font-weight: bold;
+        font-color: #000000;
+        text-align: center;
+    }
+    .btn {
+        -moz-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .btn-default {
+        background-color: #fff;
+        border-color: #ccc;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        color: #fff;
+    }
+</style>
+
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <?php if ($this->isSandbox()): ?>
         <li class="ratepay-sandbox-notification">
@@ -518,7 +561,7 @@ $monthAllowed = $this->getMonthAllowed();
         <li id="vatIdForm_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
             <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" class="input-text required-entry"/>
             </div>
         </li>
         <li id="vatIdLabel_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
@@ -534,7 +577,7 @@ $monthAllowed = $this->getMonthAllowed();
         <li>
             <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Phone'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
@@ -687,4 +730,103 @@ $monthAllowed = $this->getMonthAllowed();
             </div>
         </li>
     <?php endif; ?>
+
+    <li>
+        <hr />
+    </li>
+
+    <li class="ratepay_rate_sepa_element">
+        <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+            <li><label><?php echo $this->__('Ratepay address') ?></label></li>
+            <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('RatePAY Creditor ID') ?></label></li>
+            <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
+        </ul>
+    </li>
+
+    <li class="ratepay_rate_sepa_element">
+        <label>
+            <?php echo $this->__('insert bank data'); ?>
+        </label>
+    </li>
+    <?php if (!$this->isIbanOnly()): ?>
+        <li class="ratepay_rate_sepa_element">
+            <button id="ratepay_rate_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType('rate', this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+            <button id="ratepay_rate_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType('rate', this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+        </li>
+    <?php endif; ?>
+    <li class="ratepay_rate_sepa_element">
+        <label for="ratepay_rate_account_holder"><?php echo $this->__('Account holder'); ?></label>
+        <div class="input-box" style="font-weight: bold">
+            <?php echo $this->getAccountOwner(); ?>
+        </div>
+    </li>
+    <li id="ratepay_rate_element_iban" class="ratepay_rate_sepa_element">
+        <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
+        <div class="input-box">
+            <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+        </div>
+    </li>
+    <?php if ($this->getCountryCode() != 'de'): ?>
+        <li id="ratepay_rate_element_bic" class="ratepay_rate_sepa_element">
+            <label for="ratepay_rate_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_rate_bic]" id="ratepay_rate_bic" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
+        </li>
+    <?php endif; ?>
+    <?php if (!$this->isIbanOnly()): ?>
+        <li id="ratepay_rate_element_accountnumber" class="ratepay_rate_sepa_element" style="display: none;">
+            <label for="ratepay_rate_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['accountnumber']; ?>" type="text" name="payment[ratepay_rate_account_number]" id="ratepay_rate_account_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
+        </li>
+        <li id="ratepay_rate_element_bankcode" class="ratepay_rate_sepa_element" style="display: none;">
+            <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
+        </li>
+    <?php endif; ?>
+
+    <li class="ratepay_rate_sepa_element">
+        <a style="cursor: pointer" id="ratepay_rate_sepa_agreement_link" onclick="showAgreement('rate')"><?php echo $this->__('ratepay_directdebit_sepa_link')?></a>
+        <table>
+            <tbody style="display: none" id="ratepay_rate_sepa_agreement">
+            <tr>
+                <td style="vertical-align: top; padding-right: 5px;">
+                    <input type="hidden" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                </td>
+                <td>
+                    <span class="required ratepayagreement">
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
+                        <?php echo $this->__('Ratepay address');?>
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
+                        <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('RatePAY Data Privacy Policy');?></a>
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
+                    </span>
+                </td>
+            </tr><tr>
+                <td></td>
+                <td>
+                    <br/>
+                    <span style="font-weight:bold; cursor: hand;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
+                    <br/>
+                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
+                    <br/>
+                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
+
+    <?php if ($this->isInvoiceAllowed()): ?>
+        <li>
+            <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this)">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
+            <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this)">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
+            <input type="hidden" id="ratepay_rate_method_invoice" name="payment[ratepay_rate_method_invoice]" value="0">
+        </li>
+    <?php endif; ?>
+
 </ul>

@@ -29,7 +29,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_RateAbstract extends RatePAY_
     public function assignData($data)
     {
         parent::assignData($data);
-        //parent::assignBankData($data);
+        parent::assignBankData($data);
 
         return $this;
     }
