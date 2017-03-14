@@ -187,7 +187,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         }
 
         //customer balance (store credit)
-        if($params['use_customer_balance'] == 1){
+        if(key_exists('use_customer_balance', $params) && $params['use_customer_balance'] == 1){
             Mage::throwException($this->getHelper()->__('StoreCredit Error'));
         }
 
@@ -205,7 +205,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         parent::assignData($data);
         $params = $data->getData();
 
-        if ((bool) $params['ratepay_rate_method_invoice']) {
+        if (key_exists('ratepay_rate_method_invoice', $params) && (bool) $params['ratepay_rate_method_invoice']) {
             return $this;
         }
 
