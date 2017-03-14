@@ -65,7 +65,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_RateAbstract extends RatePAY_
      * @param   float $amount
      * @return  RatePAY_Ratepaypayment_Model_Method_Rate
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Varien_Object $payment, $amount = 0)
     {
         parent::authorize($payment, (float) Mage::getSingleton('ratepaypayment/session')->getRatepayRateTotalAmount());
 
