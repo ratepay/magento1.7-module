@@ -5,12 +5,16 @@
 |------|----------
 |Author | Aarne Welschlau, Sebastian Neumann
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `3.2.3.1`
+|Version | `3.2.3.2`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.2.3.2 - Released 2017-03-15
+* Specific category feature shorted
+* Added some translations and expanded EN translation by en_GB
 
 ### Version 3.2.3.1 - Released 2017-03-14
 * Fix of various notice&warning bugs
