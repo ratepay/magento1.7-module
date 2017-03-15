@@ -53,7 +53,7 @@
                                     <sort_order>50</sort_order>
                                     <fields>
 
-                                        <specificcategories translate="label">
+                                        <!--<specificcategories translate="label">
                                             <label>Specific Categories</label>
                                             <frontend_type>multiselect</frontend_type>
                                             <sort_order>86</sort_order>
@@ -62,7 +62,7 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Specific Categories</comment>
-                                        </specificcategories>
+                                        </specificcategories>-->
 
                                         <specificshipping translate="label">
                                             <label>Specific Shipping</label>
