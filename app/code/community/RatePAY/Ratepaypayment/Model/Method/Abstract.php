@@ -137,7 +137,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                         Mage::throwException($this->_getHelper()->__('Date Error'));
                         break;
                     case 'young':
-                        Mage::throwException($this->_getHelper()->__('Date Error'));
+                        Mage::throwException($this->_getHelper()->__('Age Error'));
                         break;
                     case 'wrongdate':
                         Mage::throwException($this->_getHelper()->__('Date Error'));
