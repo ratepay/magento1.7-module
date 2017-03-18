@@ -1,0 +1,10 @@
+{
+  "name": "ratepay/magento17-module",
+  "type": "magento-module",
+  "description": "RatePAY Payment Module for Magento 1. Supports CE 1.7.x up to 1.9.x, EE 1.12.x up to 1.14.x",
+  "homepage": "https://github.com/ratepay/magento1.7-module",
+  "license": "OSL-3.0",
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}
