@@ -1,0 +1,13 @@
+app/code/community/RatePAY/Ratepaypayment               app/code/community/RatePAY/Ratepaypayment
+app/design/adminhtml/base/default/layout/ratepay.xml    app/design/adminhtml/base/default/layout/ratepay.xml
+app/design/adminhtml/base/default/template/ratepay      app/design/adminhtml/base/default/template/ratepay
+app/design/adminhtml/default/default/template/ratepay   app/design/adminhtml/default/default/template/ratepay
+app/design/frontend/base/default/layout/ratepay.xml     app/design/frontend/base/default/layout/ratepay.xml
+app/design/frontend/base/default/template/ratepay       app/design/frontend/base/default/template/ratepay
+app/etc/modules/RatePAY_Ratepaypayment.xml              app/etc/modules/RatePAY_Ratepaypayment.xml
+app/locale/de_DE/RatePAY_Ratepaypayment.csv             app/locale/de_DE/RatePAY_Ratepaypayment.csv
+app/locale/en_US/RatePAY_Ratepaypayment.csv             app/locale/en_US/RatePAY_Ratepaypayment.csv
+app/locale/nl_NL/RatePAY_Ratepaypayment.csv             app/locale/nl_NL/RatePAY_Ratepaypayment.csv
+js/ratepay                                              js/ratepay
+skin/adminhtml/base/default/images/ratepay              skin/adminhtml/base/default/images/ratepay
+skin/frontend/base/default/images/ratepay               skin/frontend/base/default/images/ratepay
