@@ -496,6 +496,9 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             if (key_exists('discount', $itemInfo)) {
                 $item->addAttribute('discount', number_format($itemInfo['discount'], 2, ".", ""));
             }
+            if (key_exists('uniqueArticleNumber', $itemInfo)) {
+                $item->addAttribute('unique-article-number', $itemInfo['uniqueArticleNumber']);
+            }
         }
 
         if (key_exists('shipping', $basketInfo)) {

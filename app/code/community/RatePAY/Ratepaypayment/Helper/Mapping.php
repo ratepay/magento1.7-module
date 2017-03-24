@@ -33,6 +33,8 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $articleDiscountAmount = 0;
         $objectItems = $object->getAllItems();
 
+        $articleNumbers = array();
+
         foreach ($objectItems as $item) {
             if ($item instanceof Mage_Sales_Model_Order_Item ||
                 $item instanceof Mage_Sales_Model_Quote_Item) {
@@ -45,6 +47,9 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
             if ((($orderItem->getProductType() !== 'bundle') || ($orderItem->getProductType() === 'bundle' && $shopProduct->getPrice() > 0)) && $orderItem->getRowTotal() > 0) {
                 $article = array();
+
+                $numberPriceDiscount = (string) $item->getSku() . $item->getPriceInclTax();
+
                 $article['articleNumber'] = $item->getSku();
                 $article['articleName'] = $item->getName();
                 $article['quantity'] = ($object instanceof Mage_Sales_Model_Order) ? $item->getQtyOrdered() : $item->getQty();
@@ -55,9 +60,18 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 if ($item->getDiscountAmount() > 0) {
                     $article['discount'] = (-1 * $item->getDiscountAmount()) / $article['quantity'];
                     $articleDiscountAmount = $articleDiscountAmount + $item->getDiscountAmount();
+
+                    $numberPriceDiscount .= $item->getDiscountAmount();
+                }
+
+                // if basket contains equal products (identical sku & price & discount) set sequential number as unique identifier
+                if (key_exists($numberPriceDiscount, $articleNumbers)) {
+                    $article['uniqueArticleNumber'] = $articleNumbers[$numberPriceDiscount];
                 }
 
                 $articles['items'][] = $article;
+
+                $articleNumbers[$numberPriceDiscount] = (key_exists($numberPriceDiscount, $articleNumbers)) ? $articleNumbers[$numberPriceDiscount] + 1: 1;
             }
         }
 
