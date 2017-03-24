@@ -55,15 +55,15 @@
 
     <?php if ($this->isB2b()): ?>
         <li id="vatIdForm_rechnung" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
-            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
+            <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->escapeHtml($this->getCompany()); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->escapeHtml($this->getVatId()) ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
             </div>
         </li>
         <li id="vatIdLabel_rechnung" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
-            <label><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
+            <label><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->escapeHtml($this->getCompany()); ?></label>
             <div class="dob-day">
-                <label><?php echo $this->getVatId() ?>&nbsp;<a onclick="alterVatId('rechnung')"><?php echo $this->__('Alter') ?></a></label>
+                <label><?php echo $this->escapeHtml($this->getVatId()) ?>&nbsp;<a onclick="alterVatId('rechnung')"><?php echo $this->__('Alter') ?></a></label>
             </div>
         </li>
         <br/>
@@ -73,7 +73,7 @@
         <li>
             <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Phone'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->escapeHtml($this->getPhone()) ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
