@@ -101,7 +101,7 @@ class RatePAY_Ratepaypayment_Model_Method_Directdebit extends RatePAY_Ratepaypay
 
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(false);
         if ((isset($params[$this->_code . '_account_number']) && (!empty($params[$this->_code . '_account_number']) && !empty($params[$this->_code . '_bank_code_number'])) || !empty($params[$this->_code . '_iban']))) {
-            $this->getHelper()->setBankData($params, $quote, $this->_code);
+            $this->getHelper()->setBankData($params, $this->_code);
         }
 
         if (!isset($params[$this->_code . '_agreement'])) {
