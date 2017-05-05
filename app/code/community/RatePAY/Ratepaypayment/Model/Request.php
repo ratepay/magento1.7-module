@@ -413,7 +413,7 @@ class RatePAY_Ratepaypayment_Model_Request extends Mage_Core_Model_Abstract
             if (($operationInfo == 'PAYMENT_QUERY' || $operationInfo == 'PAYMENT_REQUEST') && $headInfo['customerId'] != '') {
                 $external->addChild('merchant-consumer-id', $headInfo['customerId']);
             }
-            if ($operationInfo == 'PAYMENT_CONFIRM' && $headInfo['orderId'] != '') {
+            if (($operationInfo == 'PAYMENT_CONFIRM' || $operationInfo == 'PAYMENT_REQUEST') && $headInfo['orderId'] != '') {
                 $external->addChild('order-id', $headInfo['orderId']);
             }
         }
