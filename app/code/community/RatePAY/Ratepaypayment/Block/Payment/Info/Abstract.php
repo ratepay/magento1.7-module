@@ -40,4 +40,16 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Info_Abstract extends Mage_P
         }
         return $transport->setData(array_merge($data, $transport->getData()));
     }
+
+    /**
+     * Returns title of payment method set in config table
+     *
+     * @return string
+     */
+    public function getMethodTitle()
+    {
+        $order = Mage::registry('current_order');
+        $method_code = $this->getMethod()->getCode();
+        return Mage::helper('ratepaypayment')->getRpConfigData($order, $method_code, 'title');
+    }
 }
