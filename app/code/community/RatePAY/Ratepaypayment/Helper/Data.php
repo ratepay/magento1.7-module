@@ -46,7 +46,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * @return bool
      */
     public function isValidPhone($phone) {
-        $valid = "<^((\\+|00)[1-9]\\d{0,3}|0 ?[1-9]|\\(00? ?[1-9][\\d ]*\\))[\\d\\-/ ]*$>";
+        $valid = "/^[\d\s\/\(\)-+]/";
         if (strlen(trim($phone)) >= 6 && preg_match($valid, trim($phone))) {
             return true;
         }
