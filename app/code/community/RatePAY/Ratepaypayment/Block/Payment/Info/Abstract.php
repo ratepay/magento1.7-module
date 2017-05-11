@@ -50,6 +50,10 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Info_Abstract extends Mage_P
     {
         $order = Mage::registry('current_order');
         $method_code = $this->getMethod()->getCode();
-        return Mage::helper('ratepaypayment')->getRpConfigData($order, $method_code, 'title');
+        if(is_null($order) || empty($order)){
+            return "RatePAY";
+        } else {
+            return Mage::helper('ratepaypayment')->getRpConfigData($order, $method_code, 'title');
+        }
     }
 }
