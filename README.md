@@ -5,12 +5,15 @@
 |------|----------
 |Author | Aarne Welschlau, Sebastian Neumann
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `3.2.3.3`
+|Version | `3.2.3.4`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 
 ## Changelog
+
+### Version 3.2.3.4 - Released 2017-05-11
+* Improved payment method title in the order information view
 
 ### Version 3.2.3.3 - Released 2017-03-24
 * Added unique-article-number if basket contains identical items
