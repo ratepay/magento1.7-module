@@ -84,7 +84,7 @@ $bankData = $this->getBankData();
         <li id="vatIdForm_directdebit" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
             <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" class="input-text required-entry"/>
             </div>
         </li>
         <li id="vatIdLabel_directdebit" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
@@ -100,7 +100,7 @@ $bankData = $this->getBankData();
         <li>
             <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Phone'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
@@ -140,80 +140,89 @@ $bankData = $this->getBankData();
 
     <br/>
 
-    <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-        <li><label><?php echo $this->__('Ratepay address') ?></label></li>
-        <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('RatePAY Creditor ID') ?></label></li>
-        <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
-    </ul>
-    <br/>
-    <ul>
-        <li>
-            <label>
-                <?php echo $this->__('insert bank data'); ?>
-            </label>
-        </li>
-        <?php if (!$this->isIbanOnly()): ?>
-        <li>
-            <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
-            <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
-        </li>
-        <?php endif; ?>
-        <li>
-            <label for="ratepay_directdebit_account_holder"><?php echo $this->__('Account holder'); ?></label>
-            <div class="input-box" style="font-weight: bold">
-                <?php echo $this->getAccountOwner(); ?>
-            </div>
-        </li>
-        <li id="ratepay_directdebit_element_iban">
-            <label for="ratepay_directdebit_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
-            <div class="input-box">
-                <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
-            </div>
-        </li>
-        <?php if (!$this->isIbanOnly()): ?>
-            <li id="ratepay_directdebit_element_accountnumber" style="display: none;">
-                <label for="ratepay_directdebit_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>
-                <div class="input-box">
-                    <input value="<?php echo $bankData['accountnumber']; ?>" type="text" name="payment[ratepay_directdebit_account_number]" id="ratepay_directdebit_account_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
-                </div>
-            </li>
-            <li id="ratepay_directdebit_element_bankcode" style="display: none;">
-                <label for="ratepay_directdebit_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
-                <div class="input-box">
-                    <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_directdebit_bank_code_number]" id="ratepay_directdebit_bank_code_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
-                </div>
-            </li>
-        <?php endif; ?>
+    <li>
+        <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+            <li><label><?php echo $this->__('Ratepay address') ?></label></li>
+            <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('RatePAY Creditor ID') ?></label></li>
+            <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
+        </ul>
+    </li>
 
-        <li>
-            <a id="ratepay_directdebit_sepa_agreement_link" onclick="showAgreement()"><?php echo $this->__('ratepay_directdebit_sepa_link')?></a>
-            <table>
-                <tbody style="display:none" id="ratepay_directdebit_sepa_agreement">
-                <tr>
-                    <td style="vertical-align: top; padding-right: 5px;">
-                        <input type="hidden" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
-                    </td>
-                    <td>
-                        <span class="required ratepayagreement">
-                            <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
-                            <?php echo $this->__('Ratepay address');?>
-                            <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
-                            <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('RatePAY Data Privacy Policy');?></a>
-                            <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
-                        </span>
-                    </td>
-                </tr><tr>
-                    <td></td>
-                    <td>
-                        <br/>
-                        <span style="font-weight:bold;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
-                        <br/>
-                        <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
-                        <br/>
-                        <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <li>
+        <label>
+            <?php echo $this->__('insert bank data'); ?>
+        </label>
+    </li>
+    <?php if (!$this->isIbanOnly()): ?>
+    <li>
+        <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType('directdebit', this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+        <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType('directdebit', this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+    </li>
+    <?php endif; ?>
+    <li>
+        <label for="ratepay_directdebit_account_holder"><?php echo $this->__('Account holder'); ?></label>
+        <div class="input-box" style="font-weight: bold">
+            <?php echo $this->getAccountOwner(); ?>
+        </div>
+    </li>
+    <li id="ratepay_directdebit_element_iban">
+        <label for="ratepay_directdebit_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
+        <div class="input-box">
+            <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+        </div>
+    </li>
+    <?php if ($this->getCountryCode() != 'de'): ?>
+        <li id="ratepay_directdebit_element_bic">
+            <label for="ratepay_directdebit_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_directdebit_bic]" id="ratepay_directdebit_bic" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
         </li>
+    <?php endif; ?>
+    <?php if (!$this->isIbanOnly()): ?>
+        <li id="ratepay_directdebit_element_accountnumber" style="display: none;">
+            <label for="ratepay_directdebit_account_number" class="required"><em>*</em><?php echo $this->__('Account number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['accountnumber']; ?>" type="text" name="payment[ratepay_directdebit_account_number]" id="ratepay_directdebit_account_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
+        </li>
+        <li id="ratepay_directdebit_element_bankcode" style="display: none;">
+            <label for="ratepay_directdebit_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
+            <div class="input-box">
+                <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_directdebit_bank_code_number]" id="ratepay_directdebit_bank_code_number" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+            </div>
+        </li>
+    <?php endif; ?>
+
+    <li>
+        <a id="ratepay_directdebit_sepa_agreement_link" onclick="showAgreement('directdebit')"><?php echo $this->__('ratepay_directdebit_sepa_link')?></a>
+        <table>
+            <tbody style="display:none" id="ratepay_directdebit_sepa_agreement">
+            <tr>
+                <td style="vertical-align: top; padding-right: 5px;">
+                    <input type="hidden" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                </td>
+                <td>
+                    <span class="required ratepayagreement">
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
+                        <?php echo $this->__('Ratepay address');?>
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
+                        <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('RatePAY Data Privacy Policy');?></a>
+                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
+                    </span>
+                </td>
+            </tr><tr>
+                <td></td>
+                <td>
+                    <br/>
+                    <span style="font-weight:bold;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
+                    <br/>
+                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
+                    <br/>
+                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
 </ul>

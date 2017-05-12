@@ -198,4 +198,13 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
             return $this->getMethod()->getInfoInstance()->getQuote();
         }
     }
+
+    public function getFirstday()
+    {
+        $firstday = Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'valid_payment_firstday');
+        if(strstr($firstday, ',')){
+            $firstday = explode(',', $firstday);
+        }
+        return $firstday;
+    }
 }

@@ -102,6 +102,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
             $coreConfig->saveConfig('payment/' . $method . '/rate_min', $installmentConfig['rate-min-normal']);
             $coreConfig->saveConfig('payment/' . $method . '/service_charge', $installmentConfig['service-charge']);
             $coreConfig->saveConfig('payment/' . $method . '/interestrate_default', $installmentConfig['interestrate-default']);
+            $coreConfig->saveConfig('payment/' . $method . '/valid_payment_firstday', $installmentConfig['valid-payment-firstdays']);
         }
 
         $coreConfig->saveConfig('payment/ratepay_general/device_ident', ($merchantConfig['eligibility-device-fingerprint'] == "yes") ? 1 : 0);//device-fingerprint-snippet-id

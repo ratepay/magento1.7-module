@@ -488,6 +488,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $payment['method'] = 'INSTALLMENT';
                 if (Mage::getSingleton('ratepaypayment/session')->getDirectDebitFlag()) {
                     $payment['debitType'] = 'DIRECT-DEBIT';
+                    $payment['paymentFirstDay'] = '2';
                 } else {
                     $payment['debitType'] = 'BANK-TRANSFER';
                 }

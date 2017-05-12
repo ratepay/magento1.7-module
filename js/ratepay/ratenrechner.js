@@ -1,6 +1,7 @@
 function switchRateOrRuntime(mode, paymentMethod, url)
 {
     if (mode == 'rate') {
+        document.getElementById('ratepay_installment_rate').value = 1;
         document.getElementById(paymentMethod + '_SwitchToTerm').className = 'ratepay-Active';
         document.getElementById(paymentMethod + '_SwitchToRuntime').className = '';
         document.getElementById(paymentMethod + '_ChooseInputRate').style.backgroundImage = "url(" + url + "arrow_dark.png)";
@@ -8,6 +9,7 @@ function switchRateOrRuntime(mode, paymentMethod, url)
         document.getElementById(paymentMethod + '_ContentTerm').style.display = 'block';
         document.getElementById(paymentMethod + '_ContentRuntime').style.display = 'none';
     } else if (mode == 'runtime') {
+        document.getElementById('ratepay_installment_rate').value = 0;
         document.getElementById(paymentMethod + '_SwitchToRuntime').className = 'ratepay-Active';
         document.getElementById(paymentMethod + '_SwitchToTerm').className = '';
         document.getElementById(paymentMethod + '_ChooseInputRate').style.backgroundImage = "url(" + url + "arrow.png)";
@@ -17,11 +19,12 @@ function switchRateOrRuntime(mode, paymentMethod, url)
     }
 }
 
-function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
+function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
 {
     var calcValue;
     var calcMethod;
     var notification;
+    var firstDay = document.getElementById('ratepay_payment_firstday').value;
 
     var html;
 
@@ -57,7 +60,7 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
     xmlhttp.setRequestHeader("Content-Type",
         "application/x-www-form-urlencoded");
 
-    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + dueDate + "&notification=" + notification);
+    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + firstDay + "&notification=" + notification + "&rewardPoints=" + reward);
 
     if (xmlhttp.responseText != null) {
         html = xmlhttp.responseText;
@@ -66,6 +69,9 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key)
         document.getElementById(paymentMethod + '_ResultContainer').style.padding = '3px 0 0 0';
         document.getElementById(paymentMethod + '_SwitchToTerm').style.display = 'none';
         //setTimeout("ratepaySetLoaderBack()",300);
-    }
 
+        if(document.getElementById('ratepay_rate_sepa_block').style.display == 'none'){
+            document.getElementById('ratepay_rate_sepa_block').style.display = 'block';
+        }
+    }
 }

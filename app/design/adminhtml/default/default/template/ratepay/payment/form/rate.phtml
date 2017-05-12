@@ -20,9 +20,11 @@
 ?>
 
 <?php
-    $_code = $this->getMethodCode();
-    $dob = $this->getDob();
-    $monthAllowed = $this->getMonthAllowed();
+$_code = $this->getMethodCode();
+$dob = $this->getDob();
+$monthAllowed = $this->getMonthAllowed();
+$bankData = $this->getBankData();
+$firstday = $this->getFirstday();
 ?>
 
 <style>
@@ -501,7 +503,57 @@
         text-align: center;
     }
 </style>
+
+<style>
+    .sp-methods select.ratepayday {width:154px ; margin-right: 7px;}
+    .sp-methods select.ratepaymonth {width: 154px ; margin-right: 7px;}
+    .sp-methods select.ratepayyear {width: 154px ;}
+    .sp-methods input.ratepayphone {width: 147px;}
+    .sp-methods div.ratepaybirthdate {width: 476px;}
+    .sp-methods .form-list .ratepayagreement {width: auto;float: none;}
+    .ratepay-sandbox-notification {
+        border: 2px dashed #000000;
+        background-color: #ffff00;
+        font-weight: bold;
+        font-color: #000000;
+        text-align: center;
+    }
+    .btn {
+        -moz-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .btn-default {
+        background-color: #fff;
+        border-color: #ccc;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #337ab7;
+        border-color: #2e6da4;
+        color: #fff;
+    }
+</style>
+
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+
+    <?php if (is_array($firstday) || $firstday == '2'): ?>
+        <input type="hidden" id="ratepay_payment_firstday" value="2">
+    <?php else: ?>
+        <input type="hidden" id="ratepay_payment_firstday" value="28">
+    <?php endif; ?>
+
     <?php if ($this->isSandbox()): ?>
         <li class="ratepay-sandbox-notification">
             <?php echo $this->__('Sandbox Notifcation'); ?>
@@ -518,7 +570,7 @@
         <li id="vatIdForm_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "inline-block" : "none"; ?>">
             <label for="<?php echo $_code ?>_taxvat" class="required"><em>*</em><?php echo $this->__('Tax/VAT number') . "&nbsp;" . $this->getCompany(); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" name="payment[<?php echo $_code ?>_taxvat]" class="input-text required-entry"/>
+                <input value="<?php echo $this->getVatId() ?>" type="text" name="payment[<?php echo $_code ?>_taxvat]" id="<?php echo $_code ?>_taxvat" class="input-text required-entry"/>
             </div>
         </li>
         <li id="vatIdLabel_rate" style="display: <?php echo ($this->isTaxvatNeeded()) ? "none" : "inline-block"; ?>">
@@ -534,7 +586,7 @@
         <li>
             <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Phone'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" class="input-text required-entry ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
@@ -591,7 +643,7 @@
                         <br />
                         <label for="firstInput" style="width:100%;">
                             <div class="ratepay-ChooseInput" id="<?php echo $_code ?>_ChooseInputRate">
-                                <input id="firstInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="wishrate"  onClick="switchRateOrRuntime('rate', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>');" checked="checked">
+                                <input id="firstInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="wishrate"  onClick="switchRateOrRuntime('rate', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>'); <?php $installmentUrl = $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)) ?>" checked="checked">
                             </div>
                             <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black; width: 390px;"><?php echo $this->__('lang_payment_text_wishrate'); ?></div>
                         </label>
@@ -617,7 +669,7 @@
                         <br class="ratepay-ClearFix" />
                         <label for="secondInput" style="width:100%;">
                             <div class="ratepay-ChooseInput" id="<?php echo $_code ?>_ChooseInputRuntime">
-                                <input id="secondInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="runtime" onClick="switchRateOrRuntime('runtime', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>');">
+                                <input id="secondInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="runtime" onClick="switchRateOrRuntime('runtime', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>'); <?php $installmentUrl = $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)) ?>">
                             </div>
                             <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black;"><?php echo $this->__('lang_payment_text_runtime'); ?></div>
                         </label>
@@ -688,4 +740,80 @@
             </div>
         </li>
     <?php endif; ?>
+    <input type="hidden" id="ratepay_installment_rate" value="1">
+    <input type="hidden" id="ratepay_installment_url_rate" value="<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/rate", array('_secure' => true)); ?>">
+    <input type="hidden" id="ratepay_installment_url_runtime" value="<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>">
+
+    <div id="ratepay_rate_sepa_block" style="display:none">
+        <?php if (is_array($firstday) || $firstday == '2'): ?>
+            <li>
+                <hr />
+            </li>
+
+            <li class="ratepay_rate_sepa_element">
+                <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+                    <li><label><?php echo $this->__('Wirecard address') ?></label></li>
+                    <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Wirecard Creditor ID') ?></label></li>
+                    <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
+                </ul>
+            </li>
+
+            <li class="ratepay_rate_sepa_element">
+                <label>
+                    <?php echo $this->__('insert bank data wc'); ?>
+                </label>
+            </li>
+            <li class="ratepay_rate_sepa_element">
+                <label for="ratepay_rate_account_holder"><?php echo $this->__('Account holder'); ?></label>
+                <div class="input-box" style="font-weight: bold">
+                    <?php echo $this->getAccountOwner(); ?>
+                </div>
+            </li>
+            <li id="ratepay_rate_element_iban" class="ratepay_rate_sepa_element">
+                <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?> / <?php echo $this->__('Account number'); ?> </label>
+                <div class="input-box">
+                    <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this)" />
+                </div>
+            </li>
+            <li id="ratepay_rate_element_bankcode" class="ratepay_rate_sepa_element" style=display:none>
+                <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
+                <div class="input-box">
+                    <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form" onchange="preProcessingBankForm(this)" />
+                </div>
+            </li>
+
+            <li class="ratepay_rate_sepa_element">
+                <table>
+                    <tbody id="ratepay_rate_sepa_agreement">
+                    <tr>
+                        <td style="vertical-align: top; padding-right: 5px;">
+                            <input type="checkbox" class="checkbox required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                        </td>
+                        <td>
+                                <span class="required ratepayagreement">
+                                    <?php echo $this->__('wirecard_directdebit_sepa_terms_block');?>
+                                </span>
+                        </td>
+                    </tr><tr>
+                        <td></td>
+                        <td>
+                            <br/>
+                            <span style="font-weight:bold; cursor: hand;"><?php echo $this->__('wirecard_directdebit_sepa_notice_block_1');?></span>
+                            <br/>
+                            <?php echo $this->__('wirecard_directdebit_sepa_notice_block_2');?>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+
+            <?php if ($this->isInvoiceAllowed()): ?>
+                <li>
+                    <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
+                    <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
+                    <input type="hidden" id="ratepay_rate_method_invoice" name="payment[ratepay_rate_method_invoice]" value="0">
+                </li>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
 </ul>
