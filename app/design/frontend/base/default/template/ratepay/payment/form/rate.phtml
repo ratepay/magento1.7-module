@@ -742,6 +742,7 @@ $firstday = $this->getFirstday();
     <input type="hidden" id="ratepay_installment_rate" value="1">
     <input type="hidden" id="ratepay_installment_url_rate" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>">
     <input type="hidden" id="ratepay_installment_url_runtime" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>">
+    <input type="hidden" id="ratepay_rate_method_invoice" name="payment[ratepay_rate_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
 
     <div id="ratepay_rate_sepa_block" style="display:none">
         <?php if (is_array($firstday) || $firstday == '2'): ?>
@@ -810,7 +811,6 @@ $firstday = $this->getFirstday();
                     <li>
                         <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
                         <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
-                        <input type="hidden" id="ratepay_rate_method_invoice" name="payment[ratepay_rate_method_invoice]" value="0">
                     </li>
                 <?php endif; ?>
         <?php endif; ?>
