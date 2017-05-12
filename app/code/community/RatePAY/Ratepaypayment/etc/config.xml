@@ -514,6 +514,17 @@
             </updates>
         </layout>
 
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <sendRatepayConfirmCall>
+                        <class>ratepaypayment/observer</class>
+                        <method>sendRatepayConfirmCall</method>
+                    </sendRatepayConfirmCall>
+                </observers>
+            </sales_order_place_after>
+        </events>
+
     </adminhtml>
 
     <admin>
