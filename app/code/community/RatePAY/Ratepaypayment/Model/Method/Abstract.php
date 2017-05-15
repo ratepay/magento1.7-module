@@ -477,6 +477,10 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if (is_array($resultRequest) || $resultRequest == true) {
                 if (!isset($resultRequest['customer_message'])) {
                     $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
+                    $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
+                    if (!is_array($resultConfirm) && !$resultConfirm == true) {
+                        $this->_abortBackToPayment('CONFIRM Declined', 'hard');
+                    }
                 } else {
                 $this->_abortBackToPayment($resultRequest['customer_message'], $resultRequest['type']);
                 }
