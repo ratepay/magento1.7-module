@@ -73,6 +73,7 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         document.getElementById('ratepay_payment_firstday').value = 2;
         batchDisplay('ratepay_rate_sepa_element', 'block');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form required-entry');
+        isIban(document.getElementById('ratepay_rate_iban'));
         ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)
     }
 }
