@@ -787,7 +787,7 @@ $firstday = $this->getFirstday();
                         <tbody id="ratepay_rate_sepa_agreement">
                         <tr>
                             <td style="vertical-align: top; padding-right: 5px;">
-                                <input type="checkbox" class="checkbox required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                                <input type="checkbox" class="checkbox ratepay_rate_sepa_form required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                             </td>
                             <td>
                                 <span class="required ratepayagreement">
@@ -807,7 +807,7 @@ $firstday = $this->getFirstday();
                     </table>
                 </li>
 
-                <?php if ($this->isInvoiceAllowed()): ?>
+                <?php if ($this->isInvoiceAllowed() && $firstday != '2'): ?>
                     <li>
                         <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
                         <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
