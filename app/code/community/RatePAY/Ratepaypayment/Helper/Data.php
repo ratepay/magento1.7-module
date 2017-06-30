@@ -353,38 +353,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         }
     }
-    
-    /**
-     * Retrieve the encoded bankdata
-     * 
-     * @return array
-     */
-    public function getBankData()
-    {
-        $bankdata = null;
-        if (Mage::app()->getStore()->isAdmin()){
-            $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
-        }
-        else {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-        }
-        (!$quote->getCustomerIsGuest()) ? $customerId = $quote->getCustomer()->getId() : $customerId = '';
-
-        $bankdata = array (
-           'owner' => $quote->getBillingAddress()->getFirstname() . " " . $quote->getBillingAddress()->getLastname()
-        );
-
-        if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
-            $bankdata['iban'] = Mage::getSingleton('ratepaypayment/session')->getIban();
-            $bankdata['accountnumber'] = null;
-            $bankdata['bankcode'] = null;
-        } else {
-            $bankdata['accountnumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
-            $bankdata['bankcode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
-            $bankdata['iban'] = null;
-        }
-        return $bankdata;
-    }
 
     /**
      * Retrieve due days

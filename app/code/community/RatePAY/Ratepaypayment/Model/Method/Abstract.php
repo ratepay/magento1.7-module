@@ -342,11 +342,11 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
-        $queryActive = Mage::helper('ratepaypayment/query')->isPaymentQueryActive($quote);
+        /*$queryActive = Mage::helper('ratepaypayment/query')->isPaymentQueryActive($quote);
         $allowedProducts = Mage::getSingleton('ratepaypayment/session')->getAllowedProducts();
         if ($queryActive && (!$allowedProducts || !in_array($this->_code, $allowedProducts))) {
             return false;
-        }
+        }*/
 
         if (!$this->getHelper()->getRpConfigData($quote, $this->_code, 'active')) {
             return false;
@@ -453,49 +453,77 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function authorize(Varien_Object $payment, $amount = 0)
     {
-        $client = Mage::getSingleton('ratepaypayment/request');
+        $helperData = Mage::helper('ratepaypayment/data');
+        $helperMapping = Mage::helper('ratepaypayment/mapping');
 
-        $order = $this->getQuoteOrOrder();
-        $helper = Mage::helper('ratepaypayment/mapping');
-        $head = $helper->getRequestHead($order);
-        if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
+        $quote = $this->getQuoteOrOrder();
+        $paymentMethod = $quote->getPayment()->getMethod();
+
+        $sandbox = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'sandbox');
+        $logging = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'logging');
+
+        $requestInit = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+
+        $head = $helperMapping->getRequestHead($quote);
+        /*if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
+            // PQ/IBS
             Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
-            $resultInit['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-        } else {
-            $resultInit = $client->callPaymentInit($helper->getRequestHead($order), $helper->getLoggingInfo($order));
-        }
-        if (is_array($resultInit) || $resultInit == true) {
-            $payment->setAdditionalInformation('transactionId', $resultInit['transactionId']);
-            $payment->setAdditionalInformation('profileId', $head['profileId']);
-            $payment->setAdditionalInformation('securityCode', $head['securityCode']);
+            $responseInit['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
+        } else {*/
+            // Calling PAYMENT INIT
+            $responseInit = $requestInit->callPaymentInit($head);
+            if ($logging) {
+                Mage::getSingleton('ratepaypayment/logging')->log($responseInit, $quote);
+            }
+        /*}*/
 
-            $resultRequest = $client->callPaymentRequest($helper->getRequestHead($order),
-                $helper->getRequestCustomer($order),
-                $helper->getRequestBasket($order),
-                ($amount > 0) ? $helper->getRequestPayment($order, $amount) : $helper->getRequestPayment($order),
-                $helper->getLoggingInfo($order));
-            if (is_array($resultRequest) || $resultRequest == true) {
-                if (!isset($resultRequest['customer_message'])) {
-                    $payment->setAdditionalInformation('descriptor', $resultRequest['descriptor']);
-                    $resultConfirm = $client->callPaymentConfirm($helper->getRequestHead($order), $helper->getLoggingInfo($order));
-                    if (!is_array($resultConfirm) && !$resultConfirm == true) {
-                        $this->_abortBackToPayment('CONFIRM Declined', 'hard');
-                    }
-                } else {
-                $this->_abortBackToPayment($resultRequest['customer_message'], $resultRequest['type']);
-                }
+        if ($responseInit->isSuccessful()) {
+            $requestRequest = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+
+            // Add transaction id to head
+            $head['TransactionId'] = $responseInit->getTransactionId();
+
+            // Add DFP token to head
+            $dfpToken = Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken();
+            if (!empty($dfpToken)) {
+                $head['CustomerDevice']['DeviceToken'] = $dfpToken;
+            }
+            $content = $helperMapping->getRequestContent($quote, "PAYMENT_REQUEST", $paymentMethod);
+
+            $payment->setAdditionalInformation('transactionId', $head['TransactionId']);
+            $payment->setAdditionalInformation('profileId', $head['Credential']['ProfileId']);
+            $payment->setAdditionalInformation('securityCode', $head['Credential']['Securitycode']);
+
+            // Calling PAYMENT REQUEST
+            $responseRequest = $requestRequest->callPaymentRequest($head, $content);
+            if ($logging) {
+                Mage::getSingleton('ratepaypayment/logging')->log($responseRequest, $quote);
+            }
+
+            if ($responseRequest->isSuccessful()) {
+                $payment->setAdditionalInformation('descriptor', $responseRequest->getDescriptor());
             } else {
-                $this->_abortBackToPayment('PAYMENT_REQUEST Declined', 'hard');
+                if ($responseRequest->isRetryAdmitted()) {
+                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "soft");
+                } else {
+                    $this->_cleanSession();
+                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "hard");
+                }
             }
         } else {
-            $this->_abortBackToPayment('Gateway Offline', 'hard' );
+            $this->_cleanSession();
+            $this->_abortBackToPayment('Gateway Offline', "hard"); // @ToDO: Find better response text
         }
-        $this->_cleanSession();
+
+        $this->_resetDeviceFingerprint();
+
         return $this;
     }
 
     public function _cleanSession()
     {
+        $this->_resetDeviceFingerprint();
+
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(null);
         Mage::getSingleton('ratepaypayment/session')->setAccountHolder(null);
         Mage::getSingleton('ratepaypayment/session')->setIban(null);
@@ -507,11 +535,17 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('ratepaypayment/session')->setTransactionId(false);
         Mage::getSingleton('ratepaypayment/session')->setAllowedProducts(false);
         Mage::getSingleton('ratepaypayment/session')->setPreviousQuote(null);
-
-        Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken(false);
     }
 
-    protected function _abortBackToPayment($exception, $type = null) {
+    private function _resetDeviceFingerprint()
+    {
+        // Reset DFP token after every call for authorization
+        Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken(null);
+        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
+    }
+
+    protected function _abortBackToPayment($exception, $type = null)
+    {
         $order = $this->getQuoteOrOrder();
 
         if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') && !Mage::app()->getStore()->isAdmin() && $type == 'hard') {
@@ -532,7 +566,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     protected function _hidePaymentMethod()
     {
         Mage::getSingleton('ratepaypayment/session')->setRatepayMethodHide(true);
-        Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
     }
 
     /**

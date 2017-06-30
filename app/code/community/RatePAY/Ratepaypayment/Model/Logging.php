@@ -33,50 +33,68 @@ class RatePAY_Ratepaypayment_Model_Logging extends Mage_Core_Model_Abstract
     /**
      * This method saves all RatePAY Requests and Responses in the database
      * 
-     * @param array $loggingInfo
-     * @param SimpleXMLElement|null $request
-     * @param SimpleXMLElement|null $response
+     * @param \RatePAY\ModelBuilder $response
+     * @param Mage_Sales_Model_Order|Mage_Sales_Model_Quote|null $quoteOrOrder
+     * @param String|null $paymentMethod
      */
-    public function log($loggingInfo, $request, $response)
+    public function log($response, $quoteOrOrder = null, $paymentMethod = null)
     {
-        $responseXML = '';
-        $result = "Service offline.";
-        $resultCode = "Service offline.";
-        $reasonText = '';
-        
-        if (isset($request->content->customer->{'bank-account'})) {
-            $request->content->customer->{'bank-account'}->owner = '(hidden)';
-            if (isset($request->content->customer->{'bank-account'}->{'iban'})) {
-                $request->content->customer->{'bank-account'}->{'iban'} = '(hidden)';
-            } else {
-                $request->content->customer->{'bank-account'}->{'bank-account-number'} = '(hidden)';
-                $request->content->customer->{'bank-account'}->{'bank-code'} = '(hidden)';
-            }
+        $requestXMLElement = $this->maskBankData($response->getRequestXmlElement());
+        $responseXMLElement = $response->getResponseXmlElement();
+
+        if ($quoteOrOrder instanceof Mage_Sales_Model_Order) {
+            $orderNumber = $quoteOrOrder->getRealOrderId();
+        } elseif ($quoteOrOrder instanceof Mage_Sales_Model_Quote) {
+            $orderNumber = $quoteOrOrder->getReservedOrderId();
+        } else {
+            $orderNumber = "N/A";
         }
 
-        if ($response != null && isset($response) && $response->asXML() != '') {
-            $result = (string) $response->head->processing->result;
-            $resultCode = (string) $response->head->processing->result->attributes()->code;
-            $responseXML = $response->asXML();
-            $reasonText = (string) $response->head->processing->reason;
-            if($loggingInfo['requestType'] == 'PAYMENT_INIT') {
-                $loggingInfo['transactionId'] = (string)$response->head->{'transaction-id'};
-            }
+        if (!is_null($quoteOrOrder) && is_null($paymentMethod)) {
+            $paymentMethod = $quoteOrOrder->getPayment()->getMethod();
         }
+        
+        if (!is_null($quoteOrOrder)) {
+            $name = $quoteOrOrder->getBillingAddress()->getFirstname() . " " . $quoteOrOrder->getBillingAddress()->getLastname();
+        } else {
+            $name = "N/A";
+        }
+
+        $transaction = $response->getTransactionId();
 
         $this->setId(null)
-            ->setOrderNumber(!empty($loggingInfo['orderId']) ? $loggingInfo['orderId'] : 'n/a')
-            ->setTransactionId(!empty($loggingInfo['transactionId']) ? $loggingInfo['transactionId'] : 'n/a')
-            ->setPaymentMethod(!empty($loggingInfo['paymentMethod']) ? $loggingInfo['paymentMethod'] : 'n/a')
-            ->setPaymentType(!empty($loggingInfo['requestType']) ? $loggingInfo['requestType'] : 'n/a')
-            ->setPaymentSubtype(!empty($loggingInfo['requestSubType']) ? $loggingInfo['requestSubType'] : 'n/a')
-            ->setResult($result)
-            ->setRequest($request->asXML())
-            ->setRequest($request->asXML())
-            ->setResponse($responseXML)
-            ->setResultCode($resultCode)
-            ->setName($loggingInfo['firstName'] . " " . $loggingInfo['lastName'])
-            ->setReason($reasonText)
+            ->setOrderNumber($orderNumber)
+            ->setTransactionId(!is_null($transaction) ? $response->getTransactionId() : "N/A")
+            ->setPaymentMethod(!is_null($paymentMethod) ? strtoupper(Mage::helper('ratepaypayment/payment')->convertMethodToProduct($paymentMethod)) : "N/A")
+            ->setPaymentType($requestXMLElement->head->{'operation'})
+            ->setPaymentSubtype(isset($requestXMLElement->head->operation->attributes()->subtype) ? strtoupper((string) $requestXMLElement->head->operation->attributes()->subtype) : "N/A")
+            ->setResult($response->getResultMessage())
+            ->setRequest($requestXMLElement->asXML())
+            ->setResponse($responseXMLElement->asXML())
+            ->setResultCode($response->getResultCode())
+            ->setName($name)
+            ->setReason($response->getReasonMessage())
             ->save();
+    }
+
+    /**
+     *
+     *
+     * @param SimpleXMLElement $request
+     * @return SimpleXMLElement
+     */
+    private function maskBankData($request)
+    {
+        if (isset($request->content->customer->{'bank-account'})) {
+            $request->content->customer->{'bank-account'}->owner = '(...)';
+            if (isset($request->content->customer->{'bank-account'}->iban)) {
+                $request->content->customer->{'bank-account'}->iban = '(...)';
+            } else {
+                $request->content->customer->{'bank-account'}->{'bank-account-number'} = '(...)';
+                $request->content->customer->{'bank-account'}->{'bank-code'} = '(...)';
+            }
+        }
+
+        return $request;
     }
 }
