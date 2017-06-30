@@ -37,9 +37,10 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <action method="setCacheLifetime"><s>1</s></action>
-            <lifetime>1</lifetime>
-            <block type="core/template" name="ratepay_deviceident" template="ratepay/body/deviceident.phtml"/>
+            <block type="core/template" name="ratepay_deviceident" template="ratepay/body/deviceident.phtml">
+                <action method="setCacheLifetime"><s>1</s></action>
+                <lifetime>1</lifetime>
+            </block>
         </reference>
     </default>
     <checkout_onepage_review>
