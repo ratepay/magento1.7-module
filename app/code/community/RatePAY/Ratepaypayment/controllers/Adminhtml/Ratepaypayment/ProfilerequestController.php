@@ -41,30 +41,29 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         $product = Mage::helper('ratepaypayment/payment')->convertMethodToProduct($this->_getRpMethodWithoutCountry($method));
         $country = $this->_getRpCountry($method);
 
-        $client = Mage::getModel('ratepaypayment/request');
+        $request = Mage::getSingleton('ratepaypayment/libraryconnector', $credentials['sandbox'] == "1" ? true : false);
 
-        $headInfo = array(
-            'securityCode' => $credentials['security_code'],
-            'profileId' => $credentials['profile_id']
-        );
+        // @ToDo: Move this to mapping helper
+        $headInfo = [
+            'Credential' => [
+                'ProfileId' => $credentials['profile_id'],
+                'Securitycode' => $credentials['security_code']
+            ]
+        ];
 
-        $loggingInfo = array(
-            'logging'       => false,
-            'requestType'   => 'PROFILE_REQUEST',
-            'sandbox'       => ($credentials['sandbox'] == "1") ? 1 : 0
-        );
-
-        $result = $client->callProfileRequest($headInfo, $loggingInfo);
+        $response = $request->callProfileRequest($headInfo);
 
         $coreConfig = Mage::getModel('core/config');
 
-        if (!is_array($result)) {
+        if (!$response->isSuccessful()) {
             $coreConfig->saveConfig('payment/' . $method . '/status', 0);
-            return Mage::helper('ratepaypayment')->__('Request Failed');
+            return Mage::helper('ratepaypayment')->__('Request Failed') . " (Reason Message: " . $response->getReasonMessage() . ")";
         }
 
-        $merchantConfig = $result['merchant_config'];
-        $installmentConfig = $result['installment_config'];
+        $result = $response->getResult();
+
+        $merchantConfig = $result['merchantConfig'];
+        $installmentConfig = $result['installmentConfig'];
 
         if (strstr(strtolower($merchantConfig['country-code-billing']), $country) == false) {
             return Mage::helper('ratepaypayment')->__('Country not supported by credentials');
