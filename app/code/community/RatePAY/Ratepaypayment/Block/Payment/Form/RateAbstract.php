@@ -41,26 +41,6 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Form_RateAbstract extends Ra
     }
 
     /**
-     * Is dynamic due
-     * 
-     * @return boolean 
-     */
-    public function isDynamicDue() 
-    {
-        return Mage::helper('ratepaypayment/mapping')->isDynamicDue();
-    }
-    
-    /**
-     * Retrieve bank data from customer
-     * 
-     * @return array
-     */
-    public function getBankData()
-    {
-        return Mage::helper('ratepaypayment')->getBankData();
-    }
-    
-    /**
      * Is invoice for ratepay rate allowed
      * 
      * @return type 

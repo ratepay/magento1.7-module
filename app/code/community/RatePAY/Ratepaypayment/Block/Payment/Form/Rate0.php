@@ -27,7 +27,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypay
      *
      * @return boolean|array
      */
-    public function getMonthAllowed()
+    public function getInstallmentCalculationData()
     {
         if(Mage::app()->getStore()->isAdmin()){
             $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
@@ -39,8 +39,8 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypay
         $country = strtolower($quote->getBillingAddress()->getCountryId());
 
         return array(
-            "month_allowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/month_allowed', $storeId)),
-            "rate_min" => Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/rate_min', $storeId)
+            "monthAllowed" => explode(",", Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/month_allowed', $storeId)),
+            "rateMin" => Mage::getStoreConfig('payment/ratepay_rate0_' . $country . '/rate_min', $storeId)
         );
     }
 }

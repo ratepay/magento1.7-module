@@ -20,57 +20,60 @@
 
 class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller_Front_Action
 {
+
+    private $_helperData;
+    private $_helperMapping;
+
+    private $_paymentMethod;
+    private $_calcValue;
+    private $_reward;
+
+    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+    {
+        parent::__construct($request, $response, $invokeArgs);
+
+        $this->_helperData = Mage::helper('ratepaypayment/data');
+        $this->_helperMapping = Mage::helper('ratepaypayment/mapping');
+
+        $this->_paymentMethod = $request->getParam('paymentMethod');
+        $this->_calcValue = (int) $request->getParam('calcValue');
+        $this->_reward = $request->getParam('rewardPoints') > 0 ? $request->getParam('rewardPoints') : 0;
+    }
+
+    private function callCalculationRequest($calculationType, $calculationValue)
+    {
+        $quote = $this->getQuote();
+        $sandbox = (bool) $this->_helperData->getRpConfigData($quote, $this->_paymentMethod, 'sandbox');
+
+        $request = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+        $head = $this->_helperMapping->getRequestHead($quote, $this->_paymentMethod);
+        $content = $this->getContent($calculationType, $calculationValue, $quote->getGrandTotal(), $this->_reward);
+
+        return $request->callCalculationRequest($head, $content, $calculationType);
+    }
+
     /**
      * Calculates the rates by from user defined rate
      */
     public function rateAction()
     {
-        $paymentMethod = $this->getRequest()->getParam('paymentMethod');
-        $calcValue = $this->getRequest()->getParam('calcValue');
-        $reward = $this->getRequest()->getParam('rewardPoints');
         try {
-            if (preg_match('/^[0-9]+(\.[0-9][0-9][0-9])?(,[0-9]{1,2})?$/', $calcValue)) {
-                $calcValue = str_replace(".", "", $calcValue);
-                $calcValue = str_replace(",", ".", $calcValue);
-                $debitSelect = $this->getRequest()->getParam('dueDate');
-                $client = Mage::getSingleton('ratepaypayment/request');
-                $helper = Mage::helper('ratepaypayment/mapping');
-                $result = $client->callCalculationRequest(
-                    $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
-                    $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
-                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect,$reward)
-                );
-                if (is_array($result) || $result == true) {
-                    $this->setSessionData($result, $paymentMethod);
-                    $this->getHtml($this->formatResult($result));
+            if (is_numeric($this->_calcValue)) {
+                $response = $this->callCalculationRequest('calculation-by-rate', floatval($this->_calcValue));
+
+                if ($response->isSuccessful()) {
+                    $this->setSessionData($response->getResult(), $this->_paymentMethod);
+                    $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode());
                 } else {
-                    $this->unsetSessionData($paymentMethod);
-                    echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
-                }
-            } else if (preg_match('/^[0-9]+(\,[0-9][0-9][0-9])?(.[0-9]{1,2})?$/', $calcValue)) {
-                $calcValue = str_replace(".", "", $calcValue);
-                $calcValue = str_replace(",", "", $calcValue);
-                $debitSelect = $this->getRequest()->getParam('dueDate');
-                $client = Mage::getSingleton('ratepaypayment/request');
-                $helper = Mage::helper('ratepaypayment/mapping');
-                $result = $client->callCalculationRequest(
-                    $helper->getRequestHead($this->getQuote(), 'calculation-by-rate', $paymentMethod),
-                    $helper->getLoggingInfo($this->getQuote(), $paymentMethod),
-                    $this->getCalculationInfo('calculation-by-rate',$calcValue,$debitSelect,$reward)
-                );
-                if (is_array($result) || $result == true) {
-                    $this->setSessionData($result, $paymentMethod);
-                    $this->getHtml($this->formatResult($result));
-                } else {
-                    $this->unsetSessionData($paymentMethod);
+                    $this->unsetSessionData($this->_paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
                 }
             } else {
-                $this->unsetSessionData($paymentMethod);
+                $this->unsetSessionData($this->_paymentMethod);
                 echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
             }
         } catch(Exception $e) {
-            $this->unsetSessionData($paymentMethod);
+            $this->unsetSessionData($this->_paymentMethod);
             echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
         }
     }
@@ -80,43 +83,18 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     public function runtimeAction()
     {
-        $paymentMethod = $this->getRequest()->getParam('paymentMethod');
-        $reward = $this->getRequest()->getParam('rewardPoints');
-
         try {
-            $calcValue = $this->getRequest()->getParam('calcValue');
-            if (preg_match('/^[0-9]{1,3}$/', $calcValue)) {
-                $client = Mage::getSingleton('ratepaypayment/request');
-                $helper = Mage::helper('ratepaypayment/mapping');
-                $debitSelect = $this->getRequest()->getParam('dueDate');
-                $result = $client->callCalculationRequest(
-                    $helper->getRequestHead(
-                        $this->getQuote(),
-                        'calculation-by-time',
-                        $paymentMethod),
-                    $helper->getLoggingInfo(
-                        $this->getQuote(),
-                        $paymentMethod),
-                    $this->getCalculationInfo(
-                        'calculation-by-time',
-                        $calcValue,
-                        $debitSelect,
-                        $reward)
-                );
-                
-                if (is_array($result) || $result == true) {
-                    $this->setSessionData($result, $paymentMethod);
-                    $this->getHtml($this->formatResult($result), (bool) $this->getRequest()->getParam('notification'));
-                } else {
-                    $this->unsetSessionData($paymentMethod);
-                    echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
-                }
+            $response = $this->callCalculationRequest('calculation-by-time', floatval($this->_calcValue));
+
+            if ($response->isSuccessful()) {
+                $this->setSessionData($response->getResult(), $this->_paymentMethod);
+                $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode());
             } else {
-                $this->unsetSessionData($paymentMethod);
-                echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
+                $this->unsetSessionData($this->_paymentMethod);
+                echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
             }
         } catch(Exception $e) {
-            $this->unsetSessionData($paymentMethod);
+            $this->unsetSessionData($this->_paymentMethod);
             echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
         }
     }
@@ -128,14 +106,23 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      * @param float $calcValue
      * @return array
      */
-    private function getCalculationInfo($method = '', $calcValue = '', $debitSelect = '', $reward = '')
+    private function getContent($calcType, $calcValue, $amount, $reward = 0)
     {
-        $calculation = array();
-        $calculation['method'] = $method;
-        $calculation['value'] = $calcValue;
-        $calculation['amount'] = round($this->getQuote()->getGrandTotal() - $reward,2);
-        $calculation['debitSelect'] = $debitSelect;
-        return $calculation;
+        $content = [
+            'InstallmentCalculation' => [
+                'Amount' => $amount - $reward,
+            ]
+        ];
+
+        if ($calcType == 'calculation-by-rate') {
+            $content['InstallmentCalculation']['CalculationRate'] = ['Rate' => $calcValue];
+        } elseif ($calcType == 'calculation-by-time') {
+            $content['InstallmentCalculation']['CalculationTime'] = ['Month' => $calcValue];
+        } else {
+            echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
+        }
+
+        return $content;
     }
 
     /**
@@ -194,8 +181,8 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      * Printout of rates result
      * @param array $result
      */
-    public function getHtml($result, $notification = true)
+    public function getHtml($result, $notification = null)
     {
-        Mage::helper('ratepaypayment')->getRateResultHtml($result, $notification);
+        $this->_helperData->getRateResultHtml($result, $notification);
     }
 }

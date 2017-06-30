@@ -20,17 +20,6 @@
 
 class RatePAY_Ratepaypayment_Block_Payment_Form_DirectdebitAbstract extends RatePAY_Ratepaypayment_Block_Payment_Form_Abstract
 {
-
-    /**
-     * Retrieve bank data from customer
-     *
-     * @return array
-     */
-    public function getBankData()
-    {
-        return Mage::helper('ratepaypayment')->getBankData();
-    }
-
     /**
      * Retrieve customer name from billing address
      *

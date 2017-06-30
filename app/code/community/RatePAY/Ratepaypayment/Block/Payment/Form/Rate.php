@@ -33,7 +33,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
      *
      * @return boolean|array
      */
-    public function getMonthAllowed()
+    public function getInstallmentCalculationData()
     {
         if(Mage::app()->getStore()->isAdmin()){
             $quote = Mage::getSingleton('adminhtml/session_quote')->getQuote();
@@ -59,8 +59,8 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate extends RatePAY_Ratepaypaym
             }
         }
         return array(
-            "month_allowed" => $allowedRuntimes,
-            "rate_min" => $rateMinNormal
+            "monthAllowed" => $allowedRuntimes,
+            "rateMin" => $rateMinNormal
         );
     }
 }

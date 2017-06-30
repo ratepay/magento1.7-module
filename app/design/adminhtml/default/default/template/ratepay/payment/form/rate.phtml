@@ -22,7 +22,8 @@
 <?php
 $_code = $this->getMethodCode();
 $dob = $this->getDob();
-$monthAllowed = $this->getMonthAllowed();
+$calculationData = $this->getInstallmentCalculationData();
+$monthAllowed = $calculationData['monthAllowed'];
 $bankData = $this->getBankData();
 $firstday = $this->getFirstday();
 ?>
@@ -625,7 +626,7 @@ $firstday = $this->getFirstday();
         </div>
     </li>
 
-    <?php if (count($monthAllowed['month_allowed']) > 1): ?>
+    <?php if (count($monthAllowed) > 1): ?>
         <li>
             <input type="hidden" id="<?php echo $_code ?>_Notification" value="1">
             <div id="ratepay-main-cont">
@@ -648,16 +649,6 @@ $firstday = $this->getFirstday();
                             <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black; width: 390px;"><?php echo $this->__('lang_payment_text_wishrate'); ?></div>
                         </label>
                         <div id="<?php echo $_code ?>_ContentTerm" class="ratepay-Content" style="display: none;">
-                            <!--<?php if ($this->isDynamicDue()) { ?>
-                                <div id="<?php echo $_code ?>_DueDate" class="ratepay-DueDate">
-                                    <div class="ratepay-DueText"><?php echo $this->__('lang_due_date'); ?></div>
-                                    <select name="<?php echo $_code ?>RpDueDateSelect" id="debitSelect" size="3">
-                                        <option value="1"><?php echo $this->__('At 1st of month'); ?></option>
-                                        <option value="15"><?php echo $this->__('At 15th of month'); ?></option>
-                                        <option value="28" selected="selected"><?php echo $this->__('At 28th of month'); ?></option>
-                                    </select>
-                                </div>
-                            <?php } ?>-->
                             <br class="ratepay-ClearFix" />
                             <div class="ratepay-MarginTop">
                                 <span class="ratepay-VertAlignMiddle"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_wishrate'); ?>:</span>
@@ -674,24 +665,12 @@ $firstday = $this->getFirstday();
                             <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black;"><?php echo $this->__('lang_payment_text_runtime'); ?></div>
                         </label>
                         <div id="<?php echo $_code ?>_ContentRuntime" class="ratepay-Content" style="display: none;">
-                            <!--<?php if ($this->isDynamicDue()) { ?>
-                                <div id="<?php echo $_code ?>_DueDate" class="ratepay-DueDate">
-                                    <div class="ratepay-DueText"><?php echo $this->__('lang_due_date'); ?></div>
-                                    <span style="float: right;">
-                                        <select name="<?php echo $_code ?>RpDueDateSelect" id="debitSelectRuntime" size="3" style="width: 167px;">
-                                            <option value="1"><?php echo $this->__('At 1st of month'); ?></option>
-                                            <option value="15"><?php echo $this->__('At 15th of month'); ?></option>
-                                            <option value="28" selected="selected"><?php echo $this->__('At 28th of month'); ?></option>
-                                        </select>
-                                    </span>
-                                </div>
-                            <?php } ?>-->
                             <br class="ratepay-ClearFix" />
                             <div class="ratepay-MarginTop">
                                 <span class="ratepay-VertAlignMiddle" style="float: left;"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_runtime'); ?>:</span>
                                 <select id="<?php echo $_code ?>-runtime">
                                     <?php
-                                    foreach ($monthAllowed['month_allowed'] as $month) {
+                                    foreach ($monthAllowed as $month) {
                                         echo '<option value="' . $month . '">';
                                         if ($month < 10)
                                             echo'&nbsp;'; echo $month . ' ' . $this->__('lang_months') . '</option>';
@@ -730,7 +709,7 @@ $firstday = $this->getFirstday();
             <script>
                 ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');
             </script>
-            <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed['month_allowed'][0]; ?>" />
+            <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed[0]; ?>" />
             <div id="ratepay-main-cont">
                 <div id="ratepay-ContentSwitch">
                     <div class="ratepay-ChooseRuntime">
@@ -777,9 +756,9 @@ $firstday = $this->getFirstday();
                 </div>
             </li>
             <li id="ratepay_rate_element_bankcode" class="ratepay_rate_sepa_element" style=display:none>
-                <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
+                <label for="ratepay_rate_bank_code_number"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
                 <div class="input-box">
-                    <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+                    <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form" onchange="preProcessingBankForm(this)" />
                 </div>
             </li>
 
@@ -808,7 +787,7 @@ $firstday = $this->getFirstday();
                 </table>
             </li>
 
-            <?php if ($this->isInvoiceAllowed() && $firstday != '2'): ?>
+            <?php if (is_array($firstday)): ?>
                 <li>
                     <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
                     <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>

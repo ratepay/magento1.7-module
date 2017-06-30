@@ -471,7 +471,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * 
      * @param array $result
      */
-    public function getRateResultHtml($result, $notification = true)
+    public function getRateResultHtml($result, $notification = null)
     {
         echo '
         <style>
@@ -486,7 +486,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             .ratepay-InfoDiv:hover #ratepayMouseoverInfoLastRate { display: block; }
         </style>';
 
-        if ($notification) '<div id="ratepay-Notfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $result['code'] . '\']') . '</div>';
+        if (!is_null($notification)) echo '<div id="ratepay-Notfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $notification . '\']') . '</div>';
 
         echo '
         <h2 class="ratepay-mid-heading"><b>' . $this->__('lang_individual_rate_calculation') . '</b></h2>
