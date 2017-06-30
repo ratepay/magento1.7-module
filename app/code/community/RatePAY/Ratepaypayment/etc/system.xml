@@ -1183,7 +1183,7 @@
                                     </fields>
                                 </ratepay_rate0_de>
 
-                                <ratepay_ibs_de type="group" translate="label comment">
+                                <!--<ratepay_ibs_de type="group" translate="label comment">
                                     <label>IBS</label>
                                     <frontend_type>text</frontend_type>
                                     <method>ratepay_ibs</method>
@@ -1270,16 +1270,6 @@
                                             <show_in_store>1</show_in_store>
                                         </specificcountry_delivery>
 
-                                        <specificcurrency translate="label">
-                                            <label>Specific Currency</label>
-                                            <frontend_type>label</frontend_type>
-                                            <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </specificcurrency>
-
                                         <logging translate="label">
                                             <label>Activate Logging</label>
                                             <frontend_type>select</frontend_type>
@@ -1355,7 +1345,7 @@
                                             </fields>
                                         </ratepay_ibs_advanced_de>
                                     </fields>
-                                </ratepay_ibs_de>
+                                </ratepay_ibs_de>-->
                             </fields>
                         </ratepay_germany>
 
@@ -2365,7 +2355,7 @@
                                     </fields>
                                 </ratepay_rate0_at>
 
-                                <ratepay_ibs_at type="group" translate="label comment">
+                                <!--<ratepay_ibs_at type="group" translate="label comment">
                                     <label>IBS</label>
                                     <frontend_type>text</frontend_type>
                                     <method>ratepay_ibs</method>
@@ -2456,7 +2446,6 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -2526,7 +2515,7 @@
                                             </fields>
                                         </ratepay_ibs_advanced_at>
                                     </fields>
-                                </ratepay_ibs_at>
+                                </ratepay_ibs_at>-->
                             </fields>
                         </ratepay_austria>
 
@@ -2761,7 +2750,7 @@
                                     </fields>
                                 </ratepay_rechnung_ch>
 
-                                <ratepay_ibs_ch type="group" translate="label comment">
+                                <!--<ratepay_ibs_ch type="group" translate="label comment">
                                     <label>IBS</label>
                                     <frontend_type>text</frontend_type>
                                     <method>ratepay_ibs</method>
@@ -2922,7 +2911,7 @@
                                             </fields>
                                         </ratepay_ibs_advanced_ch>
                                     </fields>
-                                </ratepay_ibs_ch>
+                                </ratepay_ibs_ch>-->
                             </fields>
                         </ratepay_switzerland>
 
@@ -3399,7 +3388,7 @@
                                     </fields>
                                 </ratepay_directdebit_nl>
 
-                                <ratepay_ibs_nl type="group" translate="label comment">
+                                <!--<ratepay_ibs_nl type="group" translate="label comment">
                                     <label>IBS</label>
                                     <frontend_type>text</frontend_type>
                                     <method>ratepay_ibs</method>
@@ -3490,7 +3479,7 @@
                                             <label>Specific Currency</label>
                                             <frontend_type>label</frontend_type>
                                             <sort_order>70</sort_order>
-                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
+                                            <source_model>ratepaypayment/source_currency</source_model>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
@@ -3560,7 +3549,7 @@
                                             </fields>
                                         </ratepay_ibs_advanced_nl>
                                     </fields>
-                                </ratepay_ibs_nl>
+                                </ratepay_ibs_nl>-->
                             </fields>
                         </ratepay_netherlands>
 

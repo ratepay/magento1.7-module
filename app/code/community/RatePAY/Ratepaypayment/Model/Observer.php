@@ -28,8 +28,7 @@ class RatePAY_Ratepaypayment_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-
-    public function paymentQuery(Varien_Event_Observer $observer)
+    /*public function paymentQuery(Varien_Event_Observer $observer)
     {
         $ratepayMethodHide = Mage::getSingleton('ratepaypayment/session')->getRatepayMethodHide();
         if ($ratepayMethodHide == true) {
@@ -107,7 +106,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         } else {
             Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
         }
-    }
+    }*/
 
     /**
      * Add payment fee if payment fee is set for RatePAY and removes it again if another payment method was choosen
