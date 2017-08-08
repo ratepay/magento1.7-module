@@ -375,7 +375,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox]);
         $head = $this->_helperMapping->getRequestHead($order);
 
         // Identify adjustments and set subtotal without adjustments as amount
