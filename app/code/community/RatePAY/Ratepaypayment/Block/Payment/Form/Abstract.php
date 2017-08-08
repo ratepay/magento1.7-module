@@ -219,7 +219,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
             $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
 
             if (!empty($dfpSnippetId)) {
-                $dfp = Mage::getSingleton('ratepaypayment/libraryconnectorfrontend')->deviceFingerprint(
+                $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
                     $dfpSnippetId,
                     Mage::getSingleton('customer/session')->getId()
                 );

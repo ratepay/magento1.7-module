@@ -321,7 +321,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox]);
         $head = $this->_helperMapping->getRequestHead($order);
         $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER", $paymentMethod);
 
@@ -448,7 +448,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox, 'logging' => $logging]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox, 'logging' => $logging]);
         $head = $this->_helperMapping->getRequestHead($order);
         $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $paymentMethod, [], 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
 
