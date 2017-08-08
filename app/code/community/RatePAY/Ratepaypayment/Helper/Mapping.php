@@ -253,9 +253,6 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $content = [];
 
         switch ($operation) {
-            case "CALCULATION_REQUEST" :
-                //$content['InstallmentCalculation'] = $this->getRequest($quoteOrOrder);
-                break;
             case "PAYMENT_REQUEST" :
                 $content['Customer'] = $this->getRequestCustomer($quoteOrOrder);
                 $content['ShoppingBasket'] = $this->getRequestBasket($quoteOrOrder);
