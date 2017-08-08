@@ -488,7 +488,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if (!empty($dfpToken)) {
                 $head['CustomerDevice']['DeviceToken'] = $dfpToken;
             }
-            $content = $helperMapping->getRequestContent($quote, "PAYMENT_REQUEST", $paymentMethod);
+            $content = $helperMapping->getRequestContent($quote, "PAYMENT_REQUEST");
 
             $payment->setAdditionalInformation('transactionId', $head['TransactionId']);
             $payment->setAdditionalInformation('profileId', $head['Credential']['ProfileId']);

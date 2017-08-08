@@ -248,7 +248,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         return $head;
     }
 
-    public function getRequestContent($quoteOrOrder, $operation, $paymentMethod = null, $articleList = null, $amount = null)
+    public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null)
     {
         $content = [];
 

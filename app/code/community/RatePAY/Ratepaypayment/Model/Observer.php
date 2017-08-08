@@ -323,7 +323,7 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox]);
         $head = $this->_helperMapping->getRequestHead($order);
-        $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER", $paymentMethod);
+        $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER");
 
         $response = $request->callConfirmationDeliver($head, $content);
 
@@ -385,7 +385,9 @@ class RatePAY_Ratepaypayment_Model_Observer
             $amount = (float) $creditmemo->getGrandTotal();
         }
 
-        $content = $this->_helperMapping->getRequestContent($creditmemo, "PAYMENT_CHANGE", $paymentMethod, null, $amount);
+        $content = $this->_helperMapping->getRequestContent($creditmemo, "PAYMENT_CHANGE", null, $amount);
+
+        $content = $this->_helperMapping->getRequestContent($creditmemo, "PAYMENT_CHANGE", null, $amount);
 
         // Check whether backend operation is admitted
         if ($this->_helperData->getRpConfigData($order, $paymentMethod, 'status') == 1) {
@@ -407,7 +409,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         // If any adjustment is set, a PAYMENT CHANGE credit call will be done
         if ($creditmemo->getAdjustmentPositive() > 0 || $creditmemo->getAdjustmentNegative() > 0) {
             $requestCredit = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
-            $contentCredit = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $paymentMethod, $this->_helperMapping->addAdjustments($creditmemo));
+            $contentCredit = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $this->_helperMapping->addAdjustments($creditmemo));
 
             $responseCredit = $requestCredit->callPaymentChange($head, $contentCredit, 'credit');
 
@@ -450,7 +452,7 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox, 'logging' => $logging]);
         $head = $this->_helperMapping->getRequestHead($order);
-        $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $paymentMethod, [], 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
+        $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", [], 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
 
         // Check whether backend operation is admitted
         if ($this->_helperData->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {
