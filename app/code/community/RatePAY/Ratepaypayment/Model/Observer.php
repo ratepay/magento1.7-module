@@ -394,18 +394,6 @@ class RatePAY_Ratepaypayment_Model_Observer
             Mage::throwException($this->_helper->__('Processing failed'));
         }
 
-        $response = $request->callPaymentChange($head, $content, 'return');
-
-        if ($logging) {
-            Mage::getSingleton('ratepaypayment/logging')->log($response, $order);
-        }
-
-        if ($response->isSuccessful()) {
-            $this->_helperPayment->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
-        } else {
-            Mage::throwException($this->_helper->__('Return was not successful') . " - " . $response->getReasonMessage());
-        }
-
         // If any adjustment is set, a PAYMENT CHANGE credit call will be done
         if ($creditmemo->getAdjustmentPositive() > 0 || $creditmemo->getAdjustmentNegative() > 0) {
             $requestCredit = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
@@ -420,8 +408,21 @@ class RatePAY_Ratepaypayment_Model_Observer
             if ($responseCredit->isSuccessful()) {
                 $this->_helperPayment->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (credit)');
             } else {
-                Mage::throwException($this->_helper->__('Credit was not successful') . " - " . $response->getReasonMessage());
+                Mage::throwException($this->_helper->__('Credit was not successful') . " - " . $responseCredit->getReasonMessage());
             }
+        }
+
+        // Call PAYMENT CHANGE return
+        $responseReturn = $request->callPaymentChange($head, $content, 'return');
+
+        if ($logging) {
+            Mage::getSingleton('ratepaypayment/logging')->log($responseReturn, $order);
+        }
+
+        if ($responseReturn->isSuccessful()) {
+            $this->_helperPayment->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
+        } else {
+            Mage::throwException($this->_helper->__('Return was not successful') . " - " . $responseReturn->getReasonMessage());
         }
     }
 
