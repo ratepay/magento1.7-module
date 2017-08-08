@@ -41,7 +41,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         $product = Mage::helper('ratepaypayment/payment')->convertMethodToProduct($this->_getRpMethodWithoutCountry($method));
         $country = $this->_getRpCountry($method);
 
-        $request = Mage::getSingleton('ratepaypayment/libraryconnector', $credentials['sandbox'] == "1" ? true : false);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', $credentials['sandbox'] == "1" ? [true] : [false]);
 
         // @ToDo: Move this to mapping helper
         $headInfo = [
