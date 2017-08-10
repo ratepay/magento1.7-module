@@ -321,7 +321,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);
         $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER");
 
@@ -375,7 +375,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);
 
         // Identify adjustments and set subtotal without adjustments as amount
@@ -396,7 +396,7 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         // If any adjustment is set, a PAYMENT CHANGE credit call will be done
         if ($creditmemo->getAdjustmentPositive() > 0 || $creditmemo->getAdjustmentNegative() > 0) {
-            $requestCredit = Mage::getSingleton('ratepaypayment/libraryconnector', ['sandbox' => $sandbox]);
+            $requestCredit = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
             $contentCredit = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $this->_helperMapping->addAdjustments($creditmemo));
 
             $responseCredit = $requestCredit->callPaymentChange($head, $contentCredit, 'credit');
@@ -451,7 +451,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', ['sandbox' => $sandbox, 'logging' => $logging]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);
         $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", [], 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
 
