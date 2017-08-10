@@ -208,6 +208,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
         return $firstday;
     }
 
+    // @ToDo: Move to helper
     public function getDeviceIdentCode()
     {
         if(is_null(Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken())) {
@@ -221,7 +222,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
             if (!empty($dfpSnippetId)) {
                 $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
                     $dfpSnippetId,
-                    Mage::getSingleton('customer/session')->getId()
+                    Mage::getSingleton('core/session')->getEncryptedSessionId()
                 );
 
                 Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($dfp['token']);
