@@ -556,10 +556,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 $exception = $exception . "\n\n" . $this->getHelper()->getRpConfigData($order, $this->_code, 'privacy_policy');
             }
             $this->_hidePaymentMethod();
+        } elseif ($type == 'soft' && empty($exception)) {
+            $exception = $this->_getHelper()->__('Soft Error');
         }
         $this->_cleanSession();
         Mage::getSingleton('checkout/session')->setGotoSection('payment');
         Mage::throwException($this->_getHelper()->__((strip_tags($exception))));
+
     }
 
     /**

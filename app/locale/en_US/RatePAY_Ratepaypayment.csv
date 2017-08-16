@@ -104,6 +104,7 @@
 "YYYY","YYYY"
 "Phone Error","Please enter a valid telephone number."
 "Date Error","Please review your order information. For the chosen payment method you have to be at least 18 years old and the date of birth has to be entered in following format: dd.mm.yyyy"
+"Date Error","Please review your order information."
 "Age Error","For the chosen payment method you have to be at least 18 years old"
 "VatId Error","Please enter a valid VAT ID"
 "PAYMENT_REQUEST Declined", "Unfortunately, it is not possible to use RatePAY. This decision is based on an automated data processing procedure. For details see additional terms and conditions and privacy policy for RatePAY payment methods."

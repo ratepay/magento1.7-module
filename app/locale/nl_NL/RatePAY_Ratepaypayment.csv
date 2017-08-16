@@ -100,6 +100,7 @@
 "YYYY","JJJJ"
 "Phone Error","Om door RatePAY een betaling op rekening door te kunnen voeren, gelieve hier uw telefoonnummer invoeren."
 "Date Error","Om door RatePAY een betaling op rekening door te kunnen voeren, gelieve hier uw geboortedatum invoeren."
+"Soft Error","Controleer ingevoerd hun."
 "Age Error","Om door RatePAY een betaling op rekening door te kunnen, voeren moet u ten minste 18 jaar of ouder zijn."
 "VatId Error","Gelieve hier uw bedrijfsnaam en uw btw-nummer invoeren."
 "PAYMENT_REQUEST Declined","Helaas is een betaling met de gekozen betaalmethode Factuur niet mogelijk. Dit besluit is genomen op basis van een geautomatiseerde gegevenscontrole. Details vindt u onder Algemene Verkoopvoorwaarden en de Informatie omtrent de bescherming van persoongsgegevens voor RatePAY betaalmethoden"
