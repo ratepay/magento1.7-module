@@ -228,6 +228,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 case 'NL':
                     if (strlen($iban) <> 18) $ibanValid = false;
                     break;
+                case 'BE':
+                    if (strlen($iban) <> 16) $ibanValid = false;
+                    break;
             }
             if (!$ibanValid) {
                 Mage::throwException($this->_getHelper()->__('IBAN invalid Error'));

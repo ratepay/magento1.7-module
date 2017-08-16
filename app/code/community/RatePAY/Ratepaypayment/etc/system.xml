@@ -2915,6 +2915,644 @@
                             </fields>
                         </ratepay_switzerland>
 
+                        <ratepay_belgium type="group" translate="label comment">
+                            <label>Belgium</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>40</sort_order>
+                            <fields>
+
+                                <ratepay_rechnung_be type="group" translate="label comment">
+                                    <label>Invoice</label>
+                                    <frontend_type>text</frontend_type>
+                                    <method>ratepay_rechnung</method>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>30</sort_order>
+                                    <fields>
+
+                                        <active translate="label">
+                                            <label>Method Enabled</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </active>
+
+                                        <profile_id translate="label">
+                                            <label>Profile-Id</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>20</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </profile_id>
+
+                                        <security_code translate="label">
+                                            <label>Security Code</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>30</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </security_code>
+
+                                        <sandbox translate="label">
+                                            <label>Activate Sandbox</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>35</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Sandbox</comment>
+                                        </sandbox>
+
+                                        <get_config translate="label">
+                                            <frontend_type>button</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_button_profilerequest</frontend_model>
+                                            <sort_order>40</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Get Config</comment>
+                                        </get_config>
+
+                                        <status translate="label">
+                                            <label>Status RatePAY</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_active</frontend_model>
+                                            <sort_order>45</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </status>
+
+                                        <title translate="label">
+                                            <label>Title</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>50</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </title>
+
+                                        <specificcountry_billing translate="label">
+                                            <label>Specific Countries Billing</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>60</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_billing>
+
+                                        <specificcountry_delivery translate="label">
+                                            <label>Specific Countries Delivery</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>62</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_delivery>
+
+                                        <specificcurrency translate="label">
+                                            <label>Specific Currency</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>70</sort_order>
+                                            <source_model>ratepaypayment/source_currency</source_model>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcurrency>
+
+                                        <min_order_total translate="label">
+                                            <label>Minimum Order Total</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>80</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </min_order_total>
+
+                                        <max_order_total translate="label">
+                                            <label>Maximum Order Total</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>90</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </max_order_total>
+
+                                        <due_days>
+                                            <label>Due Days</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>100</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                            <comment>Adminhtml-Help-Due Days</comment>
+                                        </due_days>
+
+                                        <logging translate="label">
+                                            <label>Activate Logging</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>120</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </logging>
+
+                                        <b2b translate="label">
+                                            <label>B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-B2B</comment>
+                                        </b2b>
+
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
+                                        <delivery_address translate="label">
+                                            <label>Delivery Address</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>150</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-ALA</comment>
+                                        </delivery_address>
+
+                                        <payment_fee translate="label">
+                                            <label>Payment Fee</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>160</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Payment Fee</comment>
+                                        </payment_fee>
+
+                                        <sort_order translate="label">
+                                            <label>Sort Order</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>170</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </sort_order>
+
+                                        <ratepay_rechnung_advanced_be type="group" translate="label">
+                                            <label>Advanced Settings</label>
+                                            <frontend_class>config-advanced</frontend_class>
+                                            <frontend_type>text</frontend_type>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <sort_order>170</sort_order>
+                                            <fields>
+                                                <specificgroups translate="label">
+                                                    <label>Specific Customer Groups</label>
+                                                    <frontend_type>multiselect</frontend_type>
+                                                    <sort_order>10</sort_order>
+                                                    <source_model>ratepaypayment/source_customergroups</source_model>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>1</show_in_website>
+                                                    <show_in_store>1</show_in_store>
+                                                    <comment>Adminhtml-Help-Specific Customer Groups</comment>
+                                                </specificgroups>
+                                            </fields>
+                                        </ratepay_rechnung_advanced_be>
+                                    </fields>
+                                </ratepay_rechnung_be>
+
+                                <ratepay_directdebit_be type="group" translate="label comment">
+                                    <label>ELV</label>
+                                    <frontend_type>text</frontend_type>
+                                    <method>ratepay_directdebit</method>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>40</sort_order>
+                                    <fields>
+                                        <active translate="label">
+                                            <label>Method Enabled</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </active>
+
+                                        <profile_id translate="label">
+                                            <label>Profile-Id</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>20</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </profile_id>
+
+                                        <security_code translate="label">
+                                            <label>Security Code</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>30</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </security_code>
+
+                                        <sandbox translate="label">
+                                            <label>Activate Sandbox</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>35</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Sandbox</comment>
+                                        </sandbox>
+
+                                        <get_config translate="label">
+                                            <frontend_type>button</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_button_profilerequest</frontend_model>
+                                            <sort_order>40</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Get Config</comment>
+                                        </get_config>
+
+                                        <status translate="label">
+                                            <label>Status RatePAY</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_active</frontend_model>
+                                            <sort_order>45</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </status>
+
+                                        <title translate="label">
+                                            <label>Title</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>50</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </title>
+
+                                        <specificcountry_billing translate="label">
+                                            <label>Specific Countries Billing</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>60</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_billing>
+
+                                        <specificcountry_delivery translate="label">
+                                            <label>Specific Countries Delivery</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>62</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_delivery>
+
+                                        <specificcurrency translate="label">
+                                            <label>Specific Currency</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>70</sort_order>
+                                            <!--<source_model>ratepaypayment/source_currency</source_model>-->
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcurrency>
+
+                                        <min_order_total translate="label">
+                                            <label>Minimum Order Total</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>80</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </min_order_total>
+
+                                        <max_order_total translate="label">
+                                            <label>Maximum Order Total</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>90</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </max_order_total>
+
+                                        <due_days>
+                                            <label>Due Days</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>100</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                            <comment>Adminhtml-Help-Due Days</comment>
+                                        </due_days>
+
+                                        <logging translate="label">
+                                            <label>Activate Logging</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>120</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </logging>
+
+                                        <b2b translate="label">
+                                            <label>B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-B2B</comment>
+                                        </b2b>
+
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
+                                        <delivery_address translate="label">
+                                            <label>Delivery Address</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>150</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-ALA</comment>
+                                        </delivery_address>
+
+                                        <payment_fee translate="label">
+                                            <label>Payment Fee</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>160</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Payment Fee</comment>
+                                        </payment_fee>
+
+                                        <sort_order translate="label">
+                                            <label>Sort Order</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>170</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </sort_order>
+
+                                        <privacy_policy translate="label">
+                                            <label>RatePAY privacy policy URL</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>180</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </privacy_policy>
+
+                                        <!--
+                                        <bankdata_saving>
+                                            <label>Save bank data</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>13</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </bankdata_saving>
+                                        -->
+
+                                        <ratepay_directdebit_advanced_be type="group" translate="label">
+                                            <label>Advanced Settings</label>
+                                            <frontend_class>config-advanced</frontend_class>
+                                            <frontend_type>text</frontend_type>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <sort_order>190</sort_order>
+                                            <fields>
+                                                <specificgroups translate="label">
+                                                    <label>Specific Customer Groups</label>
+                                                    <frontend_type>multiselect</frontend_type>
+                                                    <sort_order>10</sort_order>
+                                                    <source_model>ratepaypayment/source_customergroups</source_model>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>1</show_in_website>
+                                                    <show_in_store>1</show_in_store>
+                                                    <comment>Adminhtml-Help-Specific Customer Groups</comment>
+                                                </specificgroups>
+                                            </fields>
+                                        </ratepay_directdebit_advanced_be>
+                                    </fields>
+                                </ratepay_directdebit_be>
+
+                                <!--<ratepay_ibs_be type="group" translate="label comment">
+                                    <label>IBS</label>
+                                    <frontend_type>text</frontend_type>
+                                    <method>ratepay_ibs</method>
+                                    <show_in_default>1</show_in_default>
+                                    <show_in_website>1</show_in_website>
+                                    <show_in_store>1</show_in_store>
+                                    <sort_order>60</sort_order>
+                                    <comment>Adminhtml-Help-IBS</comment>
+                                    <fields>
+                                        <active translate="label">
+                                            <label>Method Enabled</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>10</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </active>
+
+                                        <profile_id translate="label">
+                                            <label>Profile-Id</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>20</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </profile_id>
+
+                                        <security_code translate="label">
+                                            <label>Security Code</label>
+                                            <frontend_type>text</frontend_type>
+                                            <sort_order>30</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </security_code>
+
+                                        <sandbox translate="label">
+                                            <label>Activate Sandbox</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>35</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Sandbox</comment>
+                                        </sandbox>
+
+                                        <get_config translate="label">
+                                            <frontend_type>button</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_button_profilerequest</frontend_model>
+                                            <sort_order>40</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Get Config</comment>
+                                        </get_config>
+
+                                        <status translate="label">
+                                            <label>Status RatePAY</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_active</frontend_model>
+                                            <sort_order>45</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </status>
+
+                                        <specificcountry_billing translate="label">
+                                            <label>Specific Countries Billing</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>60</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_billing>
+
+                                        <specificcountry_delivery translate="label">
+                                            <label>Specific Countries Delivery</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>62</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcountry_delivery>
+
+                                        <specificcurrency translate="label">
+                                            <label>Specific Currency</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>70</sort_order>
+                                            <source_model>ratepaypayment/source_currency</source_model>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </specificcurrency>
+
+                                        <logging translate="label">
+                                            <label>Activate Logging</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>90</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </logging>
+
+                                        <b2b translate="label">
+                                            <label>B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>120</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-B2B</comment>
+                                        </b2b>
+
+                                        <limit_max_b2b translate="label">
+                                            <label>Maximum Order B2B</label>
+                                            <frontend_type>label</frontend_type>
+                                            <sort_order>130</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <validate>validate-number</validate>
+                                        </limit_max_b2b>
+
+                                        <delivery_address translate="label">
+                                            <label>Delivery Address</label>
+                                            <frontend_type>label</frontend_type>
+                                            <frontend_model>ratepaypayment/adminhtml_system_config_form_label_on</frontend_model>
+                                            <sort_order>140</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-ALA</comment>
+                                        </delivery_address>
+
+                                        <ratepay_ibs_advanced_ch type="group" translate="label">
+                                            <label>Advanced Settings</label>
+                                            <frontend_class>config-advanced</frontend_class>
+                                            <frontend_type>text</frontend_type>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                            <sort_order>150</sort_order>
+                                            <fields>
+                                                <specificgroups translate="label">
+                                                    <label>Specific Customer Groups</label>
+                                                    <frontend_type>multiselect</frontend_type>
+                                                    <sort_order>10</sort_order>
+                                                    <source_model>ratepaypayment/source_customergroups</source_model>
+                                                    <show_in_default>1</show_in_default>
+                                                    <show_in_website>1</show_in_website>
+                                                    <show_in_store>1</show_in_store>
+                                                    <comment>Adminhtml-Help-Specific Customer Groups</comment>
+                                                </specificgroups>
+                                            </fields>
+                                        </ratepay_ibs_advanced_ch>
+                                    </fields>
+                                </ratepay_ibs_ch>-->
+                            </fields>
+                        </ratepay_belgium>
+
                         <ratepay_netherlands type="group" translate="label comment">
                             <label>Netherlands</label>
                             <frontend_type>text</frontend_type>

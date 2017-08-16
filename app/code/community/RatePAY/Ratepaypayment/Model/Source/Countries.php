@@ -43,6 +43,10 @@ class RatePAY_Ratepaypayment_Model_Source_Countries
             array(
                 'label' => Mage::helper('core')->__('Netherlands'),
                 'value' => 'NL'
+            ),
+            array(
+                'label' => Mage::helper('core')->__('Belgium'),
+                'value' => 'BE'
             )
         );
         return $countries;

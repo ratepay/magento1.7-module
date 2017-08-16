@@ -222,6 +222,22 @@
             <ratepay_rechnung_advanced_de>
                 <specificgroups>ALL</specificgroups>
             </ratepay_rechnung_advanced_de>
+            <ratepay_rechnung_be>
+                <active>0</active>
+                <title>Rechnung</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+            </ratepay_rechnung_be>
+            <ratepay_rechnung_advanced_be>
+                <specificgroups>ALL</specificgroups>
+                <specificcategories>NO</specificcategories>
+            </ratepay_rechnung_advanced_be>
             <ratepay_rechnung_at>
                 <active>0</active>
                 <title>Rechnung</title>
@@ -292,6 +308,22 @@
             <ratepay_directdebit_advanced_de>
                 <specificgroups>ALL</specificgroups>
             </ratepay_directdebit_advanced_de>
+            <ratepay_directdebit_be>
+                <active>0</active>
+                <title>Lastschrift</title>
+                <logging>1</logging>
+                <sandbox>1</sandbox>
+                <due_days>14</due_days>
+                <specificcurrency>EUR</specificcurrency>
+                <privacy_policy>https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach</privacy_policy>
+                <status>0</status>
+                <b2b>0</b2b>
+                <delivery_address>0</delivery_address>
+                <iban_only>0</iban_only>
+            </ratepay_directdebit_be>
+            <ratepay_directdebit_advanced_be>
+                <specificgroups>ALL</specificgroups>
+            </ratepay_directdebit_advanced_be>
             <ratepay_directdebit_at>
                 <active>0</active>
                 <title>Lastschrift</title>

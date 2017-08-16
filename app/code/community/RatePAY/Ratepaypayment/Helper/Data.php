@@ -262,6 +262,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             case "AT": $valid = "<^((AT)?U[0-9]{8})$>"; break;
             case "NL": $valid = "<^((NL)?[0-9]{9}?(B)[0-9]{2})$>"; break;
             case "CH": $valid = "<^((CHE)?[0-9]{9}(MWST))$>"; break;
+            case "BE": $valid = "<^((BE)?[0-9]{9}?(B)[0-9]{2})$>"; break;
         }
 
         if (preg_match($valid, trim(strtoupper($taxvat)))) {

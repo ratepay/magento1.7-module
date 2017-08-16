@@ -119,6 +119,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         $id = str_replace('_at', '', $id);
         $id = str_replace('_ch', '', $id);
         $id = str_replace('_nl', '', $id);
+        $id = str_replace('_be', '', $id);
         $id = str_replace('0', '', $id);
 
         return $id;
@@ -133,6 +134,9 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         }
         if(strstr($id, '_nl')) {
             return 'nl';
+        }
+        if(strstr($id, '_be')) {
+            return 'be';
         }
         return 'de';
     }

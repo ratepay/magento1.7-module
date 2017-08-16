@@ -282,11 +282,17 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         $billing = [];
         $delivery = [];
 
+        $locale = substr(Mage::app()->getLocale()->getLocaleCode(),0,2);
+        if (empty($locale)) {
+            $locale = substr(Mage::app()->getLocale()->getDefaultLocale(),0,2);
+        }
+
         $dob = new Zend_Date($quoteOrOrder->getCustomerDob());
         $customer['DateOfBirth'] = $dob->toString("yyyy-MM-dd");
         $customer['Gender'] = $this->getHelper()->getGenderCode($quoteOrOrder);
         $customer['FirstName'] = $quoteOrOrder->getBillingAddress()->getFirstname();
         $customer['LastName'] = $quoteOrOrder->getBillingAddress()->getLastname();
+        $customer['Language'] = strtolower($locale);
         $customer['IpAddress'] = Mage::helper('core/http')->getRemoteAddr(false);
         $customer['Nationality'] = $quoteOrOrder->getBillingAddress()->getCountryId();
 
@@ -450,7 +456,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $amount = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'TotalAmount'}();
 
                 // Add installment data
-                $payment['InstallmentDetails']['InstallmentNumber'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
+                $payment['InstallmentDetails']['InstallmentNumber'] ^= Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'NumberOfRatesFull'}();
                 $payment['InstallmentDetails']['InstallmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'Rate'}();
                 $payment['InstallmentDetails']['LastInstallmentAmount'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'LastRate'}();
                 $payment['InstallmentDetails']['InterestRate'] = Mage::getSingleton('ratepaypayment/session')->{'get' . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($paymentMethod) . 'InterestRate'}();
