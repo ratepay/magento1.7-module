@@ -162,6 +162,16 @@
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Specific Statuses After Delivery</comment>
                                         </specificstatus_after>
+
+                                        <logging translate="label">
+                                            <label>Activate Logging</label>
+                                            <frontend_type>select</frontend_type>
+                                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                                            <sort_order>120</sort_order>
+                                            <show_in_default>1</show_in_default>
+                                            <show_in_website>1</show_in_website>
+                                            <show_in_store>1</show_in_store>
+                                        </logging>
                                     </fields>
                                 </ratepay_general_advanced>
                             </fields>
@@ -312,16 +322,6 @@
                                             <validate>validate-number</validate>
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -533,16 +533,6 @@
                                             <validate>validate-number</validate>
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -789,16 +779,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </rate_min>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>110</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -1057,16 +1037,6 @@
                                             <show_in_store>1</show_in_store>
                                         </rate_min>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>110</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -1269,16 +1239,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </specificcountry_delivery>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>90</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -1495,16 +1455,6 @@
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -1715,16 +1665,6 @@
                                             <validate>validate-number</validate>
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -1961,16 +1901,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </rate_min>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>110</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -2229,16 +2159,6 @@
                                             <show_in_store>1</show_in_store>
                                         </rate_min>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>110</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -2451,16 +2371,6 @@
                                             <show_in_store>1</show_in_store>
                                         </specificcurrency>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>90</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -2665,16 +2575,6 @@
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -2846,16 +2746,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </specificcurrency>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>90</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -3060,16 +2950,6 @@
                                             <validate>validate-number</validate>
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -3281,16 +3161,6 @@
                                             <validate>validate-number</validate>
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -3536,16 +3406,6 @@
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -3757,16 +3617,6 @@
                                             <comment>Adminhtml-Help-Due Days</comment>
                                         </due_days>
 
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>120</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -3959,16 +3809,6 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                         </specificcurrency>
-
-                                        <logging translate="label">
-                                            <label>Activate Logging</label>
-                                            <frontend_type>select</frontend_type>
-                                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                                            <sort_order>90</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                        </logging>
 
                                         <b2b translate="label">
                                             <label>B2B</label>

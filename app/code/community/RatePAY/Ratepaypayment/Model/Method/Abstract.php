@@ -463,7 +463,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $paymentMethod = $quote->getPayment()->getMethod();
 
         $sandbox = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'sandbox');
-        $logging = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'logging');
+        $logging = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'logging', true, true);
 
         $requestInit = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
 

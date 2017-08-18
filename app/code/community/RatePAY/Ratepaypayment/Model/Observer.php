@@ -319,7 +319,7 @@ class RatePAY_Ratepaypayment_Model_Observer
     {
         $paymentMethod = $order->getPayment()->getMethod();
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
-        $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
+        $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);
@@ -373,7 +373,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         }
 
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
-        $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
+        $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);
@@ -449,7 +449,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         }
 
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
-        $logging = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'logging');
+        $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
         $head = $this->_helperMapping->getRequestHead($order);

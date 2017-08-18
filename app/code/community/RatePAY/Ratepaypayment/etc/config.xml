@@ -200,6 +200,7 @@
                 <specificstate_after>STATE_PROCESSING</specificstate_after>
                 <specificstatus_before>payment_success</specificstatus_before>
                 <specificstatus_after>payment_complete</specificstatus_after>
+                <logging>1</logging>
             </ratepay_general_advanced>
 
             <ratepay_rechnung>
@@ -225,7 +226,6 @@
             <ratepay_rechnung_be>
                 <active>0</active>
                 <title>Rechnung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -241,7 +241,6 @@
             <ratepay_rechnung_at>
                 <active>0</active>
                 <title>Rechnung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -257,7 +256,6 @@
             <ratepay_rechnung_ch>
                 <active>0</active>
                 <title>Rechnung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -273,7 +271,6 @@
             <ratepay_rechnung_nl>
                 <active>0</active>
                 <title>Rechnung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -295,7 +292,6 @@
             <ratepay_directdebit_de>
                 <active>0</active>
                 <title>Lastschrift</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -311,7 +307,6 @@
             <ratepay_directdebit_be>
                 <active>0</active>
                 <title>Lastschrift</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -327,7 +322,6 @@
             <ratepay_directdebit_at>
                 <active>0</active>
                 <title>Lastschrift</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -343,7 +337,6 @@
             <ratepay_directdebit_ch>
                 <active>0</active>
                 <title>Lastschrift</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -359,7 +352,6 @@
             <ratepay_directdebit_nl>
                 <active>0</active>
                 <title>Lastschrift</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
@@ -381,7 +373,6 @@
             <ratepay_rate_de>
                 <active>0</active>
                 <title>Ratenzahlung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <dynamic_due>0</dynamic_due>
@@ -396,7 +387,6 @@
             <ratepay_rate_at>
                 <active>0</active>
                 <title>Ratenzahlung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <dynamic_due>0</dynamic_due>
@@ -417,7 +407,6 @@
             <ratepay_rate0_de>
                 <active>0</active>
                 <title>0%-Finanzierung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <dynamic_due>0</dynamic_due>
@@ -432,7 +421,6 @@
             <ratepay_rate0_at>
                 <active>0</active>
                 <title>0%-Finanzierung</title>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <dynamic_due>0</dynamic_due>
@@ -452,7 +440,6 @@
             <ratepay_ibs_de>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <status>0</status>
@@ -465,7 +452,6 @@
             <ratepay_ibs_at>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <status>0</status>
@@ -478,7 +464,6 @@
             <ratepay_ibs_ch>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>CHF</specificcurrency>
                 <status>0</status>
@@ -491,7 +476,6 @@
             <ratepay_ibs_nl>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
-                <logging>1</logging>
                 <sandbox>1</sandbox>
                 <specificcurrency>EUR</specificcurrency>
                 <status>0</status>
