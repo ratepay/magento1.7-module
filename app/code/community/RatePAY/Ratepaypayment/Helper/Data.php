@@ -472,150 +472,153 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * 
      * @param array $result
      */
-    public function getRateResultHtml($result, $notification = null)
+    public function getRateResultHtml($result, $notification = null, $method)
     {
         echo '
         <style>
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoPaymentPrice { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoServiceCharge { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoEffectiveRate { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDebitRate { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoInterestAmount { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoTotalAmount { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDurationTime { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoDurationMonth { display: block; }
-            .ratepay-InfoDiv:hover #ratepayMouseoverInfoLastRate { display: block; }
+            .rp-installment-plan-details:hover #totalAmount { display: block; }
+            .rp-installment-plan-no-details:hover #rate2 { display: block; }
+            .rp-installment-plan-details:hover #lastRate { display: block; }
+            .rp-installment-plan-details:hover #rate { display: block; }
+            .rp-installment-plan-details:hover #interestAmount { display: block; }
+            .rp-installment-plan-details:hover #interestRate { display: block; }
+            .rp-installment-plan-details:hover #annualPercentageRate { display: block; }
+            .rp-installment-plan-details:hover #serviceCharge { display: block; }
+            .rp-installment-plan-details:hover #amount { display: block; }
+            #rp-hide-installment-plan-details_' . $method . ' { display: none; }
+            #rp-show-installment-plan-details_' . $method . ' { display: block; }
+            #rp-installment-plan-details_' . $method . ' { display: none; }
+            #rp-installment-plan-no-details_' . $method . ' { display: block; }
         </style>';
 
-        if (!is_null($notification)) echo '<div id="ratepay-Notfication">' . $this->__('lang_information') . ":<br/>" . $this->__('lang_info[\''. $notification . '\']') . '</div>';
+        echo '
+            <div class="rp-table-striped">
+                <div>
+                    <div class="text-center text-uppercase" colspan="2">
+                        ' .  $this->__('rp_personal_calculation') . '
+                </div>
+            </div>';
+        if (!is_null($notification)) echo '
+            <div>
+                <div class="warning small text-center" colspan="2">
+                    ' . $this->__('rp_reason_code_translation_' . $notification) . '
+                    <br/>
+                </div>
+            </div>';
+
 
         echo '
-        <h2 class="ratepay-mid-heading"><b>' . $this->__('lang_individual_rate_calculation') . '</b></h2>
-        <table id="ratepay-InstallmentTerms" cellspacing="0">
-            <tr>
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft">' . $this->__('lang_cash_payment_price') . ':</div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoPaymentPrice">' . $this->__('lang_mouseover_cash_payment_price') . '</div>
-                         </div>
-                     </div>
-                </th>
-                <td>&nbsp;' . $result['amount'] . '</td>
-                <td class="ratepay-TextAlignLeft">&euro;</td>
-            </tr>
-            <tr class="piTableHr">
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') .'"/></div>
-                         <div class="ratepay-FloatLeft">' . $this->__('lang_service_charge') . ':</div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoServiceCharge">' . $this->__('lang_mouseover_service_charge') . '</div>
-                        </div>
+            <div class="rp-menue">
+                <div colspan="2" class="small text-right">
+                    <a class="rp-link" id="rp-show-installment-plan-details_' . $method . '" onclick="changeDetails(\'' . $method . '\')">
+                        Zeige Details
+                        <img src="' . Mage::getDesign()->getSkinUrl('images/ratepay/icon-enlarge.png') . '" class="rp-details-icon" />
+                    </a>
+                    <a class="rp-link" id="rp-hide-installment-plan-details_' . $method . '" onclick="changeDetails(\'' . $method . '\')">
+                        Schließe Details
+                        <img src="' . Mage::getDesign()->getSkinUrl('images/ratepay/icon-shrink.png') . '" class="rp-details-icon" />
+                    </a>
+                </div>
+            </div>
+            <div id="rp-installment-plan-details_' . $method . '">
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_cash_payment_price') . '
+                        <p id="amount" class="rp-installment-plan-description small">
+                            ' . $this->__('rp_mouseover_cash_payment_price') . '
+                        </p>
                     </div>
-                </th>
-                <td>&nbsp;' . $result['serviceCharge'] . '</td>
-                <td class="ratepay-TextAlignLeft">&euro;</td>
-            </tr>
-            <tr class="piPriceSectionHead">
-                <th class="ratepay-PercentWidth">
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft">' . $this->__('lang_effective_rate') . ':</div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoEffectiveRate">' . $this->__('lang_mouseover_effective_rate') . ':</div>
-                        </div>
+                    <div class="text-right">
+                        ' . $result['amount'] . ' &euro;
                     </div>
-                </th>
-                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div class="ratepay-PercentWith">' . $result['annualPercentageRate'] . '%</div></div></td>
-            </tr>
-            <tr class="piTableHr">
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft">' . $this->__('lang_interestrate_default') . ':</div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDebitRate">' . $this->__('lang_mouseover_debit_rate') . ':</div>
-                        </div>
+                </div>
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_service_charge') . '
+                        <p id="serviceCharge" class="rp-installment-plan-description small">
+                            ' . $this->__('rp_mouseover_service_charge') . '
+                        </p>
                     </div>
-                 </th>
-                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div class="ratepay-PercentWith">' . $result['interestRate'] . '%</div></div></td>
-            </tr>
-            <tr>
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft">' . $this->__('lang_interest_amount') . ':</div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoInterestAmount">' . $this->__('lang_mouseover_interest_amount') . ':</div>
-                        </div>
+                    <div class="text-right">
+                        ' . $result['serviceCharge'] . ' &euro;
                     </div>
-                </th>
-                <td>&nbsp;' . $result['interestAmount'] . '</td>
-                <td class="ratepay-TextAlignLeft">&euro;</td>
-            </tr>
-            <tr>
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft"><b>' . $this->__('lang_total_amount') . ':</b></div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoTotalAmount">' . $this->__('lang_mouseover_total_amount') . '</div>
-                        </div>
+                </div>
+    
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_effective_rate') .'
+                        <p id="annualPercentageRate" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_effective_rate') . '</p>
                     </div>
-                </th>
-                <td><b>&nbsp;' . $result['totalAmount'] . '</b></td>
-                <td class="ratepay-TextAlignLeft"><b>&euro;</b></td>
-            </tr>
-            <tr>
-                <td colspan="2"><div class="ratepay-FloatLeft">&nbsp;<div></td>
-            </tr>
-            <tr>
-                <td colspan="2"><div class="ratepay-FloatLeft">' . $this->__('lang_calulation_result_text') . '<div></td>
-            </tr>
-             <tr class="ratepay-yellow piPriceSectionHead">
-                <th class="ratepay-PaddingTop">
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft"><b>' . $this->__('lang_duration_time') . ':</b></div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDurationTime">' . $this->__('lang_mouseover_duration_time') . '</div>
-                        </div>
+                    <div class="text-right">
+                        ' . $result['annualPercentageRate'] . ' %
                     </div>
-                </th>
-                <td colspan="2" class="ratepay-PaddingRight piRpPaddingTop"><b>' . $result['numberOfRatesFull'] . '&nbsp;' . $this->__('lang_months') . '</b></td>
-            </tr>
-            <tr class="ratepay-yellow">
-                <th>
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft piRpPaddingLeft"><b>' . $result['numberOfRates'] . '' . $this->__('lang_duration_month') . ':</b></div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoDurationMonth">' . $this->__('lang_mouseover_duration_month') . '</div>
-                        </div>
+                </div>
+    
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_debit_rate') . '
+                        <p id="interestRate" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_debit_rate') . '</p>
                     </div>
-                </th>
-                <td><b>&nbsp;' . $result['rate'] . '</b></td>
-                <td class="ratepay-PaddingRight"><b>&euro;</b></td>
-            </tr>
-            <tr class="ratepay-yellow piRpPaddingBottom">
-                <th class="ratepay-PaddingBottom">
-                    <div class="ratepay-InfoDiv">
-                        <div class="ratepay-InfoImgDiv"><img class="ratepay-InfoImg" src="' . Mage::getDesign()->getSkinUrl('images/ratepay/info-icon.png') . '"/></div>
-                        <div class="ratepay-FloatLeft piRpPaddingLeft"><b>' . $this->__('lang_last_rate') . ':</b></div>
-                        <div class="ratepay-RelativePosition">
-                            <div class="ratepay-MouseoverInfo" id="ratepayMouseoverInfoLastRate">' . $this->__('lang_mouseover_last_rate') . '</div>
-                        </div>
+                    <div class="text-right">
+                        ' . $result['interestRate'] . ' %
                     </div>
-                </th>
-                <td class="ratepay-PaddingBottom"><b>&nbsp;' . $result['lastRate'] . '</b></td>
-                <td class="ratepay-PaddingRight piRpPaddingBottom"><b>&euro;</b></td>
-            </tr>
-            <tr>
-                <td colspan="2"><div class="ratepay-CalculationText ">' . $this->__('lang_calulation_example') . '</div></td>
-            </tr>
-        </table>';
+                </div>
+    
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_interest_amount') . '
+                        <p id="interestAmount" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_interest_amount') . '</p>
+                    </div>
+                    <div class="text-right">
+                        ' . $result['interestAmount'] . ' &euro;
+                    </div>
+                </div>
+    
+                <div class="rp-installment-plan-details">
+                    <div colspan="2"></div>
+                </div>
+    
+    
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $result['numberOfRates'] . ' ' . $this->__('rp_duration_month') . '
+                        <p id="rate" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_duration_month') . '</p>
+                    </div>
+                    <div class="text-right">
+                        ' . $result['rate'] . ' &euro;
+                    </div>
+                </div>
+    
+                <div class="rp-installment-plan-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $this->__('rp_last_rate') . '
+                        <p id="lastRate" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_last_rate') . '</p>
+                    </div>
+                    <div class="text-right">
+                        ' . $result['lastRate'] . ' &euro;
+                    </div>
+                </div>
+            </div>
+            <div id="rp-installment-plan-no-details_' . $method . '">
+                <div class="rp-installment-plan-no-details">
+                    <div class="rp-installment-plan-title">
+                        ' . $result['numberOfRatesFull'] . ' ' . $this->__('rp_duration_month') . '
+                        <p id="rate2" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_duration_month') . '</p>
+                    </div>
+                    <div class="text-right">
+                        ' . $result['rate'] . ' &euro;
+                    </div>
+                </div>
+            </div>
+            <div class="rp-installment-plan-details">
+                <div class="rp-installment-plan-title"">
+                    ' . $this->__('rp_total_amount') . '
+                    <p id="totalAmount" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_total_amount') . '</p>
+                </div>
+                <div class="text-right">
+                    ' . $result['totalAmount'] . ' &euro;
+                </div>
+            </div>';
     }
 }
 

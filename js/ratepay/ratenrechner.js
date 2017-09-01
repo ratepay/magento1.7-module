@@ -1,7 +1,7 @@
 function switchRateOrRuntime(mode, paymentMethod, url)
 {
     if (mode == 'rate') {
-        document.getElementById('ratepay_installment_rate').value = 1;
+        document.getElementById('ratepay_installment_rate_' + paymentMethod).value = 1;
         document.getElementById(paymentMethod + '_SwitchToTerm').className = 'ratepay-Active';
         document.getElementById(paymentMethod + '_SwitchToRuntime').className = '';
         document.getElementById(paymentMethod + '_ChooseInputRate').style.backgroundImage = "url(" + url + "arrow_dark.png)";
@@ -9,7 +9,7 @@ function switchRateOrRuntime(mode, paymentMethod, url)
         document.getElementById(paymentMethod + '_ContentTerm').style.display = 'block';
         document.getElementById(paymentMethod + '_ContentRuntime').style.display = 'none';
     } else if (mode == 'runtime') {
-        document.getElementById('ratepay_installment_rate').value = 0;
+        document.getElementById('ratepay_installment_rate_' + paymentMethod).value = 0;
         document.getElementById(paymentMethod + '_SwitchToRuntime').className = 'ratepay-Active';
         document.getElementById(paymentMethod + '_SwitchToTerm').className = '';
         document.getElementById(paymentMethod + '_ChooseInputRate').style.backgroundImage = "url(" + url + "arrow.png)";
@@ -19,12 +19,31 @@ function switchRateOrRuntime(mode, paymentMethod, url)
     }
 }
 
-function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
+function changeDetails(paymentMethod) {
+    var hide = document.getElementById("rp-hide-installment-plan-details_" + paymentMethod);
+    var show = document.getElementById("rp-show-installment-plan-details_" + paymentMethod);
+    var details = document.getElementById("rp-installment-plan-details_" + paymentMethod);
+    var nodetails = document.getElementById("rp-installment-plan-no-details_" + paymentMethod);
+
+    if (hide.style.display == "block") {
+        hide.style.display = "none";
+        nodetails.style.display = "block";
+        show.style.display = "block";
+        details.style.display = "none";
+    } else {
+        hide.style.display = "block";
+        nodetails.style.display = "none";
+        show.style.display = "none";
+        details.style.display = "block";
+    }
+}
+
+function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward, month)
 {
     var calcValue;
     var calcMethod;
     var notification;
-    var firstDay = document.getElementById('ratepay_payment_firstday').value;
+    var firstDay = document.getElementById('ratepay_payment_firstday_' + paymentMethod).value;
 
     var html;
 
@@ -40,20 +59,10 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
     if (mode == 'rate') {
         calcValue = document.getElementById(paymentMethod + '-rate').value;
         calcMethod = 'calculation-by-rate';
-         if (document.getElementById('debitSelect')) {
-             dueDate = document.getElementById('debitSelect').value;
-        } else {
-            dueDate= '';
-        }
     } else if (mode == 'runtime') {
-        calcValue = document.getElementById(paymentMethod + '-runtime').value;
+        calcValue = month;
         calcMethod = 'calculation-by-time';
         notification = (document.getElementById(paymentMethod + '_Notification') == null) ? 0 : 1;
-        if(document.getElementById('debitSelectRuntime')){
-             dueDate = document.getElementById('debitSelectRuntime').value;
-        } else {
-            dueDate= '';
-        }
     }
     xmlhttp.open("POST", url, false);
 
@@ -67,11 +76,9 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward)
         document.getElementById(paymentMethod + '_ResultContainer').innerHTML = html;
         document.getElementById(paymentMethod + '_ResultContainer').style.display = 'block';
         document.getElementById(paymentMethod + '_ResultContainer').style.padding = '3px 0 0 0';
-        document.getElementById(paymentMethod + '_SwitchToTerm').style.display = 'none';
-        //setTimeout("ratepaySetLoaderBack()",300);
 
-        if(document.getElementById('ratepay_rate_sepa_block').style.display == 'none'){
-            document.getElementById('ratepay_rate_sepa_block').style.display = 'block';
+        if(document.getElementById('ratepay_rate_sepa_block_' + paymentMethod).style.display == 'none'){
+            document.getElementById('ratepay_rate_sepa_block_' + paymentMethod).style.display = 'block';
         }
     }
 }

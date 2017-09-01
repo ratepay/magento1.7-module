@@ -205,7 +205,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         parent::assignData($data);
         $params = $data->getData();
 
-        if (key_exists('ratepay_rate_method_invoice', $params) && (bool) $params['ratepay_rate_method_invoice']) {
+        if (key_exists($params['method'] . '_method_invoice', $params) && (bool) $params[$params['method'] . '_method_invoice']) {
             return $this;
         }
 

@@ -53,460 +53,158 @@ $firstday = $this->getFirstday();
     .sp-methods div.ratepaybirthdate {
         width: 476px;
     }
-    #ratepay-main-cont h1,#ratepay-main-cont h2,#ratepay-main-cont td,#ratepay-main-cont th{
-        color: black!important;
-    }
-    /* reset */
-    #ratepay-main-cont, #ratepay-main-cont div, #ratepay-main-cont span, #ratepay-main-cont p, #ratepay-main-cont input, #ratepay-main-cont select, #ratepay-main-cont h2, #ratepay-main-cont table, #ratepay-main-cont td {
-        font: 13px  Tahoma;
-        line-height: 17px;
-        text-align: left;
-    }
 
     /* RatePAY Calculator */
-    .ratepay-ClearFix {
-        clear: both;
-        line-height: 1px;
-        height: 1px;
-    }
-
-    #ratepay-main-cont {
-        color: black!important;
-        width: 472px !important;
-        margin: 0 auto;
-        vertical-align: middle;
-    }
-
-    #ratepay-main-cont input.ratepay-Input-button {
-        width:173px;
-        color:#000;
-        background:#f2c551;
-        border:2px solid #f2c551;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        font-weight:bold;
-        cursor:pointer;
-        position:relative;
-        text-align: center;
-        float: right;
-        top: 8px;
-        right:5px;
-        margin-left: 15px;
-    }
-    #ratepay-main-cont input.ratepay-Input-button2 {
-        width:173px;
-        color:#000;
-        background:#f2c551;
-        border:2px solid #f2c551;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        font-weight:bold;
-        cursor:pointer;
-        position:relative;
-        text-align: center;
-        float: right;
-        top: 4px;
-        right:5px;
-    }
-    #ratepay-main-cont input.ratepay-Input-button:hover {
-        background-color:#f2B551;
-        border:2px solid #f2C551;
-    }
-    #ratepay-main-cont input.ratepay-Input-button2:hover {
-        background-color:#f2B551;
-        border:2px solid #f2C551;
-    }
-    #runtime{
-        margin: 0 0 0 15px;
-    }
-
-    #ratepay-Header {
-        height: auto;
+    .rpContainer {
         width: 100%;
+        margin: 10px 0;
     }
-
-    #ratepay-Header img {
-        float: right;
-        margin-bottom: 3px;
+    .row {
+        margin: 5px 0;
     }
-
-    #ratepay-Header span {
-        font-size: 16px;
-    }
-
-    #ratepay-main-cont p.ratepay-Text {
-        width: 400px;
-    }
-
-    #ratepay-main-cont p.ratepay-Top-Text {
-        margin: 20px 15px 0;
-    }
-
-    div#ratepay-ContentSwitch {
-        margin: 0px 0 0;
-        padding: 5px;
-        background-color: #eee;
-    }
-
-    .ratepay-ContentSwitchDiv {
-        width: 190px;
-        padding: 2px 0 0 15px;
-        color: #263551;
-        display: none;
-    }
-
-    #ratepay-main-cont #ratepay-DueDate{
-    }
-
-    #ratepay-main-cont #debitSelect{
-        float: right;
-        font-size: 100%;
-        margin: 0 3px 0 0;
-        text-align: left;
-        width: 167px;
-        height:60px;
-    }
-    #ratepay-main-cont .ratepay-DueText{
+    .col-md-5 {
+        width: 49%;
+        margin: 0 3px;
         float: left;
-        margin-top: 10px;
+    }
+    .panel {
+        display: block;
+        background: #fff;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-sizing: border-box;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+    .panel-heading {
+        border-color: #ddd;
+        border-bottom: 1px solid #ddd;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+        color: #333;
+        background-color: #f5f5f5;
+    }
+    .panel-default {
+         border-color: #ddd;
+     }
+    .text-center {
+        padding: 10px 0px;
+        border-top: 1px solid #ddd;
+        text-align: center;
+    }
+    .panel-body {
+        padding: 15px;
+        box-sizing: border-box;
+        min-height: 68px;
+    }
+    .btn {
+        padding: 2px 10px 2px 10px;
+        padding: .125rem .625rem .125rem .625rem;
+        line-height: 32px;
+        line-height: 2rem;
+        border-radius: 3px;
+        background-clip: padding-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        font-size: 14px;
+        font-size: .875rem;
+        background-color: #fff;
+        -webkit-font-smoothing: inherit;
+        display: inline-block;
+        position: relative;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: left;
+        cursor: pointer;
+        border: 1px solid #dadae5;
+        color: #5f7285;
+    }
+    .btn-group {
+         position: relative;
+         display: inline-block;
+         vertical-align: middle;
+         box-sizing: border-box;
+     }
+    .btn-group-justified {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: separate;
+    }
+    .btn-group-justified>.btn, .btn-group-justified>.btn-group {
+        float: none;
+        display: table-cell;
+        width: 1%;
+        vertical-align: middle;
+        position: relative;
+    }
+    #ratepay_rate-rate {
         width: auto;
     }
-
-    #ratepay-ContentSwitch div.ratepay-Active {
-        color: #B69767;
+    .rp-link {
+        margin-left: 20px;
+        cursor: pointer;
     }
-
-    #ratepay-ContentSwitchInput {
-        display: block;
-        margin-top: 5px;
-    }
-
-    #ratepay-SwitchToTerm {
-        float: left;
-    }
-
-    #ratepay-SwitchToRuntime {
+    .rp-details-icon {
         float: right;
-        left: 40px;
-        position: relative;
-    }
-
-    #ratepay-main-cont .ratepay-Content p {
-        margin-bottom: 25px;
-    }
-
-    #ratepay-main-cont div.ratepay-Content {
-
-    }
-
-    #ratepay-ContentTerm {
-        display:none;
-    }
-
-    #ratepay-ContentRuntime {
-        display:none;
-    }
-
-    #ratepay-main-cont .ratepay-Content select, #ratepay-main-cont .ratepay-Content input.ratepay-Input-amount {
-        border: 1px solid #D1DFE0;
-        text-align: right;
-        position: relative;
-        top: 2px;
-    }
-
-    #ratepay-main-cont .ratepay-Content select {
-        padding: 2px;
-        text-align: left;
-        width: 95px;
-    }
-
-    #ratepay-main-cont .ratepay-Content input.ratepay-Input-amount {
-        padding: 2px;
-        width: 50px;
-    }
-
-    #ratepay-main-cont .ratepay-Content span.ratepay-Currency {
-        padding-top: 3px;
-        vertical-align: middle;
-    }
-
-    /* RatePAY Calculator Result */
-    #ratepay-main-cont #ratepay-Result {
-        background: none repeat scroll 0 0 #fefefe;
-        color: black;
-        margin-top: 10px;
-    }
-    /* RatePAY Calculator Result */
-    #ratepay-main-cont #ratepay-Result2 {
-        background: none repeat scroll 0 0 #fefefe;
-        color: black;
-        margin-top: 10px;
-    }
-
-    #ratepay-main-cont #ratepay-Notfication {
-        background: none repeat scroll 0 0 #FFFFE0;
-        border: 1px solid #E6DB55;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius: 5px 5px 5px 5px;
-        color: #263551;
-        margin: 10px 0 11px 0px;
-        padding: 10px 5px;
-    }
-
-    #ratepay-main-cont .ratepay-error {
-        background: none repeat scroll 0 0 #FFEBE8;
-        border: 1px solid #CC0000;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius: 5px 5px 5px 5px;
-        color: #263551;
-        padding: 10px;
-        margin: 10px 0 11px 0px;
-    }
-
-    #ratepay-main-cont h2.ratepay-mid-heading {
-        color: black;
-        font-size: 12px;
-        margin: 5px 0;
-        padding-left: 5px;
-    }
-
-    #ratepay-Result table{
-        border: none;
-    }
-    #ratepay-Result2 table{
-        border: none;
-    }
-    #ratepay-InstallmentTerms table,#ratepay-InstallmentTerms td,#ratepay-InstallmentTerms th {
-        border: none;
-        padding: 0px;
-    }
-    #ratepay-InstallmentTerms th {
-        padding-left:10px;
-        text-align: left;
-        width: 240px;
-        border: none;
-        vertical-align: middle;
-    }
-
-    #ratepay-InstallmentTerms td {
-        text-align: right;
-        color: black;
-        border: none;
-        vertical-align: middle;
-    }
-
-    #ratepay-InstallmentTerms label {
-        border: 1px solid #DDDDDD;
-        display: inline-block;
-        margin-top: 4px;
-        padding-bottom: 5px;
-    }
-
-    #ratepay-InstallmentTerms tr.ratepay-Highlight th {
-        padding-left: 0;
-        color: black;
-        border: none;
-    }
-
-    #ratepay-InstallmentTerms tr.ratepay-Highlight th, #ratepay-InstallmentTerms tr.ratepay-Highlight td {
-        color: black;
-        border: none;
-    }
-
-    #ratepay-InstallmentTerms th, #ratepay-InstallmentTerms td {
-        color: black;
-        border: none;
-    }
-
-    #ratepay-InstallmentTerms tr.ratepay-TableHr th, #ratepay-InstallmentTerms tr.ratepay-TableHr td {
-        color: black;
-        border: none;
-    }
-
-    #ratepay-InstallmentTerms tr.ratepay-TableHr {
-        color: black;
-        border: none;
-    }
-
-    #ratepay-InstallmentTerms tr.ratepay-PriceSectionHead td, #ratepay-InstallmentTerms tr.ratepay-PriceSectionHead th {
-        color: black;
-        border: none;
-    }
-
-    table#ratepay-InstallmentTerms {
-        color: black;
-        margin: 0 auto;
-        padding: 5px 3px;
-        width: 415px !important;
-    }
-
-    #ratepay-main-cont .ratepay-H2{
-        color: black;
-        float: left;
-        font-size: 18px;
-        font-weight: bold;
-        margin: 20px 0 0 10px;
-    }
-
-    #ratepay-main-cont .ratepay-LogoText{
-        float: right;
-        font-size: 10px;
-        padding-right: 5px;
-        margin-top: -3px;
-    }
-    .ratepay-FullWidth{
-        width: 100%;
+        padding: 5px;
         height: 20px;
     }
 
-    #ratepay-main-cont .ratepay-ChooseRuntime{
-        border: 1px solid;
-        font-size: 95%;
-        padding: 10px;
-    }
-    .ratepay-FloatLeft{
-        float: left;
-    }
 
-    .ratepay-NintyPercentWidth{
-        padding-top: 13px;
-        width: 90%;
+    /* RatePAY Calculator Result */
+    .rp-table-striped {
+        width: 100%;
     }
-
-    #ratepay-main-cont .ratepay-ChooseInput{
-        background: url("<?php echo $this->getSkinUrl('images/ratepay/arrow.png'); ?>") no-repeat scroll 0 0 transparent;
-        float: left;
-        height: 40px;
-        padding-left: 13px;
+    * {
+        box-sizing: border-box;
     }
-
-
-    #ratepay-main-cont .ratepay-ChooseInput Input{
-        margin-top: 13px;
+    .text-uppercase {
+        text-transform: uppercase;
     }
-
-    #debitSelect{
-        padding: 2px;
-        width:123px;
-        margin: 0px;
-    }
-    .ratepay-MouseoverInfo{
-        background-color: #263552;
-        color: white;
-        border: 1px solid black;
-        bottom: 0;
-        display: none;
-        float: left;
-        font-size: 8px;
-        height: auto;
-        left: 20px;
-        position: absolute;
-        max-width: 350px;
-        padding: 5px;
-    }
-    .ratepay-InfoImg{
-        width: 12px;
-        height: 12px;
-    }
-    .ratepay-InfoImgDiv{
-        float: left;
-        height: 16px;
-        padding: 2px 3px;
-        width: 16px;
-    }
-
-    #ratepay-main-cont .ratepay-CalculationText{
-        font-size: 85%;
-        padding-top: 15px;
-    }
-    .ratepay-RelativePosition{
-        position: relative;
-    }
-
-
-    .ratepay-yellow{
-        background-color: #F2C551;
-    }
-
-    #ratepay-InstallmentTerms td.ratepay-PercentWidth{
-        width: 250px;
-    }
-    .ratepay-MarginTop{
-        margin-top: 10px;
-
-    }
-
-    #ratepay-InstallmentTerms .ratepay-PaddingBottom{
-        padding-bottom: 10px;
-    }
-    #ratepay-InstallmentTerms .ratepay-PaddingRight{
-        padding-right: 10px;
-    }
-
-    #ratepay-InstallmentTerms .ratepay-PaddingLeft{
-        padding-left: 10px;
-    }
-
-    #ratepay-InstallmentTerms .ratepay-PaddingTop{
-        padding-top: 10px;
-    }
-
-    #ratepay-ContentRuntime option{
-        border-right: 1px solid #ccc;
-        padding-left: 8px;
-        padding-top: 2px;
-        font-size: 100%;
-        text-align: left;
-    }
-
-    #ratepay-main-cont .ratepay-VertAlignMiddle{
-        vertical-align: middle;
-    }
-
-    #ratepay-InstallmentTerms .ratepay-PercentWith{
-        float: left;
-        text-align: right;
-        width: 50px;
-    }
-    #ratepay-InstallmentTerms .ratepay-TextAlignLeft{
-        text-align: left;
-    }
-    #ratepay-InstallmentTerms #ratepay-InstallmentThirdTd{
-        width: 10px;
-    }
-
-    #ratepay-main-cont .ratepay-Content .ratepay-DueDateSelect{
-        float: right;
-        width: 167px;
-        height:60px;
-    }
-    #ratepay-main-cont .ratepay-Content .ratepay-DueDateSelect option{
-        border-right: 0px solid;
-    }
-
-    #ratepay-main-cont input.ajaxloader{
-        background: url("<?php echo $this->getSkinUrl('images/ratepay/ajaxloader.gif'); ?>")no-repeat 140px 1px #f2B551;
-    }
-
-    #debitSelectRuntime option {
-        padding: 0px;
-    }
-
-    .ratepay-MarginBottom {
-        margin-bottom: 5px;
-    }
-
-    .ratepay-sandbox-notification {
-        border: 2px dashed #000000;
-        background-color: #ffff00;
-        font-weight: bold;
-        font-color: #000000;
+    .text-center {
+        padding: 10px 0px;
+        border-top: 1px solid #ddd;
         text-align: center;
     }
+    .warning {
+        background-color: #fcf8e3;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 7px 0px;
+    }
+    .rp-menue, .rp-installment-plan-details, .rp-installment-plan-no-details {
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        margin: 0px 3px;
+        padding: 13px 6px;
+    }
+    #rp-installment-plan-details {
+        display: none;
+    }
+    #rp-installment-plan-no-details {
+        display: block;
+    }
+    .rp-installment-plan-details:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+    .rp-installment-plan-title {
+        float: left;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .rp-installment-plan-description {
+        display: none;
+        position: absolute;
+        margin-top: -5px;
+    }
+    .small {
+        font-size: 85%;
+    }
+
 </style>
 
 <style>
@@ -544,19 +242,14 @@ $firstday = $this->getFirstday();
         border-color: #ccc;
         color: #333;
     }
-    .btn-primary {
-        background-color: #337ab7;
-        border-color: #2e6da4;
-        color: #fff;
-    }
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
 
     <?php if (is_array($firstday) || $firstday == '2'): ?>
-        <input type="hidden" id="ratepay_payment_firstday" value="2">
+        <input type="hidden" id="ratepay_payment_firstday_<?php echo $_code ?>" value="2">
     <?php else: ?>
-        <input type="hidden" id="ratepay_payment_firstday" value="28">
+        <input type="hidden" id="ratepay_payment_firstday_<?php echo $_code ?>" value="28">
     <?php endif; ?>
 
     <?php if ($this->isSandbox()): ?>
@@ -632,79 +325,65 @@ $firstday = $this->getFirstday();
 
     <?php if (count($monthAllowed) > 1): ?>
         <li>
-            <input type="hidden" id="<?php echo $_code ?>_Notification" value="1">
-            <div id="ratepay-main-cont">
-                <div id="ratepay-Header">
-                    <div class="ratepay-FullWidth">
-                        <h2 class="ratepay-H2"><?php echo $this->__('Calculate here your own rate'); ?></h2>
+            <div class="rpContainer">
+                <div class="row">
+                    <div class="col-md-10">
+<?php
+                        echo $this->__('rp_calculation_intro_part1');
+                        echo $this->__('rp_calculation_intro_part2');
+                        echo $this->__('rp_calculation_intro_part3');
+?>
                     </div>
-                    <br class="ratepay-ClearFix" />
                 </div>
-
-                <div id="ratepay-ContentSwitch">
-                    <div class="ratepay-ChooseRuntime">
-                        <?php echo $this->__('lang_cash_payment_price_part_one'); ?>
-                        <?php echo $this->__('lang_cash_payment_price_part_two'); ?>
-                        <br />
-                        <label for="firstInput" style="width:100%;">
-                            <div class="ratepay-ChooseInput" id="<?php echo $_code ?>_ChooseInputRate">
-                                <input id="firstInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="wishrate"  onClick="switchRateOrRuntime('rate', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>'); <?php $installmentUrl = $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)) ?>" checked="checked">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center" id="firstInput">
+                                <h3><?php echo $this->__('rp_runtime_title'); ?></h3>
+                                <?php echo $this->__('rp_runtime_description'); ?>
                             </div>
-                            <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black; width: 390px;"><?php echo $this->__('lang_payment_text_wishrate'); ?></div>
-                        </label>
-                        <div id="<?php echo $_code ?>_ContentTerm" class="ratepay-Content" style="display: none;">
-                            <br class="ratepay-ClearFix" />
-                            <div class="ratepay-MarginTop">
-                                <span class="ratepay-VertAlignMiddle"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_wishrate'); ?>:</span>
-                                <input id="<?php echo $_code ?>-rate" class="ratepay-Input-amount" type="text">
-                                <span class="ratepay-Currency"> &euro;</span>
-                                <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('lang_calculate_runtime'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
-                            </div>
-                        </div>
-                        <br class="ratepay-ClearFix" />
-                        <label for="secondInput" style="width:100%;">
-                            <div class="ratepay-ChooseInput" id="<?php echo $_code ?>_ChooseInputRuntime">
-                                <input id="secondInput" class="ratepay-FloatLeft" type="radio" name="Zahlmethode" value="runtime" onClick="switchRateOrRuntime('runtime', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl('images/ratepay/'); ?>'); <?php $installmentUrl = $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)) ?>">
-                            </div>
-                            <div class="ratepay-NintyPercentWidth ratepay-FloatLeft" style="color: black;"><?php echo $this->__('lang_payment_text_runtime'); ?></div>
-                        </label>
-                        <div id="<?php echo $_code ?>_ContentRuntime" class="ratepay-Content" style="display: none;">
-                            <br class="ratepay-ClearFix" />
-                            <div class="ratepay-MarginTop">
-                                <span class="ratepay-VertAlignMiddle" style="float: left;"><?php echo $this->__('lang_please') . " " . $this->__('lang_insert_runtime'); ?>:</span>
-                                <select id="<?php echo $_code ?>-runtime">
-                                    <?php
-                                    foreach ($monthAllowed as $month) {
-                                        echo '<option value="' . $month . '">';
-                                        if ($month < 10)
-                                            echo'&nbsp;'; echo $month . ' ' . $this->__('lang_months') . '</option>';
+                            <div class="panel-body">
+                                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+<?php
+                                    foreach ($monthAllowed AS $month) {
+?>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button class="btn btn-default" type="button" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>', <?php echo $month; ?>);" value="<?php echo $this->__('lang_calculate_rate'); ?>" id="piRpInput-buttonMonth-<?php echo $month; ?>" role="group"><?php echo $month; ?></button>
+                                        </div>
+<?php
                                     }
                                     ?>
-                                </select>
-                                <input name="" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('lang_calculate_rate'); ?>" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" id="<?php echo $_code ?>_Input-buttonRuntime"  class="ratepay-Input-button2">
+                                </div>
                             </div>
                         </div>
-                        <br class="ratepay-ClearFix" />
-                        <div class="ratepay-ContentSwitchDiv" id="<?php echo $_code ?>_SwitchToTerm" class="ratepay-Active" style="display: none">
-                            <span id="<?php echo $_code ?>_spanrate">
-                                <?php echo $this->__('lang_insert_wishrate'); ?> <?php echo $this->__('lang_calculate_runtime'); ?>
-                            </span>
-                            <input name="" value="<?php echo $this->__('lang_calculate_runtime'); ?>" type="button" class="ratepay-Input-button ratepay-ContentSwitchInput ">
+                    </div>
+                    <div class="col-md-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center" id="secondInput">
+                                <h3><?php echo $this->__('rp_rate_title'); ?></h3>
+                                <?php echo $this->__('rp_rate_description'); ?>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">&euro;</span>
+                                    <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
+                                    <span class="input-group-btn">
+                                        <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('rp_calculate_rate'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ratepay-ContentSwitchDiv"  id="<?php echo $_code ?>_SwitchToRuntime" style="display: none">
-                            <span id="<?php echo $_code ?>_spanruntime" class="ratepay-active">
-                                <?php echo $this->__('lang_choose_runtime'); ?> <?php echo $this->__('lang_calculate_rate'); ?>
-                            </span>
-                            <input name="" value="<?php echo $this->__('lang_calculate_rate'); ?>" type="button" class="ratepay-Input-button ratepay-ContentSwitchInput ">
-                        </div>
-                        <div id="<?php echo $_code ?>_ResultContainer"></div>
                     </div>
                 </div>
-                <script>
-                    switchRateOrRuntime('rate', '<?php echo $_code ?>', '<?php echo $this->getSkinUrl(); ?>');
-                </script>
-
-                <br class="ratepay-ClearFix" />
+                <br style="clear: both;"
+                <div id="ratepay-main-cont">
+                    <div id="ratepay-ContentSwitch">
+                        <div class="ratepay-ChooseRuntime">
+                            <div id="<?php echo $_code ?>_ResultContainer"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </li>
     <?php else: ?>
@@ -722,12 +401,12 @@ $firstday = $this->getFirstday();
             </div>
         </li>
     <?php endif; ?>
-    <input type="hidden" id="ratepay_installment_rate" value="1">
-    <input type="hidden" id="ratepay_installment_url_rate" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>">
-    <input type="hidden" id="ratepay_installment_url_runtime" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>">
-    <input type="hidden" id="ratepay_rate_method_invoice" name="payment[ratepay_rate_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
+    <input type="hidden" id="ratepay_installment_rate_<?php echo $_code ?>" value="1">
+    <input type="hidden" id="ratepay_installment_url_rate_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>">
+    <input type="hidden" id="ratepay_installment_url_runtime_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>">
+    <input type="hidden" id="ratepay_rate_method_invoice_<?php echo $_code ?>" name="payment[ratepay_rate_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
 
-    <div id="ratepay_rate_sepa_block" style="display:none">
+    <div id="ratepay_rate_sepa_block_<?php echo $_code ?>" style="display:none">
         <?php if (is_array($firstday) || $firstday == '2'): ?>
                <li>
                     <hr />
@@ -752,13 +431,13 @@ $firstday = $this->getFirstday();
                         <?php echo $this->getAccountOwner(); ?>
                     </div>
                 </li>
-                <li id="ratepay_rate_element_iban" class="ratepay_rate_sepa_element">
+                <li id="ratepay_rate_element_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_element">
                     <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?> / <?php echo $this->__('Account number'); ?></label>
                     <div class="input-box">
-                        <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this)" />
+                        <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this, <?php echo $_code ?>)" />
                     </div>
                 </li>
-                <li id="ratepay_rate_element_bankcode" class="ratepay_rate_sepa_element" style="display:none;">
+                <li id="ratepay_rate_element_bankcode_<?php echo $_code ?>" class="ratepay_rate_sepa_element" style="display:none;">
                     <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
                     <div class="input-box">
                         <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
@@ -767,7 +446,7 @@ $firstday = $this->getFirstday();
 
                 <li class="ratepay_rate_sepa_element">
                     <table>
-                        <tbody id="ratepay_rate_sepa_agreement">
+                        <tbody id="ratepay_rate_sepa_agreement_<?php echo $_code ?>">
                         <tr>
                             <td style="vertical-align: top; padding-right: 5px;">
                                 <input type="checkbox" class="checkbox ratepay_rate_sepa_form required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
@@ -792,8 +471,8 @@ $firstday = $this->getFirstday();
 
                 <?php if (is_array($firstday)): ?>
                     <li>
-                        <a id="ratepay_rate_method_switch_invoice" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
-                        <a id="ratepay_rate_method_switch_directdebit" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
+                        <a id="ratepay_rate_method_switch_invoice_<?php echo $_code ?>" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
+                        <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
                     </li>
                 <?php endif; ?>
         <?php endif; ?>

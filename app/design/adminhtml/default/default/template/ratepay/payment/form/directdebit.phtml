@@ -154,8 +154,8 @@
         </li>
         <?php if (!$this->isIbanOnly()): ?>
         <li>
-            <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType(this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
-            <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType(this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType('<?php echo $_code ?>', this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+            <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType('<?php echo $_code ?>', this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
         </li>
         <?php endif; ?>
         <li>
@@ -167,14 +167,14 @@
         <li id="ratepay_directdebit_element_iban">
             <label for="ratepay_directdebit_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+                <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_directdebit_iban]" id="ratepay_directdebit_iban" class="input-text" onchange="preProcessingBankForm(this)" />
             </div>
         </li>
         <?php if ($this->getCountryCode() != 'de'): ?>
             <li id="ratepay_directdebit_element_bic">
                 <label for="ratepay_directdebit_bic" class="required"><em>*</em><?php echo $this->__('SWIFT-BIC'); ?></label>
                 <div class="input-box">
-                    <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_directdebit_bic]" id="ratepay_directdebit_bic" class="input-text required-entry" onchange="preProcessingBankForm(this)" />
+                    <input value="<?php echo $bankData['bic']; ?>" type="text" name="payment[ratepay_directdebit_bic]" id="ratepay_directdebit_bic" class="input-text" onchange="preProcessingBankForm(this)" />
                 </div>
             </li>
         <?php endif; ?>

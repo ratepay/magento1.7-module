@@ -159,8 +159,8 @@ $bankData = $this->getBankData();
     </li>
     <?php if (!$this->isIbanOnly()): ?>
     <li>
-        <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType('directdebit', this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
-        <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType('directdebit', this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
+        <button id="ratepay_directdebit_sepa_switch" type="button" class="btn btn-primary" onclick="switchAccountType('<?php echo $_code ?>', this)"><span><span><?php echo $this->__('SEPA Account Information') ?></span></span></button>
+        <button id="ratepay_directdebit_classic_switch" type="button" class="btn btn-default" onclick="switchAccountType('<?php echo $_code ?>', this)"><span><span><?php echo $this->__('Classic Account Information') ?></span></span></button>
     </li>
     <?php endif; ?>
     <li>

@@ -180,8 +180,8 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
      * Printout of rates result
      * @param array $result
      */
-    public function getHtml($result, $notification = null)
+    public function getHtml($result, $notification = null, $paymentMethod)
     {
-        $this->_helperData->getRateResultHtml($result, $notification);
+        $this->_helperData->getRateResultHtml($result, $notification, $paymentMethod);
     }
 }

@@ -24,7 +24,7 @@ class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Core_Bl
      * Show installment plan
      */
     public function showRateResultHtml($paymentMethod) {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult($paymentMethod));
+        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult($paymentMethod), null, $paymentMethod);
     }
 
     /**
