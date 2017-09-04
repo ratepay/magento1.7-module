@@ -5,13 +5,16 @@
 |------|----------
 |Author | Aarne Welschlau, Sebastian Neumann
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.0.0`
+|Version | `4.0.1`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 |Terms of service / Nutzungsbedingungen | http://www.ratepay.com/nutzungsbedingungen
 
 ## Changelog
+
+### Version 4.0.1 - Released 2017-09-04
+* New installment calculator design
 
 ### Version 4.0.0 - Released 2017-07-10
 * Implementation of new core library (API1.8)
