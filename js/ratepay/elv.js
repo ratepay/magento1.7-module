@@ -2,13 +2,13 @@ function preProcessingBankForm(element) {
     element.value = element.value.replace(/\s/g, "");
 }
 
-function isIban(element){
+function isIban(element, method){
     if(isNaN(element.value) || !element.value){
-        document.getElementById('ratepay_rate_element_bankcode').style.display = 'none';
-        document.getElementById('ratepay_rate_iban').name = 'payment[ratepay_rate_iban]';
+        document.getElementById('ratepay_rate_element_bankcode_' + method).style.display = 'none';
+        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
     } else {
-        document.getElementById('ratepay_rate_element_bankcode').style.display = 'block';
-        document.getElementById('ratepay_rate_iban').name = 'payment[ratepay_rate_account_number]';
+        document.getElementById('ratepay_rate_element_bankcode_'  + method).style.display = 'block';
+        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
     }
     preProcessingBankForm(element);
 }
@@ -73,7 +73,7 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         document.getElementById('ratepay_payment_firstday_' + paymentMethod).value = 2;
         batchDisplay('ratepay_rate_sepa_element', 'block');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form required-entry');
-        isIban(document.getElementById('ratepay_rate_iban_' + paymentMethod));
+        isIban(document.getElementById('ratepay_rate_iban_' + paymentMethod), paymentMethod);
         ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)
     }
 }
