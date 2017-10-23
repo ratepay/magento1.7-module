@@ -247,7 +247,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 Mage::throwException($this->_getHelper()->__('insert bank code'));
             }
         } else {
-            Mage::throwException($this->_getHelper()->__('insert bank data') . $params['method']);
+            Mage::throwException($this->_getHelper()->__('insert bank data'));
         }
 
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(true);
