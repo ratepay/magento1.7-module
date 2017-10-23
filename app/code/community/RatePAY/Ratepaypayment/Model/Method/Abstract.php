@@ -208,6 +208,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         if (key_exists($params['method'] . '_method_invoice', $params) && (bool) $params[$params['method'] . '_method_invoice']) {
             return $this;
         }
+        if ($params['method'] == 'ratepay_rate0') {
+            return $this;
+        }
 
         // Bank data
         if (!empty($params[$this->_code . '_iban'])) {
@@ -244,7 +247,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 Mage::throwException($this->_getHelper()->__('insert bank code'));
             }
         } else {
-            Mage::throwException($this->_getHelper()->__('insert bank data'));
+            Mage::throwException($this->_getHelper()->__('insert bank data') . $params['method']);
         }
 
         Mage::getSingleton('ratepaypayment/session')->setDirectDebitFlag(true);
