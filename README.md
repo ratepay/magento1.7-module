@@ -15,6 +15,7 @@
 
 ### Version 4.0.1 - Released 2017-09-04
 * New installment calculator design
+* Added Belgium as supported Country
 
 ### Version 4.0.0 - Released 2017-07-10
 * Implementation of new core library (API1.8)
