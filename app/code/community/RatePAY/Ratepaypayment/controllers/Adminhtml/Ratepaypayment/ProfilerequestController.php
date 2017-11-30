@@ -57,7 +57,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
 
         if (!$response->isSuccessful()) {
             $coreConfig->saveConfig('payment/' . $method . '/status', 0);
-            return Mage::helper('ratepaypayment')->__('Request Failed') . " (Reason Message: " . $credentials['sandbox'] . ")";
+            return Mage::helper('ratepaypayment')->__('Request Failed') . " (Reason Message: " . $response->getReasonMessage() . ")";
         }
 
         $result = $response->getResult();
