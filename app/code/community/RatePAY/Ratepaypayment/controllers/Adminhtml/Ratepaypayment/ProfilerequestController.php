@@ -41,7 +41,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         $product = Mage::helper('ratepaypayment/payment')->convertMethodToProduct($this->_getRpMethodWithoutCountry($method));
         $country = $this->_getRpCountry($method);
 
-        $request = Mage::getModel('ratepaypayment/libraryConnector', array($credentials['sandbox'] == "1" ? true : false));
+        $request = Mage::getModel('ratepaypayment/libraryConnector', $credentials['sandbox'] == "1" ? true : false);
 
         // @ToDo: Move this to mapping helper
         $headInfo = [
@@ -57,7 +57,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
 
         if (!$response->isSuccessful()) {
             $coreConfig->saveConfig('payment/' . $method . '/status', 0);
-            return Mage::helper('ratepaypayment')->__('Request Failed') . " (Reason Message: " . $response->getReasonMessage() . ")";
+            return Mage::helper('ratepaypayment')->__('Request Failed') . " (Reason Message: " . $credentials['sandbox'] . ")";
         }
 
         $result = $response->getResult();
