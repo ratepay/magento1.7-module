@@ -55,7 +55,7 @@
 "Bank code number","Bank code number"
 "Account number","Account number"
 "IBAN","IBAN"
-"Ratepay address","RatePAY GmbH, Schlüterstr. 39, 10629 Berlin"
+"Ratepay address","RatePAY GmbH, Franklinstra&szlig;e 28-29, 10587 Berlin"
 "Wirecard address", "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim"
 "Creditor","Creditor identifier"
 "RatePAY Creditor ID","DE39RPY00000568463"
@@ -388,7 +388,7 @@
 
 "rp_switch_payment_type_bank_transfer", "Ich m&ouml;chte die Ratenzahlungen selbst vornehmen und nicht per Lastschrift begleichen"
 "rp_switch_payment_type_direct_debit", "Ich m&ouml;chte die Ratenzahlungen bequem per Lastschrift begleichen"
-"rp_address", "RatePAY GmbH, Schl&uuml;terstr. 39, 10629 Berlin"
+"rp_address", "RatePAY GmbH, Franklinstra&szlig;e 28-29, 10587 Berlin"
 "wcd_address", "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim"
 "rp_creditor", "Gl&auml;ubiger-ID"
 "rp_creditor_id", "DE39RPY00000568463"
