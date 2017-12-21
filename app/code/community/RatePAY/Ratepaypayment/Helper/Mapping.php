@@ -48,9 +48,16 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $article = [];
                 $article['ArticleNumber'] = $item->getSku();
                 $article['Description'] = $item->getName();
-                $article['Quantity'] = ($object instanceof Mage_Sales_Model_Order) ? (int) $item->getQtyOrdered() : (int) $item->getQty();
+                $article['Quantity'] = ($object instanceof Mage_Sales_Model_Order) ? $item->getQtyOrdered() : $item->getQty();
                 $article['UnitPriceGross'] = (float) $item->getPriceInclTax();
                 $article['TaxRate'] = (float) $orderItem->getTaxPercent();
+
+                if ($article['Quantity'] != (int) $article['Quantity']) {
+                    $article['UnitPriceGross'] = (float) $item->getPriceInclTax() * $article['Quantity'];
+                    $article['Quantity'] = 1;
+                } else {
+                    $article['Quantity'] = (int) $article['Quantity'];
+                }
 
                 if ($item->getDiscountAmount() > 0) {
                     $article['Discount'] = (float) $item->getDiscountAmount() / $article['Quantity'];
