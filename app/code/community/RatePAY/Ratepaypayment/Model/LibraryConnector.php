@@ -113,6 +113,11 @@ class RatePAY_Ratepaypayment_Model_LibraryConnector extends RatePAY_Ratepaypayme
         return $this->callRequest($head, $content, null, $paymentMethod);
     }
 
+    public function callPaymentConfirm($head, $paymentMethod = null)
+    {
+        return $this->callRequest($head, null, null, $paymentMethod);
+    }
+
     private function extendHeadData($head)
     {
         $head['SystemId'] = Mage::helper('core/http')->getServerAddr(false); // @ToDo: Move this to helper

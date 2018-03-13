@@ -508,6 +508,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
             if ($responseRequest->isSuccessful()) {
                 $payment->setAdditionalInformation('descriptor', $responseRequest->getDescriptor());
+                $confirm = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'confirm', true, true);
+                if ($confirm == true) {
+                    // Calling PAYMENT CONFIRM
+                    unset($head['CustomerDevice']['DeviceToken']);
+                    $content = $helperMapping->getRequestContent($quote, "PAYMENT_CONFIRM");
+                    $responseRequest = $requestRequest->callPaymentConfirm($head, $content);
+                }
             } else {
                 if ($responseRequest->isRetryAdmitted()) {
                     $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "soft");
