@@ -499,6 +499,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             $payment->setAdditionalInformation('transactionId', $head['TransactionId']);
             $payment->setAdditionalInformation('profileId', $head['Credential']['ProfileId']);
             $payment->setAdditionalInformation('securityCode', $head['Credential']['Securitycode']);
+            $payment->setAdditionalInformation('api', 'API_1.8');
 
             // Calling PAYMENT REQUEST
             $responseRequest = $requestRequest->callPaymentRequest($head, $content);

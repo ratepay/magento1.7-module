@@ -21,6 +21,10 @@
 class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 {
 
+    var $_api = false;
+
+    var $_backend = false;
+
     /**
      * Article preparations for PAYMENT_REQUEST, PAYMENT_CHANGE, CONFIRMATION_DELIVER
      *
@@ -160,6 +164,19 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $shippingTaxPercent = round((($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) / $shippingObject->getShippingAmount());
             }
             $basket['Shipping']['TaxRate'] = $shippingTaxPercent;
+
+            if ((empty($this->_api) || $this->_api == false) && $this->_backend == true) {
+                $article = [];
+                $article['ArticleNumber'] = 'SHIPPING';
+                $article['Description'] = $shippingDescription;
+                $article['Quantity'] = 1;
+                $article['UnitPriceGross'] = $basket['Shipping']['UnitPriceGross'];
+                $article['TaxRate'] = 19;
+
+                $basket['Items'][]['Item'] = $article;
+                unset($basket['Shipping']);
+
+            }
         }
 
         return $basket;
@@ -236,6 +253,12 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Add transaction id
         $trxId = $quoteOrOrder->getPayment()->getAdditionalInformation('transactionId');
+
+        if ($quoteOrOrder->getPayment()->getAdditionalInformation('api') !== null) {
+            $this->_api = $quoteOrOrder->getPayment()->getAdditionalInformation('api');
+        }
+
+
         if (!empty($trxId)) {
             $head['TransactionId'] = $trxId;
         }
@@ -266,9 +289,11 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $content['Payment'] = $this->getRequestPayment($quoteOrOrder, $amount);
                 break;
             case "PAYMENT_CHANGE" :
+                $this->_backend = true;
                 $content['ShoppingBasket'] = $this->getRequestBasket($quoteOrOrder, $articleList, $amount);
                 break;
             case "CONFIRMATION_DELIVER" :
+                $this->_backend = true;
                 $content['ShoppingBasket'] = $this->getRequestBasket($quoteOrOrder);
                 break;
         }
