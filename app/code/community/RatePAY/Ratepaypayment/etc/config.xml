@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>4.0.2</version>
+            <version>4.0.2.1</version>
         </RatePAY_Ratepaypayment>
     </modules>
 

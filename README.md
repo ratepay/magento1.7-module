@@ -3,9 +3,9 @@
 
 |Module | RatePAY Module for Magento
 |------|----------
-|Author | Aarne Welschlau, Sebastian Neumann
+|Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.0.2`
+|Version | `4.0.2.1`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -13,8 +13,11 @@
 
 ## Changelog
 
+### Version 4.0.2.1 - Released 2018-03-15
+* Change Company field to CompanyName with customer data
+
 ### Version 4.0.2 - Released 2017-11-30
-* change profile request library call
+* Change profile request library call
 
 ### Version 4.0.1.1 - Released 2017-11-30
 * change RatePAY company address

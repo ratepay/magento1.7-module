@@ -330,7 +330,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // B2B
         if (!empty($quoteOrOrder->getBillingAddress()->getCompany())) {
-            $customer['Company'] = $quoteOrOrder->getBillingAddress()->getCompany();
+            $customer['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
             if (!empty($quoteOrOrder->getCustomerTaxvat())) {
                 $customer['VatId'] = $quoteOrOrder->getCustomerTaxvat();
             }
