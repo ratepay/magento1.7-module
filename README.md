@@ -11,6 +11,18 @@
 |Installation | see separate installation manual
 |Terms of service / Nutzungsbedingungen | http://www.ratepay.com/nutzungsbedingungen
 
+
+## Installation
+* clone recursive repository
+
+````bash
+git clone --recursive https://github.com/ratepay/magento1.7-module.git
+````
+* update submodule
+````bash
+git submodule update --remote
+````
+
 ## Changelog
 
 ### Version 4.0.3 - Released 2018-05-07
