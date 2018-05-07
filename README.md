@@ -5,13 +5,17 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.0.2.1`
+|Version | `4.0.3`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 |Terms of service / Nutzungsbedingungen | http://www.ratepay.com/nutzungsbedingungen
 
 ## Changelog
+
+### Version 4.0.3 - Released 2018-05-07
+* add terms and conditions
+* add compatibility for the old ratepay request structure
 
 ### Version 4.0.2.1 - Released 2018-03-15
 * Change Company field to CompanyName with customer data
