@@ -115,5 +115,11 @@ echo $this->getDeviceIdentCode();
                 <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?>&nbsp;<a onclick="alterDob('rechnung')"><?php echo $this->__('Alter') ?></a></label>
             </div>
         </li>
+
+        <li class="ratepay_rate_sepa_element">
+            <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+                <?php echo $this->__('ratepay_agreement') ?>
+            </ul>
+        </li>
     <?php endif; ?>
 </ul>

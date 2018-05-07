@@ -322,7 +322,11 @@ $firstday = $this->getFirstday();
             <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?> <a onclick="alterDob('rate')"><?php echo $this->__('Alter') ?></a></label>
         </div>
     </li>
-
+    <li class="ratepay_agreement">
+        <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
+            <?php echo $this->__('ratepay_agreement') ?>
+        </ul>
+    </li>
     <?php if (count($monthAllowed) > 1): ?>
         <li>
             <div class="rpContainer">
