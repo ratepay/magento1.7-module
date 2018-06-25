@@ -484,7 +484,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         /*}*/
 
         if ($responseInit->isSuccessful()) {
-            $requestRequest = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
+            $requestRequest = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
 
             // Add transaction id to head
             $head['TransactionId'] = $responseInit->getTransactionId();
