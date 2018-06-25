@@ -344,7 +344,17 @@ $firstday = $this->getFirstday();
                                     foreach ($monthAllowed AS $month) {
                                         ?>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button class="btn btn-default" type="button" onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/rate", array('_secure' => true)); ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');" id="piRpInput-buttonMonth-<?php echo $month; ?>" role="group"><?php echo $month; ?></button>
+                                            <button class="btn btn-default"
+                                                    type="button"
+                                                    onclick="ratepayRateCalculatorAction(
+                                                        'runtime',
+                                                        '<?php echo $_code ?>',
+                                                        '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
+                                                        '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
+                                                        '',
+                                                        '<?php echo $month; ?>');"
+                                                    id="piRpInput-buttonMonth-<?php echo $month; ?>"
+                                                    role="group"><?php echo $month; ?></button>
                                         </div>
                                         <?php
                                     }
@@ -365,7 +375,16 @@ $firstday = $this->getFirstday();
                                     <span class="input-group-addon">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
-                                        <input onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');" value="<?php echo $this->__('rp_calculate_rate'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
+                                        <input
+                                                onclick="ratepayRateCalculatorAction(
+                                                    'rate',
+                                                    '<?php echo $_code ?>',
+                                                    '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/rate", array('_secure' => true)); ?>',
+                                                    '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');"
+                                                value="<?php echo $this->__('rp_calculate_rate'); ?>"
+                                                id="<?php echo $_code ?>_Input-button"
+                                                class="ratepay-Input-button"
+                                                type="button">
                                     </span>
                                 </div>
                             </div>
