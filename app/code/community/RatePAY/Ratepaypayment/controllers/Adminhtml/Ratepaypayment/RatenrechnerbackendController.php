@@ -44,7 +44,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
         $quote = $this->getQuote();
         $sandbox = (bool) $this->_helperData->getRpConfigData($quote, $this->_paymentMethod, 'sandbox');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
         $head = $this->_helperMapping->getRequestHead($quote, $this->_paymentMethod);
         $content = $this->getContent($calculationType, $calculationValue, $quote->getGrandTotal(), $this->_reward);
 
