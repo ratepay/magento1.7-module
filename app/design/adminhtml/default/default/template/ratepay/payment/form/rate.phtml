@@ -351,7 +351,7 @@ $firstday = $this->getFirstday();
                                                         '<?php echo $_code ?>',
                                                         '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
                                                         '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
-                                                        '',
+                                                        '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>',
                                                         '<?php echo $month; ?>');"
                                                     id="piRpInput-buttonMonth-<?php echo $month; ?>"
                                                     role="group"><?php echo $month; ?></button>
@@ -404,7 +404,12 @@ $firstday = $this->getFirstday();
     <?php else: ?>
         <li>
             <script>
-                ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>', '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');
+                ratepayRateCalculatorAction(
+                    'runtime',
+                    '<?php echo $_code ?>',
+                    '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
+                    '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>'
+                );
             </script>
             <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed[0]; ?>" />
             <div id="ratepay-main-cont">
