@@ -20,8 +20,14 @@
 
 class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller_Front_Action
 {
-
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Data
+     */
     private $_helperData;
+
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Mapping
+     */
     private $_helperMapping;
 
     private $_paymentMethod;
@@ -40,6 +46,11 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
         $this->_reward = $request->getParam('rewardPoints') > 0 ? $request->getParam('rewardPoints') : 0;
     }
 
+    /**
+     * @param $calculationType
+     * @param $calculationValue
+     * @return mixed
+     */
     private function callCalculationRequest($calculationType, $calculationValue)
     {
         $quote = $this->getQuote();
@@ -63,7 +74,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
 
                 if ($response->isSuccessful()) {
                     $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                    $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode(), $this->_paymentMethod);
+                    $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
                 } else {
                     $this->unsetSessionData($this->_paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
@@ -88,7 +99,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
 
             if ($response->isSuccessful()) {
                 $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode(), $this->_paymentMethod);
+                $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
             } else {
                 $this->unsetSessionData($this->_paymentMethod);
                 echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
@@ -179,9 +190,12 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
 
     /**
      * Printout of rates result
+     *
      * @param array $result
+     * @param $paymentMethod
+     * @param null $notification
      */
-    public function getHtml($result, $notification = null, $paymentMethod)
+    public function getHtml($result, $paymentMethod, $notification = null)
     {
         $this->_helperData->getRateResultHtml($result, $notification, $paymentMethod);
     }

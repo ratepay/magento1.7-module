@@ -362,28 +362,34 @@ $firstday = $this->getFirstday();
                                         Mage::getBlockSingleton("enterprise_reward/checkout_payment_additional")->getCurrencyAmount() : 0;
 
                                 $maxButtons = 9;
+
                                 $jsCommand = "ratepayRateCalculatorAction('runtime',".
                                          "'{$_code}', '{$this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true))}', '', " .
                                          "'{$currency}', this.value);";
-                                if (count($monthAllowed) > $maxButtons) {
-                                    echo '<select class="rp-term-select" onchange="' . $jsCommand . '">';
-                                    echo '<option disabled selected>' . $this->__('please_choose') . '</option>';
-                                    foreach ($monthAllowed AS $month) {
-                                        echo '<option value="' . $month . '">' .
-                                            $month .
-                                            '</option>';
-                                    }
-                                    echo '</select>';
-                                } else {
-                                    echo '<div class="rp-term-buttons" role="group" aria-label="...">';
-                                    foreach ($monthAllowed AS $month) {
-                                        echo '<button type="button" onclick="' . $jsCommand . '" value="' . $month . '" id="piRpInput-buttonMonth-' . $month . '" role="group">' .
-                                            $month .
-                                            '</button>';
-                                    }
-                                    echo '</div>';
-                                }
+
+                                if (count($monthAllowed) > $maxButtons) :
                                 ?>
+                                    <select class="rp-term-select" onchange="<?php echo $jsCommand; ?>">
+                                        <option disabled selected> <?php echo $this->__('please_choose'); ?> </option>
+                                        <?php foreach ($monthAllowed AS $month) : ?>
+                                            <option value="<?php echo $month; ?>">
+                                                <?php echo $month; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php
+                                else :?>
+                                    <div class="rp-term-buttons" role="group" aria-label="...">
+                                    <?php foreach ($monthAllowed AS $month) : ?>
+                                        <button type="button"
+                                                onclick="<?php echo $jsCommand; ?>"
+                                                value="<?php echo $month; ?>"
+                                                id="piRpInput-buttonMonth-<?php echo $month; ?>"
+                                                role="group"><?php echo $month; ?></button>
+                                    <?php endforeach; ?>
+                                    </div>
+                                <?php
+                                endif;?>
                             </div>
                         </div>
                     </div>
