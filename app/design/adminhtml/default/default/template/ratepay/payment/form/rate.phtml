@@ -356,7 +356,7 @@ $firstday = $this->getFirstday();
                                 $currency =  Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton("enterprise_reward/checkout_payment_additional")->getCanUseRewardPoints() ?
                                     Mage::getBlockSingleton("enterprise_reward/checkout_payment_additional")->getCurrencyAmount() : 0;
 
-                                $maxButtons = 3;
+                                $maxButtons = 9;
 
                                 $jsCommand = "ratepayRateCalculatorAction(" .
                                     "'runtime', " .
