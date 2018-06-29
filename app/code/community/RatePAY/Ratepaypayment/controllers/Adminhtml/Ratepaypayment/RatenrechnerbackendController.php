@@ -20,7 +20,14 @@
 
 class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Data
+     */
     private $_helperData;
+
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Mapping
+     */
     private $_helperMapping;
 
     private $_paymentMethod;
@@ -58,11 +65,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
     {
         try {
             if (is_numeric($this->_calcValue)) {
+                /* @var \RatePAY\RequestBuilder */
                 $response = $this->callCalculationRequest('calculation-by-rate', floatval($this->_calcValue));
 
                 if ($response->isSuccessful()) {
                     $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                    $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode());
+                    $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
                 } else {
                     $this->unsetSessionData($this->_paymentMethod);
                     echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
@@ -83,11 +91,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
     public function runtimeAction()
     {
         try {
+            /* @var \RatePAY\RequestBuilder */
             $response = $this->callCalculationRequest('calculation-by-time', floatval($this->_calcValue));
 
             if ($response->isSuccessful()) {
                 $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                $this->getHtml($this->formatResult($response->getResult()), $response->getReasonCode());
+                $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
             } else {
                 $this->unsetSessionData($this->_paymentMethod);
                 echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
@@ -178,9 +187,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
 
     /**
      * Printout of rates result
-     * @param array $result
+     *
+     * @param $result
+     * @param $paymentMethod
+     * @param null $notification
      */
-    public function getHtml($result, $notification = null, $paymentMethod)
+    public function getHtml($result, $paymentMethod, $notification = null)
     {
         $this->_helperData->getRateResultHtml($result, $notification, $paymentMethod);
     }
