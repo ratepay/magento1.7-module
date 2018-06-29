@@ -106,7 +106,7 @@
 "Soft Error","Bitte überprüfen Sie ihre Eingabe."
 "Age Error","Für die gewählte Zahlungsart müssen Sie mindestens 18 Jahre alt sein."
 "VatId Error","Geben Sie bitte eine gültige USt-IdNr. an."
-"PAYMENT_REQUEST Declined","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten: https://www.ratepay.com/zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis-dach/."
+"PAYMENT_REQUEST Declined","Leider ist eine Bezahlung mit RatePAY nicht möglich. Diese Entscheidung ist auf Grundlage einer automatisierten Datenverarbeitung getroffen worden. Einzelheiten finden sie in den zusätzlichen Allgemeinen Geschäftsbedingungen und dem Datenschutzhinweis für RatePAY-Zahlungsarten."
 "Gateway Offline","Leider ist die Verbindung zu RatePAY derzeit nicht möglich, bitte versuchen Sie es zu einem späteren Zeitpunkt erneut."
 "Id","Id"
 "Ordernumber","Order #"
