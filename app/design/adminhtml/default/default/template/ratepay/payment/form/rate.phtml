@@ -300,7 +300,7 @@ $firstday = $this->getFirstday();
 
     <li id="dobForm_rate" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
         <label for="month" class="required"><em>*</em><?php echo $this->__('Date of Birth') ?></label>
-        <div class="input-box customer-dob ratepayratedob" id="">
+        <div class="input-box customer-dob ratepaydob_<?php echo $_code ?>" id="">
             <div class="dob-day">
                 <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Day') ?>" value="<?php if ($dob) echo substr($dob, 8, 2) ?>" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
                 <label for="<?php echo $_code ?>_day">DD</label>
@@ -321,7 +321,7 @@ $firstday = $this->getFirstday();
         </div>
         <script type="text/javascript">
             //&lt;![CDATA[
-            var customer_dob = new Varien.RatepayDOB('.ratepayratedob', true, '%d.%m.%y');
+            var customer_dob = new Varien.RatepayDOB(".ratepaydob_<?php echo $_code ?>"', true, '%d.%m.%y');
             //]]&gt;
         </script>
     </li>
