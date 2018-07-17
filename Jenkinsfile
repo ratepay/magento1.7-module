@@ -33,13 +33,11 @@ pipeline {
         }
 
         stage('Report') {
-            stage('Report') {
-                steps {
-                    echo "[STAGE] Report"
-                    // checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/checkstyle.xml', unHealthy: ''
-                    // pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/pmd.xml', unHealthy: ''
-                    // junit 'build/junit.xml'
-                }
+            steps {
+                echo "[STAGE] Report"
+                // checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/checkstyle.xml', unHealthy: ''
+                // pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'build/logs/pmd.xml', unHealthy: ''
+                // junit 'build/junit.xml'
             }
         }
 
