@@ -20,7 +20,6 @@
 
 class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
     public function getRpConfigData($quoteOrOrder, $method, $field, $advanced = false, $noCountry = false)
     {
         $storeId = $quoteOrOrder->getStoreId();
@@ -79,7 +78,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * Sets the Phone Number into Quote or Order
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
-     * @param String
+     * @param String $phone
      */
     public function setPhone($quote, $phone)
     {
@@ -621,6 +620,23 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                     ' . $result['totalAmount'] . ' &euro;
                 </div>
             </div>';
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order|Mage_Sales_Model_Quote $quoteOrOrder
+     * @return bool
+     */
+    public function shouldUseFallbackShippingItem($quoteOrOrder)
+    {
+        $fallbackShippingFlag = (bool)$this->getRpConfigData(
+            $quoteOrOrder,
+            'ratepay_general',
+            'use_shipping_fallback',
+            true,
+            true
+        );
+
+        return $fallbackShippingFlag;
     }
 }
 
