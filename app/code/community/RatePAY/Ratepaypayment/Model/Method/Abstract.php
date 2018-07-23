@@ -425,7 +425,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     /**
      * Return Quote or Order Object depending what the Payment is
      *
-     * @return Mage_Sales_Model_Order|Mage_Sales_Model_Ouote
+     * @return Mage_Sales_Model_Order|Mage_Sales_Model_Quote
      */
     public function getQuoteOrOrder()
     {
@@ -459,7 +459,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      */
     public function authorize(Varien_Object $payment, $amount = 0)
     {
+        /* @var \RatePAY_Ratepaypayment_Helper_Data */
         $helperData = Mage::helper('ratepaypayment/data');
+        /* @var \RatePAY_Ratepaypayment_Helper_Mapping $helperMapping */
         $helperMapping = Mage::helper('ratepaypayment/mapping');
 
         $quote = $this->getQuoteOrOrder();
@@ -467,6 +469,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
         $sandbox = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'sandbox');
         $logging = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'logging', true, true);
+
+        $useFallbackShippingItem = $helperData->shouldUseFallbackShippingItem($quote);
 
         $requestInit = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
 
@@ -494,6 +498,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if (!empty($dfpToken)) {
                 $head['CustomerDevice']['DeviceToken'] = $dfpToken;
             }
+
+            $helperMapping->setUseFallbackShippingItem($useFallbackShippingItem);
             $content = $helperMapping->getRequestContent($quote, "PAYMENT_REQUEST");
 
             $payment->setAdditionalInformation('transactionId', $head['TransactionId']);
