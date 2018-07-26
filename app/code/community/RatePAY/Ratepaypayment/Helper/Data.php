@@ -100,11 +100,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('general/store_information/name', $this->getQuote()->getStoreId());
     }
-    
+
     /**
      * Returns the Quote Object
      *
      * @return Mage_Sales_Model_Quote
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getQuote()
     {
@@ -171,6 +172,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param Zend_Date $dob
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function setDob($quote, $dob)
     {
@@ -236,6 +238,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string $taxvat
+     * @throws Exception
      */
     public function setTaxvat($quote, $taxvat)
     {
@@ -275,6 +278,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string $company
+     * @throws Exception
      */
     public function setCompany($quote, $company)
     {
@@ -292,6 +296,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string
+     * @return string
      */
     public function isCompanySet($quote)
     {
@@ -302,6 +307,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * We have to diff the addresses, because same_as_billing is sometimes wrong
      *
      * @param unknown_type $address
+     * @return array
      */
     public function getImportantAddressData($address)
     {
@@ -356,8 +362,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Retrieve due days
-     * 
+     *
+     * @param $payment
      * @return string
+     * @throws Mage_Core_Exception
      */
     public function getDueDays($payment)
     {
@@ -624,9 +632,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Sales_Model_Order|Mage_Sales_Model_Quote $quoteOrOrder
+     * @param bool $isFirstOrder
      * @return bool
      */
-    public function shouldUseFallbackShippingItem($quoteOrOrder)
+    public function shouldUseFallbackShippingItem($quoteOrOrder, $isFirstOrder = false)
     {
         $fallbackShippingFlag = (bool)$this->getRpConfigData(
             $quoteOrOrder,
@@ -636,7 +645,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             true
         );
 
-        return $fallbackShippingFlag;
+        if ($isFirstOrder) {
+            return $fallbackShippingFlag;
+        }
+
+        $orderUsesShippingFallback = (bool)$quoteOrOrder->getData('ratepay_use_shipping_fallback');
+
+        return $orderUsesShippingFallback;
     }
 }
-

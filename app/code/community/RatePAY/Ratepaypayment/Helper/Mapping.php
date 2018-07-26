@@ -25,7 +25,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     var $_backend = false;
 
     /**
-     * @var bool 
+     * @var bool
      */
     private $_useFallbackShippingItem = false;
 
@@ -187,9 +187,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
     /**
      * Add adjustment items to the article list
-     * 
+     *
      * @param Mage_Sales_Model_Creditmemo $creditmemo
      * @param array
+     * @return array
      */
     public function addAdjustments($creditmemo)
     {
@@ -208,9 +209,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
     /**
      * Add merchant credit to artcile list
-     * 
-     * @param array $articles
+     *
      * @param float $amount
+     * @param $description
+     * @param $articleNumber
      * @return array
      */
     public function addAdjustment($amount, $description, $articleNumber)
@@ -229,7 +231,6 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      * Gets all needed Informations for the head Block of Requests for RatePAY
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quoteOrOrder
-     * @param string $subtype
      * @param string $methodCode
      * @return array
      */
@@ -532,6 +533,9 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         return Mage::helper('ratepaypayment');
     }
 
+    /**
+     * @param bool $useFallbackShippingItem
+     */
     public function setUseFallbackShippingItem($useFallbackShippingItem = false)
     {
         $this->_useFallbackShippingItem = $useFallbackShippingItem;

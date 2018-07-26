@@ -47,7 +47,7 @@ class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Core_Bl
 
     /**
      * Returns the current method code
-     * @return string
+     * @return string|null
      */
     public function getRatepayMethodCode() {
         $quote = Mage::getModel('checkout/session')->getQuote();
