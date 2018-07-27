@@ -448,6 +448,33 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $edition;
     }
+
+    public function isEnterpriseEdition()
+    {
+        return 'EE' === $this->getEdition();
+    }
+
+    public function isCommunityEdition()
+    {
+        return 'CE' === $this->getEdition();
+    }
+
+    public function isProfessionalEdition()
+    {
+        return 'PE' === $this->getEdition();
+    }
+
+    public function getCurrencyAmountForRewardPoints()
+    {
+        $usesRewardPoints = (Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')
+            ->getCanUseRewardPoints());
+        if (!$usesRewardPoints) {
+            return 0;
+        }
+
+        return Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')
+            ->getCurrencyAmount();
+    }
     
     /**
      * Is order installment

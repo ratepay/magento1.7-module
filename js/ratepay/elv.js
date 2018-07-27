@@ -51,7 +51,8 @@ function showAgreement(method) {
 function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
     var installment_method = null;
     var url = null;
-    if(document.getElementById('ratepay_installment_rate_' + paymentMethod).value == 1){
+    if(document.getElementById('ratepay_installment_rate_' + paymentMethod).value == 1
+        && paymentMethod !== 'ratepay_rate0') {
         url = document.getElementById('ratepay_installment_url_rate_' + paymentMethod).value;
         installment_method = 'rate';
     } else {
