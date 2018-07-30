@@ -1,3 +1,4 @@
+
 function alterVatId(method)
 {
     document.getElementById('vatIdLabel_' + method).style.display = 'none';

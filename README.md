@@ -25,6 +25,17 @@ git submodule update --remote
 
 ## Changelog
 
+### Version 4.1.0 - Released 2018-07-30
+
+* implement switch between special items and basket items 
+* fix backend-orders with installment
+* fix fatal errors with strict php configuration
+* text revisions on rejection messages
+* text complaining with GDPR
+* complete translation into english
+* adapt display of installment form 
+* remove VatID Field
+
 ### Version 4.0.3 - Released 2018-05-07
 * add terms and conditions
 * add compatibility for the old ratepay request structure

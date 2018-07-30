@@ -20,7 +20,6 @@
 
 class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
     public function getRpConfigData($quoteOrOrder, $method, $field, $advanced = false, $noCountry = false)
     {
         $storeId = $quoteOrOrder->getStoreId();
@@ -79,7 +78,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * Sets the Phone Number into Quote or Order
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
-     * @param String
+     * @param String $phone
      */
     public function setPhone($quote, $phone)
     {
@@ -101,11 +100,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('general/store_information/name', $this->getQuote()->getStoreId());
     }
-    
+
     /**
      * Returns the Quote Object
      *
      * @return Mage_Sales_Model_Quote
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getQuote()
     {
@@ -172,6 +172,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param Zend_Date $dob
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function setDob($quote, $dob)
     {
@@ -237,6 +238,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string $taxvat
+     * @throws Exception
      */
     public function setTaxvat($quote, $taxvat)
     {
@@ -276,6 +278,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string $company
+     * @throws Exception
      */
     public function setCompany($quote, $company)
     {
@@ -293,6 +296,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quote
      * @param string
+     * @return string
      */
     public function isCompanySet($quote)
     {
@@ -303,6 +307,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      * We have to diff the addresses, because same_as_billing is sometimes wrong
      *
      * @param unknown_type $address
+     * @return array
      */
     public function getImportantAddressData($address)
     {
@@ -357,8 +362,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Retrieve due days
-     * 
+     *
+     * @param $payment
      * @return string
+     * @throws Mage_Core_Exception
      */
     public function getDueDays($payment)
     {
@@ -441,6 +448,33 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $edition;
     }
+
+    public function isEnterpriseEdition()
+    {
+        return 'EE' === $this->getEdition();
+    }
+
+    public function isCommunityEdition()
+    {
+        return 'CE' === $this->getEdition();
+    }
+
+    public function isProfessionalEdition()
+    {
+        return 'PE' === $this->getEdition();
+    }
+
+    public function getCurrencyAmountForRewardPoints()
+    {
+        $usesRewardPoints = (Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')
+            ->getCanUseRewardPoints());
+        if (!$usesRewardPoints) {
+            return 0;
+        }
+
+        return Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')
+            ->getCurrencyAmount();
+    }
     
     /**
      * Is order installment
@@ -469,10 +503,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Render the Rate calculator result html
-     * 
-     * @param array $result
+     *
+     * @param $result
+     * @param $notification
+     * @param $method
      */
-    public function getRateResultHtml($result, $notification = null, $method)
+    public function getRateResultHtml($result, $notification, $method)
     {
         echo '
         <style>
@@ -611,7 +647,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 </div>
             </div>
             <div class="rp-installment-plan-details">
-                <div class="rp-installment-plan-title"">
+                <div class="rp-installment-plan-title">
                     ' . $this->__('rp_total_amount') . '
                     <p id="totalAmount" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_total_amount') . '</p>
                 </div>
@@ -620,5 +656,28 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 </div>
             </div>';
     }
-}
 
+    /**
+     * @param Mage_Sales_Model_Order|Mage_Sales_Model_Quote $quoteOrOrder
+     * @param bool $isNewOrder
+     * @return bool
+     */
+    public function shouldUseFallbackShippingItem($quoteOrOrder, $isNewOrder = false)
+    {
+        $fallbackShippingFlag = (bool)$this->getRpConfigData(
+            $quoteOrOrder,
+            'ratepay_general',
+            'use_shipping_fallback',
+            true,
+            true
+        );
+
+        if ($isNewOrder) {
+            return $fallbackShippingFlag;
+        }
+
+        $orderUsesShippingFallback = (bool)$quoteOrOrder->getData('ratepay_use_shipping_fallback');
+
+        return $orderUsesShippingFallback;
+    }
+}

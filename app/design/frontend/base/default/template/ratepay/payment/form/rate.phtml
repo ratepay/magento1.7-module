@@ -30,6 +30,9 @@ $calculationData = $this->getInstallmentCalculationData();
 $monthAllowed = $calculationData['monthAllowed'];
 $bankData = $this->getBankData();
 $firstday = $this->getFirstday();
+
+/* @var \RatePAY_Ratepaypayment_Helper_Data $_paymentHelper */
+$_paymentHelper = Mage::helper('ratepaypayment');
 ?>
 
 <style>
@@ -204,7 +207,17 @@ $firstday = $this->getFirstday();
     .small {
         font-size: 85%;
     }
-
+    .rp-term-buttons {
+        display: inline-grid;
+        grid-template-columns: repeat(3, 33.3%);
+        width: 100%;
+    }
+    .rp-term-buttons>button {
+        padding: 3px 0;
+    }
+    .ratepay-input-button {
+        padding: 3px 5px;
+    }
 </style>
 
 <style>
@@ -289,9 +302,9 @@ $firstday = $this->getFirstday();
         </li>
     <?php endif; ?>
 
-    <li id="dobForm_rate" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
+    <li id="dobForm_<?php echo $_code ?>" style="display: <?php echo ($this->isDobSet()) ? "none" : "inline-block"; ?>">
         <label for="month" class="required"><em>*</em><?php echo $this->__('Date of Birth') ?></label>
-        <div class="input-box customer-dob ratepayratedob" id="">
+        <div class="input-box customer-dob ratepaydob_<?php echo $_code ?>" id="">
             <div class="dob-day">
                 <input type="text" class="input-text validate-custom" title="<?php echo $this->__('Day') ?>" value="<?php if ($dob) echo substr($dob, 8, 2) ?>" name="payment[<?php echo $_code ?>_day]" id="<?php echo $_code ?>_day">
                 <label for="<?php echo $_code ?>_day">DD</label>
@@ -312,19 +325,19 @@ $firstday = $this->getFirstday();
         </div>
         <script type="text/javascript">
             //&lt;![CDATA[
-            var customer_dob = new Varien.RatepayDOB('.ratepayratedob', true, '%d.%m.%y');
+            var customer_dob = new Varien.RatepayDOB('.ratepaydob_<?php echo $_code ?>', true, '%d.%m.%y');
             //]]&gt;
         </script>
     </li>
-    <li id="dobLabel_rate" style="display: <?php echo ($this->isDobSet()) ? "inline-block" : "none"; ?>">
+    <li id="dobLabel_<?php echo $_code?>" style="display: <?php echo ($this->isDobSet()) ? "inline-block" : "none"; ?>">
         <label><?php echo $this->__('Date of Birth') ?></label>
         <div class="dob-day">
-            <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?> <a onclick="alterDob('rate')"><?php echo $this->__('Alter') ?></a></label>
+            <label><?php echo substr($dob, 8, 2) . "." . substr($dob, 5, 2) . "." . substr($dob, 0, 4) ?> <a onclick="alterDob('<?php echo $_code;?>')"><?php echo $this->__('Alter') ?></a></label>
         </div>
     </li>
     <li class="ratepay_agreement">
         <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-            <?php echo $this->__('ratepay_agreement') ?>
+            <?php echo $this->__('ratepay_agreement', $this->__($_code)) ?>
         </ul>
     </li>
     <?php if (count($monthAllowed) > 1): ?>
@@ -347,17 +360,38 @@ $firstday = $this->getFirstday();
                                 <?php echo $this->__('rp_runtime_description'); ?>
                             </div>
                             <div class="panel-body">
-                                <div class="btn-group btn-group-justified" role="group" aria-label="...">
-<?php
-                                    foreach ($monthAllowed AS $month) {
-?>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button class="btn btn-default" type="button" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>', <?php echo $month; ?>);" value="<?php echo $this->__('lang_calculate_rate'); ?>" id="piRpInput-buttonMonth-<?php echo $month; ?>" role="group"><?php echo $month; ?></button>
-                                        </div>
-<?php
-                                    }
-                                    ?>
-                                </div>
+                                <?php
+                                $currency =  $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0;
+
+                                $maxButtons = 9;
+
+                                $jsCommand = "ratepayRateCalculatorAction('runtime',".
+                                         "'{$_code}', '{$this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true))}', '', " .
+                                         "'{$currency}', this.value);";
+
+                                if (count($monthAllowed) > $maxButtons) :
+                                ?>
+                                    <select class="rp-term-select" onchange="<?php echo $jsCommand; ?>">
+                                        <option disabled selected> <?php echo $this->__('please_choose'); ?> </option>
+                                        <?php foreach ($monthAllowed AS $month) : ?>
+                                            <option value="<?php echo $month; ?>">
+                                                <?php echo $month; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php
+                                else :?>
+                                    <div class="rp-term-buttons" role="group" aria-label="...">
+                                    <?php foreach ($monthAllowed AS $month) : ?>
+                                        <button type="button"
+                                                onclick="<?php echo $jsCommand; ?>"
+                                                value="<?php echo $month; ?>"
+                                                id="piRpInput-buttonMonth-<?php echo $month; ?>"
+                                                role="group"><?php echo $month; ?></button>
+                                    <?php endforeach; ?>
+                                    </div>
+                                <?php
+                                endif;?>
                             </div>
                         </div>
                     </div>
@@ -373,7 +407,16 @@ $firstday = $this->getFirstday();
                                     <span class="input-group-addon">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
-                                        <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('rp_calculate_rate'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
+                                        <input onclick="ratepayRateCalculatorAction(
+                                                'rate',
+                                                '<?php echo $_code ?>',
+                                                '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>',
+                                                '',
+                                                '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0;?>');"
+                                           value="<?php echo $this->__('rp_calculate_rate'); ?>"
+                                           id="<?php echo $_code ?>_Input-button"
+                                           class="ratepay-input-button"
+                                           type="button">
                                     </span>
                                 </div>
                             </div>
@@ -393,7 +436,13 @@ $firstday = $this->getFirstday();
     <?php else: ?>
         <li>
             <script>
-                ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');
+                ratepayRateCalculatorAction(
+                    'runtime',
+                    '<?php echo $_code ?>',
+                    '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>',
+                    '',
+                    '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>'
+                );
             </script>
             <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed[0]; ?>" />
             <div id="ratepay-main-cont">
@@ -403,9 +452,10 @@ $firstday = $this->getFirstday();
                     </div>
                 </div>
             </div>
+            <div id="<?php echo $_code ?>_Notification"></div>
         </li>
     <?php endif; ?>
-    <input type="hidden" id="ratepay_installment_rate_<?php echo $_code ?>" value="1">
+    <input type="hidden" id="ratepay_installment_rate_<?php echo $_code ?>" value="<?php echo ('ratepay_rate0' === $_code) ? 0 : 1; ?>">
     <input type="hidden" id="ratepay_installment_url_rate_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>">
     <input type="hidden" id="ratepay_installment_url_runtime_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>">
     <input type="hidden" id="ratepay_rate_method_invoice_<?php echo $_code ?>" name="payment[ratepay_rate_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
@@ -441,12 +491,14 @@ $firstday = $this->getFirstday();
                         <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this, '<?php echo $_code ?>')" />
                     </div>
                 </li>
+                <?php if ('ratepay_rate0' !== $_code) : ?>
                 <li id="ratepay_rate_element_bankcode_<?php echo $_code ?>" class="ratepay_rate_sepa_element" style="display:none;">
                     <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
                     <div class="input-box">
                         <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
                     </div>
                 </li>
+                <?php endif ?>
 
                 <li class="ratepay_rate_sepa_element">
                     <table>
@@ -475,8 +527,24 @@ $firstday = $this->getFirstday();
 
                 <?php if (is_array($firstday)): ?>
                     <li>
-                        <a id="ratepay_rate_method_switch_invoice_<?php echo $_code ?>" style="cursor: pointer;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen</a>
-                        <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>" style="cursor: pointer; display: none;" onclick="switchRatePaymentMethod(this, '<?php echo $_code ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');">Ich möchte die Ratenzahlung per Lastschrift begleichen</a>
+                        <a id="ratepay_rate_method_switch_invoice_<?php echo $_code ?>"
+                           style="cursor: pointer;"
+                           onclick="switchRatePaymentMethod(
+                               this,
+                               '<?php echo $_code ?>',
+                               '',
+                               '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
+                            Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen
+                        </a>
+                        <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>"
+                           style="cursor: pointer; display: none;"
+                           onclick="switchRatePaymentMethod(
+                               this,
+                               '<?php echo $_code ?>',
+                               '',
+                               '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
+                            Ich möchte die Ratenzahlung per Lastschrift begleichen
+                        </a>
                     </li>
                 <?php endif; ?>
         <?php endif; ?>
