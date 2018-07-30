@@ -484,7 +484,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         /*}*/
 
         if ($responseInit->isSuccessful()) {
-            $requestRequest = Mage::getSingleton('ratepaypayment/libraryConnector', $sandbox);
+            $requestRequest = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
 
             // Add transaction id to head
             $head['TransactionId'] = $responseInit->getTransactionId();
@@ -562,18 +562,39 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     {
         $order = $this->getQuoteOrOrder();
 
-        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox') && !Mage::app()->getStore()->isAdmin() && $type == 'hard') {
-            if(strpos($exception, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
-                $exception = $exception . "\n\n" . $this->getHelper()->getRpConfigData($order, $this->_code, 'privacy_policy');
-            }
+        if(strpos($exception, 'zusaetzliche-geschaeftsbedingungen-und-datenschutzhinweis') !== false){
+            $exception = $this->getExceptionWithReadableLink($exception, $order, $this->_code);
+        }
+
+        if (!$this->getHelper()->getRpConfigData($order, $this->_code, 'sandbox')
+            && !Mage::app()->getStore()->isAdmin() && $type == 'hard') {
             $this->_hidePaymentMethod();
         } elseif ($type == 'soft' && empty($exception)) {
             $exception = $this->_getHelper()->__('Soft Error');
         }
+
         $this->_cleanSession();
         Mage::getSingleton('checkout/session')->setGotoSection('payment');
         Mage::throwException($this->_getHelper()->__((strip_tags($exception))));
+    }
 
+    /**
+     * @param $exception
+     * @param $order
+     * @param $code
+     *
+     * @return string
+     */
+    private function getExceptionWithReadableLink($exception, $order, $code)
+    {
+        $matches = [];
+        preg_match('/href="([\w:\.\/\-]+)"/', $exception, $matches);
+
+        if (empty($matches)) {
+            return $exception . "\n\n" . $this->getHelper()->getRpConfigData($order, $code, 'privacy_policy');
+        }
+
+        return $exception . "\n\n" . $matches[1];
     }
 
     /**

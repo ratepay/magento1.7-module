@@ -204,7 +204,17 @@ $firstday = $this->getFirstday();
     .small {
         font-size: 85%;
     }
-
+    .rp-term-buttons {
+        display: inline-grid;
+        grid-template-columns: repeat(3, 33.3%);
+        width: 100%;
+    }
+    .rp-term-buttons>button {
+        padding: 3px 0;
+    }
+    .ratepay-input-button {
+        padding: 3px 5px;
+    }
 </style>
 
 <style>
@@ -324,7 +334,7 @@ $firstday = $this->getFirstday();
     </li>
     <li class="ratepay_agreement">
         <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-            <?php echo $this->__('ratepay_agreement') ?>
+            <?php echo $this->__('ratepay_agreement', $this->__($_code)) ?>
         </ul>
     </li>
     <?php if (count($monthAllowed) > 1): ?>
@@ -347,17 +357,39 @@ $firstday = $this->getFirstday();
                                 <?php echo $this->__('rp_runtime_description'); ?>
                             </div>
                             <div class="panel-body">
-                                <div class="btn-group btn-group-justified" role="group" aria-label="...">
-<?php
-                                    foreach ($monthAllowed AS $month) {
-?>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button class="btn btn-default" type="button" onclick="ratepayRateCalculatorAction('runtime', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>', <?php echo $month; ?>);" value="<?php echo $this->__('lang_calculate_rate'); ?>" id="piRpInput-buttonMonth-<?php echo $month; ?>" role="group"><?php echo $month; ?></button>
-                                        </div>
-<?php
-                                    }
-                                    ?>
-                                </div>
+                                <?php
+                                $currency =  Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton("enterprise_reward/checkout_payment_additional")->getCanUseRewardPoints() ?
+                                        Mage::getBlockSingleton("enterprise_reward/checkout_payment_additional")->getCurrencyAmount() : 0;
+
+                                $maxButtons = 9;
+
+                                $jsCommand = "ratepayRateCalculatorAction('runtime',".
+                                         "'{$_code}', '{$this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true))}', '', " .
+                                         "'{$currency}', this.value);";
+
+                                if (count($monthAllowed) > $maxButtons) :
+                                ?>
+                                    <select class="rp-term-select" onchange="<?php echo $jsCommand; ?>">
+                                        <option disabled selected> <?php echo $this->__('please_choose'); ?> </option>
+                                        <?php foreach ($monthAllowed AS $month) : ?>
+                                            <option value="<?php echo $month; ?>">
+                                                <?php echo $month; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php
+                                else :?>
+                                    <div class="rp-term-buttons" role="group" aria-label="...">
+                                    <?php foreach ($monthAllowed AS $month) : ?>
+                                        <button type="button"
+                                                onclick="<?php echo $jsCommand; ?>"
+                                                value="<?php echo $month; ?>"
+                                                id="piRpInput-buttonMonth-<?php echo $month; ?>"
+                                                role="group"><?php echo $month; ?></button>
+                                    <?php endforeach; ?>
+                                    </div>
+                                <?php
+                                endif;?>
                             </div>
                         </div>
                     </div>
@@ -373,7 +405,7 @@ $firstday = $this->getFirstday();
                                     <span class="input-group-addon">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
-                                        <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('rp_calculate_rate'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-Input-button" type="button">
+                                        <input onclick="ratepayRateCalculatorAction('rate', '<?php echo $_code ?>', '<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>', '', '<?php echo (Mage::helper('ratepaypayment')->getEdition() == 'EE' && Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCanUseRewardPoints())? Mage::getBlockSingleton('enterprise_reward/checkout_payment_additional')->getCurrencyAmount():0;?>');" value="<?php echo $this->__('rp_calculate_rate'); ?>" id="<?php echo $_code ?>_Input-button" class="ratepay-input-button" type="button">
                                     </span>
                                 </div>
                             </div>

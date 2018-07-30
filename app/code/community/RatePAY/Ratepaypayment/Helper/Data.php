@@ -469,10 +469,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Render the Rate calculator result html
-     * 
-     * @param array $result
+     *
+     * @param $result
+     * @param $notification
+     * @param $method
      */
-    public function getRateResultHtml($result, $notification = null, $method)
+    public function getRateResultHtml($result, $notification, $method)
     {
         echo '
         <style>
