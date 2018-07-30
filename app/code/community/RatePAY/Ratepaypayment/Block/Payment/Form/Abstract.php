@@ -71,7 +71,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     /**
      * Check if phone number complies conditions
      *
-     * @param string $phone
      * @return bool
      */
     public function isValidPhone() {
@@ -99,7 +98,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     /**
      * Return day of birth
      *
-     * @return array
+     * @return bool|string
      */
     public function getDob()
     {
@@ -188,6 +187,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
 
     /**
      * @return Mage_Sales_Model_Quote
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getQuote()
     {

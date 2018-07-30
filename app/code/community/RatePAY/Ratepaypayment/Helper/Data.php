@@ -647,7 +647,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
                 </div>
             </div>
             <div class="rp-installment-plan-details">
-                <div class="rp-installment-plan-title"">
+                <div class="rp-installment-plan-title">
                     ' . $this->__('rp_total_amount') . '
                     <p id="totalAmount" class="rp-installment-plan-description small">' . $this->__('rp_mouseover_total_amount') . '</p>
                 </div>

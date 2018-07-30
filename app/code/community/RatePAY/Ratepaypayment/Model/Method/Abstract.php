@@ -461,6 +461,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      * @param   Varien_Object $orderPayment
      * @param   float $amount
      * @return  RatePAY_Ratepaypayment_Model_Method_Rechnung
+     * @throws Exception
      */
     public function authorize(Varien_Object $payment, $amount = 0)
     {
@@ -475,7 +476,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $sandbox = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'sandbox');
         $logging = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'logging', true, true);
 
-        $useFallbackShippingItem = $helperData->shouldUseFallbackShippingItem($quote);
+        $useFallbackShippingItem = $helperData->shouldUseFallbackShippingItem($quote, true);
 
         $requestInit = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
 

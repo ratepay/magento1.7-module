@@ -26,6 +26,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Rate0 extends RatePAY_Ratepaypay
      * Calls the CONFIGURATION_REQUEST to check which month is allowed and returns it
      *
      * @return boolean|array
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getInstallmentCalculationData()
     {

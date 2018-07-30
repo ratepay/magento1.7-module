@@ -172,13 +172,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
             $shippingItem['TaxRate'] = $shippingTaxPercent;
 
-            if (!$this->_useFallbackShippingItem && $this->_api) {
-                $basket['Shipping'] = $shippingItem;
-            } else {
+            $isBackendThroughAPI = (empty($this->_api) || $this->_api == false) && $this->_backend == true;
+            if ($this->_useFallbackShippingItem || $isBackendThroughAPI) {
                 $shippingItem['ArticleNumber'] = 'SHIPPING';
                 $shippingItem['Quantity'] = 1;
                 $shippingItem['TaxRate'] = 19;
                 $basket['Items'][] = ['Item' => $shippingItem];
+            } else {
+                $basket['Shipping'] = $shippingItem;
             }
         }
 

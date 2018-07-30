@@ -38,6 +38,21 @@ function changeDetails(paymentMethod) {
     }
 }
 
+function makeQueryString (data) {
+    var params = Object.keys(data).reduce(function(query, key) {
+        var value = data[key];
+        if (value) {
+            var prefix = (query.length < 1) ? '' : (query + '&');
+            return prefix + key + '=' + data[key];
+        }
+
+        return query;
+    }, '');
+
+    console.log(params);
+    return params;
+}
+
 function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward, month)
 {
     var calcValue;
@@ -60,16 +75,23 @@ function ratepayRateCalculatorAction(mode, paymentMethod, url, form_key, reward,
         calcValue = document.getElementById(paymentMethod + '-rate').value;
         calcMethod = 'calculation-by-rate';
     } else if (mode == 'runtime') {
-        calcValue = month;
+        calcValue = month || document.getElementById(paymentMethod + '-runtime').value;
         calcMethod = 'calculation-by-time';
         notification = (document.getElementById(paymentMethod + '_Notification') == null) ? 0 : 1;
     }
     xmlhttp.open("POST", url, false);
 
-    xmlhttp.setRequestHeader("Content-Type",
-        "application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    xmlhttp.send("form_key=" + form_key + "&paymentMethod=" + paymentMethod + "&calcValue=" + calcValue + "&calcMethod=" + calcMethod + "&dueDate=" + firstDay + "&notification=" + notification + "&rewardPoints=" + reward);
+    xmlhttp.send(makeQueryString({
+        form_key: form_key,
+        paymentMethod: paymentMethod,
+        calcValue: calcValue,
+        calcMethod: calcMethod,
+        dueDate: firstDay,
+        notification: notification,
+        rewardPoints: reward
+    }));
 
     if (xmlhttp.responseText != null) {
         html = xmlhttp.responseText;
