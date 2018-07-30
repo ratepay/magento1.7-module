@@ -81,8 +81,7 @@ foreach ($queries as $query) {
 
 $installer->endSetup();
 
-/* @var Mage_Customer_Model_Entity_Setup $setup */
-//$setup = Mage::getModel('customer/entity_setup' , 'core_setup');
+/* @var Mage_Sales_Model_Resource_Setup $installer */
 $installer = new Mage_Sales_Model_Resource_Setup('core_setup');
 
 foreach ($attributes as $attr) {
