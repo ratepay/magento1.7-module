@@ -31,7 +31,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_DirectdebitAbstract extends Rate
     }
 
     /**
-     * Check if iban only is set
+     * Check if IBAN only is set
      *
      * @return boolean
      */

@@ -20,10 +20,14 @@
  */
 class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 {
-
     var $_api = false;
 
     var $_backend = false;
+
+    /**
+     * @var bool
+     */
+    private $_useFallbackShippingItem = false;
 
     /**
      * Article preparations for PAYMENT_REQUEST, PAYMENT_CHANGE, CONFIRMATION_DELIVER
@@ -145,6 +149,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         }
 
         if ($shippingObject->getShippingAmount() > 0) {
+            $shippingItem = [];
             if ($object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Shipment || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
                 $shippingDiscountAmount = $shippingObject->getDiscountAmount() - $articleDiscountAmount;
                 $shippingDescription = $object->getOrder()->getShippingDescription();
@@ -153,29 +158,28 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $shippingDescription = $shippingObject->getShippingDescription();
             }
 
-            $basket['Shipping'] = [];
-            $basket['Shipping']['Description'] = $shippingDescription;
-            $basket['Shipping']['UnitPriceGross'] = (float) $shippingObject->getShippingInclTax();
-            if ($shippingDiscountAmount > 0 && $basket['Shipping']['UnitPriceGross'] >= $shippingDiscountAmount) {
-                $basket['Shipping']['UnitPriceGross'] -= (float) $shippingObject->getShippingDiscountAmount();
+            $shippingItem['Description'] = $shippingDescription;
+            $shippingItem['UnitPriceGross'] = (float) $shippingObject->getShippingInclTax();
+
+            if ($shippingDiscountAmount > 0 && $shippingItem['UnitPriceGross'] >= $shippingDiscountAmount) {
+                $shippingItem['UnitPriceGross'] -= (float) $shippingObject->getShippingDiscountAmount();
             }
+
             $shippingTaxPercent = 0;
             if (($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) > 0) {
                 $shippingTaxPercent = round((($shippingObject->getShippingInclTax() - $shippingObject->getShippingAmount()) * 100) / $shippingObject->getShippingAmount());
             }
-            $basket['Shipping']['TaxRate'] = $shippingTaxPercent;
 
-            if ((empty($this->_api) || $this->_api == false) && $this->_backend == true) {
-                $article = [];
-                $article['ArticleNumber'] = 'SHIPPING';
-                $article['Description'] = $shippingDescription;
-                $article['Quantity'] = 1;
-                $article['UnitPriceGross'] = $basket['Shipping']['UnitPriceGross'];
-                $article['TaxRate'] = 19;
+            $shippingItem['TaxRate'] = $shippingTaxPercent;
 
-                $basket['Items'][]['Item'] = $article;
-                unset($basket['Shipping']);
-
+            $isBackendThroughAPI = (empty($this->_api) || $this->_api == false) && $this->_backend == true;
+            if ($this->_useFallbackShippingItem || $isBackendThroughAPI) {
+                $shippingItem['ArticleNumber'] = 'SHIPPING';
+                $shippingItem['Quantity'] = 1;
+                $shippingItem['TaxRate'] = 19;
+                $basket['Items'][] = ['Item' => $shippingItem];
+            } else {
+                $basket['Shipping'] = $shippingItem;
             }
         }
 
@@ -184,9 +188,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
     /**
      * Add adjustment items to the article list
-     * 
+     *
      * @param Mage_Sales_Model_Creditmemo $creditmemo
      * @param array
+     * @return array
      */
     public function addAdjustments($creditmemo)
     {
@@ -205,9 +210,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
     /**
      * Add merchant credit to artcile list
-     * 
-     * @param array $articles
+     *
      * @param float $amount
+     * @param $description
+     * @param $articleNumber
      * @return array
      */
     public function addAdjustment($amount, $description, $articleNumber)
@@ -226,7 +232,6 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      * Gets all needed Informations for the head Block of Requests for RatePAY
      *
      * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $quoteOrOrder
-     * @param string $subtype
      * @param string $methodCode
      * @return array
      */
@@ -529,4 +534,11 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         return Mage::helper('ratepaypayment');
     }
 
+    /**
+     * @param bool $useFallbackShippingItem
+     */
+    public function setUseFallbackShippingItem($useFallbackShippingItem)
+    {
+        $this->_useFallbackShippingItem = $useFallbackShippingItem;
+    }
 }

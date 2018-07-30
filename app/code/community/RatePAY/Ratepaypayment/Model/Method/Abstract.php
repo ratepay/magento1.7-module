@@ -18,6 +18,9 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
+/**
+ * Class RatePAY_Ratepaypayment_Model_Method_Abstract
+ */
 abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment_Model_Method_Abstract
 {
     /**
@@ -115,7 +118,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Mage_Payment_Model_Info
+     * @return RatePAY_Ratepaypayment_Model_Method_Abstract
+     * @throws Mage_Core_Exception
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function assignData($data)
     {
@@ -425,7 +430,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
     /**
      * Return Quote or Order Object depending what the Payment is
      *
-     * @return Mage_Sales_Model_Order|Mage_Sales_Model_Ouote
+     * @return Mage_Sales_Model_Order|Mage_Sales_Model_Quote
      */
     public function getQuoteOrOrder()
     {
@@ -456,10 +461,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
      * @param   Varien_Object $orderPayment
      * @param   float $amount
      * @return  RatePAY_Ratepaypayment_Model_Method_Rechnung
+     * @throws Exception
      */
     public function authorize(Varien_Object $payment, $amount = 0)
     {
+        /* @var \RatePAY_Ratepaypayment_Helper_Data $helperData */
         $helperData = Mage::helper('ratepaypayment/data');
+        /* @var \RatePAY_Ratepaypayment_Helper_Mapping $helperMapping */
         $helperMapping = Mage::helper('ratepaypayment/mapping');
 
         $quote = $this->getQuoteOrOrder();
@@ -468,20 +476,16 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $sandbox = (bool) $helperData->getRpConfigData($quote, $paymentMethod, 'sandbox');
         $logging = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'logging', true, true);
 
+        $useFallbackShippingItem = $helperData->shouldUseFallbackShippingItem($quote, true);
+
         $requestInit = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
 
         $head = $helperMapping->getRequestHead($quote);
-        /*if (Mage::getSingleton('ratepaypayment/session')->getQueryActive() &&
-            // PQ/IBS
-            Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
-            $responseInit['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-        } else {*/
-            // Calling PAYMENT INIT
-            $responseInit = $requestInit->callPaymentInit($head);
-            if ($logging) {
-                Mage::getSingleton('ratepaypayment/logging')->log($responseInit, $quote);
-            }
-        /*}*/
+        // Calling PAYMENT INIT
+        $responseInit = $requestInit->callPaymentInit($head);
+        if ($logging) {
+            Mage::getSingleton('ratepaypayment/logging')->log($responseInit, $quote);
+        }
 
         if ($responseInit->isSuccessful()) {
             $requestRequest = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
@@ -494,6 +498,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if (!empty($dfpToken)) {
                 $head['CustomerDevice']['DeviceToken'] = $dfpToken;
             }
+
+            $helperMapping->setUseFallbackShippingItem($useFallbackShippingItem);
             $content = $helperMapping->getRequestContent($quote, "PAYMENT_REQUEST");
 
             $payment->setAdditionalInformation('transactionId', $head['TransactionId']);
@@ -509,6 +515,9 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
 
             if ($responseRequest->isSuccessful()) {
                 $payment->setAdditionalInformation('descriptor', $responseRequest->getDescriptor());
+                $quote->setRatepayUseShippingFallback((int)$useFallbackShippingItem);
+                $quote->save();
+
                 $confirm = (bool) $helperData->getRpConfigData($quote, 'ratepay_general', 'confirm', true, true);
                 if ($confirm == true) {
                     // Calling PAYMENT CONFIRM

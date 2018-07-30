@@ -3,11 +3,14 @@ function preProcessingBankForm(element) {
 }
 
 function isIban(element, method){
+    var bankCodeField = document.getElementById('ratepay_rate_element_bankcode_' + method);
     if(isNaN(element.value) || !element.value){
-        document.getElementById('ratepay_rate_element_bankcode_' + method).style.display = 'none';
+        if (bankCodeField) { bankCodeField.style.display = 'none'; };
+        removeDuplicatedNames('payment[ratepay_rate_iban]');
         document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
     } else {
-        document.getElementById('ratepay_rate_element_bankcode_'  + method).style.display = 'block';
+        bankCodeField.style.display = 'block';
+        removeDuplicatedNames('payment[ratepay_rate_account_number]');
         document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
     }
     preProcessingBankForm(element);
@@ -48,17 +51,24 @@ function showAgreement(method) {
     document.getElementById('ratepay_' + method + '_sepa_agreement_link').style.display = 'none';
 }
 
+function removeDuplicatedNames(name) {
+    var elements = document.getElementsByName(name);
+    elements.forEach(function(entry) {
+        entry.name = '';
+    });
+}
+
 function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
     var installment_method = null;
     var url = null;
-    if(document.getElementById('ratepay_installment_rate_' + paymentMethod).value == 1){
+    if(document.getElementById('ratepay_installment_rate_' + paymentMethod).value == 1 && paymentMethod !== 'ratepay_rate0') {
         url = document.getElementById('ratepay_installment_url_rate_' + paymentMethod).value;
         installment_method = 'rate';
     } else {
         url = document.getElementById('ratepay_installment_url_runtime_' + paymentMethod).value;
         installment_method = 'runtime';
     }
-    if (element.id == 'ratepay_rate_method_switch_invoice_' + paymentMethod && (paymentMethod !== 'ratepay_directdebit')) {
+    if (element.id === 'ratepay_rate_method_switch_invoice_' + paymentMethod && (paymentMethod !== 'ratepay_directdebit')) {
         document.getElementById('ratepay_rate_method_invoice_' + paymentMethod).value = 1;
         document.getElementById('ratepay_rate_method_switch_invoice_' + paymentMethod).style.display = 'none';
         document.getElementById('ratepay_rate_method_switch_directdebit_' + paymentMethod).style.display = 'inline-block';

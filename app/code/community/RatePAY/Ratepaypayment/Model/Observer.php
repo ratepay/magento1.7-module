@@ -23,11 +23,29 @@ class RatePAY_Ratepaypayment_Model_Observer
 
     private $_errorMessage;
 
+    /**
+     * @var Mage_Core_Helper_Abstract
+     */
     private $_helper;
+
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Data
+     */
     private $_helperData;
+
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Mapping
+     */
     private $_helperMapping;
+
+    /**
+     * @var RatePAY_Ratepaypayment_Helper_Payment
+     */
     private $_helperPayment;
 
+    /**
+     * RatePAY_Ratepaypayment_Model_Observer constructor.
+     */
     public function __construct()
     {
         $this->_helper = Mage::helper('ratepaypayment');
@@ -37,92 +55,7 @@ class RatePAY_Ratepaypayment_Model_Observer
     }
 
     /**
-     * Starts the PAYMENT QUERY if activated and saves the allowed payment methods in the RatePAY session
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    /*public function paymentQuery(Varien_Event_Observer $observer)
-    {
-        $ratepayMethodHide = Mage::getSingleton('ratepaypayment/session')->getRatepayMethodHide();
-        if ($ratepayMethodHide == true) {
-            return false;
-        }
-
-        $quote = Mage::getModel('checkout/session')->getQuote();
-
-        $helper_query = Mage::helper('ratepaypayment/query');
-
-        if ($helper_query->isPaymentQueryActive($quote) &&
-            $helper_query->validation($quote) &&
-            $helper_query->getQuerySubType($quote)) {
-
-            $querySubType = $helper_query->getQuerySubType($quote);
-
-            $client = Mage::getSingleton('ratepaypayment/request');
-            $helper_mapping = Mage::helper('ratepaypayment/mapping');
-
-            $currentOrder = array("customer" => $helper_mapping->getRequestCustomer($quote),
-                "basket" => $helper_mapping->getRequestBasket($quote),
-                "result" => false);
-
-            $previousOrder = Mage::getSingleton('core/session')->getPreviousQuote();
-
-            if (is_array($previousOrder) && !$helper_query->relevantOrderChanges($currentOrder, $previousOrder)) {
-                return;
-            }
-
-            if (Mage::getSingleton('ratepaypayment/session')->getTransactionId()) {
-                $result['transactionId'] = Mage::getSingleton('ratepaypayment/session')->getTransactionId();
-            } else {
-                $result = $client->callPaymentInit($helper_mapping->getRequestHead($quote, '', 'ratepay_ibs'), $helper_mapping->getLoggingInfo($quote, 'ratepay_ibs'));
-            }
-
-            if (is_array($result) || $result == true) {
-                $transactionId = $result['transactionId'];
-
-                $payment = $quote->getPayment();
-                $payment->setAdditionalInformation('transactionId', $result['transactionId']);
-                $payment->save();
-                $result = $client->callPaymentQuery($helper_mapping->getRequestHead($quote, $querySubType, 'ratepay_ibs'),
-                    $querySubType,
-                    $helper_mapping->getRequestCustomer($quote),
-                    $helper_mapping->getRequestBasket($quote),
-                    $helper_mapping->getLoggingInfo($quote, 'ratepay_ibs'));
-
-                if ((is_array($result) || $result == true)) {
-                    $allowedProducts = $helper_query->getProducts($result['products']['product']);
-                    $currentOrder['result'] = true;
-
-                    Mage::getSingleton('ratepaypayment/session')->setQueryActive(true);
-                    Mage::getSingleton('ratepaypayment/session')->setTransactionId($transactionId);
-                    Mage::getSingleton('ratepaypayment/session')->setAllowedProducts($allowedProducts);
-                    Mage::getSingleton('checkout/session')->setPreviousQuote($currentOrder);
-                } else {
-                    $currentOrder['result'] = false;
-
-                    Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
-                    Mage::getSingleton('ratepaypayment/session')->setTransactionId($transactionId);
-                    Mage::getSingleton('ratepaypayment/session')->setAllowedProducts(false);
-                    Mage::getSingleton('checkout/session')->setPreviousQuote($currentOrder);
-                }
-            } else {
-                if (!$this->_helperData->getRpConfigData($quote, 'ratepay_ibs', 'sandbox')) {
-                    Mage::getSingleton('ratepaypayment/session')->setRatepayMethodHide(true);
-                }
-            }
-
-        } elseif (!$helper_query->validation($quote)) {
-            Mage::getSingleton('ratepaypayment/session')->setQueryActive(true);
-            Mage::getSingleton('ratepaypayment/session')->setAllowedProducts(false);
-        } elseif (!$helper_query->getQuerySubType($quote)) {
-            Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
-        } else {
-            Mage::getSingleton('ratepaypayment/session')->setQueryActive(false);
-        }
-    }*/
-
-    /**
-     * Add payment fee if payment fee is set for RatePAY and removes it again if another payment method was choosen
+     * Add payment fee if payment fee is set for RatePAY and removes it again if another payment method was chosen
      *
      * @param Varien_Event_Observer $observer
      */
@@ -175,7 +108,7 @@ class RatePAY_Ratepaypayment_Model_Observer
     }
 
     /**
-     * If the order was successfull finalize the Ratepay Order
+     * If the order was successful finalize the Ratepay Order
      *
      * @param Varien_Event_Observer $observer
      */
@@ -245,9 +178,10 @@ class RatePAY_Ratepaypayment_Model_Observer
      * Call CONFIRMATION_DELIVER Method if invoice event is set
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
-
-    public function sendRatepayDeliverCallOnInvoice(Varien_Event_Observer $observer) {
+    public function sendRatepayDeliverCallOnInvoice(Varien_Event_Observer $observer)
+    {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
         $paymentMethod = $order->getPayment()->getMethod();
@@ -257,9 +191,8 @@ class RatePAY_Ratepaypayment_Model_Observer
             return;
         }
 
-        $hookDeliver = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true);
-
         // Check whether backend operation is hooked
+        $hookDeliver = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'hook_deliver', true, true);
         if (!$hookDeliver) {
             return;
         }
@@ -269,7 +202,8 @@ class RatePAY_Ratepaypayment_Model_Observer
             Mage::throwException($this->_helper->__('Processing failed'));
         }
 
-        if ($this->_helperData->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "invoice") {
+        $deliverEvent = $this->_helperData->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true);
+        if ($deliverEvent === "invoice") {
             $this->sendRatepayDeliverCall($order, $invoice);
         } /*else {
             Mage::throwException($this->_helper->__('Processing failed'));
@@ -280,9 +214,10 @@ class RatePAY_Ratepaypayment_Model_Observer
      * Call CONFIRMATION_DELIVER Method if delivery event is set
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
-
-    public function sendRatepayDeliverCallOnDelivery(Varien_Event_Observer $observer) {
+    public function sendRatepayDeliverCallOnDelivery(Varien_Event_Observer $observer)
+    {
         $shipment = $observer->getEvent()->getShipment();
         $order = $shipment->getOrder();
         $paymentMethod = $order->getPayment()->getMethod();
@@ -304,7 +239,8 @@ class RatePAY_Ratepaypayment_Model_Observer
             Mage::throwException($this->_helper->__('Processing failed'));
         }
 
-        if ($this->_helperData->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true) == "delivery") {
+        $deliverEvent = $this->_helperData->getRpConfigData($order, 'ratepay_general', 'deliver_event', true, true);
+        if ($deliverEvent == "delivery") {
             $this->sendRatepayDeliverCall($order, $shipment);
         }
     }
@@ -312,17 +248,20 @@ class RatePAY_Ratepaypayment_Model_Observer
     /**
      * Send a CONFIRMATION_DELIVER call with all shipped items
      *
-     * @param Varien_Event_Observer $observer
-     * @throws Exception Delivery was not successful.
+     * @param Mage_Sales_Model_Order $order
+     * @param $shippingOrInvoice
+     * @throws Mage_Core_Exception
      */
     public function sendRatepayDeliverCall(Mage_Sales_Model_Order $order, $shippingOrInvoice)
     {
         $paymentMethod = $order->getPayment()->getMethod();
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
+        $useFallbackShippingItem = $this->_helperData->shouldUseFallbackShippingItem($order);
 
         $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
         $head = $this->_helperMapping->getRequestHead($order);
+        $this->_helperMapping->setUseFallbackShippingItem($useFallbackShippingItem);
         $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER");
 
         $response = $request->callConfirmationDeliver($head, $content);
@@ -347,6 +286,7 @@ class RatePAY_Ratepaypayment_Model_Observer
      * Send a PAYMENT_CHANGE return call with all available item
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
     public function sendRatepayCreditmemoCall(Varien_Event_Observer $observer)
     {
@@ -428,6 +368,7 @@ class RatePAY_Ratepaypayment_Model_Observer
      * Send a PAYMENT_CHANGE cancellation call with all available item
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
      */
     public function sendRatepayCancelCall(Varien_Event_Observer $observer)
     {
@@ -472,6 +413,8 @@ class RatePAY_Ratepaypayment_Model_Observer
      * Checks if reward points are added after installment plan is created
      *
      * @param Varien_Event_Observer $observer
+     * @throws Mage_Core_Exception
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function rewardCheck(Varien_Event_Observer $observer)
     {

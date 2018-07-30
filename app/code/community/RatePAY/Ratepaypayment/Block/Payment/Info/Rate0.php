@@ -54,6 +54,9 @@ class RatePAY_Ratepaypayment_Block_Payment_Info_Rate0 extends RatePAY_Ratepaypay
      * Rate result render wrapper
      */
     public function getResultHtml() {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->getRateData(), null, 'ratepay_rate0');
+        /* @var \RatePAY_Ratepaypayment_Helper_Data $helper */
+        $helper = Mage::helper('ratepaypayment');
+
+        return $helper->getRateResultHtml($this->getRateData(), null, 'ratepay_rate0');
     }
 }

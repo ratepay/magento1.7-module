@@ -42,8 +42,9 @@ abstract class RatePAY_Ratepaypayment_Block_Payment_Form_RateAbstract extends Ra
 
     /**
      * Is invoice for ratepay rate allowed
-     * 
-     * @return type 
+     *
+     * @return bool
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function isInvoiceAllowed()
     {
