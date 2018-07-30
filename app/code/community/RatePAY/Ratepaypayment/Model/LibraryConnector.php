@@ -29,6 +29,9 @@ class RatePAY_Ratepaypayment_Model_LibraryConnector extends RatePAY_Ratepaypayme
 
     public function __construct($sandbox = true)
     {
+        if (is_array($sandbox)) {
+            $sandbox = $sandbox[0];
+        }
         // Set library as autoloader (and remove mage autoloader) while instancing library classes
         $this->setLibAutoloader();
 
