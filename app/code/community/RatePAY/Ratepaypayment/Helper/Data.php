@@ -659,10 +659,10 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Sales_Model_Order|Mage_Sales_Model_Quote $quoteOrOrder
-     * @param bool $isFirstOrder
+     * @param bool $isNewOrder
      * @return bool
      */
-    public function shouldUseFallbackShippingItem($quoteOrOrder, $isFirstOrder = false)
+    public function shouldUseFallbackShippingItem($quoteOrOrder, $isNewOrder = false)
     {
         $fallbackShippingFlag = (bool)$this->getRpConfigData(
             $quoteOrOrder,
@@ -672,7 +672,7 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             true
         );
 
-        if ($isFirstOrder) {
+        if ($isNewOrder) {
             return $fallbackShippingFlag;
         }
 

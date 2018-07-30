@@ -537,7 +537,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     /**
      * @param bool $useFallbackShippingItem
      */
-    public function setUseFallbackShippingItem($useFallbackShippingItem = false)
+    public function setUseFallbackShippingItem($useFallbackShippingItem)
     {
         $this->_useFallbackShippingItem = $useFallbackShippingItem;
     }
