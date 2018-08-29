@@ -52,7 +52,8 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
             $shopProduct = Mage::getModel('catalog/product')->load($orderItem->getProductId());
 
-            if ((($orderItem->getProductType() !== 'bundle') || ($orderItem->getProductType() === 'bundle' && $shopProduct->getPrice() > 0)) && $orderItem->getRowTotal() > 0) {
+            if ((($orderItem->getProductType() !== 'bundle') || ($orderItem->getProductType() === 'bundle' && $item->getPriceInclTax() > 0))
+                    && $orderItem->getRowTotal() > 0) {
                 $article = [];
                 $article['ArticleNumber'] = $item->getSku();
                 $article['Description'] = $item->getName();
@@ -60,6 +61,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $article['UnitPriceGross'] = (float) $item->getPriceInclTax();
                 $article['TaxRate'] = (float) $orderItem->getTaxPercent();
 
+                //What's with this?
                 if ($article['Quantity'] != (int) $article['Quantity']) {
                     $article['UnitPriceGross'] = (float) $item->getPriceInclTax() * $article['Quantity'];
                     $article['Quantity'] = 1;
