@@ -79,7 +79,7 @@ class RatePAY_Ratepaypayment_Model_Observer
                     if (($item->getSku() == $skuInvoice || $item->getSku() == $skuElv || $item->getSku() == $skuRate) && $item->getSku() != $sku) {
                         $quote->removeItem($item->getId());
                     }
-                    
+
                     if ($item->getSku() == $sku) {
                         $item->calcRowTotal();
                         $flag = false;
@@ -325,8 +325,6 @@ class RatePAY_Ratepaypayment_Model_Observer
             $amount = (float) $creditmemo->getGrandTotal();
         }
 
-        $content = $this->_helperMapping->getRequestContent($creditmemo, "PAYMENT_CHANGE", null, $amount);
-
         // Check whether backend operation is admitted
         if ($this->_helperData->getRpConfigData($order, $paymentMethod, 'status') == 1) {
             Mage::throwException($this->_helper->__('Processing failed'));
@@ -350,17 +348,21 @@ class RatePAY_Ratepaypayment_Model_Observer
             }
         }
 
-        // Call PAYMENT CHANGE return
-        $responseReturn = $request->callPaymentChange($head, $content, 'return');
+        $content = $this->_helperMapping->getRequestContent($creditmemo, "PAYMENT_CHANGE", null, $amount);
 
-        if ($logging) {
-            Mage::getSingleton('ratepaypayment/logging')->log($responseReturn, $order);
-        }
+        if (array_key_exists('Items', $content['ShoppingBasket'])) {
+            // Call PAYMENT CHANGE return
+            $responseReturn = $request->callPaymentChange($head, $content, 'return');
 
-        if ($responseReturn->isSuccessful()) {
-            $this->_helperPayment->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
-        } else {
-            Mage::throwException($this->_helper->__('Return was not successful') . " - " . $responseReturn->getReasonMessage());
+            if ($logging) {
+                Mage::getSingleton('ratepaypayment/logging')->log($responseReturn, $order);
+            }
+
+            if ($responseReturn->isSuccessful()) {
+                $this->_helperPayment->addNewTransaction($payment, Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, true, 'PAYMENT_CHANGE SEND (return)');
+            } else {
+                Mage::throwException($this->_helper->__('Return was not successful') . " - " . $responseReturn->getReasonMessage());
+            }
         }
     }
 
