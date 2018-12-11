@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.0.3`
+|Version | `4.1.1`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -25,15 +25,22 @@ git submodule update --remote
 
 ## Changelog
 
+### Version 4.1.1 - Released 2018-12-11
+
+* french translations
+* cleaned languages files
+* item bundles with price of 0
+* fixed incorrect partial-return when setting a debit
+
 ### Version 4.1.0 - Released 2018-07-30
 
-* implement switch between special items and basket items 
+* implement switch between special items and basket items
 * fix backend-orders with installment
 * fix fatal errors with strict php configuration
 * text revisions on rejection messages
 * text complaining with GDPR
 * complete translation into english
-* adapt display of installment form 
+* adapt display of installment form
 * remove VatID Field
 
 ### Version 4.0.3 - Released 2018-05-07
@@ -88,7 +95,7 @@ git submodule update --remote
 * Date of birth issue in backend order fixed
 * Ability to create new customer within backend order
 * Prevent missing taxPercent index
- 
+
 ### Version 3.2.0 - Released 2016-11-02
 * Compatibility with SUPEE-8788`
 * Support backend orders
