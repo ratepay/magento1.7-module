@@ -603,7 +603,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return $exception . "\n\n" . $this->getHelper()->getRpConfigData($order, $code, 'privacy_policy');
         }
 
-        return $exception . "\n\n" . $matches[1];
+        return $exception . "\n\n www.ratepay.com/legal";
     }
 
     /**
