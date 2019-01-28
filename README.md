@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.1`
+|Version | `4.1.2`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -24,6 +24,9 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.2 - will be Released 2019-01-28
+* Updated RatePAY GmbH Legal Link
 
 ### Version 4.1.1 - Released 2018-12-11
 
