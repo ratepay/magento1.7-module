@@ -25,7 +25,7 @@ git submodule update --remote
 
 ## Changelog
 
-### Version 4.1.2 - will be Released 2019-01-28
+### Version 4.1.2 - Released 2019-01-28
 * Updated RatePAY GmbH Legal Link
 
 ### Version 4.1.1 - Released 2018-12-11
