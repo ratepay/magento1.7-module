@@ -213,10 +213,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     {
         if(is_null(Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken())) {
             $storeId = Mage::app()->getStore()->getStoreId();
-            if (!(bool) Mage::getStoreConfig("payment/ratepay_general/device_ident", $storeId)) {
-                return;
-            }
-
             $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
 
             if (!empty($dfpSnippetId)) {

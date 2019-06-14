@@ -104,9 +104,6 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
             $coreConfig->saveConfig('payment/' . $method . '/valid_payment_firstday', $installmentConfig['valid-payment-firstdays']);
         }
 
-        $coreConfig->saveConfig('payment/ratepay_general/device_ident', ($merchantConfig['eligibility-device-fingerprint'] == "yes") ? 1 : 0);//device-fingerprint-snippet-id
-        $coreConfig->saveConfig('payment/ratepay_general/snipped_id', $merchantConfig['device-fingerprint-snippet-id']);
-
         return 1;
     }
 
