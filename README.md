@@ -24,6 +24,7 @@ git submodule update --remote
 ````
 
 ## Changelog
+* Add config field for device fingerprint snippet ID
 
 ### Version 4.1.2 - Released 2019-01-28
 * Updated RatePAY GmbH Legal Link
