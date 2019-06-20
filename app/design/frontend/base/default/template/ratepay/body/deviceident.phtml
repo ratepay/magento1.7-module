@@ -2,23 +2,18 @@
 // @ToDo: Move to helper
 if (is_null(Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken()) && Mage::helper('checkout/cart')->getItemsCount() > 0) {
     $storeId = Mage::app()->getStore()->getStoreId();
-    if (Mage::getStoreConfig("payment/ratepay_general/device_ident", $storeId) == "1") {
-        $dfpActive = true;
-    } else {
-        return;
+    $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snippet_id", $storeId);
+    if (empty($dfpSnippetId)) {
+        $dfpSnippetId = "ratepay";
     }
 
-    $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
+    $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
+        $dfpSnippetId,
+        Mage::getSingleton('core/session')->getEncryptedSessionId()
+    );
 
-    if (!empty($dfpSnippetId)) {
-        $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
-            $dfpSnippetId,
-            Mage::getSingleton('core/session')->getEncryptedSessionId()
-        );
+    Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($dfp['token']);
 
-        Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($dfp['token']);
-
-        echo $dfp['dfpSnippetCode'];
-    }
+    echo $dfp['dfpSnippetCode'];
 }
 ?>

@@ -213,22 +213,19 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     {
         if(is_null(Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken())) {
             $storeId = Mage::app()->getStore()->getStoreId();
-            if (!(bool) Mage::getStoreConfig("payment/ratepay_general/device_ident", $storeId)) {
-                return;
+            $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snippet_id", $storeId);
+            if (empty($dfpSnippetId)) {
+                $dfpSnippetId = "ratepay";
             }
 
-            $dfpSnippetId = Mage::getStoreConfig("payment/ratepay_general/snipped_id", $storeId);
+            $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
+                $dfpSnippetId,
+                Mage::getSingleton('core/session')->getEncryptedSessionId()
+            );
 
-            if (!empty($dfpSnippetId)) {
-                $dfp = Mage::getSingleton('ratepaypayment/libraryConnectorFrontend')->deviceFingerprint(
-                    $dfpSnippetId,
-                    Mage::getSingleton('core/session')->getEncryptedSessionId()
-                );
+            Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($dfp['token']);
 
-                Mage::getSingleton('ratepaypayment/session')->setDeviceIdentToken($dfp['token']);
-
-                return $dfp['dfpSnippetCode'];
-            }
+            return $dfp['dfpSnippetCode'];
         }
     }
 }

@@ -177,7 +177,6 @@
 
             <ratepay_general>
                 <address_normalization>0</address_normalization>
-                <device_ident>0</device_ident>
             </ratepay_general>
             <ratepay_general_advanced>
                 <specificcategories>NO</specificcategories>
