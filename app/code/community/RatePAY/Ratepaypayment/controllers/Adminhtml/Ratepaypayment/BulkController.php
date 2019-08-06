@@ -161,5 +161,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_BulkController extends Mag
         
         return false;
     }
-    
+
+    /**
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return parent::_isAllowed();
+    }
 }

@@ -38,8 +38,8 @@ function changeDetails(paymentMethod) {
     }
 }
 
-function makeQueryString (data) {
-    var params = Object.keys(data).reduce(function(query, key) {
+function makeQueryString(data) {
+    var params = Object.keys(data).reduce(function (query, key) {
         var value = data[key];
         if (value) {
             var prefix = (query.length < 1) ? '' : (query + '&');

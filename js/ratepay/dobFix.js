@@ -1,6 +1,6 @@
 Varien.RatepayDOB = Class.create();
 Varien.RatepayDOB.prototype = {
-    initialize: function(selector, required, format) {
+    initialize: function (selector, required, format) {
         var el = $$(selector)[0];
         var container       = {};
         container.day       = Element.select(el, '.dob-day input')[0];
@@ -15,7 +15,7 @@ Varien.RatepayDOB.prototype = {
 
 Varien.RatepayDateElement = Class.create();
 Varien.RatepayDateElement.prototype = {
-    initialize: function(type, content, required, format) {
+    initialize: function (type, content, required, format) {
         if (type == 'id') {
             // id prefix
             this.day    = $(content + 'day');
@@ -49,7 +49,7 @@ Varien.RatepayDateElement.prototype = {
 
         this.advice.hide();
     },
-    validate: function() {
+    validate: function () {
         var error = false, day = parseInt(this.day.value, 10) || 0, month = parseInt(this.month.value, 10) || 0, year = parseInt(this.year.value, 10) || 0;
         if (!day && !month && !year) {
             if (this.required) {
@@ -113,7 +113,7 @@ Varien.RatepayDateElement.prototype = {
         this.advice.hide();
         return true;
     },
-    validateData: function() {
+    validateData: function () {
         var year = this.fullDate.getFullYear();
         var date = new Date;
         this.curyear = date.getFullYear();
@@ -121,14 +121,14 @@ Varien.RatepayDateElement.prototype = {
     },
     validateDataErrorType: 'year',
     validateDataErrorText: 'Please enter a valid year (1900-%d).',
-    errorTextModifier: function(text) {
+    errorTextModifier: function (text) {
         return text.replace('%d', this.curyear);
     },
-    setDateRange: function(minDate, maxDate) {
+    setDateRange: function (minDate, maxDate) {
         this.minDate = minDate;
         this.maxDate = maxDate;
     },
-    setFullDate: function(date) {
+    setFullDate: function (date) {
         this.fullDate = date;
     }
 };

@@ -259,7 +259,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
         $useFallbackShippingItem = $this->_helperData->shouldUseFallbackShippingItem($order);
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', array($sandbox));
         $head = $this->_helperMapping->getRequestHead($order);
         $this->_helperMapping->setUseFallbackShippingItem($useFallbackShippingItem);
         $content = $this->_helperMapping->getRequestContent($shippingOrInvoice, "CONFIRMATION_DELIVER");
@@ -315,7 +315,7 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', array($sandbox));
         $head = $this->_helperMapping->getRequestHead($order);
 
         // Identify adjustments and set subtotal without adjustments as amount
@@ -332,7 +332,7 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         // If any adjustment is set, a PAYMENT CHANGE credit call will be done
         if ($creditmemo->getAdjustmentPositive() > 0 || $creditmemo->getAdjustmentNegative() > 0) {
-            $requestCredit = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
+            $requestCredit = Mage::getSingleton('ratepaypayment/libraryConnector', array($sandbox));
             $contentCredit = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", $this->_helperMapping->addAdjustments($creditmemo));
 
             $responseCredit = $requestCredit->callPaymentChange($head, $contentCredit, 'credit');
@@ -392,9 +392,9 @@ class RatePAY_Ratepaypayment_Model_Observer
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
         $logging = (bool) $this->_helperData->getRpConfigData($order, 'ratepay_general', 'logging', true, true);
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', array($sandbox));
         $head = $this->_helperMapping->getRequestHead($order);
-        $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", [], 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
+        $content = $this->_helperMapping->getRequestContent($order, "PAYMENT_CHANGE", array(), 0); // Set zero amount and empty basket. Works as (full) cancellation of all remaining items
 
         // Check whether backend operation is admitted
         if ($this->_helperData->getRpConfigData($order, $order->getPayment()->getMethod(), 'status') == 1) {

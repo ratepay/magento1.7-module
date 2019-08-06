@@ -44,12 +44,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
         $request = Mage::getModel('ratepaypayment/libraryConnector', $credentials['sandbox'] == "1" ? true : false);
 
         // @ToDo: Move this to mapping helper
-        $headInfo = [
-            'Credential' => [
+        $headInfo = array(
+            'Credential' => array(
                 'ProfileId' => $credentials['profile_id'],
                 'Securitycode' => $credentials['security_code']
-            ]
-        ];
+            )
+        );
 
         $response = $request->callProfileRequest($headInfo);
 
@@ -136,5 +136,13 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
             return 'be';
         }
         return 'de';
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return parent::_isAllowed();
     }
 }
