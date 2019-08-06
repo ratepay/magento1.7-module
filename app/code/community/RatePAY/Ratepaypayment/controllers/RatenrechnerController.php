@@ -56,7 +56,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
         $quote = $this->getQuote();
         $sandbox = (bool) $this->_helperData->getRpConfigData($quote, $this->_paymentMethod, 'sandbox');
 
-        $request = Mage::getSingleton('ratepaypayment/libraryConnector', [$sandbox]);
+        $request = Mage::getSingleton('ratepaypayment/libraryConnector', array($sandbox));
         $head = $this->_helperMapping->getRequestHead($quote, $this->_paymentMethod);
         $content = $this->getContent($calculationType, $calculationValue, $quote->getGrandTotal(), $this->_reward);
 
@@ -68,25 +68,38 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     public function rateAction()
     {
+        /** @var RatePAY_Ratepaypayment_Block_Checkout_InstallmentplanDetails $block */
+        $block = Mage::getBlockSingleton('ratepaypayment/checkout_installmentplanDetails');
+
         try {
             if (is_numeric($this->_calcValue)) {
                 $response = $this->callCalculationRequest('calculation-by-rate', floatval($this->_calcValue));
 
                 if ($response->isSuccessful()) {
                     $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                    $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
+
+                    $block->setData('result', $this->formatResult($response->getResult()));
+                    $block->setData('method', $this->_paymentMethod);
+                    $block->setData('code', $response->getReasonCode());
                 } else {
                     $this->unsetSessionData($this->_paymentMethod);
-                    echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
+                    $block->_addError($this->__('lang_error'), $this->__('lang_request_error_else'));
                 }
             } else {
                 $this->unsetSessionData($this->_paymentMethod);
-                echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
+                $block->_addError($this->__('lang_error'), $this->__('lang_wrong_value'));
             }
         } catch(Exception $e) {
             $this->unsetSessionData($this->_paymentMethod);
-            echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
+            $block->_addError($this->__('lang_error'), $this->__('lang_server_off'));
         }
+
+        $html = $block->renderView();
+        $this->getResponse()
+            ->clearHeaders()
+            ->setHeader('Content-Type', 'text/html', true)
+            ->setBody($html);
+        return;
     }
 
     /**
@@ -94,43 +107,59 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     public function runtimeAction()
     {
+        /** @var RatePAY_Ratepaypayment_Block_Checkout_InstallmentplanDetails $block */
+        $block = Mage::getBlockSingleton('ratepaypayment/checkout_installmentplanDetails');
+
         try {
             $response = $this->callCalculationRequest('calculation-by-time', floatval($this->_calcValue));
 
             if ($response->isSuccessful()) {
                 $this->setSessionData($response->getResult(), $this->_paymentMethod);
-                $this->getHtml($this->formatResult($response->getResult()), $this->_paymentMethod, $response->getReasonCode());
+
+                $block->setData('result', $this->formatResult($response->getResult()));
+                $block->setData('method', $this->_paymentMethod);
+                $block->setData('code', $response->getReasonCode());
             } else {
                 $this->unsetSessionData($this->_paymentMethod);
-                echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_request_error_else') . "</div>";
+                $block->_addError($this->__('lang_error'), $this->__('lang_request_error_else'));
             }
         } catch(Exception $e) {
             $this->unsetSessionData($this->_paymentMethod);
-            echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_server_off') . "</div>";
+            $block->_addError($this->__('lang_error'), $this->__('lang_server_off'));
         }
+
+        $html = $block->renderView();
+        $this->getResponse()
+            ->clearHeaders()
+            ->setHeader('Content-Type', 'text/html', true)
+            ->setBody($html);
+        return;
     }
 
     /**
      * Calculates the rates by from user defined rate
      *
-     * @param string $method
+     * @param $calcType
      * @param float $calcValue
+     * @param $amount
+     * @param int $reward
      * @return array
+     * @throws Exception
      */
     private function getContent($calcType, $calcValue, $amount, $reward = 0)
     {
-        $content = [
-            'InstallmentCalculation' => [
+        $content = array(
+            'InstallmentCalculation' => array(
                 'Amount' => $amount - $reward,
-            ]
-        ];
+            )
+        );
 
         if ($calcType == 'calculation-by-rate') {
-            $content['InstallmentCalculation']['CalculationRate'] = ['Rate' => $calcValue];
+            $content['InstallmentCalculation']['CalculationRate'] = array('Rate' => $calcValue);
         } elseif ($calcType == 'calculation-by-time') {
-            $content['InstallmentCalculation']['CalculationTime'] = ['Month' => $calcValue];
+            $content['InstallmentCalculation']['CalculationTime'] = array('Month' => $calcValue);
         } else {
-            echo "<div class='pirperror'>" . $this->__('lang_error') . ":<br/>" . $this->__('lang_wrong_value') . "</div>";
+            throw new Exception($this->__('lang_wrong_value'));
         }
 
         return $content;
@@ -138,10 +167,10 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
 
     /**
      * Retrieve quote
-     * 
+     *
      * @return Mage_Sales_Model_Quote
      */
-    private function getQuote() 
+    private function getQuote()
     {
         return Mage::getSingleton('checkout/session')->getQuote();
     }
@@ -151,7 +180,7 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      * @param array $result
      * @return array
      */
-    private function formatResult($result) 
+    private function formatResult($result)
     {
         foreach ($result as $key => $value) {
             $result[$key] = (!strstr($key, "number")) ? Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($value) : $value;
@@ -177,26 +206,17 @@ class RatePAY_Ratepaypayment_RatenrechnerController extends Mage_Core_Controller
      */
     private function unsetSessionData($paymentMethod)
     {
-        foreach (Mage::getSingleton('ratepaypayment/session')->getData() as $key => $value) {
-            if (!is_array($value)) {
-                $sessionNameBeginning = substr($key, 0, strlen($paymentMethod));
-                if ($sessionNameBeginning == $paymentMethod && $key[strlen($paymentMethod)] == "_") {
-                    $unsetFunction = "uns" . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($key);
-                    Mage::getSingleton('ratepaypayment/session')->$unsetFunction();
+        $session = Mage::getSingleton('ratepaypayment/session');
+        if ($session) {
+            foreach ($session->getData() as $key => $value) {
+                if (!is_array($value)) {
+                    $sessionNameBeginning = substr($key, 0, strlen($paymentMethod));
+                    if ($sessionNameBeginning == $paymentMethod && $key[strlen($paymentMethod)] == "_") {
+                        $unsetFunction = "uns" . Mage::helper('ratepaypayment')->convertUnderlineToCamelCase($key);
+                        $session->$unsetFunction();
+                    }
                 }
             }
         }
-    }
-
-    /**
-     * Printout of rates result
-     *
-     * @param array $result
-     * @param $paymentMethod
-     * @param null $notification
-     */
-    public function getHtml($result, $paymentMethod, $notification = null)
-    {
-        $this->_helperData->getRateResultHtml($result, $notification, $paymentMethod);
     }
 }
