@@ -49,7 +49,7 @@ function makeQueryString(data) {
         return query;
     }, '');
 
-    console.log(params);
+
     return params;
 }
 
