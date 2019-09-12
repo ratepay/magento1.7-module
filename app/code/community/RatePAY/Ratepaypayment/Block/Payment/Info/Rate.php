@@ -49,11 +49,19 @@ class RatePAY_Ratepaypayment_Block_Payment_Info_Rate extends RatePAY_Ratepaypaym
         $result['lastRate']             = Mage::helper('ratepaypayment')->formatPriceWithoutCurrency($this->getInfo()->getAdditionalInformation('Rate Last Rate'));
         return $result;
     }
-    
+
     /**
-     * Rate result render wrapper
+     * @return string
      */
-    public function getResultHtml() {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->getRateData(), null, 'ratepay_rate');
+    public function getResultHtml()
+    {
+        /** @var RatePAY_Ratepaypayment_Block_Adminhtml_Sales_InstallmentplanDetails $block */
+        $block = Mage::getBlockSingleton('ratepaypayment/adminhtml_sales_installmentplanDetails');
+        $block->setData('result', $this->getRateData());
+        $block->setData('method', 'ratepay_rate');
+        $block->setData('code', null);
+        $html = $block->toHtml();
+
+        return $html;
     }
 }
