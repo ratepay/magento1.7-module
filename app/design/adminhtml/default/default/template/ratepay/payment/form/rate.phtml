@@ -324,7 +324,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         </div>
         <script type="text/javascript">
             //&lt;![CDATA[
-            var customer_dob = new Varien.RatepayDOB(".ratepaydob_<?php echo $_code ?>"', true, '%d.%m.%y');
+            var customer_dob = new Varien.RatepayDOB(".ratepaydob_<?php echo $_code ?>", true, '%d.%m.%y');
             //]]&gt;
         </script>
     </li>
@@ -423,7 +423,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                         </div>
                     </div>
                 </div>
-                <br style="clear: both;"
+                <br style="clear: both;">
                 <div id="ratepay-main-cont">
                     <div id="ratepay-ContentSwitch">
                         <div class="ratepay-ChooseRuntime">
