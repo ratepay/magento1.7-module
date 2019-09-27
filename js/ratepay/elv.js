@@ -6,12 +6,12 @@ function isIban(element, method){
     var bankCodeField = document.getElementById('ratepay_rate_element_bankcode_' + method);
     if(isNaN(element.value) || !element.value){
         if (bankCodeField) { bankCodeField.style.display = 'none'; };
-        removeDuplicatedNames('payment[ratepay_rate_iban]');
-        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
+        //removeDuplicatedNames('payment[ratepay_rate_iban]');
+        //document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
     } else {
         bankCodeField.style.display = 'block';
-        removeDuplicatedNames('payment[ratepay_rate_account_number]');
-        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
+        //removeDuplicatedNames('payment[ratepay_rate_account_number]');
+        //document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
     }
     preProcessingBankForm(element);
 }
