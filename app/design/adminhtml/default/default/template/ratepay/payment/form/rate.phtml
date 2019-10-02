@@ -260,9 +260,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-
-
-        <input type="hidden" id="ratepay_payment_firstday_<?php echo $_code ?>" value="28">
+    <input type="hidden" id="ratepay_payment_firstday_<?php echo $_code ?>" value="28">
 
     <?php if ($this->isSandbox()): ?>
         <li class="ratepay-sandbox-notification">
@@ -324,7 +322,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         </div>
         <script type="text/javascript">
             //&lt;![CDATA[
-            var customer_dob = new Varien.RatepayDOB(".ratepaydob_<?php echo $_code ?>"', true, '%d.%m.%y');
+            var customer_dob = new Varien.RatepayDOB('.ratepaydob_<?php echo $_code ?>', true, '%d.%m.%y');
             //]]&gt;
         </script>
     </li>
@@ -382,16 +380,15 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                                     </select>
                                 <?php else : ?>
                                     <div class="rp-term-buttons" role="group" aria-label="...">
-                                        <?php foreach ($monthAllowed AS $month) : ?>
-                                            <button type="button"
-                                                    onclick="<?php echo $jsCommand; ?>"
-                                                    value="<?php echo $month; ?>"
-                                                    id="piRpInput-buttonMonth-<?php echo $month; ?>"
-                                                    role="group"><?php echo $month; ?></button>
-                                        <?php endforeach; ?>
+                                    <?php foreach ($monthAllowed AS $month) : ?>
+                                        <button type="button"
+                                                onclick="<?php echo $jsCommand; ?>"
+                                                value="<?php echo $month; ?>"
+                                                id="piRpInput-buttonMonth-<?php echo $month; ?>"
+                                                role="group"><?php echo $month; ?></button>
+                                    <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -407,23 +404,22 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                                     <span class="input-group-addon">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
-                                        <input
-                                                onclick="ratepayRateCalculatorAction(
-                                                    'rate',
-                                                    '<?php echo $_code ?>',
-                                                    '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/rate", array('_secure' => true)); ?>',
-                                                    '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');"
-                                                value="<?php echo $this->__('rp_calculate_rate'); ?>"
-                                                id="<?php echo $_code ?>_Input-button"
-                                                class="ratepay-input-button"
-                                                type="button">
+                                        <input onclick="ratepayRateCalculatorAction(
+                                                'rate',
+                                                '<?php echo $_code ?>',
+                                                '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/rate", array('_secure' => true)); ?>',
+                                                '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>');"
+                                           value="<?php echo $this->__('rp_calculate_rate'); ?>"
+                                           id="<?php echo $_code ?>_Input-button"
+                                           class="ratepay-input-button"
+                                           type="button">
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br style="clear: both;"
+                <br style="clear: both;" />
                 <div id="ratepay-main-cont">
                     <div id="ratepay-ContentSwitch">
                         <div class="ratepay-ChooseRuntime">
@@ -497,7 +493,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                         <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form" onchange="preProcessingBankForm(this)" />
                     </div>
                 </li>
-            <?php endif; ?>
+            <?php endif ?>
 
             <li class="ratepay_rate_sepa_element">
                 <table>
@@ -511,7 +507,8 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                                     <?php echo $this->__('wirecard_directdebit_sepa_terms_block');?>
                                 </span>
                         </td>
-                    </tr><tr>
+                    </tr>
+                    <tr>
                         <td></td>
                         <td>
                             <br/>

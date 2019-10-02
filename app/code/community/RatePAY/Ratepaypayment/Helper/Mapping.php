@@ -37,7 +37,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function getArticles($object)
     {
-        $basket['Items'] = [];
+        $basket['Items'] = array();
         $articleDiscountAmount = 0;
         $objectItems = $object->getAllItems();
 
@@ -54,7 +54,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
             if ((($orderItem->getProductType() !== 'bundle') || ($orderItem->getProductType() === 'bundle' && $item->getPriceInclTax() > 0))
                     && $orderItem->getRowTotal() > 0) {
-                $article = [];
+                $article = array();
                 $article['ArticleNumber'] = $item->getSku();
                 $article['Description'] = $item->getName();
                 $article['Quantity'] = ($object instanceof Mage_Sales_Model_Order) ? $item->getQtyOrdered() : $item->getQty();
@@ -80,7 +80,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Handle order wrapping costs
         if($object->getGwPrice() > 0){
-            $article = [];
+            $article = array();
             $article['ArticleNumber'] = 'orderwrapping';
             $article['Description'] = 'Wrapping Cost Order';
             $article['Quantity'] = 1;
@@ -92,7 +92,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Handle item wrapping costs
         if($object->getGwItemsPrice() > 0){
-            $article = [];
+            $article = array();
             $article['ArticleNumber'] = 'itemswrapping';
             $article['Description'] = 'Wrapping Cost Items';
             $article['Quantity'] = 1;
@@ -104,7 +104,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Handle printed card
         if($object->getGwAddCard() > 0){
-            $article = [];
+            $article = array();
             $article['ArticleNumber'] = 'printed_card';
             $article['Description'] = 'Printed Card';
             $article['Quantity'] = 1;
@@ -119,7 +119,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $_cards = Mage::getBlockSingleton('enterprise_giftcardaccount/checkout_cart_total')->getQuoteGiftCards();
             if ($_cards) {
                 foreach ($_cards as $card) {
-                    $article = [];
+                    $article = array();
                     $article['ArticleNumber'] = 'gift_card';
                     $article['Description'] = $card['c'];
                     $article['Quantity'] = 1;
@@ -133,7 +133,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Handle reward currency amount
         if($object->getRewardCurrencyAmount() > 0){
-            $article = [];
+            $article = array();
             $article['ArticleNumber'] = 'REWARDPOINTS';
             $article['Description'] = 'Reward points';
             $article['Quantity'] = 1;
@@ -151,7 +151,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
         }
 
         if ($shippingObject->getShippingAmount() > 0) {
-            $shippingItem = [];
+            $shippingItem = array();
             if ($object instanceof Mage_Sales_Model_Order_Invoice || $object instanceof Mage_Sales_Model_Order_Shipment || $object instanceof Mage_Sales_Model_Order_Creditmemo) {
                 $shippingDiscountAmount = $shippingObject->getDiscountAmount() - $articleDiscountAmount;
                 $shippingDescription = $object->getOrder()->getShippingDescription();
@@ -179,7 +179,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $shippingItem['ArticleNumber'] = 'SHIPPING';
                 $shippingItem['Quantity'] = 1;
                 $shippingItem['TaxRate'] = 19;
-                $basket['Items'][] = ['Item' => $shippingItem];
+                $basket['Items'][] = array('Item' => $shippingItem);
             } else {
                 $basket['Shipping'] = $shippingItem;
             }
@@ -197,14 +197,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function addAdjustments($creditmemo)
     {
-        $articles = [];
+        $articles = array();
 
         if ($creditmemo->getAdjustmentPositive() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')]);
+            array_push($articles, array('Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentPositive() * -1, 'Adjustment Refund', 'adj-ref')));
         }
 
         if ($creditmemo->getAdjustmentNegative() > 0) {
-            array_push($articles, ['Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')]);
+            array_push($articles, array('Item' => $this->addAdjustment((float) $creditmemo->getAdjustmentNegative(), 'Adjustment Fee', 'adj-fee')));
         }
 
         return $articles;
@@ -220,7 +220,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function addAdjustment($amount, $description, $articleNumber)
     {
-        $tempVoucherItem = [];
+        $tempVoucherItem = array();
         $tempVoucherItem['Description'] = $description;
         $tempVoucherItem['ArticleNumber'] = $articleNumber;
         $tempVoucherItem['Quantity'] = 1;
@@ -241,7 +241,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     {
         $h = $this->getHelper();
 
-        $head = [];
+        $head = array();
 
         // Add credentials
         if (is_null($methodCode)) {
@@ -287,7 +287,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
     public function getRequestContent($quoteOrOrder, $operation, $articleList = null, $amount = null)
     {
-        $content = [];
+        $content = array();
 
         switch ($operation) {
             case "PAYMENT_REQUEST" :
@@ -316,10 +316,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function getRequestCustomer($quoteOrOrder)
     {
-        $customer = [];
-        $contacts = [];
-        $billing = [];
-        $delivery = [];
+        $customer = array();
+        $contacts = array();
+        $billing = array();
+        $delivery = array();
 
         $locale = substr(Mage::app()->getLocale()->getLocaleCode(),0,2);
         if (empty($locale)) {
@@ -388,16 +388,17 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $delivery['Company'] = $quoteOrOrder->getShippingAddress()->getCompany();
         }
 
-        $customer['Addresses'] = [
-            [
+        $customer['Addresses'] = array(
+            array(
                 'Address' => $billing
-            ], [
+            ),
+            array(
                 'Address' => $delivery
-            ]
-        ];
+            )
+        );
 
         if ($quoteOrOrder->getPayment()->getMethod() == 'ratepay_directdebit' || Mage::getSingleton('ratepaypayment/session')->getDirectDebitFlag() === true) {
-            $customer['BankAccount'] = [];
+            $customer['BankAccount'] = array();
             $customer['BankAccount']['Owner'] = $customer['FirstName'] . " " . $delivery['LastName'];
 
             if(Mage::getSingleton('ratepaypayment/session')->getIban()) {
@@ -421,14 +422,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
      */
     public function getRequestBasket($object, $articleList = null, $amount = null)
     {
-        $basket = [];
+        $basket = array();
 
         if (is_null($articleList)) {
             $basket = $this->getArticles($object);
 
             // If no positiv item is remained in basket clear basket
             if (!$this->_anyPositiveItems($basket['Items'])) {
-                $basket = [];
+                $basket = array();
             }
 
             if (!is_null($amount)) {
@@ -480,7 +481,7 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
     public function getRequestPayment($object, $amount = null)
     {
         $paymentMethod = $object->getPayment()->getMethod();
-        $payment = [];
+        $payment = array();
         switch ($paymentMethod) {
             case 'ratepay_rechnung':
                 $payment['Method'] = 'INVOICE';

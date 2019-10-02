@@ -21,17 +21,11 @@
 class RatePAY_Ratepaypayment_Block_Checkout_Installmentplan extends Mage_Core_Block_Template
 {
     /**
-     * Show installment plan
-     */
-    public function showRateResultHtml($paymentMethod) {
-        Mage::helper('ratepaypayment')->getRateResultHtml($this->_getResult($paymentMethod), null, $paymentMethod);
-    }
-
-    /**
      * Returns the session saved installment plan
      * @return array
      */
-    private function _getResult($paymentMethod) {
+    public function getDetails() {
+        $paymentMethod = $this->getRatepayMethodCode();
         $returnArr = array();
         foreach (Mage::getSingleton('ratepaypayment/session')->getData() as $key => $value) {
             if (!is_array($value)) {

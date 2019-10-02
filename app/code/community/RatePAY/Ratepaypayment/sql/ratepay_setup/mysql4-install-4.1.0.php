@@ -21,7 +21,7 @@
 
 $installer = $this;
 
-$queries = [
+$queries = array(
     "CREATE TABLE IF NOT EXISTS `{$this->getTable('ratepay_debitdetails')}` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `userid` varchar(256) NOT NULL,
@@ -49,28 +49,28 @@ $queries = [
           `reason` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;",
-];
+);
 
-$attributes = [
-    [
+$attributes = array(
+    array(
         'name' => 'ratepay_use_shipping_fallback',
         'entity' => 'quote',
-        'config' => [
+        'config' => array(
             'type' => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
             'input' => 'boolean',
             'default' => '0',
-        ],
-    ],
-    [
+        ),
+    ),
+    array(
         'name' => 'ratepay_use_shipping_fallback',
         'entity' => 'order',
-        'config' => [
+        'config' => array(
             'type' => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
             'input' => 'boolean',
             'default' => '0',
-        ],
-    ],
-];
+        ),
+    ),
+);
 
 
 $installer->startSetup();
@@ -92,17 +92,17 @@ $installer->endSetup();
 
 $orderStatusTable = $installer->getTable('sales/order_status');
 
-$statuses = [
+$statuses = array(
     'payment_success' => 'Payment Success',
     'payment_processing' => 'Payment Processing',
     'payment_complete' => 'Payment Complete',
     'payment_failed' => 'Payment Failed',
-];
+);
 
 foreach ($statuses as $status => $label) {
     $values = compact('status', 'label');
     try {
-        $installer->getConnection()->insertArray($orderStatusTable, ['status', 'label'], [$values]);
+        $installer->getConnection()->insertArray($orderStatusTable, array('status', 'label'), array($values));
     } catch (Exception $e) {
         Mage::logException($e);
     }

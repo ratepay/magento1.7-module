@@ -19,26 +19,26 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-$attributes = [
-    [
+$attributes = array(
+    array(
         'name' => 'ratepay_use_shipping_fallback',
         'entity' => 'quote',
-        'config' => [
+        'config' => array(
             'type' => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
             'input' => 'boolean',
             'default' => '0',
-        ],
-    ],
-    [
+        ),
+    ),
+    array(
         'name' => 'ratepay_use_shipping_fallback',
         'entity' => 'order',
-        'config' => [
+        'config' => array(
             'type' => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
             'input' => 'boolean',
             'default' => '0',
-        ],
-    ],
-];
+        ),
+    ),
+);
 
 /* @var Mage_Sales_Model_Resource_Setup $installer */
 $installer = new Mage_Sales_Model_Resource_Setup('core_setup');

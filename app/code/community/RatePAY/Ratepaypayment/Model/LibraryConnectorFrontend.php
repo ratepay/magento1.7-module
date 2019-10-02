@@ -31,9 +31,9 @@ class RatePAY_Ratepaypayment_Model_LibraryConnectorFrontend extends RatePAY_Rate
         // Switch back to mage autoloader
         $this->removeLibAutoloader();
 
-        return [
+        return array(
             'token' => $deviceFingerprint->getToken(),
             'dfpSnippetCode' => $deviceFingerprint->getDfpSnippetCode()
-        ];
+        );
     }
 }

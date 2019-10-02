@@ -124,14 +124,14 @@ class RatePAY_Ratepaypayment_Model_LibraryConnector extends RatePAY_Ratepaypayme
     private function extendHeadData($head)
     {
         $head['SystemId'] = Mage::helper('core/http')->getServerAddr(false); // @ToDo: Move this to helper
-        $head['Meta'] = [
-            'Systems' => [
-                'System' => [
+        $head['Meta'] = array(
+            'Systems' => array(
+                'System' => array(
                     'Name' => "Magento_" . Mage::helper('ratepaypayment')->getEdition(), // @ToDo: Move this to helper
                     'Version' => Mage::getVersion() . '_' . (string) Mage::getConfig()->getNode()->modules->RatePAY_Ratepaypayment->version // @ToDo: Move this to helper
-                ]
-            ]
-        ];
+                )
+            )
+        );
 
         return $head;
     }
