@@ -75,7 +75,6 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         document.getElementById('ratepay_payment_firstday_' + paymentMethod).value = 28;
         batchDisplay(paymentMethod + '_sepa_element', 'none');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form_');
-        ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)
     } else {
         document.getElementById('ratepay_rate_method_invoice_' + paymentMethod).value = 0;
         document.getElementById('ratepay_rate_method_switch_directdebit_' + paymentMethod).style.display = 'none';
@@ -84,7 +83,6 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         batchDisplay(paymentMethod + '_sepa_element', 'block');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form required-entry');
         isIban(document.getElementById('ratepay_rate_iban_' + paymentMethod), paymentMethod);
-        ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)
     }
 }
 
