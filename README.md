@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.3`
+|Version | `4.1.4`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -24,6 +24,10 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.4 - Released 2019-10-02
+* Fixed Javascript- and layout-problems in backend orders
+* Fixed problems when installment and 0% installment was active at the same time
 
 ### Version 4.1.3 - Released 2019-06-20
 * Add config field for device fingerprint snippet ID
