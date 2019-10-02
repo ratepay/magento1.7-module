@@ -6,12 +6,12 @@ function isIban(element, method){
     var bankCodeField = document.getElementById('ratepay_rate_element_bankcode_' + method);
     if(isNaN(element.value) || !element.value){
         if (bankCodeField) { bankCodeField.style.display = 'none'; };
-        removeDuplicatedNames('payment[ratepay_rate_iban]');
-        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
+        //removeDuplicatedNames('payment[ratepay_rate_iban]');
+        //document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_iban]';
     } else {
         bankCodeField.style.display = 'block';
-        removeDuplicatedNames('payment[ratepay_rate_account_number]');
-        document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
+        //removeDuplicatedNames('payment[ratepay_rate_account_number]');
+        //document.getElementById('ratepay_rate_iban_'  + method).name = 'payment[ratepay_rate_account_number]';
     }
     preProcessingBankForm(element);
 }
@@ -73,7 +73,7 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         document.getElementById('ratepay_rate_method_switch_invoice_' + paymentMethod).style.display = 'none';
         document.getElementById('ratepay_rate_method_switch_directdebit_' + paymentMethod).style.display = 'inline-block';
         document.getElementById('ratepay_payment_firstday_' + paymentMethod).value = 28;
-        batchDisplay('ratepay_rate_sepa_element', 'none');
+        batchDisplay(paymentMethod + '_sepa_element', 'none');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form_');
         ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)
     } else {
@@ -81,7 +81,7 @@ function switchRatePaymentMethod(element, paymentMethod, form_key, reward) {
         document.getElementById('ratepay_rate_method_switch_directdebit_' + paymentMethod).style.display = 'none';
         document.getElementById('ratepay_rate_method_switch_invoice_' + paymentMethod).style.display = 'inline-block';
         document.getElementById('ratepay_payment_firstday_' + paymentMethod).value = 2;
-        batchDisplay('ratepay_rate_sepa_element', 'block');
+        batchDisplay(paymentMethod + '_sepa_element', 'block');
         batchClassName('ratepay_rate_sepa_form', 'ratepay_rate_sepa_form required-entry');
         isIban(document.getElementById('ratepay_rate_iban_' + paymentMethod), paymentMethod);
         ratepayRateCalculatorAction(installment_method, paymentMethod, url, form_key, reward)

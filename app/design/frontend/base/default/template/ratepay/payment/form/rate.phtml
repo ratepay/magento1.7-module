@@ -456,15 +456,14 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     <input type="hidden" id="ratepay_installment_rate_<?php echo $_code ?>" value="<?php echo ('ratepay_rate0' === $_code) ? 0 : 1; ?>">
     <input type="hidden" id="ratepay_installment_url_rate_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/rate", array('_secure' => true)); ?>">
     <input type="hidden" id="ratepay_installment_url_runtime_<?php echo $_code ?>" value="<?php echo $this->getUrl("ratepaypayment/ratenrechner/runtime", array('_secure' => true)); ?>">
-    <input type="hidden" id="ratepay_rate_method_invoice_<?php echo $_code ?>" name="payment[ratepay_rate_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
+    <input type="hidden" id="ratepay_rate_method_invoice_<?php echo $_code ?>" name="payment[<?php echo $_code ?>_method_invoice]" value="<?php echo is_array($firstday) || $firstday == '2' ? 0 : 1;  ?>">
 
     <div id="ratepay_rate_sepa_block_<?php echo $_code ?>" style="display:none">
         <?php if (is_array($firstday) || $firstday == '2'): ?>
             <li>
                 <hr />
             </li>
-
-            <li class="ratepay_rate_sepa_element">
+            <li class="<?php echo $_code ?>_sepa_element">
                 <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
                     <li><label><?php echo $this->__('Wirecard address') ?></label></li>
                     <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Wirecard Creditor ID') ?></label></li>
@@ -472,33 +471,33 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                 </ul>
             </li>
 
-            <li class="ratepay_rate_sepa_element">
+            <li class="<?php echo $_code ?>_sepa_element">
                 <label>
                     <?php echo $this->__('insert bank data wc'); ?>
                 </label>
             </li>
-            <li class="ratepay_rate_sepa_element">
+            <li class="<?php echo $_code ?>_sepa_element">
                 <label for="ratepay_rate_account_holder"><?php echo $this->__('Account holder'); ?></label>
                 <div class="input-box" style="font-weight: bold">
                     <?php echo $this->getAccountOwner(); ?>
                 </div>
             </li>
-            <li id="ratepay_rate_element_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_element">
+            <li id="ratepay_rate_element_iban_<?php echo $_code ?>" class="<?php echo $_code ?>_sepa_element">
                 <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?> / <?php echo $this->__('Account number'); ?></label>
                 <div class="input-box">
-                    <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[ratepay_rate_iban]" id="ratepay_rate_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this, '<?php echo $_code ?>')" />
+                    <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[<?php echo $_code ?>_iban]" id="ratepay_rate_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this, '<?php echo $_code ?>')" />
                 </div>
             </li>
             <?php if ('ratepay_rate0' !== $_code) : ?>
-                <li id="ratepay_rate_element_bankcode_<?php echo $_code ?>" class="ratepay_rate_sepa_element" style="display:none;">
+                <li id="ratepay_rate_element_bankcode_<?php echo $_code ?>" class="<?php echo $_code ?>_sepa_element" style="display:none;">
                     <label for="ratepay_rate_bank_code_number" class="required"><em>*</em><?php echo $this->__('Bank code number'); ?></label>
                     <div class="input-box">
-                        <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[ratepay_rate_bank_code_number]" id="ratepay_rate_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
+                        <input value="<?php echo $bankData['bankcode'] ?>" type="text" name="payment[<?php echo $_code ?>_bank_code_number]" id="<?php echo $_code ?>_bank_code_number" class="ratepay_rate_sepa_form required-entry" onchange="preProcessingBankForm(this)" />
                     </div>
                 </li>
-            <?php endif ?>
+            <?php endif; ?>
 
-            <li class="ratepay_rate_sepa_element">
+            <li class="<?php echo $_code ?>_sepa_element">
                 <table>
                     <tbody id="ratepay_rate_sepa_agreement_<?php echo $_code ?>">
                     <tr>
