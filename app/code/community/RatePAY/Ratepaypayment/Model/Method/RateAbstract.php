@@ -46,7 +46,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_RateAbstract extends RatePAY_
         $helper = Mage::helper('ratepaypayment');
 
         // @ToDo: reduce values
-        $necessaryValues = [
+        $necessaryValues = array(
             'TotalAmount',
             'Amount',
             'InterestRate',
@@ -58,7 +58,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_RateAbstract extends RatePAY_
             'NumberOfRates',
             'Rate',
             'LastRate'
-        ];
+        );
 
         foreach ($necessaryValues as $key) {
             if (is_null(Mage::getSingleton('ratepaypayment/session')->{'get' . $helper->convertUnderlineToCamelCase($this->getCode()) . $key}())) {

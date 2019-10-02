@@ -107,4 +107,12 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_LogsController extends Mag
         }
         $this->_redirect('*/*/index');
     }
+
+    /**
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return parent::_isAllowed();
+    }
 }

@@ -53,7 +53,7 @@ function showAgreement(method) {
 
 function removeDuplicatedNames(name) {
     var elements = document.getElementsByName(name);
-    elements.forEach(function(entry) {
+    elements.forEach(function (entry) {
         entry.name = '';
     });
 }
