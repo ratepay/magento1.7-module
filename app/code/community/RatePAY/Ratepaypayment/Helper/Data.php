@@ -244,10 +244,15 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function setTaxvat($quote, $taxvat)
     {
-        if ($quote->getCustomerId()) {
-            $quote->getCustomer()
-                ->setTaxvat($taxvat)
-                ->save();
+        $customer = $quote->getCustomer();
+        if ($customer) {
+            $customer->setTaxvat($taxvat);
+            if ($quote->getCustomerId()) {
+                $customer->save();
+            }
+        }
+        if (!empty($taxvat) && Mage::app()->getStore()->isAdmin()){
+            Mage::getSingleton('ratepaypayment/session')->setCustomerTaxvat($taxvat);
         }
         $quote->setCustomerTaxvat($taxvat)->save();
     }

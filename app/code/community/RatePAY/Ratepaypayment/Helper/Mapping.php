@@ -346,8 +346,12 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $customer['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
             if (!empty($quoteOrOrder->getCustomerTaxvat())) {
                 $customer['VatId'] = $quoteOrOrder->getCustomerTaxvat();
+            } elseif (!empty(Mage::getSingleton('ratepaypayment/session')->getCustomerTaxvat())) {
+                $customer['VatId'] = Mage::getSingleton('ratepaypayment/session')->getCustomerTaxvat();
+                $quoteOrOrder->getCustomer()->setTaxvat($customer['VatId'])->save();
             }
         }
+        Mage::getSingleton('ratepaypayment/session')->unsCustomerTaxvat();
 
         // Contacts
         $contacts['Email'] = $quoteOrOrder->getCustomerEmail();
