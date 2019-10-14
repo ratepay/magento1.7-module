@@ -81,4 +81,11 @@
         </reference>           
     </adminhtml_sales_order_view>
    
+    <adminhtml_sales_order_create_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>ratepay/adminOrderCreate.js</script>
+            </action>
+        </reference>
+    </adminhtml_sales_order_create_index>
 </layout>
