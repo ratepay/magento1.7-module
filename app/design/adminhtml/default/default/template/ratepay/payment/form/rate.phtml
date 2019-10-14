@@ -275,7 +275,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     <?php endif; ?>
 
     <li class="email_default_requirement_message">
-        <span><?php echo $this->__('The email address is mandatory for this payment method.'); ?></span>
+        <?php echo $this->__('The email address is required for this payment method.'); ?>
     </li>
 
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
