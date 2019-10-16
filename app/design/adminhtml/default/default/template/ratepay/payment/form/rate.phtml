@@ -257,6 +257,12 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         border-color: #ccc;
         color: #333;
     }
+    .email_default_requirement_message {
+        color: orangered;
+        font-weight: bold;
+        background-color: bisque;
+        margin-top: 10px;
+    }
 </style>
 
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
@@ -267,6 +273,10 @@ $_paymentHelper = Mage::helper('ratepaypayment');
             <?php echo $this->__('Sandbox Notifcation'); ?>
         </li>
     <?php endif; ?>
+
+    <li class="email_default_requirement_message">
+        <?php echo $this->__('The email address is required for this payment method.'); ?>
+    </li>
 
     <?php if ($this->isAdditionalFieldsNeeded()): ?>
         <li>
@@ -545,4 +555,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
             <?php endif; ?>
         <?php endif; ?>
     </div>
+    <script type="text/javascript">
+        initPaymentMethodListeners();
+    </script>
 </ul>
