@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.4`
+|Version | `4.1.5`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -24,6 +24,11 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.5 - Released 2019-10-16
+* Fixed birthday for backend orders
+* Fixed Vat-Id handling for backend-orders
+* Set the email address field mandatory for backend order
 
 ### Version 4.1.4 - Released 2019-10-02
 * Fixed Javascript- and layout-problems in backend orders
