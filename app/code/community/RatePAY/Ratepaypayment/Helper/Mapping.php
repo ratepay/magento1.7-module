@@ -326,8 +326,14 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $locale = substr(Mage::app()->getLocale()->getDefaultLocale(),0,2);
         }
 
+        if (empty($quoteOrOrder->getCustomerDob()) && Mage::app()->getStore()->isAdmin()){
+            $quoteOrOrder->setCustomerDob(Mage::getSingleton('ratepaypayment/session')->getCustomerDob());
+            $quoteOrOrder->getCustomer()->setDob(Mage::getSingleton('ratepaypayment/session')->getCustomerDob())->save();
+        }
         $dob = new Zend_Date($quoteOrOrder->getCustomerDob());
-        $customer['DateOfBirth'] = $dob->toString("yyyy-MM-dd");
+        $dob = $dob->toString("yyyy-MM-dd");
+
+        $customer['DateOfBirth'] = $dob;
         $customer['Gender'] = $this->getHelper()->getGenderCode($quoteOrOrder);
         $customer['FirstName'] = $quoteOrOrder->getBillingAddress()->getFirstname();
         $customer['LastName'] = $quoteOrOrder->getBillingAddress()->getLastname();
@@ -340,8 +346,12 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $customer['CompanyName'] = $quoteOrOrder->getBillingAddress()->getCompany();
             if (!empty($quoteOrOrder->getCustomerTaxvat())) {
                 $customer['VatId'] = $quoteOrOrder->getCustomerTaxvat();
+            } elseif (!empty(Mage::getSingleton('ratepaypayment/session')->getCustomerTaxvat())) {
+                $customer['VatId'] = Mage::getSingleton('ratepaypayment/session')->getCustomerTaxvat();
+                $quoteOrOrder->getCustomer()->setTaxvat($customer['VatId'])->save();
             }
         }
+        Mage::getSingleton('ratepaypayment/session')->unsCustomerTaxvat();
 
         // Contacts
         $contacts['Email'] = $quoteOrOrder->getCustomerEmail();
