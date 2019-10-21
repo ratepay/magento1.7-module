@@ -10,6 +10,7 @@
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 |Terms of service / Nutzungsbedingungen | http://www.ratepay.com/nutzungsbedingungen
+|Legal-Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
 
 
 ## Installation
