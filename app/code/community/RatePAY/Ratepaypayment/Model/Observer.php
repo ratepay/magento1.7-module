@@ -448,4 +448,14 @@ class RatePAY_Ratepaypayment_Model_Observer
             Mage::throwException($this->_helper->__('rate basket difference'));
         }
     }
+
+    public function registerRatepayCreditmemo(Varien_Event_Observer $observer)
+    {
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        $request = $observer->getEvent()->getRequest();
+
+        if ($request->getControllerName() == 'sales_order_creditmemo' && $request->getActionName() == 'save' && stripos($creditmemo->getOrder()->getPayment()->getMethod(), 'ratepay') !== false) {
+            $creditmemo->setAllowZeroGrandTotal(true);
+        }
+    }
 }

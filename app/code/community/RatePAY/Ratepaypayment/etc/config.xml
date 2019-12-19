@@ -528,6 +528,15 @@
                     </finalizeRatepayOrder>
                 </observers>
             </sales_order_place_after>
+
+            <adminhtml_sales_order_creditmemo_register_before>
+                <observers>
+                    <registerRatepayCreditmemo>
+                        <class>ratepaypayment/observer</class>
+                        <method>registerRatepayCreditmemo</method>
+                    </registerRatepayCreditmemo>
+                </observers>
+            </adminhtml_sales_order_creditmemo_register_before>
         </events>
 
     </adminhtml>
