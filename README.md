@@ -10,6 +10,7 @@
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
 |Terms of service / Nutzungsbedingungen | http://www.ratepay.com/nutzungsbedingungen
+|Legal-Disclaimer|https://ratepay.gitbook.io/docs/#legal-disclaimer
 
 
 ## Installation
@@ -24,6 +25,10 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.6 - Released 2019-12-19
+* Enabled negative credit memos for ratepay payment types
+* Fixed specific group assignments to RatePay payment types for backend orders
 
 ### Version 4.1.5 - Released 2019-10-16
 * Fixed birthday for backend orders

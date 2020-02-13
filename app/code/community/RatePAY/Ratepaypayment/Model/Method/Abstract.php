@@ -401,7 +401,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         }
 
         $specificRoles = explode(",", $this->getHelper()->getRpConfigData($quote, $this->_code, 'specificgroups', true));
-        $customerRole = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $customerRole = $quote->getCustomerGroupId();
         if (!in_array("ALL", $specificRoles) && !in_array($customerRole, $specificRoles)) {
             return false;
         }
