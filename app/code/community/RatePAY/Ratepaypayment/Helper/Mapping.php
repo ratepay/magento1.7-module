@@ -265,8 +265,12 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             $this->_api = $quoteOrOrder->getPayment()->getAdditionalInformation('api');
         }
 
+        // M1-8 : Check if we are in reordering process
+        // if so, the trxId should not be transmitted, as new order must have new trxId
+        $session = Mage::getSingleton('adminhtml/session_quote');
+        $isReordered = !empty($session->getReordered()); // no issue with val=0 because the value is the id of the copied order, should never be 0.
 
-        if (!empty($trxId)) {
+        if (!empty($trxId) && !$isReordered) {
             $head['TransactionId'] = $trxId;
         }
 
