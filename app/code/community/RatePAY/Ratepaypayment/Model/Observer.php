@@ -183,6 +183,13 @@ class RatePAY_Ratepaypayment_Model_Observer
     public function sendRatepayDeliverCallOnInvoice(Varien_Event_Observer $observer)
     {
         $invoice = $observer->getEvent()->getInvoice();
+        // M1-9 init Invoice increment ID if not set, we need it to send it before creation of the invoice
+        if (!$invoice->getIncrementId()) {
+            /* @var $entityType Mage_Eav_Model_Entity_Type */
+            $entityType = Mage::getModel('eav/entity_type')->loadByCode(Mage_Sales_Model_Order_Invoice::HISTORY_ENTITY_NAME);
+            $invoice->setIncrementId($entityType->fetchNewIncrementId($invoice->getStoreId()));
+        }
+
         $order = $invoice->getOrder();
         $paymentMethod = $order->getPayment()->getMethod();
 

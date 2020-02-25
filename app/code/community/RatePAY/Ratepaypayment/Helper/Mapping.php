@@ -302,6 +302,9 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
             case "CONFIRMATION_DELIVER" :
                 $this->_backend = true;
                 $content['ShoppingBasket'] = $this->getRequestBasket($quoteOrOrder);
+                if ($quoteOrOrder instanceof Mage_Sales_Model_Order_Invoice && !empty($quoteOrOrder->getIncrementId())) {
+                    $content['Invoicing'] = ['InvoiceId' => $quoteOrOrder->getIncrementId()];
+                }
                 break;
         }
 
