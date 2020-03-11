@@ -561,7 +561,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                         $paymentBan->save();
                     }
                     $this->_cleanSession();
-                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "hard");
+                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "hard", $responseRequest->getReasonCode());
                 }
             }
         } else {
@@ -598,7 +598,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
     }
 
-    protected function _abortBackToPayment($exception, $type = null)
+    protected function _abortBackToPayment($exception, $type = null, $errorCode = null)
     {
         $order = $this->getQuoteOrOrder();
 
@@ -614,7 +614,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         }
 
         $this->_cleanSession();
-        Mage::getSingleton('checkout/session')->setGotoSection('payment');
+
+        // M1-10 redirect to billing to force refresh payment list
+        if ($errorCode == 703) {
+            Mage::getSingleton('checkout/session')->setGotoSection('billing');
+        } else {
+            Mage::getSingleton('checkout/session')->setGotoSection('payment');
+        }
         Mage::throwException($this->_getHelper()->__((strip_tags($exception))));
     }
 
