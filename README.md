@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.5`
+|Version | `4.1.7`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -25,6 +25,12 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.7 - Released 2019-03-12
+* Fix re-order function from admin
+* Transmits invoice number with delivery request
+* Include method hiding from checkout for 48h after rejection
+* Update legal text
 
 ### Version 4.1.6 - Released 2019-12-19
 * Enabled negative credit memos for ratepay payment types
