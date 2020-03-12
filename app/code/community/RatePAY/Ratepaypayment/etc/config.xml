@@ -24,7 +24,7 @@
 
     <modules>
         <RatePAY_Ratepaypayment>
-            <version>4.1.6</version>
+            <version>4.1.7</version>
         </RatePAY_Ratepaypayment>
     </modules>
 
@@ -54,6 +54,10 @@
                     <debitdetails>
                         <table>ratepay_debitdetails</table>
                     </debitdetails>
+
+                    <paymentBan>
+                        <table>ratepay_payment_ban</table>
+                    </paymentBan>
 
                 </entities>
             </ratepaypayment_mysql4>

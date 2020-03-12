@@ -348,6 +348,31 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
+        // M1-10 Ban ratepay for 48h if reason code is 703
+        /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBanModel */
+        $paymentBanModel = Mage::getModel('ratepaypayment/paymentBan');
+
+        $loggedCustomerId = Mage::getSingleton('customer/session')->getId();
+        if ($loggedCustomerId) {
+            $customerIdentifier = $loggedCustomerId;
+        } else {
+            $customerIdentifier = $quote->getCustomerEmail();
+        }
+
+        $paymentBan = $paymentBanModel->loadByCustomerIdPaymentMethod($customerIdentifier, $this->getCode());
+        if (!empty($paymentBan->getId())) {
+            $dtToday = new DateTime();
+            $dtBanStartDate = new DateTime($paymentBan->getFromDate());
+            $dtBanEndDate = new DateTime($paymentBan->getToDate());
+
+            if (
+                $dtToday->getTimestamp() > $dtBanStartDate->getTimestamp()
+                && $dtToday->getTimestamp() < $dtBanEndDate->getTimestamp()
+            ) {
+                return false;
+            }
+        }
+
         $ratepayMethodHide = Mage::getSingleton('ratepaypayment/session')->getRatepayMethodHide();
         if ($ratepayMethodHide == true) {
             return false;
@@ -529,8 +554,30 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 if ($responseRequest->isRetryAdmitted()) {
                     $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "soft");
                 } else {
+                    // M1-10 Ban ratepay for 48h if reason code is 703
+                    if ($responseRequest->getReasonCode() == 703) {
+                        /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBan */
+                        $paymentBan = Mage::getModel('ratepaypayment/paymentBan');
+
+                        $loggedCustomerId = Mage::getSingleton('customer/session')->getId();
+                        if ($loggedCustomerId) {
+                            $customerIdentifier = $loggedCustomerId;
+                        } else {
+                            $customerIdentifier = $quote->getCustomerEmail();
+                        }
+
+                        $paymentBan = $paymentBan->loadByCustomerIdPaymentMethod(
+                            $customerIdentifier,
+                            $quote->getPayment()->getMethod()
+                        );
+                        $paymentBan->setCustomerId($customerIdentifier);
+                        $paymentBan->setPaymentMethod($quote->getPayment()->getMethod());
+                        $paymentBan->setFromDate((new DateTime())->format(DATE_ISO8601));
+                        $paymentBan->setToDate((new DateTime('+2day'))->format(DATE_ISO8601));
+                        $paymentBan->save();
+                    }
                     $this->_cleanSession();
-                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "hard");
+                    $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "hard", $responseRequest->getReasonCode());
                 }
             }
         } else {
@@ -567,7 +614,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         Mage::getSingleton('checkout/session')->setUpdateSection('payment-method');
     }
 
-    protected function _abortBackToPayment($exception, $type = null)
+    protected function _abortBackToPayment($exception, $type = null, $errorCode = null)
     {
         $order = $this->getQuoteOrOrder();
 
@@ -583,7 +630,13 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         }
 
         $this->_cleanSession();
-        Mage::getSingleton('checkout/session')->setGotoSection('payment');
+
+        // M1-10 redirect to billing to force refresh payment list
+        if ($errorCode == 703) {
+            Mage::getSingleton('checkout/session')->setGotoSection('billing');
+        } else {
+            Mage::getSingleton('checkout/session')->setGotoSection('payment');
+        }
         Mage::throwException($this->_getHelper()->__((strip_tags($exception))));
     }
 
