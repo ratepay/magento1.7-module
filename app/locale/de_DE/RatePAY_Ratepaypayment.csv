@@ -253,5 +253,5 @@ wcd_sepa_terms_please_note,Hinweis
 wcd_sepa_terms_block_1,"Ich erm&auml;chtige die Wirecard Bank AG von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von der Wirecard Bank AG auf mein Konto gezogenen Lastschriften einzul&ouml;sen."
 wcd_sepa_terms_block_2,"Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen."
 wcd_sepa_terms_block_3,Es gelten dabei die mit dem Kreditinstitut vereinbarten Bedingungen.
-ratepay_agreement,"Es gelten die <a href='https://www.ratepay.com/legal' target='_blank'>zusätzlichen Geschäftsbedingungen und der Datenschutzhinweis</a> der RatePAY GmbH"
+ratepay_agreement,"<p>F&uuml;r diese Zahlungsart gelten <a href='//ratepay.com/legal' title='Legal - RatePAY' target='_blank'>zus&auml;tzliche AGB und Datenschutzhinweise</a>.</p>"
 'The email address is required for this payment method.', 'Die E-Mail-Adresse ist für diese Zahlungsmethode erforderlich.'
