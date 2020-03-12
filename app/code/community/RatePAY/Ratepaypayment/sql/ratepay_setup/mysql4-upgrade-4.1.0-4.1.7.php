@@ -22,7 +22,7 @@
 $queries = array(
     "CREATE TABLE IF NOT EXISTS `{$this->getTable('ratepay_payment_ban')}` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `customer_id` INT NULL,
+        `customer_id` VARCHAR(100) NULL,
         `payment_method` VARCHAR(50) NULL,
         `from_date` DATETIME NULL,
         `to_date` DATETIME NULL,

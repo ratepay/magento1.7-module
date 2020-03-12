@@ -55,24 +55,4 @@ class RatePAY_Ratepaypayment_Model_PaymentBan extends Mage_Core_Model_Abstract
 
         return $this;
     }
-
-//    /**
-//     * Construct
-//     */
-//    function _construct()
-//    {
-//        parent::_construct();
-//        $this->_init('ratepaypayment/paymentBan');
-//    }
-//
-//    public function registerBan($paymentMethod)
-//    {
-//        $startDate = (new DateTimeImmutable())->format(DATE_ISO8601);
-//        $this->setId(null)
-//            ->setCustomerId(0)
-//            ->setPaymentMethod($paymentMethod)
-//            ->setFromDate($startDate)
-//            ->setToDate($startDate)
-//            ->save();
-//    }
 }

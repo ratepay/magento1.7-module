@@ -351,7 +351,15 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         // M1-10 Ban ratepay for 48h if reason code is 703
         /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBanModel */
         $paymentBanModel = Mage::getModel('ratepaypayment/paymentBan');
-        $paymentBan = $paymentBanModel->loadByCustomerIdPaymentMethod($quote->getCustomerId(), $this->getCode());
+
+        $loggedCustomerId = Mage::getSingleton('customer/session')->getId();
+        if ($loggedCustomerId) {
+            $customerIdentifier = $loggedCustomerId;
+        } else {
+            $customerIdentifier = $quote->getCustomerEmail();
+        }
+
+        $paymentBan = $paymentBanModel->loadByCustomerIdPaymentMethod($customerIdentifier, $this->getCode());
         if (!empty($paymentBan->getId())) {
             $dtToday = new DateTime();
             $dtBanStartDate = new DateTime($paymentBan->getFromDate());
@@ -550,11 +558,19 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                     if ($responseRequest->getReasonCode() == 703) {
                         /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBan */
                         $paymentBan = Mage::getModel('ratepaypayment/paymentBan');
+
+                        $loggedCustomerId = Mage::getSingleton('customer/session')->getId();
+                        if ($loggedCustomerId) {
+                            $customerIdentifier = $loggedCustomerId;
+                        } else {
+                            $customerIdentifier = $quote->getCustomerEmail();
+                        }
+
                         $paymentBan = $paymentBan->loadByCustomerIdPaymentMethod(
-                            $quote->getCustomerId(),
+                            $customerIdentifier,
                             $quote->getPayment()->getMethod()
                         );
-                        $paymentBan->setCustomerId($quote->getCustomerId());
+                        $paymentBan->setCustomerId($customerIdentifier);
                         $paymentBan->setPaymentMethod($quote->getPayment()->getMethod());
                         $paymentBan->setFromDate((new DateTime())->format(DATE_ISO8601));
                         $paymentBan->setToDate((new DateTime('+2day'))->format(DATE_ISO8601));
