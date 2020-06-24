@@ -840,7 +840,7 @@
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
 
-                                        <rate_invoice translate="label">
+                                        <!--<rate_invoice translate="label">
                                             <label>Invoice Allowed</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -849,7 +849,7 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Invoice-Allowed</comment>
-                                        </rate_invoice>
+                                        </rate_invoice>-->
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -1097,7 +1097,7 @@
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
 
-                                        <rate_invoice translate="label">
+                                        <!--<rate_invoice translate="label">
                                             <label>Invoice Allowed</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -1106,7 +1106,7 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Invoice-Allowed</comment>
-                                        </rate_invoice>
+                                        </rate_invoice>-->
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -1962,7 +1962,7 @@
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
 
-                                        <rate_invoice translate="label">
+                                        <!--<rate_invoice translate="label">
                                             <label>Invoice Allowed</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -1971,7 +1971,7 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Invoice-Allowed</comment>
-                                        </rate_invoice>
+                                        </rate_invoice>-->
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -1992,7 +1992,7 @@
                                             <show_in_store>1</show_in_store>
                                         </sort_order>
 
-                                        <dynamic_due>
+                                        <!--<dynamic_due>
                                             <label>Enable dynamic due</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -2000,7 +2000,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                        </dynamic_due>
+                                        </dynamic_due>-->
 
                                         <!--<bankdata_saving>
                                             <label>Save bank data</label>
@@ -2219,7 +2219,7 @@
                                             <comment>Adminhtml-Help-ALA</comment>
                                         </delivery_address>
 
-                                        <rate_invoice translate="label">
+                                        <!--<rate_invoice translate="label">
                                             <label>Invoice Allowed</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -2228,7 +2228,7 @@
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
                                             <comment>Adminhtml-Help-Invoice-Allowed</comment>
-                                        </rate_invoice>
+                                        </rate_invoice>-->
 
                                         <payment_fee translate="label">
                                             <label>Payment Fee</label>
@@ -2249,7 +2249,7 @@
                                             <show_in_store>1</show_in_store>
                                         </sort_order>
 
-                                        <dynamic_due>
+                                        <!--<dynamic_due>
                                             <label>Enable dynamic due</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -2257,7 +2257,7 @@
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
-                                        </dynamic_due>
+                                        </dynamic_due>-->
 
                                         <!--<bankdata_saving>
                                             <label>Save bank data</label>
