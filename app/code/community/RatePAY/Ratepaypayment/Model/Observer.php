@@ -316,7 +316,7 @@ class RatePAY_Ratepaypayment_Model_Observer
 
         // Setting an adjustment fee is not permitted with RatePAY Installment
         if ($creditmemo->getAdjustmentNegative() > 0 && strstr($paymentMethod, "_rate")) {
-            Mage::throwException($this->_helper->__('Setting an adjustment fee is not permitted with RatePAY Installment'));
+            Mage::throwException($this->_helper->__('Setting an adjustment fee is not permitted with Ratepay Installment'));
         }
 
         $sandbox = (bool) $this->_helperData->getRpConfigData($order, $paymentMethod, 'sandbox');
