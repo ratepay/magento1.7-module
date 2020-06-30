@@ -348,7 +348,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
-        // M1-10 Ban ratepay for 48h if reason code is 703
+        // M1-10 Ban ratepay for 48h if reason code is 703, 720, 721
         /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBanModel */
         $paymentBanModel = Mage::getModel('ratepaypayment/paymentBan');
 
@@ -554,8 +554,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 if ($responseRequest->isRetryAdmitted()) {
                     $this->_abortBackToPayment($responseRequest->getCustomerMessage(), "soft");
                 } else {
-                    // M1-10 Ban ratepay for 48h if reason code is 703
-                    if ($responseRequest->getReasonCode() == 703) {
+                    // M1-10 Ban ratepay for 48h if reason code is 703, 720, 721
+                    if (in_array($responseRequest->getReasonCode(), array(703, 720, 721))) {
                         /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBan */
                         $paymentBan = Mage::getModel('ratepaypayment/paymentBan');
 
@@ -632,7 +632,7 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $this->_cleanSession();
 
         // M1-10 redirect to billing to force refresh payment list
-        if ($errorCode == 703) {
+        if (in_array($errorCode , array(703, 720, 721))) {
             Mage::getSingleton('checkout/session')->setGotoSection('billing');
         } else {
             Mage::getSingleton('checkout/session')->setGotoSection('payment');
