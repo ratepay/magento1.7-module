@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.7`
+|Version | `4.1.8`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -26,7 +26,13 @@ git submodule update --remote
 
 ## Changelog
 
-### Version 4.1.7 - Released 2019-03-12
+### Version 4.1.8 - Released 2020-07-02
+* Fix/Clean : remove unnecessary config fields
+* Update/Docs : add license file
+* Update : rewrite the Ratepay brand in various places
+* Update : add codes 720 and 721 to the list of 48h ban reasons
+
+### Version 4.1.7 - Released 2020-03-12
 * Fix re-order function from admin
 * Transmits invoice number with delivery request
 * Include method hiding from checkout for 48h after rejection
