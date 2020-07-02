@@ -23,7 +23,7 @@
 <config>
     <menu>
         <logs>
-            <title>RatePAY</title>
+            <title>Ratepay</title>
             <sort_order>60</sort_order>
             <children>
                 <ratepaypayment_logs translate="title" module="ratepaypayment">
@@ -48,7 +48,7 @@
                         <sort_order>60</sort_order>
                         <children>
                             <ratepaypayment_logs>
-                                <title>RatePAY</title>
+                                <title>Ratepay</title>
                                 <sort_order>10</sort_order>
                             </ratepaypayment_logs>
                         </children>
@@ -58,7 +58,7 @@
                         <sort_order>80</sort_order>
                         <children>
                             <ratepaypayment_bulk>
-                                <title>RatePAY</title>
+                                <title>Ratepay</title>
                                 <sort_order>12</sort_order>
                             </ratepaypayment_bulk>
                         </children>

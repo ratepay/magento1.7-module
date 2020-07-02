@@ -54,7 +54,7 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_Log
      */
     public function getTabLabel()
     {
-        return Mage::helper('core')->__('RatePAY Log');
+        return Mage::helper('core')->__('Ratepay Log');
     }
 
     /**
@@ -64,7 +64,7 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_Log
      */
     public function getTabTitle()
     {
-        return Mage::helper('core')->__('RatePAY Log');
+        return Mage::helper('core')->__('Ratepay Log');
     }
 
     /**

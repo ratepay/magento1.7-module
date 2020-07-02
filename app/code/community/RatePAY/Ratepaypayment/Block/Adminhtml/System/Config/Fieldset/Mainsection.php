@@ -30,7 +30,7 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_System_Config_Fieldset_Mainsection
     {
         return '<div class="entry-edit-head collapseable" ><a id="' . $element->getHtmlId()
         . '-head" href="#" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
-        . $this->getUrl('*/*/state') . '\'); return false;"><img src=' . $this->getSkinUrl('images/ratepay/ratepay.png', array('_secure' => true)) . ' alt="RatePAY" /></a></div>';
+        . $this->getUrl('*/*/state') . '\'); return false;">Ratepay</a></div>';
 
     }
 
