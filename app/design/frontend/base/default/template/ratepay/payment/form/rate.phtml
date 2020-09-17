@@ -465,8 +465,8 @@ $_paymentHelper = Mage::helper('ratepaypayment');
             </li>
             <li class="<?php echo $_code ?>_sepa_element">
                 <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-                    <li><label><?php echo $this->__('Wirecard address') ?></label></li>
-                    <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Wirecard Creditor ID') ?></label></li>
+                    <li><label><?php echo $this->__('Ratepay address') ?></label></li>
+                    <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Ratepay Creditor ID') ?></label></li>
                     <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
                 </ul>
             </li>
@@ -501,7 +501,11 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                         </td>
                         <td>
                                 <span class="required ratepayagreement">
-                                    <?php echo $this->__('wirecard_directdebit_sepa_terms_block');?>
+                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
+                                    <?php echo $this->__('Ratepay address');?>
+                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
+                                    <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('Ratepay Data Privacy Policy');?></a>
+                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
                                 </span>
                         </td>
                     </tr>
@@ -509,9 +513,11 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                         <td></td>
                         <td>
                             <br/>
-                            <span style="font-weight:bold; cursor: hand;"><?php echo $this->__('wirecard_directdebit_sepa_notice_block_1');?></span>
+                            <span style="font-weight:bold; cursor: hand;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
                             <br/>
-                            <?php echo $this->__('wirecard_directdebit_sepa_notice_block_2');?>
+                            <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
+                            <br/>
+                            <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
                         </td>
                     </tr>
                     </tbody>
