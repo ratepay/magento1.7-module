@@ -75,7 +75,8 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function isValidPhone() {
         if (!$this->isPhoneSet()) {
-            return false;
+            // M1-22 : If missing, a default value will be sent, not asking customer to fill it
+            return true;
         }
         $phone = $this->getPhone();
         $valid = "/^[\d\s\/\(\)-+]/";
