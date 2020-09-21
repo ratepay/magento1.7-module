@@ -187,7 +187,8 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             if ($this->getHelper()->isValidTaxvat($quote, $params[$this->_code . '_taxvat'])) {
                 $this->getHelper()->setTaxvat($quote, $params[$this->_code . '_taxvat']);
             } else {
-                Mage::throwException($this->_getHelper()->__('VatId Error'));
+                // M1-23 : VatId became optional
+//                Mage::throwException($this->_getHelper()->__('VatId Error'));
             }
         }
 
