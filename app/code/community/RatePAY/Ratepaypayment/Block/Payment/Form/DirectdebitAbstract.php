@@ -27,6 +27,10 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_DirectdebitAbstract extends Rate
      */
     public function getAccountOwner()
     {
+        // M1-24 : adapt account holder name when B2B (use company)
+        if ($this->isB2b()) {
+            return $this->getQuote()->getBillingAddress()->getCompany();
+        }
         return $this->getQuote()->getBillingAddress()->getFirstname() . " " . $this->getQuote()->getBillingAddress()->getLastname();
     }
 
