@@ -424,6 +424,10 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
                 $customer['BankAccount']['BankAccountNumber'] = Mage::getSingleton('ratepaypayment/session')->getAccountNumber();
                 $customer['BankAccount']['BankCode'] = Mage::getSingleton('ratepaypayment/session')->getBankCodeNumber();
             }
+
+            if (Mage::getSingleton('ratepaypayment/session')->getUseCompanyName() == 1) {
+                $customer['BankAccount']['Owner'] = $quoteOrOrder->getBillingAddress()->getCompany();
+            }
         }
 
         return $customer;
