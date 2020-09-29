@@ -365,6 +365,12 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('ratepaypayment/session')->setAccountNumber($data[$code . '_account_number']);
             Mage::getSingleton('ratepaypayment/session')->setBankCodeNumber($data[$code . '_bank_code_number']);
         }
+
+        if (isset($data[$code . '_account_holder'])) {
+            Mage::getSingleton('ratepaypayment/session')->setUseCompanyName($data[$code . '_account_holder']);
+        } else {
+            Mage::getSingleton('ratepaypayment/session')->setUseCompanyName(0);
+        }
     }
 
     /**
