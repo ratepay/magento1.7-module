@@ -186,9 +186,9 @@
 "rp_runtime_description","Nombre d'échéances mensuelles"
 "rp_rate_title", "Montant de l'échéance"
 "rp_rate_description","Montant de la mensualité"
-"rp_calculation_intro_part1","Vous pouvez choisir ci-après comment vous souhaitez organiser le paiement."
-"rp_calculation_intro_part2","Déterminez simplement le nombre d'échéances et ainsi <b>la durée</b> du paiement."
-"rp_calculation_intro_part3","Ou bien vous pouvez également fixer le <b>montant de l'échéance mensuelle</b> souhaité."
+"rp_calculation_intro_part1","Vous pouvez choisir ci-après comment vous souhaitez organiser le paiement. "
+"rp_calculation_intro_part2","Déterminez simplement le nombre d'échéances et ainsi <b>la durée</b> du paiement "
+"rp_calculation_intro_part3",ou bien vous pouvez également fixer le <b>montant de l'échéance mensuelle</b> souhaité.
 "rp_calculate_rate","Calculer la mensualité"
 "rp_total_amount","Montant total"
 "rp_cash_payment_price","Montant de la commande"
