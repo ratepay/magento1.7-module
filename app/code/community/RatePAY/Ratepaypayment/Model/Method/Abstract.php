@@ -163,7 +163,10 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
                 if ($phone && $this->getHelper()->isValidPhone($phone)) {
                     $this->getHelper()->setPhone($quote, $phone);
                 } else {
-                    Mage::throwException($this->_getHelper()->__('Phone Error'));
+                    // M1-22 : use default phone number if missing
+                    if (!empty($phone)) {
+                        Mage::throwException($this->_getHelper()->__('Phone Error'));
+                    }
                 }
             } else {
                 // M1-22 : use default phone number if missing

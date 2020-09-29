@@ -362,7 +362,12 @@ class RatePAY_Ratepaypayment_Helper_Mapping extends Mage_Core_Helper_Abstract
 
         // Contacts
         $contacts['Email'] = $quoteOrOrder->getCustomerEmail();
-        $contacts['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
+        // M1-22 : use default phone number if missing
+        if (empty($quoteOrOrder->getBillingAddress()->getTelephone())) {
+            $contacts['Phone']['DirectDial'] = '03033988560';
+        } else {
+            $contacts['Phone']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getTelephone();
+        }
         if ($quoteOrOrder->getBillingAddress()->getFax() != '') {
             $contacts['Fax']['DirectDial'] = $quoteOrOrder->getBillingAddress()->getFax();
         }
