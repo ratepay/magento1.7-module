@@ -74,9 +74,9 @@ echo $this->getDeviceIdentCode();
 
     <?php if (!$this->isValidPhone()): ?>
         <li>
-            <label for="<?php echo $_code ?>_phone" class="required"><em>*</em><?php echo $this->__('Phone'); ?></label>
+            <label for="<?php echo $_code ?>_phone"><?php echo $this->__('Phone'); ?></label>
             <div class="input-box">
-                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text required-entry ratepayphone"/>
+                <input value="<?php echo $this->getPhone() ?>" type="text" name="payment[<?php echo $_code ?>_phone]" id="<?php echo $_code ?>_phone" name="payment[<?php echo $_code ?>_phone]" class="input-text ratepayphone"/>
             </div>
         </li>
     <?php endif; ?>
