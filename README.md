@@ -5,7 +5,7 @@
 |------|----------
 |Author | Annegret Seufert
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.1.8`
+|Version | `4.1.9`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -25,6 +25,13 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.1.9 - Released 2020-09-28
+* Update : New SEPA mandate text for Ratepay inhouse installment payment method
+* Update : legal text and links updated
+* Update : VatId field in checkout turned into optional
+* Update : Default phone number transmitted if missing during checkout payment
+* Update : Account holder for SEPA transaction adapted for B2B (choice given between Customer name and Company)
 
 ### Version 4.1.8 - Released 2020-07-02
 * Fix/Clean : remove unnecessary config fields
