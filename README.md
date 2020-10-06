@@ -1,9 +1,9 @@
-# RatePAY GmbH - Magento Payment Module
+# Ratepay GmbH - Magento Payment Module
 ============================================
 
-|Module | RatePAY Module for Magento
+|Module | Ratepay Module for Magento
 |------|----------
-|Author | Annegret Seufert
+|Author | Fatship GmbH
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
 |Version | `4.1.9`
 |Link | https://www.ratepay.com
