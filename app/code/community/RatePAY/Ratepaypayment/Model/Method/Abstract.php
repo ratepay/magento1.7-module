@@ -409,6 +409,10 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         $totalAmount = $quote->getGrandTotal();
         $minAmount = $this->getHelper()->getRpConfigData($quote, $this->_code, 'min_order_total');
         $maxAmount = $this->getHelper()->getRpConfigData($quote, $this->_code, 'max_order_total');
+        if (!empty($quote->getBillingAddress()->getCompany())) {
+            $maxAmount = $this->getHelper()->getRpConfigData($quote, $this->_code, 'limit_max_b2b');
+        }
+
 
         if ($totalAmount < $minAmount || $totalAmount > $maxAmount) {
             return false;
