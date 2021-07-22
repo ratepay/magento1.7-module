@@ -354,6 +354,20 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
             return false;
         }
 
+        $isActive = (bool)(int)$this->getHelper()->getRpConfigData($quote, $this->_code, 'active');
+        $checkResult = new StdClass;
+        $checkResult->isAvailable = $isActive;
+        $checkResult->isDeniedInConfig = !$isActive; // for future use in observers
+        Mage::dispatchEvent('payment_method_is_active', array(
+            'result'          => $checkResult,
+            'method_instance' => $this,
+            'quote'           => $quote,
+        ));
+
+        if (!$checkResult->isAvailable) {
+            return false;
+        }
+
         // M1-10 Ban ratepay for 48h if reason code is 703, 720, 721
         /** @var RatePAY_Ratepaypayment_Model_PaymentBan $paymentBanModel */
         $paymentBanModel = Mage::getModel('ratepaypayment/paymentBan');
@@ -389,10 +403,6 @@ abstract class RatePAY_Ratepaypayment_Model_Method_Abstract extends Mage_Payment
         if ($queryActive && (!$allowedProducts || !in_array($this->_code, $allowedProducts))) {
             return false;
         }*/
-
-        if (!$this->getHelper()->getRpConfigData($quote, $this->_code, 'active')) {
-            return false;
-        }
 
         if ($this->getHelper()->isDobSet($quote)) {
             $validAge = $this->getHelper()->isValidAge($quote->getCustomerDob());
