@@ -133,7 +133,12 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getVatId()
     {
-        return $this->getQuote()->getCustomerTaxvat();
+        $vatId = $this->getQuote()->getCustomerTaxvat();
+
+        if (empty($vatId)) {
+            $vatId = $this->getQuote()->getBillingAddress()->getData('vat_id');
+        }
+        return $vatId;
     }
 
     /**
