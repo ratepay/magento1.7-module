@@ -493,7 +493,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                 </div>
             </li>
             <li id="ratepay_rate_element_iban_<?php echo $_code ?>" class="<?php echo $_code ?>_sepa_element">
-                <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?> / <?php echo $this->__('Account number'); ?></label>
+                <label for="ratepay_rate_iban" class="required"><em>*</em><?php echo $this->__('IBAN'); ?></label>
                 <div class="input-box">
                     <input value="<?php echo $bankData['iban']; ?>" type="text" name="payment[<?php echo $_code ?>_iban]" id="ratepay_rate_iban_<?php echo $_code ?>" class="ratepay_rate_sepa_form required-entry" onkeyup="isIban(this, '<?php echo $_code ?>')" />
                 </div>
