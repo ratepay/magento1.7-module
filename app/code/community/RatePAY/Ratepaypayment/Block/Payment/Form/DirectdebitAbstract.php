@@ -29,14 +29,4 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_DirectdebitAbstract extends Rate
     {
         return $this->getQuote()->getBillingAddress()->getFirstname() . " " . $this->getQuote()->getBillingAddress()->getLastname();
     }
-
-    /**
-     * Check if IBAN only is set
-     *
-     * @return boolean
-     */
-    public function isIbanOnly()
-    {
-        return ((bool) Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'iban_only') || $this->getCountryCode() != 'de');
-    }
 }

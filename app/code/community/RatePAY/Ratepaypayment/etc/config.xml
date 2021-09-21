@@ -292,7 +292,6 @@
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
-                <iban_only>0</iban_only>
             </ratepay_directdebit_de>
             <ratepay_directdebit_advanced_de>
                 <specificgroups>ALL</specificgroups>
@@ -307,7 +306,6 @@
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
-                <iban_only>0</iban_only>
             </ratepay_directdebit_be>
             <ratepay_directdebit_advanced_be>
                 <specificgroups>ALL</specificgroups>
@@ -322,7 +320,6 @@
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
-                <iban_only>1</iban_only>
             </ratepay_directdebit_at>
             <ratepay_directdebit_advanced_at>
                 <specificgroups>ALL</specificgroups>
@@ -337,7 +334,6 @@
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
-                <iban_only>1</iban_only>
             </ratepay_directdebit_ch>
             <ratepay_directdebit_advanced_ch>
                 <specificgroups>ALL</specificgroups>
@@ -352,7 +348,6 @@
                 <status>0</status>
                 <b2b>0</b2b>
                 <delivery_address>0</delivery_address>
-                <iban_only>1</iban_only>
             </ratepay_directdebit_nl>
             <ratepay_directdebit_advanced_nl>
                 <specificgroups>ALL</specificgroups>

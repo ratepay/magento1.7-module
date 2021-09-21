@@ -119,8 +119,6 @@ StoreCreditRefund Error,Die Funktion 'Refund to Store Credit' ist mit Ratepay-Be
 Processing failed,"Die weitere Verarbeitung der Bestellung ist nicht möglich. Bei Fragen, wenden Sie sich bitte an Ihren verantwortlichen Ratepay-Ansprechpartner."
 ,,
 Ratepay privacy policy URL,Ratepay-Datenschutzerklärung Url
-SEPA Account Information,IBAN Kontodaten
-Classic Account Information,Klassische Kontodaten
 Account holder,Kontoinhaber
 Bank name,Bankname
 Bank code number,Bankleitzahl

@@ -16,36 +16,6 @@ function isIban(element, method){
     preProcessingBankForm(element);
 }
 
-function switchAccountType(method, element) {
-    if (element.id == method + '_classic_switch') {
-        document.getElementById(method + '_classic_switch').className = 'btn btn-primary';
-        document.getElementById(method + '_sepa_switch').className = 'btn btn-default';
-        document.getElementById(method + '_element_iban').style.display = 'none';
-        document.getElementById(method + '_iban').className = 'ratepay_rate_sepa_form';
-        if (document.getElementById(method + '_element_bic')) {
-            document.getElementById(method + '_element_bic').style.display = 'none';
-            document.getElementById(method + '_bic').className = 'ratepay_rate_sepa_form';
-        }
-        document.getElementById(method + '_element_accountnumber').style.display = 'block';
-        document.getElementById(method + '_element_bankcode').style.display = 'block';
-        document.getElementById(method + '_account_number').className = 'ratepay_rate_sepa_form required-entry';
-        document.getElementById(method + '_bank_code_number').className = 'ratepay_rate_sepa_form required-entry';
-    } else {
-        document.getElementById(method + '_classic_switch').className = 'btn btn-default';
-        document.getElementById(method + '_sepa_switch').className = 'btn btn-primary';
-        document.getElementById(method + '_element_iban').style.display = 'block';
-        document.getElementById(method + '_iban').className = 'ratepay_rate_sepa_form required-entry';
-        if (document.getElementById(method + '_element_bic')) {
-            document.getElementById(method + '_element_bic').style.display = 'block';
-            document.getElementById(method + '_bic').className = 'ratepay_rate_sepa_form required-entry';
-        }
-        document.getElementById(method + '_element_accountnumber').style.display = 'none';
-        document.getElementById(method + '_element_bankcode').style.display = 'none';
-        document.getElementById(method + '_account_number').className = 'ratepay_rate_sepa_form';
-        document.getElementById(method + '_bank_code_number').className = 'ratepay_rate_sepa_form';
-    }
-}
-
 function showAgreement(method) {
     document.getElementById('ratepay_' + method + '_sepa_agreement').style.display = 'inline-block';
     document.getElementById('ratepay_' + method + '_sepa_agreement_link').style.display = 'none';
