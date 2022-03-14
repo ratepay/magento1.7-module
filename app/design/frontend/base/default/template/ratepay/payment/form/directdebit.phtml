@@ -197,12 +197,11 @@ $bankData = $this->getBankData();
         </li>
     <?php endif; ?>
     <li>
-        <a id="ratepay_directdebit_sepa_agreement_link" onclick="showAgreement('directdebit')"><?php echo $this->__('ratepay_directdebit_sepa_link')?></a>
         <table>
-            <tbody style="display:none" id="ratepay_directdebit_sepa_agreement">
+            <tbody style="display:inline-block" id="ratepay_directdebit_sepa_agreement">
             <tr>
                 <td style="vertical-align: top; padding-right: 5px;">
-                    <input type="hidden" class="checkbox" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
+                    <input type="checkbox" class="checkbox required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
                 </td>
                 <td>
                     <span class="required ratepayagreement">
