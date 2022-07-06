@@ -182,13 +182,14 @@
                                         </logging>
 
                                         <confirm translate="label">
-                                            <label>Confirmation Deliver</label>
+                                            <label>Send payment confirm</label>
                                             <frontend_type>select</frontend_type>
                                             <source_model>adminhtml/system_config_source_yesno</source_model>
                                             <sort_order>120</sort_order>
                                             <show_in_default>1</show_in_default>
                                             <show_in_website>1</show_in_website>
                                             <show_in_store>1</show_in_store>
+                                            <comment>Adminhtml-Help-Send payment confirm</comment>
                                         </confirm>
 
                                         <use_shipping_fallback translate="label">

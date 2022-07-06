@@ -194,6 +194,7 @@
                 <specificstatus_before>payment_success</specificstatus_before>
                 <specificstatus_after>payment_complete</specificstatus_after>
                 <logging>1</logging>
+                <confirm>0</confirm>
             </ratepay_general_advanced>
 
             <ratepay_rechnung>

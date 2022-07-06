@@ -103,6 +103,7 @@
 "Adminhtml-Help-Specific States After Delivery", "Bestellzustand (State) nach Versand"
 "Adminhtml-Help-Specific Statuses Before Delivery", "Zahlungsstatus vor Versand (nach Annahme durch Ratepay)"
 "Adminhtml-Help-Specific Statuses After Delivery", "Zahlungsstatus nach Versand"
+"Adminhtml-Help-Send payment confirm", "Verwenden Sie diese Option nur im Falle von Kompatibilitätsproblemen mit dem angeschlossenen ERP oder OMS."
 "Adminhtml-Help-Sandbox", "Der Sandbox-Modus dient zu Integrations- und Testzwecken und spricht das Ratepay Test-Gateway an"
 "Adminhtml-Help-Get Config", "Laden der bei Ratepay hinterlegten Profilkonfiguration.<br>Nach Empfang erfolgt die automatische Speicherung. Dies kann einige Sekunden in Anspruch nehmen"
 "Adminhtml-Help-Due Days", "In der Zahlungsarteninformation (Checkout) angezeigte Zahlungsfälligkeit nach Versand"
