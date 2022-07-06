@@ -206,7 +206,6 @@
                 <title>Rechnung</title>
                 <logging>1</logging>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -220,7 +219,6 @@
                 <active>0</active>
                 <title>Rechnung</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -235,7 +233,6 @@
                 <active>0</active>
                 <title>Rechnung</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -250,7 +247,6 @@
                 <active>0</active>
                 <title>Rechnung</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -265,7 +261,6 @@
                 <active>0</active>
                 <title>Rechnung</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -286,7 +281,6 @@
                 <active>0</active>
                 <title>Lastschrift</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -300,7 +294,6 @@
                 <active>0</active>
                 <title>Lastschrift</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -314,7 +307,6 @@
                 <active>0</active>
                 <title>Lastschrift</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -328,7 +320,6 @@
                 <active>0</active>
                 <title>Lastschrift</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>
@@ -342,7 +333,6 @@
                 <active>0</active>
                 <title>Lastschrift</title>
                 <sandbox>1</sandbox>
-                <due_days>14</due_days>
                 <specificcurrency>EUR</specificcurrency>
                 <privacy_policy>https://www.ratepay.com/legal</privacy_policy>
                 <status>0</status>

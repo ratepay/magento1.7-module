@@ -340,17 +340,6 @@
                                             <validate>validate-number</validate>
                                         </max_order_total>
 
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -550,17 +539,6 @@
                                             <show_in_store>1</show_in_store>
                                             <validate>validate-number</validate>
                                         </max_order_total>
-
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -1461,17 +1439,6 @@
                                             <validate>validate-number</validate>
                                         </max_order_total>
 
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -1671,17 +1638,6 @@
                                             <show_in_store>1</show_in_store>
                                             <validate>validate-number</validate>
                                         </max_order_total>
-
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -2581,17 +2537,6 @@
                                             <validate>validate-number</validate>
                                         </max_order_total>
 
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -2957,17 +2902,6 @@
                                             <validate>validate-number</validate>
                                         </max_order_total>
 
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -3167,17 +3101,6 @@
                                             <show_in_store>1</show_in_store>
                                             <validate>validate-number</validate>
                                         </max_order_total>
-
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
@@ -3412,17 +3335,6 @@
                                             <validate>validate-number</validate>
                                         </max_order_total>
 
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
-
                                         <b2b translate="label">
                                             <label>B2B</label>
                                             <frontend_type>label</frontend_type>
@@ -3622,17 +3534,6 @@
                                             <show_in_store>1</show_in_store>
                                             <validate>validate-number</validate>
                                         </max_order_total>
-
-                                        <due_days>
-                                            <label>Due Days</label>
-                                            <frontend_type>text</frontend_type>
-                                            <sort_order>100</sort_order>
-                                            <show_in_default>1</show_in_default>
-                                            <show_in_website>1</show_in_website>
-                                            <show_in_store>1</show_in_store>
-                                            <validate>validate-number</validate>
-                                            <comment>Adminhtml-Help-Due Days</comment>
-                                        </due_days>
 
                                         <b2b translate="label">
                                             <label>B2B</label>
