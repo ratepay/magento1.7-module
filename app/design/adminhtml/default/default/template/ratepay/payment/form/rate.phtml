@@ -143,7 +143,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         position: relative;
     }
     #ratepay_rate-rate {
-        width: auto;
+        width: inherit;
     }
     .rp-link {
         margin-left: 20px;
@@ -208,7 +208,6 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     }
     .rp-term-buttons {
         display: inline-grid;
-        grid-template-columns: repeat(3, 33.3%);
         width: 100%;
     }
     .rp-term-buttons>button {
@@ -218,6 +217,11 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         padding: 3px 5px;
     }
     .rp-term-select {
+        width: 100%;
+    }
+    .rp-time-buttons {
+        display: inline-grid;
+        grid-template-columns: 7% auto 33%;
         width: 100%;
     }
 </style>
@@ -389,7 +393,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                                         <?php endforeach; ?>
                                     </select>
                                 <?php else : ?>
-                                    <div class="rp-term-buttons" role="group" aria-label="...">
+                                    <div class="rp-term-buttons" role="group" aria-label="..." style="grid-template-columns: repeat(<?php echo min(3, count($monthAllowed)) ?>, <?php echo 100/min(3, count($monthAllowed)) ?>%)">
                                     <?php foreach ($monthAllowed AS $month) : ?>
                                         <button type="button"
                                                 onclick="<?php echo $jsCommand; ?>"
@@ -410,7 +414,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                             </div>
 
                             <div class="panel-body">
-                                <div class="input-group input-group-sm">
+                                <div class="input-group input-group-sm rp-time-buttons">
                                     <span class="input-group-addon">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
