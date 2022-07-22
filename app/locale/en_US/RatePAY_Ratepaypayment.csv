@@ -220,7 +220,7 @@
 "rp_reason_code_translation_698", "The rate was too low for the maximum available term. The rate has been increased."
 "rp_reason_code_translation_699", "The rate is too high for the minimum available term. The rate has been reduced."
 "rp_switch_payment_type_bank_transfer", "I would like to make the installment payments myself and not pay by direct debit"
-"rp_switch_payment_type_direct_debit", "I would like to settle the installment payments conveniently by direct debit"
+"rp_switch_payment_type_direct_debit", "I want to settle the instalments by direct debit"
 "rp_address", "Ratepay GmbH, Franklinstra&szlig;e 28-29, 10587 Berlin"
 "wcd_address", "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim"
 "rp_creditor", "Creditor ID"
