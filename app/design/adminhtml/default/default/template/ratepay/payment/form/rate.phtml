@@ -220,8 +220,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         width: 100%;
     }
     .rp-time-buttons {
-        display: inline-grid;
-        grid-template-columns: 7% auto 33%;
+        display: inline-flex;
         width: 100%;
     }
 </style>
@@ -415,7 +414,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
 
                             <div class="panel-body">
                                 <div class="input-group input-group-sm rp-time-buttons">
-                                    <span class="input-group-addon">&euro;</span>
+                                    <span class="input-group-addon" style="margin-right: 5px">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
                                         <input onclick="ratepayRateCalculatorAction(
