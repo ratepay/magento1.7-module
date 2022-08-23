@@ -530,7 +530,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_bank_transfer'); ?>
                     </a>
                     <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>"
                        style="cursor: pointer; display: none;"
@@ -539,7 +539,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_direct_debit'); ?>
                     </a>
                 </li>
             <?php endif; ?>

@@ -451,12 +451,10 @@ $_paymentHelper = Mage::helper('ratepaypayment');
             <li>
                 <hr />
             </li>
-            <li class="<?php echo $_code ?>_sepa_element">
-                <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-                    <li><label><?php echo $this->__('Ratepay address') ?></label></li>
-                    <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Ratepay Creditor ID') ?></label></li>
-                    <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
-                </ul>
+            <li>
+                <p>
+                    <label><?php echo $this->__('The mandate reference and creditor identifier will be communicated to you separately.') ?></label>
+                </p>
             </li>
 
             <li class="<?php echo $_code ?>_sepa_element">
@@ -536,7 +534,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_bank_transfer'); ?>
                     </a>
                     <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>"
                        style="cursor: pointer; display: none;"
@@ -545,7 +543,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_direct_debit'); ?>
                     </a>
                 </li>
             <?php endif; ?>
