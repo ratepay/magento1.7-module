@@ -102,6 +102,7 @@
 "Adminhtml-Help-Specific States After Delivery", "Order State after Shipping"
 "Adminhtml-Help-Specific Statuses Before Delivery", "Payment status before delivery (after acceptance by Ratepay)"
 "Adminhtml-Help-Specific Statuses After Delivery", "Payment Status After Shipping"
+"Adminhtml-Help-Send payment confirm", "Use this option only in case of compatibility issues with connected ERP or OMS."
 "Adminhtml-Help-Sandbox", "The sandbox mode is used for integration and test purposes and addresses the Ratepay test gateway"
 "Adminhtml-Help-Get Config", "Loading the profile configuration stored at Ratepay.<br>After receipt, it is automatically saved. This can take a few seconds"
 "Adminhtml-Help-B2B", "Payment method approved for business customers"
