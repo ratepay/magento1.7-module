@@ -360,25 +360,6 @@ class RatePAY_Ratepaypayment_Helper_Data extends Mage_Core_Helper_Abstract
             Mage::getSingleton('ratepaypayment/session')->setUseCompanyName(0);
         }
     }
-
-    /**
-     * Retrieve due days
-     *
-     * @param $payment
-     * @return string
-     * @throws Mage_Core_Exception
-     */
-    public function getDueDays($payment)
-    {
-        $order = $this->getOrderByIncrementId($payment['orderId']);
-        $code = $order->getPayment()->getMethodInstance()->getCode();
-        if (strstr($code, "ratepay_rate")) {
-            $data = "";
-        } else {
-            $data = $this->getRpConfigData($order, $code, 'due_days');
-        }
-        return $data;
-    }
     
     /**
      * Retrieve order object by increment id

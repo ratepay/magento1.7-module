@@ -17,16 +17,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     }
 
     /**
-     * Return due days
-     *
-     * @return mixed
-     */
-    public function getDueDays()
-    {
-        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'due_days');
-    }
-
-    /**
      * Checks if all needed informations are available or if some needs to be set
      *
      * @return boolean
