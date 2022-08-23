@@ -1,21 +1,9 @@
 <?php
 /**
- * Magento
+ * Copyright (c) Ratepay GmbH
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * @category RatePAY
- * @package RatePAY_Ratepaypayment
- * @copyright Copyright (c) 2015 RatePAY GmbH (https://www.ratepay.com)
- * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Block_Form
@@ -26,16 +14,6 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
     public function getPaymentHelper()
     {
        return $this->getMethod()->getHelper();
-    }
-
-    /**
-     * Return due days
-     *
-     * @return mixed
-     */
-    public function getDueDays()
-    {
-        return Mage::helper('ratepaypayment')->getRpConfigData($this->getQuote(), $this->_code, 'due_days');
     }
 
     /**
