@@ -1,4 +1,11 @@
 /**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
  * This function is triggered to handle the email address requirement status
  * Email address is mandatory for Ratepay methods
  * For other methods, it should follow the standard behaviour (most probably : not required)
