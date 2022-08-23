@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 // @ToDo: Move to helper
 if (is_null(Mage::getSingleton('ratepaypayment/session')->getDeviceIdentToken()) && Mage::helper('checkout/cart')->getItemsCount() > 0) {
     $storeId = Mage::app()->getStore()->getStoreId();

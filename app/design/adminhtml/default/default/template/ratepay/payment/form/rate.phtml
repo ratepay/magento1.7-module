@@ -1,21 +1,9 @@
 <?php
 /**
- * Magento
+ * Copyright (c) Ratepay GmbH
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * @category RatePAY
- * @package RatePAY_Ratepaypayment
- * @copyright Copyright (c) 2015 RatePAY GmbH (https://www.ratepay.com)
- * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 ?>
 
@@ -143,7 +131,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         position: relative;
     }
     #ratepay_rate-rate {
-        width: auto;
+        width: inherit;
     }
     .rp-link {
         margin-left: 20px;
@@ -208,7 +196,6 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     }
     .rp-term-buttons {
         display: inline-grid;
-        grid-template-columns: repeat(3, 33.3%);
         width: 100%;
     }
     .rp-term-buttons>button {
@@ -219,6 +206,16 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     }
     .rp-term-select {
         width: 100%;
+    }
+    .rp-time-buttons {
+        display: inline-flex;
+        width: 100%;
+    }
+    @media screen and (max-width: 1200px) {
+        .rp-time-buttons {
+            display: inline;
+            width: 100%;
+        }
     }
 </style>
 
@@ -389,7 +386,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                                         <?php endforeach; ?>
                                     </select>
                                 <?php else : ?>
-                                    <div class="rp-term-buttons" role="group" aria-label="...">
+                                    <div class="rp-term-buttons" role="group" aria-label="..." style="grid-template-columns: repeat(<?php echo min(3, count($monthAllowed)) ?>, <?php echo 100/min(3, count($monthAllowed)) ?>%)">
                                     <?php foreach ($monthAllowed AS $month) : ?>
                                         <button type="button"
                                                 onclick="<?php echo $jsCommand; ?>"
@@ -410,8 +407,8 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                             </div>
 
                             <div class="panel-body">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-addon">&euro;</span>
+                                <div class="input-group input-group-sm rp-time-buttons">
+                                    <span class="input-group-addon" style="margin-right: 5px">&euro;</span>
                                     <input type="text" id="<?php echo $_code ?>-rate" class="form-control" aria-label="Amount" />
                                     <span class="input-group-btn">
                                         <input onclick="ratepayRateCalculatorAction(
@@ -542,7 +539,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung selbst vornehmen und nicht per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_bank_transfer'); ?>
                     </a>
                     <a id="ratepay_rate_method_switch_directdebit_<?php echo $_code ?>"
                        style="cursor: pointer; display: none;"
@@ -551,7 +548,7 @@ $_paymentHelper = Mage::helper('ratepaypayment');
                            '<?php echo $_code ?>',
                            '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>');">
-                        Ich möchte die Ratenzahlung per Lastschrift begleichen
+                        <?php echo $this->__('rp_switch_payment_type_direct_debit'); ?>
                     </a>
                 </li>
             <?php endif; ?>

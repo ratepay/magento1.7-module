@@ -170,6 +170,7 @@ ratepay_rate_info_block_singleruntime_1,Sie k&ouml;nnen den Rechnungsbetrag in
 ratepay_rate_info_block_singleruntime_2,Teilzahlungsraten begleichen.
 ratepay_rate_info_block_singleruntime_3,Ihre monatliche Teilzahlungsrate und den entsprechenden Zinsaufschlag k&ouml;nnen entnehmen Sie dem dargestellten Ratenplan.
 IBAN invalid Error,Bitte geben Sie eine gültige IBAN ein.
+The mandate reference and creditor identifier will be communicated to you separately.,Mandatsreferenz und Gläubiger-ID wird Ihnen separat mitgeteilt.
 insert account number,Bitte geben Sie eine gültige Kontonummer ein.
 insert bank data,Bitte geben Sie Ihre Bankdaten ein.
 insert bank code,Bitte geben Sie eine gültige Bankleitzahl ein.
