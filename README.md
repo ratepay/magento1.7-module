@@ -5,7 +5,7 @@
 |------|----------
 |Author | Fatchip GmbH
 |Shop Version | `CE` `1.7.x` `1.8.x` `1.9.x` `EE` `1.12.x` `1.13.x` `1.14.x`
-|Version | `4.3.0`
+|Version | `4.3.1`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
 |Installation | see separate installation manual
@@ -25,6 +25,9 @@ git submodule update --remote
 ````
 
 ## Changelog
+
+### Version 4.3.1 - Released 2023-01-16
+* Update : Change Ratepay address
 
 ### Version 4.3.0 - Released 2022-08-23
 * Fixed : Buggy code in admin order overview

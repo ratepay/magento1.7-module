@@ -123,7 +123,7 @@
 "Bank code number","code guichet"
 "Account number","numéro de compte"
 "IBAN","IBAN"
-"Ratepay address","Ratepay GmbH, Franklinstraße 28-29, 10587 Berlin, Allemagne"
+"Ratepay address","Ratepay GmbH, Ritterstra&szlig;e 12-14, 10969 Berlin, Allemagne"
 "Wirecard address", "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim, Allemagne"
 "Creditor","Identifiant du créancier
 "Ratepay Creditor ID","DE39RPY00000568463"
@@ -222,7 +222,7 @@
 ,,
 "rp_switch_payment_type_bank_transfer", "Je souhaite effectuer les financements moi-même et non par prélèvement bancaire."
 "rp_switch_payment_type_direct_debit", "Je souhaite régler les financements par prélèvement bancaire en toute simplicité."
-"rp_address", "Ratepay GmbH, Franklinstraße 28-29, 10587 Berlin, Allemagne"
+"rp_address", "Ratepay GmbH, Ritterstra&szlig;e 12-14, 10969 Berlin, Allemagne"
 "wcd_address", "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim, Allemagne"
 "rp_creditor", "Identifiant du créancier"
 "rp_creditor_id", "DE39RPY00000568463"

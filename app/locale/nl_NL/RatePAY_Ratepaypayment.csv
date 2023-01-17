@@ -123,7 +123,7 @@ Adminhtml-Help-Invoice-Allowed,Dem K&auml;ufer wird erm&ouml;glicht die Ratenzah
 "Bank code number","Bank code number"
 "Account number","Account number"
 "IBAN","IBAN / rekeningnummer"
-"Ratepay address","Ratepay GmbH, Franklinstra&szlig;e 28-29, 10587 Berlin"
+"Ratepay address","Ratepay GmbH, Ritterstra&szlig;e 12-14, 10969 Berlin"
 "Wirecard address","Wirecard Bank AG, Einsteinring 35, 85609 Aschheim"
 "Creditor","Incassant ID"
 "Ratepay Creditor ID","DE39RPY00000568463"
@@ -222,7 +222,7 @@ wirecard_directdebit_sepa_notice_block_1,Hinweis:
 ,,
 "rp_switch_payment_type_bank_transfer" , "Ich m&ouml;chte die Ratenzahlungen selbst vornehmen und nicht per Lastschrift begleichen"
 "rp_switch_payment_type_direct_debit" , "Ich m&ouml;chte die Ratenzahlungen bequem per Lastschrift begleichen"
-"rp_address" , "Ratepay GmbH, Franklinstra&szlig;e 28-29, 10587 Berlin"
+"rp_address" , "Ratepay GmbH, Ritterstra&szlig;e 12-14, 10969 Berlin"
 "wcd_address" , "Wirecard Bank AG, Einsteinring 35, 85609 Aschheim"
 "rp_creditor" , "Gl&auml;ubiger-ID"
 "rp_creditor_id" , "DE39RPY00000568463"
