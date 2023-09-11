@@ -8,7 +8,7 @@
 |Version | `4.3.1`
 |Link | https://www.ratepay.com
 |Mail | integration@ratepay.com
-|Full Documentation | [click here](https://docs.ratepay.com/docs/developer/shop_modules/magento/magento_1/ratepay_payment_plugin_for_magento_1/|
+|Full Documentation | [click here](https://docs.ratepay.com/docs/developer/shop_modules/magento/magento_1/ratepay_payment_plugin_for_magento_1/)|
 |Legal Disclaimer   | [click here](https://docs.ratepay.com/docs/developer/shop_modules/overview/)| 
 
 
