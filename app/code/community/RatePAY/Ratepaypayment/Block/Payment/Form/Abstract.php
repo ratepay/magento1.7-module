@@ -43,7 +43,9 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getPhone()
     {
-        return ($this->isPhoneSet()) ? $this->getQuote()->getBillingAddress()->getTelephone() : false;
+        return ($this->isPhoneSet())
+            ? htmlspecialchars($this->getQuote()->getBillingAddress()->getTelephone())
+            : false;
     }
 
     /**
@@ -81,7 +83,9 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getDob()
     {
-        return ($this->isDobSet()) ? $this->getQuote()->getCustomerDob() : false;
+        return ($this->isDobSet())
+            ? htmlspecialchars($this->getQuote()->getCustomerDob())
+            : false;
     }
 
     /**
@@ -114,7 +118,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
         $vatId = $this->getQuote()->getCustomerTaxvat();
 
         if (empty($vatId)) {
-            $vatId = $this->getQuote()->getBillingAddress()->getData('vat_id');
+            $vatId = htmlspecialchars($this->getQuote()->getBillingAddress()->getData('vat_id'));
         }
         return $vatId;
     }
@@ -136,7 +140,7 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_Abstract extends Mage_Payment_Bl
      */
     public function getCompany()
     {
-        return $this->getQuote()->getBillingAddress()->getCompany();
+        return htmlspecialchars($this->getQuote()->getBillingAddress()->getCompany());
     }
 
     /**

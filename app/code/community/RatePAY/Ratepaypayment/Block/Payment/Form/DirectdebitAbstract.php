@@ -15,6 +15,9 @@ class RatePAY_Ratepaypayment_Block_Payment_Form_DirectdebitAbstract extends Rate
      */
     public function getAccountOwner()
     {
-        return $this->getQuote()->getBillingAddress()->getFirstname() . " " . $this->getQuote()->getBillingAddress()->getLastname();
+        return
+            htmlspecialchars($this->getQuote()->getBillingAddress()->getFirstname())
+            . " " .
+            htmlspecialchars($this->getQuote()->getBillingAddress()->getLastname());
     }
 }
