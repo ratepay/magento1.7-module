@@ -25,6 +25,9 @@ git submodule update --remote
 
 ## Changelog
 
+### Version 4.3.2 - Released 2023-12-01
+* Fixed : Buggy payment forms
+
 ### Version 4.3.1 - Released 2023-01-16
 * Update : Change Ratepay address
 
