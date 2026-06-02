@@ -28,11 +28,11 @@
 
             <ratepaypayment>
                 <class>RatePAY_Ratepaypayment_Model</class>
-                <resourceModel>ratepaypayment_mysql4</resourceModel>
+                <resourceModel>ratepaypayment_resource</resourceModel>
             </ratepaypayment>
 
-            <ratepaypayment_mysql4>
-                <class>RatePAY_Ratepaypayment_Model_Mysql4</class>
+            <ratepaypayment_resource>
+                <class>RatePAY_Ratepaypayment_Model_Resource</class>
                 <entities>
 
                     <logging>
@@ -48,7 +48,7 @@
                     </paymentBan>
 
                 </entities>
-            </ratepaypayment_mysql4>
+            </ratepaypayment_resource>
 
         </models>
 

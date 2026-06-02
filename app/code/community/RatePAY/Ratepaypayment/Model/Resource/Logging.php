@@ -6,13 +6,9 @@
  * file that was distributed with this source code.
  */
 
-class RatePAY_Ratepaypayment_Model_Mysql4_Logging extends Mage_Core_Model_Mysql4_Abstract
+class RatePAY_Ratepaypayment_Model_Resource_Logging extends Mage_Core_Model_Resource_Db_Abstract
 {
-    
-    /**
-     * Construct
-     */
-    function _construct()
+    public function _construct()
     {
         $this->_init('ratepaypayment/logging', 'id');
     }

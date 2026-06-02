@@ -213,7 +213,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_RatenrechnerbackendControl
     /**
      * @return boolean
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return parent::_isAllowed();
     }
