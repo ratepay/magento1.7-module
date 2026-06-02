@@ -73,30 +73,6 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_LogsController extends Mag
     }
 
     /**
-     * Extended delete mass action for entries older than x days
-     */
-    public function massDeleteExtendedAction()
-    {
-        $days = (int) $this->getRequest()->getParam('days', 0);
-
-        if ($days) {
-            try {
-                $countBefore = count(Mage::getModel('ratepaypayment/logging')->getCollection());
-                $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
-                $condition = 'date < DATE_SUB(now(),INTERVAL ' . $connection->quoteInto($days) . ' DAY)';
-                $table = Mage::getSingleton('core/resource')->getTableName('ratepay_log');
-                $connection->query('DELETE FROM ' . $table . ' WHERE ' . $condition);
-                $countAfter = count(Mage::getModel('ratepaypayment/logging')->getCollection());
-                $count = $countBefore - $countAfter;
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('ratepaypayment')->__('Total of %d record(s) were deleted.', $count));
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
-        }
-        $this->_redirect('*/*/index');
-    }
-
-    /**
      * @return boolean
      */
     protected function _isAllowed()
