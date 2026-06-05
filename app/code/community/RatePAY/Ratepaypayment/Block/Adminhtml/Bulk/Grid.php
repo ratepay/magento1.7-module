@@ -40,11 +40,15 @@ class RatePAY_Ratepaypayment_Block_Adminhtml_Bulk_Grid extends Mage_Adminhtml_Bl
     {
         $collection = Mage::getResourceModel($this->_getCollectionClass());
         $paymentTable = Mage::getSingleton("core/resource")->getTableName('sales_flat_order_payment');
-        $where = 'method like "ratepay_%" '
-                . 'and (main_table.status not like "canceled" and main_table.status not like "closed" and main_table.status not like "complete")';
         $collection->getSelect()
-                     ->join($paymentTable, "parent_id = main_table.entity_id", array("*", "main_table.*"))
-                     ->where($where);
+                     ->join(
+                         array('payment_table' => $paymentTable),
+                         "payment_table.parent_id = main_table.entity_id",
+                         array()
+                     );
+        $collection->getSelect()
+                    ->where('payment_table.method LIKE ?', 'ratepay_%')
+                    ->where('main_table.status NOT IN (?)', array('canceled', 'closed', 'complete'));
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
