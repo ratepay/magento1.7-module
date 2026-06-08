@@ -129,7 +129,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_ProfilerequestController e
     /**
      * @return boolean
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return parent::_isAllowed();
     }

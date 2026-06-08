@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-class RatePAY_Ratepaypayment_Model_Mysql4_PaymentBan_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class RatePAY_Ratepaypayment_Model_Resource_PaymentBan_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     public function _construct()
     {

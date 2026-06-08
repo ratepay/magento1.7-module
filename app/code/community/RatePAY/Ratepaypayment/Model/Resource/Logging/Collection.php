@@ -6,10 +6,11 @@
  * file that was distributed with this source code.
  */
 
-class RatePAY_Ratepaypayment_Model_Mysql4_PaymentBan extends Mage_Core_Model_Mysql4_Abstract
+class RatePAY_Ratepaypayment_Model_Resource_Logging_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     public function _construct()
     {
-        $this->_init('ratepaypayment/paymentBan', 'id');
+        parent::_construct();
+        $this->_init('ratepaypayment/logging');
     }
 }

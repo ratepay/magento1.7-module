@@ -75,7 +75,7 @@ class RatePAY_Ratepaypayment_Adminhtml_Ratepaypayment_LogsController extends Mag
     /**
      * @return boolean
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return parent::_isAllowed();
     }
