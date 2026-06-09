@@ -25,6 +25,9 @@ git submodule update --remote
 
 ## Changelog
 
+### Version 4.3.3 - Released 2026-06-09
+* Update : Security hardening
+
 ### Version 4.3.2 - Released 2023-12-01
 * Fixed : Buggy payment forms
 
