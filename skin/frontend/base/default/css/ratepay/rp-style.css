@@ -1,0 +1,55 @@
+/**
+ * Copyright (c) Ratepay GmbH
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/* /// SEPA Mandate notice panel /// */
+.rp-panel {
+    width: 100%;
+    background-color: #ffffff;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+.rp-panel-header {
+    background: white;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background 0.3s ease;
+    border-bottom: solid 1px #ccc;
+}
+.rp-panel-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rp-panel-body-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rp-panel-body-content {
+    overflow: hidden;
+}
+.rp-panel-text {
+    padding: 5px 16px;
+    margin: 0;
+    font-weight: normal;
+}
+.rp-panel.is-open .rp-panel-body-wrapper {
+    grid-template-rows: 1fr;
+}
+.rp-panel.is-open .rp-panel-icon {
+    transform: rotate(180deg);
+}
+/* /// End SEPA Mandate notice panel /// */
+
+
