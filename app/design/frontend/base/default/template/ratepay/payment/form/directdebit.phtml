@@ -129,23 +129,6 @@ $bankData = $this->getBankData();
             </div>
         </li>
     <?php endif; ?>
-
-    <br/>
-    <li class="ratepay_agreement">
-        <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-            <?php echo $this->__('ratepay_agreement', $this->__('ratepay_directdebit')) ?>
-        </ul>
-    </li>
-    <li>
-        <p>
-            <label><?php echo $this->__('The mandate reference and creditor identifier will be communicated to you separately.') ?></label>
-        </p>
-    </li>
-    <li>
-        <label>
-            <?php echo $this->__('insert bank data'); ?>
-        </label>
-    </li>
     <li>
         <label for="ratepay_directdebit_account_holder"><?php echo $this->__('Account holder'); ?></label>
         <div class="input-box" style="font-weight: bold">
@@ -182,33 +165,28 @@ $bankData = $this->getBankData();
         </li>
     <?php endif; ?>
     <li>
-        <table>
-            <tbody style="display:inline-block" id="ratepay_directdebit_sepa_agreement">
-            <tr>
-                <td style="vertical-align: top; padding-right: 5px;">
-                    <input type="checkbox" class="checkbox required-entry" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
-                </td>
-                <td>
-                    <span class="required ratepayagreement">
-                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
-                        <?php echo $this->__('Ratepay address');?>
-                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
-                        <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('Ratepay Data Privacy Policy');?></a>
-                        <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
-                    </span>
-                </td>
-            </tr><tr>
-                <td></td>
-                <td>
-                    <br/>
-                    <span style="font-weight:bold;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
-                    <br/>
-                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
-                    <br/>
-                    <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <li class="ratepay_agreement">
+        <div class="rp-panel" id="ratepay_directdebit_sepa_policy_panel">
+            <div class="rp-panel-header" id="ratepay_directdebit_sepa_policy_panel_title" onclick="rpToggleSepaPolicy('ratepay_directdebit')">
+                <?php echo $this->__('ratepay_sepa_mandate_notice_block_0');?>
+                <span class="rp-panel-icon">▼</span>
+            </div>
+            <div class="rp-panel-body-wrapper">
+                <div class="rp-panel-body-content">
+                    <p class="rp-panel-text">
+                        <?php echo $this->__('ratepay_sepa_mandate_notice_block_1');?>
+                    </p>
+                    <p class="rp-panel-text">
+                        <?php echo $this->__('ratepay_sepa_mandate_notice_block_2');?>
+                    </p>
+                    <p class="rp-panel-text">
+                        <?php echo $this->__('ratepay_sepa_mandate_notice_block_3');?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li class="ratepay_agreement">
+        <p><?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?></p>
     </li>
 </ul>

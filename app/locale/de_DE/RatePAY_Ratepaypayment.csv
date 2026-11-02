@@ -155,7 +155,7 @@ PAYMENT_REQUEST Declined,Leider ist eine Bezahlung mit Ratepay nicht möglich. D
 Gateway Offline,"Leider ist die Verbindung zu Ratepay derzeit nicht möglich, bitte versuchen Sie es zu einem späteren Zeitpunkt erneut."
 Ratepay Data Privacy Policy,Ratepay-Datenschutzerkl&auml;rung
 ratepay_directdebit_sepa_link,Einwilligungserklärung zum SEPA-Mandat lesen
-ratepay_directdebit_sepa_terms_block_1,Ich willige hiermit in die Weiterleitung meiner Daten an
+ratepay_directdebit_sepa_terms_block_1,"Mit Klick auf 'Jetzt kaufen' erkl&auml;ren Sie sich mit den <a href='//www.ratepay.com/legal-payment-terms' title='Legal terms - Ratepay' target='_blank' style='text-decoration: underline; cursor: pointer'>Ratepay Zahlungsbedingungen</a>, einschließlich der Erteilung des SEPA-Lastschriftmandats, sowie mit der Durchf&uuml;hrung einer <a href='//www.ratepay.com/legal-payment-dataprivacy' title='Legal data privacy - Ratepay' target='_blank' style='text-decoration: underline; cursor: pointer'>Risikopr&uuml;fung durch Ratepay</a> einverstanden."
 ratepay_directdebit_sepa_terms_block_2,gem&auml;&szlig;
 ratepay_directdebit_sepa_terms_block_3,"ein und erm&auml;chtige diese, mit diesem Kaufvertrag in Zusammenhang stehende Zahlungen von meinem o.a. Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von Ratepay GmbH auf mein Konto gezogenen Lastschriften einzul&ouml;sen."
 ratepay_directdebit_sepa_notice_block_1,Hinweis:
@@ -251,5 +251,9 @@ wcd_sepa_terms_please_note,Hinweis
 wcd_sepa_terms_block_1,"Ich erm&auml;chtige die Wirecard Bank AG von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von der Wirecard Bank AG auf mein Konto gezogenen Lastschriften einzul&ouml;sen."
 wcd_sepa_terms_block_2,"Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen."
 wcd_sepa_terms_block_3,Es gelten dabei die mit dem Kreditinstitut vereinbarten Bedingungen.
-ratepay_agreement,"<p>Mit der Auswahl dieser Zahlungsart erkl&auml;ren Sie sich mit den <a href='//www.ratepay.com/legal-payment-terms' title='Legal terms - Ratepay' target='_blank'>Zahlungsbedingungen unseres Zahlungspartners</a> sowie mit der Durchf&uuml;hrung einer <a href='//www.ratepay.com/legal-payment-dataprivacy' title='Legal data privacy - Ratepay' target='_blank'>Risikopr&uuml;fung durch unseren Zahlungspartner</a> einverstanden.</p>"
+ratepay_agreement,"Mit Klick auf 'Jetzt kaufen' erkl&auml;ren Sie sich mit den <a href='//www.ratepay.com/legal-payment-terms' title='Legal terms - Ratepay' target='_blank' style='text-decoration: underline; cursor: pointer'>Ratepay Zahlungsbedingungen</a>, sowie mit der Durchf&uuml;hrung einer <a href='//www.ratepay.com/legal-payment-dataprivacy' title='Legal data privacy - Ratepay' target='_blank' style='text-decoration: underline; cursor: pointer'>Risikopr&uuml;fung durch Ratepay</a> einverstanden."
 'The email address is required for this payment method.', 'Die E-Mail-Adresse ist für diese Zahlungsmethode erforderlich.'
+ratepay_sepa_mandate_notice_block_0,"SEPA-Lastschriftmandat — Erklärung"
+ratepay_sepa_mandate_notice_block_1,"Indem Sie dem SEPA-Lastschriftmandat zustimmen, ermächtigen Sie die Ratepay GmbH, Zahlungen von Ihrem Konto mittels Lastschrift einzuziehen. Gleichzeitig weisen Sie Ihr Kreditinstitut an, die von der Ratepay GmbH auf Ihr Konto gezogenen Lastschriften einzulösen."
+ratepay_sepa_mandate_notice_block_2,"<span style='font-weight: bold'>Hinweis:</span> Sie können innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit Ihrem Kreditinstitut vereinbarten Bedingungen."
+ratepay_sepa_mandate_notice_block_3,"Die Mandatsreferenz und Gläubiger-Identifikationsnummer werden Ihnen separat mitgeteilt."
