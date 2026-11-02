@@ -439,13 +439,17 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     <?php else: ?>
         <li>
             <script>
-                ratepayRateCalculatorAction(
-                    'runtime',
-                    '<?php echo $_code ?>',
-                    '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
-                    '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
-                    '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>'
-                );
+                document.addEventListener('DOMContentLoaded', () => {
+                    if (!document.getElementById('rp-installment-plan-details_ratepay_rate0')) {
+                        ratepayRateCalculatorAction(
+                            'runtime',
+                            '<?php echo $_code ?>',
+                            '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
+                            '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
+                            '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>'
+                        );
+                    }
+                });
             </script>
             <input type="hidden" id="<?php echo $_code ?>-runtime" value="<?php echo $monthAllowed[0]; ?>" />
             <div id="ratepay-main-cont">
@@ -466,14 +470,6 @@ $_paymentHelper = Mage::helper('ratepaypayment');
         <?php if (is_array($firstday) || $firstday == '2'): ?>
             <li>
                 <hr />
-            </li>
-
-            <li class="<?php echo $_code ?>_sepa_element">
-                <ul style="border: 1px solid #BDBDBD; padding-left: 4px;">
-                    <li><label><?php echo $this->__('Ratepay address') ?></label></li>
-                    <li><label><?php echo $this->__('Creditor') ?>: <?php echo $this->__('Ratepay Creditor ID') ?></label></li>
-                    <li><label><?php echo $this->__('Mandate') ?>: <?php echo $this->__('Mandate Ref') ?></label></li>
-                </ul>
             </li>
 
             <li class="<?php echo $_code ?>_sepa_element">
@@ -498,36 +494,30 @@ $_paymentHelper = Mage::helper('ratepaypayment');
             <?php endif ?>
 
             <li class="<?php echo $_code ?>_sepa_element">
-                <table>
-                    <tbody id="ratepay_rate_sepa_agreement_<?php echo $_code ?>">
-                    <tr>
-                        <td style="vertical-align: top; padding-right: 5px;">
-                            <input type="checkbox" class="checkbox ratepay_rate_sepa_form" value="1" name="payment[<?php echo $_code ?>_agreement]" id="<?php echo $_code ?>_agreement" >
-                        </td>
-                        <td>
-                                <span class="required ratepayagreement">
-                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?>
-                                    <?php echo $this->__('Ratepay address');?>
-                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_2');?>
-                                    <a target="_blank" href="<?php echo $this->getPrivacyPolicyUrl(); ?>"><?php echo $this->__('Ratepay Data Privacy Policy');?></a>
-                                    <?php echo $this->__('ratepay_directdebit_sepa_terms_block_3');?>
-                                </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <br/>
-                            <span></span>
-                            <span style="font-weight:bold; cursor: hand;"><?php echo $this->__('ratepay_directdebit_sepa_notice_block_1');?></span>
-                            <br/>
-                            <?php echo $this->__('ratepay_directdebit_sepa_notice_block_2');?>
-                            <br/>
-                            <?php echo $this->__('ratepay_directdebit_sepa_notice_block_3');?>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="rp-panel" id="<?php echo $_code ?>_sepa_policy_panel">
+                    <div class="rp-panel-header" id="<?php echo $_code ?>_sepa_policy_panel_title" onclick="rpToggleSepaPolicy('<?php echo $_code ?>')">
+                        <?php echo $this->__('ratepay_sepa_mandate_notice_block_0');?>
+                        <span class="rp-panel-icon">▼</span>
+                    </div>
+                    <div class="rp-panel-body-wrapper">
+                        <div class="rp-panel-body-content">
+                            <p class="rp-panel-text">
+                                <?php echo $this->__('ratepay_sepa_mandate_notice_block_1');?>
+                            </p>
+                            <p class="rp-panel-text">
+                                <?php echo $this->__('ratepay_sepa_mandate_notice_block_2');?>
+                            </p>
+                            <p class="rp-panel-text">
+                                <?php echo $this->__('ratepay_sepa_mandate_notice_block_3');?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <p><?php echo $this->__('ratepay_directdebit_sepa_terms_block_1');?></p>
+            </li>
+
+            <li class="<?php echo $_code ?>_bank_element" style="display: none">
+                <p><?php echo $this->__('ratepay_agreement');?></p>
             </li>
 
             <?php if (is_array($firstday)): ?>
@@ -557,4 +547,19 @@ $_paymentHelper = Mage::helper('ratepaypayment');
     <script type="text/javascript">
         initPaymentMethodListeners();
     </script>
+
+    <?php if ('ratepay_rate0' === $_code) : ?>
+    <script type="text/javascript">
+        let rpRate0Selector = document.getElementById('p_method_ratepay_rate0');
+        rpRate0Selector.addEventListener('change', function(){
+            ratepayRateCalculatorAction(
+                'runtime',
+                '<?php echo $_code ?>',
+                '<?php echo Mage::helper('adminhtml')->getUrl("adminhtml/ratepaypayment_ratenrechnerbackend/runtime", array('_secure' => true)); ?>',
+                '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',
+                '<?php echo $_paymentHelper->isEnterpriseEdition() ? $_paymentHelper->getCurrencyAmountForRewardPoints() : 0; ?>'
+            );
+        });
+    </script>
+    <?php endif; ?>
 </ul>
