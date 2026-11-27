@@ -25,6 +25,9 @@ git submodule update --remote
 
 ## Changelog
 
+### Version 4.3.4 - Released 2026-11-27
+* Update : customization of SEPA direct debit texts
+
 ### Version 4.3.3 - Released 2026-06-09
 * Update : Security hardening
 
