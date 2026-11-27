@@ -74,6 +74,9 @@
             <action method="addJs">
                 <script>ratepay/adminOrderCreate.js</script>
             </action>
+	    <action method="addCss">
+                <stylesheet>css/ratepay/rp-style.css</stylesheet>
+            </action>
         </reference>
     </adminhtml_sales_order_create_index>
 </layout>
